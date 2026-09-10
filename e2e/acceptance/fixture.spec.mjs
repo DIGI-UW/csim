@@ -1,9 +1,11 @@
+import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
-import {profile} from '../acceptance.config.mjs';
+import {profile,fixture} from '../acceptance.config.mjs';
 import {openDashboard,timeUnit,timePeriod,hospital,allTrends} from './dashboard.mjs';
 
-test('Known observations distinguish a missing month, valid zero, and a partial quarter',async({page},info)=>{
-  test.skip(!profile.includes('fixture'),'Numerical expectations belong only to the generated edge-case fixture.');
+enableRecording(test);
+test('03 Known observations distinguish a missing month, valid zero, and a partial quarter',async({page},info)=>{
+  test.skip(!fixture,'Numerical expectations belong only to the generated edge-case fixture.');
   const watch=await openDashboard(page,profile);
   await hospital(page,'91');
   await timePeriod(page,'2025-11-01','2026-05-01');
@@ -22,6 +24,8 @@ test('Known observations distinguish a missing month, valid zero, and a partial 
     await trend.plot.screenshot({path:shot});
     await info.attach(`missing-zero-${trend.id}`,{path:shot,contentType:'image/png'});
   }
+  await watch.trends[0].holder.scrollIntoViewIfNeeded();
+  await scene(page,info,'missing-zero','Month','Hospital 91 has no February observations. March is a valid zero.','Missing periods and zero');
   await timeUnit(page,'Quarter');
   const quarter=await allTrends(watch);
   const rate=values(quarter[watch.trends[0].name]);
@@ -31,10 +35,16 @@ test('Known observations distinguish a missing month, valid zero, and a partial 
   const partial=await allTrends(watch);
   expect(values(partial[watch.trends[0].name])).toEqual([0]);
   expect(values(partial[watch.trends[4].name])).toEqual([10]);
+  await watch.trends[4].holder.scrollIntoViewIfNeeded();
+  await scene(page,info,'partial-quarter','Quarter','February–March contains 10 submissions. January contributes none.','Filter before grouping');
   await timePeriod(page,'2026-02-01','2026-03-01');
   const empty=await allTrends(watch);
   expect(Object.values(empty).every(rows=>rows.length===0)).toBe(true);
+  await watch.trends[0].holder.scrollIntoViewIfNeeded();
+  await scene(page,info,'empty-month','February only','This hospital has no February observations; the chart correctly reports no results.');
   await timePeriod(page,'2026-02-01','2026-04-01');
   expect(await allTrends(watch)).toEqual(partial);
+  await watch.trends[0].holder.scrollIntoViewIfNeeded();
+  await scene(page,info,'range-restored','February–March','The same page returns to a valid quarterly result after the empty selection.');
   await watch.settle();expect(watch.failures).toEqual([]);
 });

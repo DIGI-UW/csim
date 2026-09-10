@@ -54,3 +54,28 @@ baseline omits that repair to preserve a comparison.
 The implementation is under active acceptance testing. Local test results,
 public deployment status, and Beth's review are distinct; no published release
 is established merely by creating this repository.
+
+## Linked worked examples
+
+The main dashboard uses the supplied demo dump. A second full dashboard can be
+created alongside it, using a separate `csim_fixture` database with known
+missing-period and zero-value cases:
+
+```sh
+bash csim.sh corrected examples-init
+bash csim.sh preview examples-init
+bash csim.sh corrected viewer
+bash csim.sh preview viewer
+```
+
+These explicit initialization commands refuse an existing fixture database.
+Use `examples-update` thereafter; it changes definitions only. Both instances
+serve `/superset/dashboard/csim-filter-examples/`. The main dashboard remains
+`csim-individual-corrected` and the snapshot remains `csim-individual-preview`.
+The viewer can read the supplied and example dashboards; its generated login
+is in ignored `output/PROFILE-viewer.json` for publication beside the instance.
+
+To validate a worked example through an existing instance, use
+`CSIM_DASHBOARD_SLUG=csim-filter-examples CSIM_DATA_PROFILE=edge-cases`
+with the corresponding `CSIM_PROFILE`. `CSIM_BASE_URL`, `CSIM_USERNAME` and
+`CSIM_PASSWORD` support the same checks against a deployed viewer session.

@@ -32,10 +32,14 @@ with open(path, 'x', encoding='utf-8') as output:
 PY
 fi
 
-compose() { docker compose -p "csim-${profile}" --env-file "$env_file" -f compose.yaml "$@"; }
+compose() {
+  local files=(-f compose.yaml)
+  [[ "${CSIM_SERVER:-0}" != 1 ]] || files+=(-f deploy/compose.server.yaml)
+  docker compose -p "csim-${profile}" --env-file "$env_file" "${files[@]}" "$@"
+}
 
 start() {
-  compose up -d --build
+  if [[ "${CSIM_SKIP_BUILD:-0}" == 1 ]]; then compose up -d --no-build; else compose up -d --build; fi
   compose exec -T superset superset db upgrade
   compose exec -T superset superset init
   compose exec -T superset python /repro/bootstrap_bundle.py
@@ -75,6 +79,21 @@ case "$action" in
   demo-restore) restore ;;
   update) start; import_dashboard ;;
   import) import_dashboard ;;
+  examples-init)
+    exists="$(compose exec -T db psql -U csim -d csim_demo -tAc "SELECT 1 FROM pg_database WHERE datname = 'csim_fixture'")"
+    if [[ "$exists" == 1 ]]; then echo 'Example database already exists; use examples-update for definitions.' >&2; exit 1; fi
+    compose exec -T db createdb -U csim csim_fixture
+    compose exec -T db psql -v ON_ERROR_STOP=1 -U csim -d csim_fixture < data/edge-cases.sql
+    compose exec -T superset python /repro/scripts/dashboard_import.py import --profile examples
+    ;;
+  examples-update)
+    compose exec -T superset python /repro/scripts/dashboard_import.py import --profile examples
+    ;;
+  viewer)
+    compose exec -T superset python /repro/demo_access.py
+    mkdir -p output
+    compose cp superset:/app/superset_home/csim-viewer.json "output/${profile}-viewer.json"
+    ;;
   hourly)
     compose exec -T superset python /repro/scripts/dashboard_import.py import --profile hourly
     ;;

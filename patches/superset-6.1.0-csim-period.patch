@@ -1,5 +1,5 @@
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-index 8bf09094..0544ddc9 100644
+index 8bf09094..0bf10c89 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
 @@ -715,13 +715,17 @@ export default function transformProps(
@@ -22,7 +22,21 @@ index 8bf09094..0544ddc9 100644
        : xAxisDataType === GenericDataType.Numeric
          ? getNumberFormatter(xAxisNumberFormat)
          : String;
-@@ -909,15 +913,15 @@ export default function transformProps(
+@@ -896,7 +900,12 @@ export default function transformProps(
+       // from overlapping each other, with showMaxLabel to ensure
+       // the last data point label stays visible (#37181).
+       hideOverlap: !(xAxisType === AxisType.Time && xAxisLabelRotation !== 0),
+-      formatter: deduplicatedFormatter,
++      formatter:
++        xAxisTimeFormat === 'csim_period' ? xAxisFormatter : deduplicatedFormatter,
++      ...(xAxisTimeFormat === 'csim_period' && {
++        showMinLabel: true,
++        alignMinLabel: 'left',
++      }),
+       rotate: xAxisLabelRotation,
+       interval: xAxisLabelInterval,
+       // Force last label on non-rotated time axes to prevent
+@@ -909,15 +918,15 @@ export default function transformProps(
      },
      minorTick: { show: minorTicks },
      minInterval:
@@ -88,10 +102,10 @@ index 4582253a..367b7202 100644
      return getSmartDateFormatter(timeGrain);
    }
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
-index 373cf6a0..e3cb6143 100644
+index 373cf6a0..c5aeee2f 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
-@@ -1520,3 +1520,29 @@ test('should assign distinct dash patterns for multiple time offsets consistentl
+@@ -1520,3 +1520,32 @@ test('should assign distinct dash patterns for multiple time offsets consistentl
    // must be different patterns
    expect(symbol1).not.toEqual(symbol2);
  });
@@ -120,6 +134,9 @@ index 373cf6a0..e3cb6143 100644
 +  const axis = result.echartOptions.xAxis as any;
 +  expect(axis.axisLabel.formatter(stamp)).toBe(label);
 +  expect(result.xValueFormatter(stamp)).toBe(label);
++  // ECharts measures and then draws a tick, calling its formatter repeatedly.
++  expect(axis.axisLabel.formatter(stamp)).toBe(label);
++  expect(axis.axisLabel.showMinLabel).toBe(true);
 +});
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
 index a4e4dea5..88e9f53c 100644

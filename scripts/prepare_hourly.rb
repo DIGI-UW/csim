@@ -5,7 +5,7 @@ ROOT=File.expand_path('..',__dir__) unless defined?(ROOT)
 def save(name,value)
   path=File.join(ROOT,'dashboard','hourly',name)
   FileUtils.mkdir_p(File.dirname(path))
-  File.write(path,YAML.dump(value).gsub(/: \n/, ":\n"))
+  File.write(path,YAML.dump(value).gsub(/: \n/, ":\n").gsub(/^(\s*-) +\n/, "\\1\n"))
 end
 base=File.join(ROOT,'dashboard','preview')
 dbfile=Dir[File.join(base,'databases','*.yaml')].first

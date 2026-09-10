@@ -29,7 +29,7 @@ end
 
 def write_yaml(path, value)
   FileUtils.mkdir_p(File.dirname(path))
-  File.write(path, YAML.dump(value).gsub(/: \n/, ":\n"))
+  File.write(path, YAML.dump(value).gsub(/: \n/, ":\n").gsub(/^(\s*-) +\n/, "\\1\n"))
 end
 
 def normalized_database!(package)
@@ -195,5 +195,6 @@ end
 write_yaml(preview_dashboard_path, preview_dashboard)
 
 require_relative 'prepare_hourly'
+require_relative 'prepare_examples'
 
 puts "Prepared #{baseline} and #{corrected} from the preserved April export."

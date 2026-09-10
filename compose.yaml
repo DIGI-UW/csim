@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: csim_demo
       POSTGRES_USER: csim
-      POSTGRES_PASSWORD: ${CSIM_DB_PASSWORD:?Run ./local.sh up first}
+      POSTGRES_PASSWORD: ${CSIM_DB_PASSWORD:?Run bash csim.sh PROFILE init first}
     volumes:
       - warehouse:/var/lib/postgresql/data
     healthcheck:
@@ -27,7 +27,7 @@ services:
     ports: ['127.0.0.1:${CSIM_PORT:-18089}:8088']
     environment:
       SUPERSET_CONFIG_PATH: /repro/superset_config.py
-      SUPERSET_SECRET_KEY: ${CSIM_SECRET_KEY:?Run ./local.sh up first}
+      SUPERSET_SECRET_KEY: ${CSIM_SECRET_KEY:?Run bash csim.sh PROFILE init first}
       CSIM_DB_PASSWORD: ${CSIM_DB_PASSWORD}
       CSIM_ADMIN_PASSWORD: ${CSIM_ADMIN_PASSWORD}
       CSIM_PUBLIC_URL: ${CSIM_PUBLIC_URL:-http://127.0.0.1:18089}

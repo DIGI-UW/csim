@@ -36,7 +36,8 @@ export async function openDashboard(page,profile='corrected') {
       }return fill.call(this,text,x,y,...rest);
     };
   });
-  await page.goto(`/superset/dashboard/csim-individual-${profile.startsWith('preview')?'preview':profile==='baseline'?'baseline':'corrected'}/`);
+  const slug=process.env.CSIM_DASHBOARD_SLUG || `csim-individual-${profile.startsWith('preview')?'preview':profile==='baseline'?'baseline':'corrected'}`;
+  await page.goto(`/superset/dashboard/${slug}/`);
   await expect(page.getByRole('button',{name:'Apply filters',exact:true})).toBeVisible();
   const links=page.locator('a[href*="slice_id="]');
   await expect(links).toHaveCount(20);

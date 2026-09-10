@@ -89,8 +89,8 @@ params:
   truncateXAxis: false
   truncateYAxis: false
   y_axis_bounds:
-  - 
-  - 
+  -
+  -
   extra_form_data: {}
   dashboards:
   - 11

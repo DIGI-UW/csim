@@ -41,12 +41,16 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
+      - name: Test overview navigation without video
+        working-directory: e2e
+        run: npx playwright test -c site.config.mjs
       - name: Restore isolated supplied demo and verify changed imports
         run: |
           mkdir -p output
           bash csim.sh ${{ matrix.build }} init
           bash csim.sh ${{ matrix.build }} verify-import
           bash csim.sh ${{ matrix.build }} test-update
+          bash csim.sh ${{ matrix.build }} examples-init
           if [ '${{ matrix.build }}' = preview ]; then bash csim.sh preview hourly; fi
       - name: Test supplied demo without video
         working-directory: e2e
@@ -56,6 +60,7 @@ jobs:
       - name: Restore and test independent numerical fixture without video
         run: |
           profile=fixture
+          bash csim.sh ${{ matrix.build }} examples-init
           if [ '${{ matrix.build }}' = preview ]; then profile=preview-fixture; fi
           bash csim.sh "$profile" init
           bash csim.sh "$profile" verify-import

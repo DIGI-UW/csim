@@ -1,8 +1,10 @@
+import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
 import {profile} from '../acceptance.config.mjs';
 import {openDashboard,filters} from './dashboard.mjs';
 
-test('Time Unit choices match this build and remain independent in the snapshot',async({page},info)=>{
+enableRecording(test);
+test('05 Time Unit choices match this build and remain independent in the snapshot',async({page},info)=>{
   test.skip(profile.includes('fixture'),'Companion menu workflow runs on the supplied demo instance.');
   await openDashboard(page,profile);
   const grain=page.getByRole('combobox',{name:filters.grain,exact:true});
@@ -10,6 +12,7 @@ test('Time Unit choices match this build and remain independent in the snapshot'
   const menu=page.locator('.ant-select-dropdown:visible');
   await expect(menu.locator('.ant-select-item-option-content')).toHaveText(['Month','Quarter','Year']);
   await info.attach('csim-time-units',{body:await page.screenshot(),contentType:'image/png'});
+  await scene(page,info,'csim-menu','CSiM time units',profile.startsWith('preview')?'CSiM saves Month, Quarter and Year for this dashboard.':'Month, Quarter and Year are configured across the main instance.','Time Unit choices');
   if(!profile.startsWith('preview'))return;
   await page.goto('/superset/dashboard/hourly-reporting-preview/');
   const control=page.getByRole('combobox',{name:'NATIVE_FILTER-preview-hourly',exact:true});
@@ -17,12 +20,16 @@ test('Time Unit choices match this build and remain independent in the snapshot'
   await control.press('ArrowDown');
   await expect(page.locator('.ant-select-dropdown:visible .ant-select-item-option-content')).toHaveText(['Hour','Day','Week']);
   await info.attach('hourly-time-units',{body:await page.screenshot(),contentType:'image/png'});
+  await scene(page,info,'hourly-menu','Hourly reporting','A different dashboard independently offers Hour, Day and Week.','A different reporting cadence');
   const response=page.waitForResponse(r=>r.url().includes('/api/v1/chart/data')&&r.request().method()==='POST');
   await page.getByRole('option',{name:'Day',exact:true}).click();
   await page.getByRole('button',{name:'Apply filters',exact:true}).click();
   const body=await (await response).json();
   expect(body.result[0].data.map(row=>row.Specimens)).toEqual([72,72]);
+  await page.waitForLoadState('networkidle');
+  await scene(page,info,'day-results','Day grouping','The hourly example totals 72 specimens on each of its two days.');
   await page.goto('/superset/dashboard/csim-individual-preview/');
   await page.getByRole('combobox',{name:filters.grain,exact:true}).press('ArrowDown');
   await expect(page.locator('.ant-select-dropdown:visible .ant-select-item-option-content')).toHaveText(['Month','Quarter','Year']);
+  await scene(page,info,'csim-menu-again','Back to CSiM','CSiM retains its own Month, Quarter and Year choices.');
 });

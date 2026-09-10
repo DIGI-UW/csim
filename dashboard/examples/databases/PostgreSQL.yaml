@@ -1,0 +1,19 @@
+---
+database_name: CSiM edge-case PostgreSQL
+sqlalchemy_uri: postgresql+psycopg2://csim:XXXXXXXXXX@db:5432/csim_fixture
+cache_timeout:
+expose_in_sqllab: true
+allow_run_async: false
+allow_ctas: false
+allow_cvas: false
+allow_dml: false
+allow_file_upload: true
+extra:
+  metadata_params: {}
+  engine_params: {}
+  metadata_cache_timeout: {}
+  schemas_allowed_for_file_upload: []
+impersonate_user: false
+configuration_method: sqlalchemy_form
+uuid: 0f6083ba-0edf-5f47-82ca-e1ce89bd58f4
+version: 1.0.0

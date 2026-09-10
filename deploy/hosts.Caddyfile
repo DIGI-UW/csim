@@ -1,0 +1,24 @@
+dashboard.csim.uwdigi.org {
+    redir / /superset/dashboard/csim-individual-corrected/ 302
+    reverse_proxy csim-main-v2:8088 {
+        transport http {
+            keepalive 1s
+        }
+    }
+}
+csim.uwdigi.org {
+    redir https://dashboard.csim.uwdigi.org{uri} 308
+}
+preview.csim.uwdigi.org {
+    redir / /superset/dashboard/csim-individual-preview/ 302
+    reverse_proxy csim-preview-v2:8088 {
+        transport http {
+            keepalive 1s
+        }
+    }
+}
+design.csim.uwdigi.org {
+    root * /srv/media/csim-design-v2
+    header Cache-Control "no-cache"
+    file_server
+}

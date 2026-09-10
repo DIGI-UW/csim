@@ -7,8 +7,8 @@ export default async function setup() {
   try {
     const page=await browser.newPage();
     await page.goto(baseURL+'/login/');
-    await page.locator('#username').fill('demo');
-    await page.locator('#password').fill(env.CSIM_ADMIN_PASSWORD);
+    await page.locator('#username').fill(process.env.CSIM_USERNAME || 'demo');
+    await page.locator('#password').fill(process.env.CSIM_PASSWORD || env.CSIM_ADMIN_PASSWORD);
     await page.locator('[type=submit]').click();
     await expect(page).not.toHaveURL(/\/login\//);
     await page.context().storageState({path:authFile});
