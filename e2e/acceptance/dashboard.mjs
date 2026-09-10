@@ -88,7 +88,9 @@ export async function hospital(page,name,id=filters.hospital){
   const remove=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]').locator('.ant-select-selection-item-remove');
   while(await remove.count())await remove.first().click();
   if(await control.getAttribute('aria-expanded') !== 'true')await control.press('ArrowDown');
-  await page.locator('.ant-select-dropdown:visible').getByTitle(name,{exact:true}).click();
+  const listId=await control.getAttribute('aria-controls');
+  const menu=page.locator(`[id="${listId}"]`).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select-dropdown ")][1]');
+  await menu.getByTitle(name,{exact:true}).click();
   await control.press('Escape');
   await page.getByRole('button',{name:'Apply filters',exact:true}).click();
   await page.waitForLoadState('networkidle');

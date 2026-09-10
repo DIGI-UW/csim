@@ -30,6 +30,6 @@ provenance={'timestamp':now,'revision':revision,'target':a.target,'profile':prof
 (run/'provenance.json').write_text(json.dumps(provenance,indent=2))
 (run/'workflow-guide.json').write_bytes((ROOT/'e2e/workflow-guide.json').read_bytes())
 (run/'publication.json').write_text(json.dumps({'workflowIds':ids}))
-subprocess.run(['npx','playwright','test','-c','acceptance.config.mjs','--grep','^('+'|'.join(ids)+') '],cwd=ROOT/'e2e',env=env,check=True)
+subprocess.run(['npx','playwright','test','-c','acceptance.config.mjs','--grep',r'\b('+'|'.join(ids)+') '],cwd=ROOT/'e2e',env=env,check=True)
 subprocess.run([sys.executable,str(ROOT/'e2e/video/render.py'),str(run)],cwd=ROOT,check=True)
 print('Films and encoded-frame validation:',run/'films')

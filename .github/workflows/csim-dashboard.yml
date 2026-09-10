@@ -44,6 +44,8 @@ jobs:
       - name: Test overview navigation without video
         working-directory: e2e
         run: npx playwright test -c site.config.mjs
+      - name: Test hostname redirects without video
+        run: python3 deploy/test_redirects.py
       - name: Restore isolated supplied demo and verify changed imports
         run: |
           mkdir -p output
