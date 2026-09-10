@@ -152,8 +152,11 @@ def corrected_package!(package)
 
   Dir[File.join(package, 'charts', '*.yaml')].each do |path|
     chart = load_yaml(path)
-    next unless TIME_SERIES.include?(chart['slice_name'])
     params = chart.fetch('params')
+    next unless params['x_axis'] == 'month_date'
+    # Clearing the shared control exposes this saved fallback. All source dates
+    # represent months; Day is also disabled by the released instance policy.
+    params['time_grain_sqla'] = 'P1M'
     params['x_axis'] = 'month_date'
     params['granularity_sqla'] = 'month_date'
     params['xAxisForceCategorical'] = false
@@ -162,7 +165,7 @@ def corrected_package!(package)
     params['tooltipTimeFormat'] = 'csim_period'
     params['order_desc'] = false
     params['row_limit'] = 1000
-    params['show_empty_columns'] = true
+    params['show_empty_columns'] = true if TIME_SERIES.include?(chart['slice_name'])
     params.fetch('adhoc_filters', []).each do |filter|
       filter['subject'] = 'month_date' if filter['operator'] == 'TEMPORAL_RANGE'
     end

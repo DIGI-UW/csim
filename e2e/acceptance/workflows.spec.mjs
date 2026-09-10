@@ -1,22 +1,27 @@
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
-import {profile} from '../acceptance.config.mjs';
-import {openDashboard,timeUnit,timePeriod,paintedLabels} from './dashboard.mjs';
+import {profile,dataProfile} from '../acceptance.config.mjs';
+import {openDashboard,timeUnit,timePeriod,paintedLabels,hospital} from './dashboard.mjs';
 
 enableRecording(test);
-test('02 All five trends keep real dates and display Month, Quarter and Year',async({page},info)=>{
+test('02 All eleven date axes keep real dates and display Month, Quarter and Year',async({page},info)=>{
   const watch=await openDashboard(page,profile);
+  await hospital(page,dataProfile.representativeHospital);
+  await hospital(page,dataProfile.representativeHospital,'NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI');
   await timePeriod(page,'2025-11-01','2026-05-01');
   for(const [name,grain,pattern] of [['Month','P1M',/^[A-Z][a-z]{2} 202[56]$/],['Quarter','P3M',/^Q[1-4] 202[56]$/],['Year','P1Y',/^202[56]$/]]){
     await timeUnit(page,name);
-    for(const trend of watch.trends){
+    for(const trend of watch.dateAxes){
       await page.mouse.move(0,0);
-      await trend.plot.scrollIntoViewIfNeeded();
-      await expect(trend.plot.locator('canvas')).toBeVisible();
+      await trend.holder.scrollIntoViewIfNeeded();
+      await page.waitForLoadState('networkidle');
+      await watch.settle();
       await expect.poll(()=>watch.replies.get(trend.id)?.request.queries[0].extras.time_grain_sqla).toBe(grain);
       const result=watch.replies.get(trend.id).result;
       expect(result.error).toBeNull();
+      if(!watch.trends.includes(trend)&&result.data.length===0)continue;
       expect(result.data.length).toBeGreaterThan(0);
+      await expect(trend.plot.locator('canvas')).toBeVisible();
       const dates=result.data.map(row=>row.month_date);
       expect(dates).toEqual([...dates].sort((a,b)=>a-b));
       await expect.poll(async()=>{
@@ -35,7 +40,7 @@ test('02 All five trends keep real dates and display Month, Quarter and Year',as
       await info.attach(`${name}-${trend.id}`,{path:shot,contentType:'image/png'});
     }
     await watch.trends[0].holder.scrollIntoViewIfNeeded();
-    await scene(page,info,`labels-${name}`,name,`${name} labels follow the grouping across all five time-series charts.`,name+' grouping');
+    await scene(page,info,`labels-${name}`,name,`${name} labels follow the grouping on the trend charts and additional date axes.`,name+' grouping');
   }
   await watch.settle();expect(watch.failures).toEqual([]);
   await info.attach('chart-results',{body:Buffer.from(JSON.stringify(Object.fromEntries(watch.replies))),contentType:'application/json'});

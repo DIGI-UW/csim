@@ -159,7 +159,7 @@ def make_film(item):
         add_still(held,hold,caption)
         checks.append({'time':before+hold/2,'source':str(held),'label':scene['name'],'assertedScreenshot':str(source),'holdSeconds':hold})
     outro=guide.get('videoOutro',guide['expected'])
-    end_card=work/'result.png';card(end_card,'What remains' if number in ['03','08','09'] else 'Result',outro)
+    end_card=work/'result.png';card(end_card,'Result',outro)
     end_before=position;add_still(end_card,max(6,len(outro.split())/2.5),outro)
     checks.append({'time':end_before+2,'source':str(end_card),'label':'Result'})
     listing=work/'parts.txt';listing.write_text(''.join("file '"+str(p).replace("'","'\\''")+"'\n" for p in parts))

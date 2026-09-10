@@ -6,6 +6,7 @@ export const trendNames=[
   'Therapy duration (time series)',
   'UC submissions (time series)',
 ];
+export const additionalDateNames=['Your hospital (abx)','Cohort/State (abx)','Your hospital (UC location)','Cohort/State (UC location)','Your hospital (duration)','Cohort/State (duration)'];
 export const filters={hospital:'NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE',grain:'NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_'};
 export async function openDashboard(page,profile='corrected') {
   const replies=new Map(),failures=[],jobs=new Set(),latest=new Map();
@@ -42,14 +43,15 @@ export async function openDashboard(page,profile='corrected') {
   const links=page.locator('a[href*="slice_id="]');
   await expect(links).toHaveCount(20);
   await page.waitForLoadState('networkidle');
-  const trends=[];
-  for(const name of trendNames){
+  const dateAxes=[];
+  for(const name of [...trendNames,...additionalDateNames]){
     const link=page.getByRole('link',{name,exact:true});
     const href=await link.getAttribute('href');
     const id=Number(new URL(href,'http://local').searchParams.get('slice_id'));
-    trends.push({name,id,plot:page.locator(`#chart-id-${id}`),holder:page.locator('[data-test=dashboard-component-chart-holder]').filter({has:link})});
+    dateAxes.push({name,id,plot:page.locator(`#chart-id-${id}`),holder:page.locator('[data-test=dashboard-component-chart-holder]').filter({has:link})});
   }
-  return {trends,replies,failures,settle:()=>Promise.all([...jobs])};
+  const trends=dateAxes.filter(item=>trendNames.includes(item.name));
+  return {trends,dateAxes,replies,failures,settle:()=>Promise.all([...jobs])};
 }
 export async function timeUnit(page,name){
   const control=page.getByRole('combobox',{name:filters.grain,exact:true});
@@ -81,8 +83,8 @@ export async function paintedLabels(plot){
   });
 }
 
-export async function hospital(page,name){
-  const control=page.getByRole('combobox',{name:filters.hospital,exact:true});
+export async function hospital(page,name,id=filters.hospital){
+  const control=page.getByRole('combobox',{name:id,exact:true});
   const remove=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]').locator('.ant-select-selection-item-remove');
   while(await remove.count())await remove.first().click();
   if(await control.getAttribute('aria-expanded') !== 'true')await control.press('ArrowDown');

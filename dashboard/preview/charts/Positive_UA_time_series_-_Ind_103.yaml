@@ -9,7 +9,7 @@ params:
   viz_type: echarts_timeseries_line
   slice_id: 103
   x_axis: month_date
-  time_grain_sqla: P1D
+  time_grain_sqla: P1M
   metrics:
   - expressionType: SIMPLE
     column:

@@ -110,6 +110,7 @@ case "$action" in
     mkdir -p output
     compose cp superset:"/tmp/csim-${package_profile}-dashboard.zip" "output/${profile}-dashboard.zip"
     ;;
+  config) compose config --quiet ;;
   status) compose ps ;;
   down) compose down ;;
   reset)
