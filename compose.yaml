@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:14.24
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: csim_demo
+      POSTGRES_USER: csim
+      POSTGRES_PASSWORD: ${CSIM_DB_PASSWORD:?Run ./local.sh up first}
+    volumes:
+      - warehouse:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U csim -d csim_demo']
+      interval: 3s
+      retries: 20
+    networks: [local]
+  superset:
+    build:
+      context: .
+      dockerfile: ${CSIM_DOCKERFILE:-Dockerfile}
+      args:
+        SUPERSET_BASE: ${CSIM_SUPERSET_IMAGE:-apache/superset:6.1.0@sha256:16b50bbef6648912a79e3293d418fefa743ce555d36c5af6b85d859119ed7f88}
+        SUPERSET_REF: ${CSIM_SUPERSET_REF:-c83fb2bb1dcfac41ac51bcebd82471f4a7180d18}
+        CSIM_PATCH: ${CSIM_PATCH:-superset-6.1.0-csim-period.patch}
+        NODE_IMAGE: ${CSIM_NODE_IMAGE:-node:22.22.0-bookworm-slim}
+    image: csim-superset:${CSIM_BUILD_TAG:-6.1.0}
+    restart: unless-stopped
+    ports: ['127.0.0.1:${CSIM_PORT:-18089}:8088']
+    environment:
+      SUPERSET_CONFIG_PATH: /repro/superset_config.py
+      SUPERSET_SECRET_KEY: ${CSIM_SECRET_KEY:?Run ./local.sh up first}
+      CSIM_DB_PASSWORD: ${CSIM_DB_PASSWORD}
+      CSIM_ADMIN_PASSWORD: ${CSIM_ADMIN_PASSWORD}
+      CSIM_PUBLIC_URL: ${CSIM_PUBLIC_URL:-http://127.0.0.1:18089}
+      CSIM_OVERVIEW_URL: ${CSIM_OVERVIEW_URL:-}
+      SUPERSET_APP_ROOT: ${CSIM_APP_ROOT:-/}
+      CSIM_PUBLIC_HTTPS: ${CSIM_PUBLIC_HTTPS:-0}
+      CSIM_SNAPSHOT: ${CSIM_SNAPSHOT:-0}
+      FLASK_APP: superset.app:create_app()
+    volumes:
+      - .:/repro:ro
+      - metadata:/app/superset_home
+    depends_on:
+      db: {condition: service_healthy}
+    networks: [local]
+networks:
+  local:
+volumes:
+  warehouse:
+  metadata:

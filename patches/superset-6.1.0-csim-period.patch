@@ -1,0 +1,149 @@
+diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
+index 8bf09094..0544ddc9 100644
+--- a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
++++ b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
+@@ -715,13 +715,17 @@ export default function transformProps(
+     }
+   }
+ 
++  const resolvedTimeGrain =
++    xAxisTimeFormat === 'csim_period' || tooltipTimeFormat === 'csim_period'
++      ? (formData.extraFormData?.time_grain_sqla ?? timeGrainSqla)
++      : timeGrainSqla;
+   const tooltipFormatter =
+     xAxisDataType === GenericDataType.Temporal
+-      ? getTooltipTimeFormatter(tooltipTimeFormat)
++      ? getTooltipTimeFormatter(tooltipTimeFormat, resolvedTimeGrain)
+       : String;
+   const xAxisFormatter =
+     xAxisDataType === GenericDataType.Temporal
+-      ? getXAxisFormatter(xAxisTimeFormat, timeGrainSqla)
++      ? getXAxisFormatter(xAxisTimeFormat, resolvedTimeGrain)
+       : xAxisDataType === GenericDataType.Numeric
+         ? getNumberFormatter(xAxisNumberFormat)
+         : String;
+@@ -909,15 +913,15 @@ export default function transformProps(
+     },
+     minorTick: { show: minorTicks },
+     minInterval:
+-      xAxisType === AxisType.Time && timeGrainSqla && !forceMaxInterval
++      xAxisType === AxisType.Time && resolvedTimeGrain && !forceMaxInterval
+         ? TIMEGRAIN_TO_TIMESTAMP[
+-            timeGrainSqla as keyof typeof TIMEGRAIN_TO_TIMESTAMP
++            resolvedTimeGrain as keyof typeof TIMEGRAIN_TO_TIMESTAMP
+           ]
+         : 0,
+     maxInterval:
+-      xAxisType === AxisType.Time && timeGrainSqla && forceMaxInterval
++      xAxisType === AxisType.Time && resolvedTimeGrain && forceMaxInterval
+         ? TIMEGRAIN_TO_TIMESTAMP[
+-            timeGrainSqla as keyof typeof TIMEGRAIN_TO_TIMESTAMP
++            resolvedTimeGrain as keyof typeof TIMEGRAIN_TO_TIMESTAMP
+           ]
+         : undefined,
+     ...getMinAndMaxFromBounds(
+diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
+index 4582253a..367b7202 100644
+--- a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
++++ b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
+@@ -36,6 +36,22 @@ import {
+ export const getSmartDateDetailedFormatter = () =>
+   getTimeFormatter(SMART_DATE_DETAILED_ID);
+ 
++// Opt-in reporting labels: keep typed timestamps for sorting and filtering,
++// while axis labels and hover titles follow the selected grouping.
++export const getCsimPeriodFormatter = (timeGrain?: string) =>
++  new TimeFormatter({
++    id: 'csim_period',
++    label: 'CSiM reporting period',
++    formatFunc: (date: Date) => {
++      const year = date.getUTCFullYear();
++      if (timeGrain === TimeGranularity.YEAR) return String(year);
++      if (timeGrain === TimeGranularity.QUARTER) {
++        return `Q${Math.floor(date.getUTCMonth() / 3) + 1} ${year}`;
++      }
++      return getTimeFormatter('%b %Y')(date);
++    },
++  });
++
+ export const getSmartDateFormatter = (timeGrain?: string) => {
+   const baseFormatter = getTimeFormatter(SMART_DATE_ID);
+ 
+@@ -162,7 +178,9 @@ export const getYAxisFormatter = (
+ 
+ export function getTooltipTimeFormatter(
+   format?: string,
++  timeGrain?: string,
+ ): TimeFormatter | StringConstructor {
++  if (format === 'csim_period') return getCsimPeriodFormatter(timeGrain);
+   if (format === SMART_DATE_ID) {
+     return getSmartDateVerboseFormatter();
+   }
+@@ -176,6 +194,7 @@ export function getXAxisFormatter(
+   format?: string,
+   timeGrain?: string,
+ ): TimeFormatter | StringConstructor | undefined {
++  if (format === 'csim_period') return getCsimPeriodFormatter(timeGrain);
+   if (format === SMART_DATE_ID || !format) {
+     return getSmartDateFormatter(timeGrain);
+   }
+diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
+index 373cf6a0..e3cb6143 100644
+--- a/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
++++ b/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
+@@ -1520,3 +1520,29 @@ test('should assign distinct dash patterns for multiple time offsets consistentl
+   // must be different patterns
+   expect(symbol1).not.toEqual(symbol2);
+ });
++
++
++test.each([
++  [TimeGranularity.MONTH, 'Jan 2025'],
++  [TimeGranularity.QUARTER, 'Q1 2025'],
++  [TimeGranularity.YEAR, '2025'],
++])('CSiM uses dashboard grain %s for axes and hover', (grain, label) => {
++  const stamp = Date.UTC(2025, 0, 1);
++  const props = createTestChartProps({
++    formData: {
++      granularity_sqla: 'ds',
++      timeGrainSqla: TimeGranularity.MONTH,
++      extraFormData: { time_grain_sqla: grain },
++      xAxisTimeFormat: 'csim_period',
++      tooltipTimeFormat: 'csim_period',
++    },
++    queriesData: [createTestQueryData([{ __timestamp: stamp, sales: 100 }], {
++      colnames: ['__timestamp', 'sales'],
++      coltypes: [GenericDataType.Temporal, GenericDataType.Numeric],
++    })],
++  });
++  const result = transformProps(props);
++  const axis = result.echartOptions.xAxis as any;
++  expect(axis.axisLabel.formatter(stamp)).toBe(label);
++  expect(result.xValueFormatter(stamp)).toBe(label);
++});
+diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
+index a4e4dea5..88e9f53c 100644
+--- a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
++++ b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
+@@ -25,8 +25,21 @@ import {
+ import {
+   getPercentFormatter,
+   getXAxisFormatter,
++  getTooltipTimeFormatter,
+ } from '../../src/utils/formatters';
+ 
++test.each([
++  ['2025-01-01T00:00:00Z', 'P1M', 'Jan 2025'],
++  ['2025-12-01T00:00:00Z', 'P1M', 'Dec 2025'],
++  ['2025-10-01T00:00:00Z', 'P3M', 'Q4 2025'],
++  ['2026-01-01T00:00:00Z', 'P3M', 'Q1 2026'],
++  ['2025-01-01T00:00:00Z', 'P1Y', '2025'],
++])('CSiM axis and hover agree for %s at %s', (value, grain, expected) => {
++  const date = new Date(value);
++  expect(getXAxisFormatter('csim_period', grain)?.(date)).toBe(expected);
++  expect(getTooltipTimeFormatter('csim_period', grain)(date)).toBe(expected);
++});
++
+ test('getPercentFormatter should format as percent if no format is specified', () => {
+   const value = 0.6;
+   expect(getPercentFormatter().format(value)).toEqual('60%');

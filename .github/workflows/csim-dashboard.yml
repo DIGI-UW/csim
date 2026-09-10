@@ -1,0 +1,74 @@
+name: CSiM dashboard regression
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: csim-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  regression:
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [corrected, preview]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+      - name: Verify source inputs and deterministic packages
+        run: |
+          ruby scripts/verify_sources.rb
+          ruby scripts/compare_exports.rb
+          ruby scripts/prepare_dashboard.rb
+          python3 scripts/generate_fixture.py
+          git diff --exit-code -- dashboard sources data
+      - name: Install browser
+        working-directory: e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Restore isolated supplied demo and verify changed imports
+        run: |
+          mkdir -p output
+          bash csim.sh ${{ matrix.build }} init
+          bash csim.sh ${{ matrix.build }} verify-import
+          bash csim.sh ${{ matrix.build }} test-update
+          if [ '${{ matrix.build }}' = preview ]; then bash csim.sh preview hourly; fi
+      - name: Test supplied demo without video
+        working-directory: e2e
+        env:
+          CSIM_PROFILE: ${{ matrix.build }}
+        run: npm test
+      - name: Restore and test independent numerical fixture without video
+        run: |
+          profile=fixture
+          if [ '${{ matrix.build }}' = preview ]; then profile=preview-fixture; fi
+          bash csim.sh "$profile" init
+          bash csim.sh "$profile" verify-import
+          cd e2e
+          CSIM_PROFILE="$profile" npm test
+      - name: Save numerical results and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csim-${{ matrix.build }}-regression
+          retention-days: 14
+          path: |
+            output/acceptance/**/results.json
+            output/acceptance/**/results/**/*.png
+            output/*-receipt.json
+            output/*-import-verification.json

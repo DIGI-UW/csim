@@ -17,6 +17,9 @@ ruby scripts/prepare_dashboard.rb
 bash csim.sh baseline init
 bash csim.sh corrected init
 bash csim.sh fixture init
+bash csim.sh preview init
+bash csim.sh preview hourly
+bash csim.sh preview-fixture init
 ```
 
 Initialization restores the supplied demo database, or creates the separate
@@ -29,11 +32,13 @@ bash csim.sh corrected verify-import
 cd e2e
 npm ci
 npx playwright test -c acceptance.config.mjs
-CSIM_PROFILE=fixture npx playwright test -c acceptance.config.mjs
+CSIM_PROFILE=fixture npm test
+CSIM_PROFILE=preview npm test
+CSIM_PROFILE=preview-fixture npm test
 ```
 
 The local baseline uses port 18190, corrected demo 18189, and edge-case fixture
-18191. Each has separate metadata, reporting data, and generated local credentials
+18191; the snapshot uses 18192 and its separate fixture 18193. Each has separate metadata, reporting data, and generated local credentials
 in its ignored `.env.PROFILE` file. The login is `demo`.
 
 The corrected build adds an opt-in `csim_period` formatter to Superset 6.1.0.
