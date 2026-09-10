@@ -1,10 +1,10 @@
 ---
 table_name: UTI Aggregate ALL DATA
 main_dttm_col: month_date
-description: 
-default_endpoint: 
+description:
+default_endpoint:
 offset: 0
-cache_timeout: 
+cache_timeout:
 catalog: csim_demo
 schema: v1
 sql: |
@@ -221,314 +221,314 @@ sql: |
   LEFT JOIN observed o ON o.hosp_code = d.hosp_code
     AND o.location_code = d.location_code AND o.month_date = c.month_date
   ORDER BY c.month_date, d.hosp_code, d.location_code
-params: 
-template_params: 
+params:
+template_params:
 filter_select_enabled: true
-fetch_values_predicate: 
-extra: 
+fetch_values_predicate:
+extra:
 normalize_columns: false
 always_filter_main_dttm: false
-folders: 
+folders:
 uuid: 7be87e2d-0a35-4f60-97fd-a114550bb170
 metrics:
 - metric_name: count
   verbose_name: COUNT(*)
   metric_type: count
   expression: COUNT(*)
-  description: 
-  d3format: 
-  currency: 
+  description:
+  d3format:
+  currency:
   extra:
     warning_markdown: ''
-  warning_text: 
+  warning_text:
 columns:
 - column_name: dur_cat_1
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: dur_cat_2
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: dur_cat_3
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: dur_cat_4
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: aspn_treated
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: pos_ua
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: dur_count
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: asbcase
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: asbtreated
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: ucsub
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: txpos
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: month_date
-  verbose_name: 
+  verbose_name:
   is_dttm: true
   is_active: true
   type: DATE
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: pos_ua_rate
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: FLOAT
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: inappdx_aspn
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: FLOAT
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: dur_sum
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: FLOAT
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: medabxdur
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: FLOAT
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: inappdx
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: FLOAT
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: txrate
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: FLOAT
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: prev
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: FLOAT
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: location_code
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: LONGINTEGER
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: hosp_num
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: LONGINTEGER
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: location_name
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: STRING
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: hosp_code
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: STRING
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: state
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: STRING
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 version: 1.0.0
 database_uuid: 21edc228-aaaf-4fbf-8c28-b47844ae09e2

@@ -1952,5 +1952,5 @@ metadata:
   map_label_colors:
     "% inappropriate UTI diagnosis": "#1FA8C9"
     "% inappropriate UTI+ASPN diagnosis": "#1FA8C9"
-theme_uuid: 
+theme_uuid:
 version: 1.0.0

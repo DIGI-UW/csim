@@ -8,7 +8,12 @@ export const trendNames=[
 ];
 export const filters={hospital:'NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE',grain:'NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_'};
 export async function openDashboard(page,profile='corrected') {
-  const replies=new Map(),failures=[],jobs=new Set();
+  const replies=new Map(),failures=[],jobs=new Set(),latest=new Map();
+  page.on('request',request=>{
+    if(!request.url().includes('/api/v1/chart/data') || request.method()!=='POST')return;
+    const id=request.postDataJSON()?.form_data?.slice_id;
+    if(id){latest.set(id,request);replies.delete(id);}
+  });
   page.on('response',response=>{
     if(!response.url().includes('/api/v1/chart/data'))return;
     const job=(async()=>{
@@ -17,7 +22,7 @@ export async function openDashboard(page,profile='corrected') {
         const id=request?.form_data?.slice_id;
         const body=await response.json();
         if(!response.ok()||body.result?.some(r=>r.error))failures.push({id,status:response.status(),body});
-        if(id)replies.set(id,{request,result:body.result?.[0]});
+        if(id && latest.get(id)===response.request())replies.set(id,{request,result:body.result?.[0]});
       }catch(error){if(!/No resource|No data found|aborted/i.test(error.message))failures.push({error:error.message});}
     })();jobs.add(job);job.finally(()=>jobs.delete(job));
   });
@@ -62,7 +67,9 @@ export async function timePeriod(page,from,until){
   const boxes=editor.getByRole('textbox');
   await boxes.nth(0).fill(from);
   await boxes.nth(1).fill(until);
+  await expect(editor.getByText(`${from} ≤ col < ${until}`,{exact:true})).toBeVisible();
   await editor.getByRole('button',{name:/^apply$/i}).click();
+  await expect(page.getByRole('button',{name:'Time Period',exact:true})).toContainText(from);
   await page.getByRole('button',{name:'Apply filters',exact:true}).click();
   await page.waitForLoadState('networkidle');
 }
@@ -87,6 +94,8 @@ export async function allTrends(watch){
   const rows={};
   for(const trend of watch.trends){
     await trend.holder.scrollIntoViewIfNeeded();
+    await trend.holder.page().waitForLoadState('networkidle');
+    await watch.settle();
     await expect.poll(()=>watch.replies.get(trend.id)?.result).toBeTruthy();
     await watch.settle();
     rows[trend.name]=watch.replies.get(trend.id).result.data;

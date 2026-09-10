@@ -33,7 +33,7 @@ versions = VERSIONS.map do |name|
   root = File.join(ROOT, 'sources/exports', name)
   package = Dir[File.join(root, 'unpacked/*')].find { |path| File.directory?(path) }
   objects = %w[charts datasets dashboards].map do |type|
-    [type, Dir[File.join(package, type, '**/*.yaml')].map { |path| value=read_yaml(path); [value['uuid'], value] }.to_h]
+    [type, Dir[File.join(package, type, '**/*.yaml')].sort.map { |path| value=read_yaml(path); [value['uuid'], value] }.sort.to_h]
   end.to_h
   objects['sha256'] = Digest::SHA256.file(File.join(root, 'dashboard.zip')).hexdigest
   objects['export_metadata'] = read_yaml(File.join(package, 'metadata.yaml'))

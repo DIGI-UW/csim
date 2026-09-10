@@ -1,0 +1,1132 @@
+{
+  "april-2026": {
+    "Hospital and state": {
+      "id": "NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "validateMessage": false,
+          "validateStatus": false,
+          "label": "Cohort",
+          "value": [
+            "Cohort"
+          ],
+          "excludeFilterValues": true
+        }
+      },
+      "controls": {
+        "sortAscending": true,
+        "enableEmptyFilter": false,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": true,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Location of Urine Culture Collection": {
+      "id": "NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "location_name"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "location_name",
+              "op": "IN",
+              "val": [
+                "All locations"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "excludeFilterValues": true,
+          "label": "All locations",
+          "validateMessage": false,
+          "validateStatus": false,
+          "value": [
+            "All locations"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": true,
+        "enableEmptyFilter": true,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Time Period": {
+      "id": "NATIVE_FILTER-_ZDg__D4KUKCpsVyVa992",
+      "type": "filter_time",
+      "targets": [
+        {
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "time_range": "Last year"
+        },
+        "filterState": {
+          "value": "Last year"
+        }
+      },
+      "controls": {
+        "enableEmptyFilter": false
+      },
+      "exclusions_by_chart_uuid": [
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Time Unit": {
+      "id": "NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_",
+      "type": "filter_timegrain",
+      "targets": [
+        {
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "time_grain_sqla": "P1M"
+        },
+        "filterState": {
+          "label": "Month",
+          "value": [
+            "P1M"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": false,
+        "enableEmptyFilter": false
+      },
+      "exclusions_by_chart_uuid": [
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Your hospital": {
+      "id": "NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "validateMessage": false,
+          "validateStatus": false,
+          "label": "Cohort",
+          "value": [
+            "Cohort"
+          ],
+          "excludeFilterValues": true
+        }
+      },
+      "controls": {
+        "sortAscending": true,
+        "enableEmptyFilter": false,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "absent-from-export:105",
+        "absent-from-export:76",
+        "absent-from-export:78",
+        "absent-from-export:88",
+        "absent-from-export:89",
+        "absent-from-export:90",
+        "absent-from-export:91",
+        "absent-from-export:92",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Cohort/State": {
+      "id": "NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "excludeFilterValues": true,
+          "label": "Cohort",
+          "validateMessage": false,
+          "validateStatus": false,
+          "value": [
+            "Cohort"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": false,
+        "enableEmptyFilter": false,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "absent-from-export:105",
+        "absent-from-export:76",
+        "absent-from-export:78",
+        "absent-from-export:88",
+        "absent-from-export:89",
+        "absent-from-export:90",
+        "absent-from-export:91",
+        "absent-from-export:92",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    }
+  },
+  "test-september-2026": {
+    "Hospital and state": {
+      "id": "NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "validateMessage": false,
+          "validateStatus": false,
+          "label": "Cohort",
+          "value": [
+            "Cohort"
+          ],
+          "excludeFilterValues": true
+        }
+      },
+      "controls": {
+        "sortAscending": true,
+        "enableEmptyFilter": false,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": true,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33866218-9d48-480a-94c9-75860633d428",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Location of Urine Culture Collection": {
+      "id": "NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "location_name"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "location_name",
+              "op": "IN",
+              "val": [
+                "All locations"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "excludeFilterValues": true,
+          "label": "All locations",
+          "validateMessage": false,
+          "validateStatus": false,
+          "value": [
+            "All locations"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": true,
+        "enableEmptyFilter": true,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33866218-9d48-480a-94c9-75860633d428",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Time Period": {
+      "id": "NATIVE_FILTER-_ZDg__D4KUKCpsVyVa992",
+      "type": "filter_time",
+      "targets": null,
+      "defaults": {
+        "extraFormData": {
+          "time_range": "DATEADD(DATETIME(\"2026-09-09T00:00:00\"), -12, month) : 2026-09-09T00:00:00"
+        },
+        "filterState": {
+          "value": "DATEADD(DATETIME(\"2026-09-09T00:00:00\"), -12, month) : 2026-09-09T00:00:00"
+        }
+      },
+      "controls": {
+        "enableEmptyFilter": false
+      },
+      "exclusions_by_chart_uuid": [
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33866218-9d48-480a-94c9-75860633d428",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": null
+    },
+    "Time Unit": {
+      "id": "NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_",
+      "type": "filter_timegrain",
+      "targets": [
+        {
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "time_grain_sqla": "P1M"
+        },
+        "filterState": {
+          "label": "Month",
+          "value": [
+            "P1M"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": true,
+        "enableEmptyFilter": false
+      },
+      "exclusions_by_chart_uuid": [
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33866218-9d48-480a-94c9-75860633d428",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Your hospital": {
+      "id": "NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "excludeFilterValues": true,
+          "label": "Cohort",
+          "validateMessage": false,
+          "validateStatus": false,
+          "value": [
+            "Cohort"
+          ]
+        }
+      },
+      "controls": {
+        "enableEmptyFilter": true,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "33866218-9d48-480a-94c9-75860633d428",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Cohort/State": {
+      "id": "NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "excludeFilterValues": true,
+          "label": "Cohort",
+          "validateMessage": false,
+          "validateStatus": false,
+          "value": [
+            "Cohort"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": false,
+        "enableEmptyFilter": false,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "33866218-9d48-480a-94c9-75860633d428",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    }
+  },
+  "production-september-2026": {
+    "Hospital and state": {
+      "id": "NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "validateMessage": false,
+          "validateStatus": false,
+          "label": "Cohort",
+          "value": [
+            "Cohort"
+          ],
+          "excludeFilterValues": true
+        }
+      },
+      "controls": {
+        "sortAscending": true,
+        "enableEmptyFilter": false,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": true,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Location of Urine Culture Collection": {
+      "id": "NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "location_name"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "location_name",
+              "op": "IN",
+              "val": [
+                "All locations"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "excludeFilterValues": true,
+          "label": "All locations",
+          "validateMessage": false,
+          "validateStatus": false,
+          "value": [
+            "All locations"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": true,
+        "enableEmptyFilter": true,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Time Period": {
+      "id": "NATIVE_FILTER-_ZDg__D4KUKCpsVyVa992",
+      "type": "filter_time",
+      "targets": [
+        {
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "time_range": "Last year"
+        },
+        "filterState": {
+          "value": "Last year"
+        }
+      },
+      "controls": {
+        "enableEmptyFilter": false
+      },
+      "exclusions_by_chart_uuid": [
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Time Unit": {
+      "id": "NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_",
+      "type": "filter_timegrain",
+      "targets": [
+        {
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "time_grain_sqla": "P1M"
+        },
+        "filterState": {
+          "label": "Month",
+          "value": [
+            "P1M"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": false,
+        "enableEmptyFilter": false
+      },
+      "exclusions_by_chart_uuid": [
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Your hospital": {
+      "id": "NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "excludeFilterValues": true,
+          "label": "Cohort",
+          "validateMessage": false,
+          "validateStatus": false,
+          "value": [
+            "Cohort"
+          ]
+        }
+      },
+      "controls": {
+        "enableEmptyFilter": true,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+        "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+      ],
+      "cached_scope_by_chart_uuid": [
+
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    },
+    "Cohort/State": {
+      "id": "NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG",
+      "type": "filter_select",
+      "targets": [
+        {
+          "column": {
+            "name": "hosp_code"
+          },
+          "datasetUuid": "7be87e2d-0a35-4f60-97fd-a114550bb170"
+        }
+      ],
+      "defaults": {
+        "extraFormData": {
+          "filters": [
+            {
+              "col": "hosp_code",
+              "op": "IN",
+              "val": [
+                "Cohort"
+              ]
+            }
+          ]
+        },
+        "filterState": {
+          "excludeFilterValues": true,
+          "label": "Cohort",
+          "validateMessage": false,
+          "validateStatus": false,
+          "value": [
+            "Cohort"
+          ]
+        }
+      },
+      "controls": {
+        "sortAscending": false,
+        "enableEmptyFilter": false,
+        "defaultToFirstItem": false,
+        "creatable": false,
+        "multiSelect": false,
+        "searchAllOptions": false,
+        "inverseSelection": false
+      },
+      "exclusions_by_chart_uuid": [
+        "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+        "07031027-d38c-4606-b62c-c6c83a064245",
+        "0f9be896-be82-486f-820f-358d59b7f175",
+        "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+        "202d48c2-f277-4c61-8713-33a570f36882",
+        "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+        "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+        "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+        "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+        "7f2dcacf-447a-4107-af94-a0425dfaa642",
+        "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+        "914af213-456c-401a-be8b-549972fea8f6",
+        "94955872-f6d7-48b2-b194-1606dc6f6735",
+        "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+        "9f878336-fecc-4263-adba-6a40719f1926",
+        "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+        "ec004284-4669-4b60-aa60-8cd95c47c0e6"
+      ],
+      "cached_scope_by_chart_uuid": [
+
+      ],
+      "cascade_parent_ids": [
+
+      ]
+    }
+  }
+}

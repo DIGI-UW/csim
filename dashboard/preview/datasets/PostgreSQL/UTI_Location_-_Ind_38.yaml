@@ -1,10 +1,10 @@
 ---
 table_name: UTI Location - Ind
 main_dttm_col: month_date
-description: 
-default_endpoint: 
+description:
+default_endpoint:
 offset: 0
-cache_timeout: 
+cache_timeout:
 catalog: csim_demo
 schema: v1
 sql: "WITH raw_data AS (\r\n    SELECT\r\n        hosp_name, location, month, year\r\n
@@ -42,109 +42,109 @@ sql: "WITH raw_data AS (\r\n    SELECT\r\n        hosp_name, location, month, ye
   \   GROUP BY location_name, location_code, month_date\r\n)\r\n\r\nSELECT * FROM
   combined\r\nUNION ALL\r\nSELECT * FROM state_loc\r\nUNION ALL\r\nSELECT * FROM cohort_loc\r\nORDER
   BY month_date, hosp_code, location_code"
-params: 
-template_params: 
+params:
+template_params:
 filter_select_enabled: true
-fetch_values_predicate: 
-extra: 
+fetch_values_predicate:
+extra:
 normalize_columns: false
 always_filter_main_dttm: false
-folders: 
+folders:
 uuid: c17c5b6e-0945-4817-96a4-b11010885ed1
 metrics:
 - metric_name: count
   verbose_name: COUNT(*)
   metric_type: count
   expression: COUNT(*)
-  description: 
-  d3format: 
-  currency: 
-  extra: 
-  warning_text: 
+  description:
+  d3format:
+  currency:
+  extra:
+  warning_text:
 columns:
 - column_name: n_submissions
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: DECIMAL
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: month_date
-  verbose_name: 
+  verbose_name:
   is_dttm: true
   is_active: true
   type: DATE
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: location_code
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: LONGINTEGER
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: hosp_num
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: LONGINTEGER
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: location_name
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: STRING
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: hosp_code
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: STRING
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 - column_name: state
-  verbose_name: 
+  verbose_name:
   is_dttm: false
   is_active: true
   type: STRING
-  advanced_data_type: 
+  advanced_data_type:
   groupby: true
   filterable: true
   expression: ''
-  description: 
-  python_date_format: 
-  extra: 
+  description:
+  python_date_format:
+  extra:
 version: 1.0.0
 database_uuid: 21edc228-aaaf-4fbf-8c28-b47844ae09e2

@@ -29,7 +29,7 @@ end
 
 def write_yaml(path, value)
   FileUtils.mkdir_p(File.dirname(path))
-  File.write(path, YAML.dump(value))
+  File.write(path, YAML.dump(value).gsub(/: \n/, ":\n"))
 end
 
 def normalized_database!(package)
