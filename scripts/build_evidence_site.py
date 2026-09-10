@@ -32,7 +32,9 @@ nav=[];cards=[];published=[]
 for target in ['main','examples','preview']:
     run=ROOT/'output/recordings'/target
     provenance=json.loads((run/'provenance.json').read_text())
-    if provenance['revision']!=revision:raise ValueError('Recording revision differs: '+target)
+    # Documentation and deployment-test updates need not invalidate unchanged
+    # dashboard footage. Verify the recorded runtime and browser contract exactly.
+    subprocess.run(['git','diff','--exit-code',provenance['revision'],revision,'--','dashboard','data','patches','Dockerfile','Dockerfile.formatter','superset_config.py','compose.yaml','e2e/acceptance','e2e/acceptance.config.mjs','e2e/workflow-guide.json','e2e/video'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
     manifest=json.loads((run/'films/manifest.json').read_text())
     reviewed=json.loads((run/'reviewed-frames.json').read_text())
     for number,item in manifest['workflows'].items():
@@ -50,7 +52,7 @@ for target in ['main','examples','preview']:
         nav.append(f'<a href="#{anchor}">{html.escape(label)}</a>')
         extra='<span id="date-range"></span>' if number=='03' else ''
         cards.append(f'''<article id="{anchor}">{extra}<p class="eyebrow">{target.capitalize()} · Dashboard workflow</p><h2>{html.escape(label)}</h2><p>{html.escape(guide[number]['try'])}</p><p><strong>Expected result:</strong> {html.escape(guide[number]['expected'])}</p><video controls preload="none" poster="{key}/screenshot.png"><source src="{key}/workflow.mp4" type="video/mp4"><track kind="captions" src="{key}/captions.vtt" srclang="en" label="English"></video><p class="actions"><a href="{url}">Try this dashboard ↗</a><a href="{key}/screenshot.png">Screenshot</a><a href="{key}/frames-1.jpg">Video frames</a><a href="{key}/validation.json">Validation details</a></p></article>''')
-        published.append({'workflow':key,'title':label,'anchor':anchor,'dashboard':url,'framesChecked':item['framesChecked']})
+        published.append({'workflow':key,'title':label,'anchor':anchor,'dashboard':url,'framesChecked':item['framesChecked'],'recordedRevision':provenance['revision']})
 # Import reports describe native behavior separately from helper-assisted behavior.
 checks=evidence/'checks';checks.mkdir(exist_ok=True)
 for profile in ['corrected','preview']:

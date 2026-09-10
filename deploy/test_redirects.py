@@ -28,7 +28,10 @@ try:
    urllib.request.urlopen('http://127.0.0.1:18781/ready',timeout=1)
    break
   except urllib.error.HTTPError:break
-  except (urllib.error.URLError,http.client.RemoteDisconnected,TimeoutError):time.sleep(0.1)
+  except (urllib.error.URLError,http.client.RemoteDisconnected,ConnectionResetError,TimeoutError):time.sleep(0.1)
+ else:
+  subprocess.run(['docker','logs',container],check=False)
+  raise TimeoutError('Disposable Caddy did not become ready')
  cases=[
  ('/superset/superset/dashboard/2/','dashboard.csim.uwdigi.org','/superset/dashboard/csim-individual-corrected/'),
  ('/superset/superset/dashboard/1/','dashboard.csim.uwdigi.org','/superset/dashboard/csim-filter-examples/'),
