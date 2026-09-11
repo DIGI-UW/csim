@@ -12,6 +12,16 @@ test('Overview links each issue to a solution, evidence, and the matching instan
   }
   await expect(page.locator('#month-controls')).toContainText('Through month');
   await expect(page.locator('#month-controls a').first()).toHaveAttribute('href','https://preview.csim.uwdigi.org/dashboard/csim-individual-simple/');
+  await expect(page.locator('#dashboard-inventory tbody tr')).toHaveCount(3);
+  await expect(page.locator('#start-here')).toContainText('same hospital, location and dates');
+  await page.locator('#start-here').getByRole('link',{name:'Open with the snapshot login →',exact:true}).click();
+  const login=page.locator('#snapshot-instance a.instance-open');
+  await expect(login).toBeInViewport();
+  const destination=new URL(await login.getAttribute('href'));
+  expect(destination.hostname).toBe('preview.csim.uwdigi.org');
+  expect(destination.searchParams.get('next')).toBe('/dashboard/csim-individual-simple/');
+  await page.locator('#supporting-examples summary').click();
+  await expect(page.locator('#supporting-examples tbody tr')).toHaveCount(4);
   await page.getByRole('link',{name:'3. Remaining issues',exact:true}).first().click();
   await expect(page.locator('#next-title')).toBeInViewport();
   const detail=page.locator('details').filter({has:page.locator('summary').filter({hasText:'How the source exports differ'})});
@@ -22,6 +32,10 @@ test('Overview remains readable on a phone',async({page})=>{
   await page.setViewportSize({width:390,height:844});await page.goto('/');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const menu=page.locator('.mobile-nav');await menu.locator('summary').click();
+  await menu.getByRole('link',{name:'Start here',exact:true}).click();
+  await expect(page.locator('#start-title')).toBeInViewport();
+  await page.locator('#start-here').getByRole('link',{name:'Open with the snapshot login →',exact:true}).click();
+  await expect(page.locator('#snapshot-instance a.instance-open')).toBeInViewport();
   await menu.getByRole('link',{name:'Original issues',exact:true}).click();
   await expect(page.locator('#status')).toBeInViewport();
 });

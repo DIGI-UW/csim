@@ -55,9 +55,16 @@ for target in ['main','examples','preview','months']:
         (destination/'validation.json').write_text(json.dumps({'framesChecked':item['framesChecked'],'maxPixelDifference':item['maxPixelDifference'],'durationSeconds':item['durationSeconds'],'visuallyReviewed':True,'revision':revision},indent=2))
         label=guide[number]['label']+(' — snapshot' if target=='preview' else ' — main' if number=='05' else '')
         url='https://'+('preview' if target in ('preview','months') else 'dashboard')+'.csim.uwdigi.org/superset/dashboard/'+('csim-month-examples' if target=='months' else 'csim-filter-examples' if target=='examples' else 'csim-individual-preview' if target=='preview' else 'csim-individual-corrected')+'/'
+        if target in ('examples','months'):
+            full_url=('https://preview.csim.uwdigi.org/dashboard/csim-individual-simple/' if target=='months' else 'https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-corrected/')
+            dashboard_actions=f'<a href="{url}">Repeat with the known test records ↗</a><a href="{full_url}">Open this version with the supplied CSiM data ↗</a>'
+            context='This recording uses the full dashboard with known test records, so its numerical examples can be repeated.'
+        else:
+            dashboard_actions=f'<a href="{url}">Open the full CSiM dashboard shown here ↗</a>'
+            context='This recording uses the full dashboard with the supplied CSiM demo data.'
         nav.append(f'<a href="#{anchor}">{html.escape(label)}</a>')
         extra='<span id="date-range"></span>' if number=='03' else ''
-        cards.append(f'''<article id="{anchor}">{extra}<p class="eyebrow">{target.capitalize()} · Dashboard workflow</p><h2>{html.escape(label)}</h2><p>{html.escape(guide[number]['try'])}</p><p><strong>Expected result:</strong> {html.escape(guide[number]['expected'])}</p><video controls preload="none" poster="{key}/screenshot.png"><source src="{key}/workflow.mp4" type="video/mp4"><track kind="captions" src="{key}/captions.vtt" srclang="en" label="English"></video><p class="actions"><a href="{url}">Try this dashboard ↗</a><a href="{key}/screenshot.png">Screenshot</a><a href="{key}/frames-1.jpg">Video frames</a><a href="{key}/validation.json">Validation details</a></p></article>''')
+        cards.append(f'''<article id="{anchor}">{extra}<p class="eyebrow">{target.capitalize()} · Dashboard workflow</p><h2>{html.escape(label)}</h2><p>{html.escape(guide[number]['try'])}</p><p><strong>Expected result:</strong> {html.escape(guide[number]['expected'])}</p><p>{context}</p><video controls preload="none" poster="{key}/screenshot.png"><source src="{key}/workflow.mp4" type="video/mp4"><track kind="captions" src="{key}/captions.vtt" srclang="en" label="English"></video><p class="actions">{dashboard_actions}<a href="{key}/screenshot.png">Screenshot</a><a href="{key}/frames-1.jpg">Video frames</a><a href="{key}/validation.json">Validation details</a></p></article>''')
         published.append({'workflow':key,'title':label,'anchor':anchor,'dashboard':url,'framesChecked':item['framesChecked'],'recordedRevision':provenance['revision']})
 # Import reports describe native behavior separately from helper-assisted behavior.
 checks=evidence/'checks';checks.mkdir(exist_ok=True)
