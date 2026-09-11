@@ -59,6 +59,104 @@ index 8397d6ce..985cfc2d 100644
      const filterOwnState = filter.dataMask?.ownState || {};
      if (transitiveParentIds.length) {
        // Prevent unnecessary backend requests by validating ancestor filter
+diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
+new file mode 100644
+index 00000000..b9d28aba
+--- /dev/null
++++ b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
+@@ -0,0 +1,61 @@
++/**
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ *   http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing,
++ * software distributed under the License is distributed on an
++ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ * KIND, either express or implied.  See the License for the
++ * specific language governing permissions and limitations
++ * under the License.
++ */
++
++import { render, screen, userEvent } from 'spec/helpers/testing-library';
++import { createSelectNativeFilter } from 'spec/fixtures/mockNativeFilters';
++import VerticalBar from './Vertical';
++import type { VerticalBarProps } from './types';
++
++jest.mock('./FilterControls/FilterControls', () => ({
++  __esModule: true,
++  default: ({ clearAllTriggers, onClearAllComplete }: Pick<VerticalBarProps, 'clearAllTriggers' | 'onClearAllComplete'>) => (
++    <button type="button" onClick={() => onClearAllComplete?.('hospital')}>
++      {clearAllTriggers?.hospital ? 'Clear pending' : 'Ready'}
++    </button>
++  ),
++}));
++
++// Exercise the vertical sidebar boundary: both the trigger and acknowledgement
++// must reach its controls, including a second clear after an acknowledgement.
++// The browser regression checks the real select's retained hospital and results.
++test('forwards successive clear requests and acknowledgements to vertical controls', async () => {
++  const acknowledge = jest.fn();
++  const props: VerticalBarProps = {
++    actions: null, canEdit: false, dataMaskSelected: {},
++    filterValues: [createSelectNativeFilter({ id: 'hospital' })],
++    chartCustomizationValues: [], isInitialized: true,
++    onSelectionChange: jest.fn(), onPendingCustomizationDataMaskChange: jest.fn(),
++    onClearAllComplete: acknowledge, filtersOpen: true, height: 700,
++    offset: 0, toggleFiltersBar: jest.fn(), width: 240,
++  };
++  const { rerender } = render(<VerticalBar {...props} />, {
++    useRedux: true, useRouter: true, initialState: {
++      dashboardState: { sliceIds: [] }, dashboardInfo: { dash_edit_perm: false },
++      dashboardLayout: { present: {}, past: [], future: [] }, dataMask: {},
++    },
++  });
++  expect(screen.getByRole('button', { name: 'Ready' })).toBeInTheDocument();
++  for (let count = 1; count <= 2; count += 1) {
++    rerender(<VerticalBar {...props} clearAllTriggers={{ hospital: true }} />);
++    await userEvent.click(screen.getByRole('button', { name: 'Clear pending' }));
++    expect(acknowledge).toHaveBeenNthCalledWith(count, 'hospital');
++    rerender(<VerticalBar {...props} clearAllTriggers={{}} />);
++    expect(screen.getByRole('button', { name: 'Ready' })).toBeInTheDocument();
++  }
++});
+diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
+index 7cb98287..1d91d5ee 100644
+--- a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
++++ b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
+@@ -143,6 +143,8 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
+   offset,
+   onSelectionChange,
+   onPendingCustomizationDataMaskChange,
++  clearAllTriggers,
++  onClearAllComplete,
+   toggleFiltersBar,
+   width,
+   mobileMode,
+@@ -231,6 +233,8 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
+             onPendingCustomizationDataMaskChange
+           }
+           chartCustomizationValues={chartCustomizationValues}
++          clearAllTriggers={clearAllTriggers}
++          onClearAllComplete={onClearAllComplete}
+           hideHeader={hasOnlyOneSectionType}
+         />
+       </FilterControlsWrapper>
+@@ -256,6 +260,8 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
+     onSelectionChange,
+     onPendingCustomizationDataMaskChange,
+     chartCustomizationValues,
++    clearAllTriggers,
++    onClearAllComplete,
+     hasOnlyOneSectionType,
+   ]);
+ 
 diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/index.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/index.tsx
 index 7f57ac0f..b7124992 100644
 --- a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/index.tsx

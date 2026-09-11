@@ -29,7 +29,11 @@ The existing example database must already be initialized with `bash csim.sh pre
 - Inclusive endpoints, year boundaries and leap-year February are represented correctly.
 - February–March grouped by Quarter excludes January and identifies the partial quarter.
 - Grouping changes preserve both month fields; both selection orders give equivalent results.
-- Invalid ranges cannot be applied; clear and reselect works without a reload.
+- Invalid ranges cannot be applied; clear and reselect retains the same hospital and its numerical results without a reload.
 - Missing months, valid zero and empty cohorts retain their established meaning.
 - The original dashboard and independent hourly menu still work on the same snapshot.
 - Public screenshot and workflow evidence accompany the new dashboard link; Beth's acceptance is separate.
+
+## Snapshot filter recovery
+
+The pinned snapshot's vertical filter sidebar omitted the clear notification and completion callback when rendering its controls. This could clear the visible hospital selection while retaining its previous internal selection; choosing that same hospital again then left the charts unfiltered. The versioned patch forwards both signals. A component test checks successive notifications, and the dashboard regression checks the retained hospital and the six expected monthly results after clearing and reselecting. This is a verified defect in the pinned snapshot; it does not establish the cause of earlier intermittent behavior on the team's servers.

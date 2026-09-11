@@ -19,7 +19,7 @@ shutil.copy2(ROOT/'design/index.html',output/'index.html')
 for name,target in [('corrected','access.json'),('preview','preview-access.json')]:
     shutil.copy2(a.access_dir/f'{name}-viewer.json',output/target)
 release={'revision':revision,'date':dt.datetime.now(dt.timezone.utc).date().isoformat(),
-    'main':'Superset 6.1.0 + versioned CSiM formatter','snapshot':'e22ce197866ded732e4990063ae74697d89d383a + versioned CSiM formatter',
+    'main':'Superset 6.1.0 + versioned CSiM formatter','snapshot':'e22ce197866ded732e4990063ae74697d89d383a + CSiM formatter, inclusive month controls and vertical-filter clear fix',
     'demoSha256':hashlib.sha256((ROOT/'data/v1_schema_dump.sql').read_bytes()).hexdigest(),
     'fixtureSha256':hashlib.sha256((ROOT/'data/edge-cases.sql').read_bytes()).hexdigest()}
 (output/'release.json').write_text(json.dumps(release,indent=2))
