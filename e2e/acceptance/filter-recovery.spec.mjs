@@ -1,7 +1,7 @@
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
-import {profile,dataProfile,openingHospital,fixture} from '../acceptance.config.mjs';
-import {openDashboard,timeUnit,timePeriod,hospital,allTrends,filters,location} from './dashboard.mjs';
+import {profile,dataProfile,openingHospital,fixture,reconciled} from '../acceptance.config.mjs';
+import {openDashboard,timeUnit,timePeriod,hospital,allTrends,filters,location,dashboardApply} from './dashboard.mjs';
 
 enableRecording(test);
 const first=dataProfile.representativeHospital;
@@ -41,7 +41,7 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await scene(page,info,'unit-first','Unit then period','The same final selections produce equivalent chart results.');
   const marker=await page.evaluate(()=>window.__csimDocumentMarker=crypto.randomUUID());
   await page.getByRole('button',{name:'Clear all',exact:true}).click();
-  const apply=page.getByRole('button',{name:'Apply filters',exact:true});
+  const apply=dashboardApply(page);
   if(await apply.isEnabled())await apply.click();
   await page.waitForLoadState('networkidle');
   await scene(page,info,'cleared','Clear all','Clear the dashboard filters, then select a hospital and time window again.','Clear and reselect');
@@ -54,7 +54,7 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await expect(selected).toContainText(first);
   expectSameResults(restored,expectedRestored);
   expect(Object.values(restored).every(rows=>rows.length>0)).toBe(true);
-  if(fixture)expect(restored[watch.trends[4].name].map(row=>Object.values(row).filter(v=>v!==row.month_date))).toEqual([[4],[8],[12],[null],[10],[5]]);
+  if(fixture)expect(restored[watch.trends[4].name].map(row=>Object.entries(row).filter(([key])=>!['month_date','period_label'].includes(key)).map(([,value])=>value))).toEqual([[4],[8],[12],[null],[10],[5]]);
   expect(await page.evaluate(()=>window.__csimDocumentMarker)).toBe(marker);
   await watch.trends[0].holder.scrollIntoViewIfNeeded();
   await scene(page,info,'reselected','Results return','The charts respond on the same page. No reload is used.');
@@ -62,13 +62,19 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await info.attach('recovered-results',{body:Buffer.from(JSON.stringify(restored)),contentType:'application/json'});
 });
 
-test('Opening afresh applies the saved hospital, Last year and Month defaults',async({page})=>{
+test('Opening afresh applies the saved hospital, date window and Month defaults',async({page})=>{
   const watch=await openDashboard(page,profile);
-  for(const [id,label] of [[filters.hospital,openingHospital],[filters.grain,'Month']]){
+  for(const [id,label] of [[filters.hospital,reconciled&&!fixture?'Cohort':openingHospital],[filters.grain,'Month']]){
     const selected=await page.getByRole('combobox',{name:id,exact:true}).evaluate(el=>el.closest('[title]')?.getAttribute('title') || el.closest('.ant-select').querySelector('.ant-select-selection-item')?.getAttribute('title'));
     expect(selected).toBe(label);
   }
-  await expect(page.getByRole('button',{name:'Time Period',exact:true})).toContainText('Last year');
+  if(process.env.CSIM_SIMPLE_CONTROLS==='1'){
+    const now=new Date();
+    const from=reconciled&&!fixture?new Date(Date.UTC(now.getUTCFullYear()-1,now.getUTCMonth(),1)).toISOString().slice(0,7):'2025-11';
+    const through=reconciled&&!fixture?new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()-1,1)).toISOString().slice(0,7):'2026-04';
+    await expect(page.getByLabel('From month',{exact:true})).toHaveValue(from);
+    await expect(page.getByLabel('Through month (inclusive)',{exact:true})).toHaveValue(through);
+  }else await expect(page.getByRole('button',{name:'Time Period',exact:true})).toContainText('Last year');
   await allTrends(watch);
   await watch.settle();expect(watch.failures).toEqual([]);
 });

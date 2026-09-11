@@ -1,0 +1,13 @@
+{
+  "profile": "reconciled-months-examples",
+  "charts": 21,
+  "datasets": 6,
+  "dateAxes": 11,
+  "source": "test-current-20260911",
+  "sourceSha256": "4121a72a9ec7976b4d0990258089fbb4b73a0f7dfb6cc9180108e9d69b3837fb",
+  "dataProfile": "edge-cases",
+  "slug": "csim-reconciled-months-examples",
+  "sourceProfile": "reconciled-examples",
+  "controls": "inclusive-month-range",
+  "defaultTimeRange": "2025-11-01 : 2026-05-01"
+}

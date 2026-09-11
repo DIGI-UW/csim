@@ -19,8 +19,9 @@ jobs:
     timeout-minutes: 60
     env:
       CI: 'true'
-      CSIM_DOCKERFILE: ${{ matrix.build == 'preview' && 'Dockerfile.month-controls' || 'Dockerfile.formatter' }}
-      CSIM_BUILD_TAG: ${{ matrix.build == 'preview' && 'e22ce197-csim-months-1' || '6.1.0-csim-1' }}
+      CSIM_DOCKERFILE: Dockerfile.month-controls
+      CSIM_BUILD_TAG: ${{ matrix.build == 'preview' && 'e22ce197-csim-september6' || '6.1.0-csim-september4' }}
+      CSIM_MONTH_PATCH: ${{ matrix.build == 'preview' && 'superset-snapshot-month-controls.patch' || 'superset-6.1.0-month-controls.patch' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -37,6 +38,8 @@ jobs:
           ruby scripts/compare_exports.rb
           ruby scripts/prepare_dashboard.rb
           ruby scripts/test_reconciliation.rb
+          ruby scripts/test_month_range.rb
+          ruby scripts/test_standard.rb
           python3 scripts/generate_fixture.py
           git diff --exit-code -- dashboard sources data
       - name: Install browser
@@ -91,6 +94,16 @@ jobs:
           cd e2e
           CSIM_PROFILE=preview CSIM_OUTPUT="$GITHUB_WORKSPACE/output/month-supplied" npx playwright test -c month-controls.config.mjs
           CSIM_PROFILE=preview CSIM_DATA_PROFILE=edge-cases CSIM_DASHBOARD_SLUG=csim-month-examples CSIM_OUTPUT="$GITHUB_WORKSPACE/output/month-examples" npx playwright test -c month-controls.config.mjs
+      - name: Test full September month controls without video
+        env:
+          CSIM_PROFILE: ${{ matrix.build }}
+          CSIM_SIMPLE_CONTROLS: '1'
+        run: |
+          bash csim.sh "$CSIM_PROFILE" september-months
+          docker exec "csim-$CSIM_PROFILE-superset-1" python /repro/scripts/test_update.py --profile reconciled-months
+          cd e2e
+          CSIM_DASHBOARD_SLUG=csim-individual-reconciled-months CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-months-supplied" npm test
+          CSIM_DATA_PROFILE=edge-cases CSIM_DASHBOARD_SLUG=csim-reconciled-months-examples CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-months-known" npm test
       - name: Add and test the separate September versions without video
         if: matrix.build == 'corrected'
         run: |
@@ -100,6 +113,7 @@ jobs:
           cd e2e
           CSIM_DASHBOARD_SLUG=csim-individual-reconciled CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-supplied" npm test
           CSIM_DATA_PROFILE=edge-cases CSIM_DASHBOARD_SLUG=csim-reconciled-examples CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-known" npm test
+          CSIM_DASHBOARD_SLUG=csim-individual-reconciled CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-toc" npx playwright test -c toc.config.mjs
       - name: Save numerical results and screenshots
         if: always()
         uses: actions/upload-artifact@v4

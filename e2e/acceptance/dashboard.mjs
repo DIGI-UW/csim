@@ -9,6 +9,20 @@ export const trendNames=[
 ];
 export const additionalDateNames=['Your hospital (abx)','Cohort/State (abx)','Your hospital (UC location)','Cohort/State (UC location)','Your hospital (duration)','Cohort/State (duration)'];
 export const filters={hospital:'NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE',grain:'NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_'};
+export const dashboardApply=page=>page.locator('[data-test="filter-bar__apply-button"]');
+export async function revealFilter(page,control){
+  if(await page.getByRole('button',{name:/More filters/}).count()){
+    // Dismiss the previous overflow popover before locating the next control.
+    // Its closing animation can otherwise leave a transient visible duplicate.
+    await page.locator('[data-test="dashboard-header-container"]').click({position:{x:4,y:4}});
+    await expect(page.locator('.ant-popover:visible')).toHaveCount(0);
+  }
+  if(!await control.isVisible()){
+    const more=page.getByRole('button',{name:/More filters/});
+    if(await more.isVisible())await more.click();
+  }
+  await expect(control).toBeVisible();
+}
 export async function openDashboard(page,profile='corrected') {
   const replies=new Map(),failures=[],jobs=new Set(),latest=new Map();
   page.on('request',request=>{
@@ -32,18 +46,23 @@ export async function openDashboard(page,profile='corrected') {
     const proto=CanvasRenderingContext2D.prototype,fill=proto.fillText,clear=proto.clearRect;
     proto.clearRect=function(...args){if(args[0]===0&&args[1]===0)this.canvas.__periodLabels=[];return clear.apply(this,args);};
     proto.fillText=function(text,x,y,...rest){
-      if(/^(?:\d{4}|Q[1-4] \d{4}|[A-Z][a-z]{2} \d{4})$/.test(String(text))){
+      // Capture wrong native labels too. The acceptance assertion still requires
+      // Jan 2025 / Q1 2025 / 2025; this observer must not hide contrary evidence.
+      if(/^(?:\d{4}(?: Q[1-4]|-\d{2}(?: \([A-Z][a-z]{2}\))?)?|Q[1-4] \d{4}|(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)(?: \d{4})?)$/.test(String(text))){
         const point=new DOMPoint(x,y).matrixTransform(this.getTransform());
         const metrics=this.measureText(text),matrix=this.getTransform();
-        const left=new DOMPoint(x-metrics.actualBoundingBoxLeft,y).matrixTransform(matrix);
-        const right=new DOMPoint(x+metrics.actualBoundingBoxRight,y).matrixTransform(matrix);
-        (this.canvas.__periodLabels ||= []).push({text:String(text),x:point.x,y:point.y,left:left.x,right:right.x});
+        const corners=[x-metrics.actualBoundingBoxLeft,x+metrics.actualBoundingBoxRight]
+          .flatMap(px=>[y-metrics.actualBoundingBoxAscent,y+metrics.actualBoundingBoxDescent]
+            .map(py=>new DOMPoint(px,py).matrixTransform(matrix)));
+        (this.canvas.__periodLabels ||= []).push({text:String(text),x:point.x,y:point.y,
+          left:Math.min(...corners.map(p=>p.x)),right:Math.max(...corners.map(p=>p.x)),
+          top:Math.min(...corners.map(p=>p.y)),bottom:Math.max(...corners.map(p=>p.y))});
       }return fill.call(this,text,x,y,...rest);
     };
   });
   const slug=process.env.CSIM_DASHBOARD_SLUG || `csim-individual-${profile.startsWith('preview')?'preview':profile==='baseline'?'baseline':'corrected'}`;
   await page.goto(`/superset/dashboard/${slug}/`);
-  await expect(page.getByRole('button',{name:'Apply filters',exact:true})).toBeVisible();
+  await expect(dashboardApply(page)).toBeVisible();
   const links=page.locator('a[href*="slice_id="]');
   await expect(links).toHaveCount(chartCount);
   await page.waitForLoadState('networkidle');
@@ -74,16 +93,17 @@ export async function paintedPeriodBounds(plot){
   return plot.locator('canvas').evaluateAll(canvases=>canvases.flatMap(canvas=>{
     const scale=canvas.clientWidth/canvas.width;
     const labels=[...new Map((canvas.__periodLabels||[]).map(label=>[label.text,label])).values()];
-    return labels.map(label=>({...label,x:label.x*scale,y:label.y*scale,left:label.left*scale,right:label.right*scale,canvasWidth:canvas.clientWidth}));
+    return labels.map(label=>({...label,x:label.x*scale,y:label.y*scale,left:label.left*scale,right:label.right*scale,top:label.top*scale,bottom:label.bottom*scale,canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight}));
   }).sort((a,b)=>a.x-b.x));
 }
 export async function timeUnit(page,name){
   const control=page.getByRole('combobox',{name:filters.grain,exact:true});
+  await revealFilter(page,control);
   const current=await control.evaluate(el=>el.closest('[title]')?.getAttribute('title') || el.closest('.ant-select').querySelector('.ant-select-selection-item')?.getAttribute('title'));
   if(current===name)return;
   await control.press('ArrowDown');
   await page.getByRole('option',{name,exact:true}).click();
-  await page.getByRole('button',{name:'Apply filters',exact:true}).click();
+  await dashboardApply(page).click();
   await page.waitForLoadState('networkidle');
 }
 export async function timePeriod(page,from,until){
@@ -91,22 +111,27 @@ export async function timePeriod(page,from,until){
     const end=new Date(until+'T00:00:00Z');end.setUTCMonth(end.getUTCMonth()-1);
     await page.getByLabel('From month',{exact:true}).fill(from.slice(0,7));
     await page.getByLabel('Through month (inclusive)',{exact:true}).fill(end.toISOString().slice(0,7));
-    const apply=page.getByRole('button',{name:'Apply filters',exact:true});
+    const apply=dashboardApply(page);
     if(await apply.isEnabled())await apply.click();
     await page.waitForLoadState('networkidle');
     return;
   }
+  await revealFilter(page,page.getByRole('button',{name:'Time Period',exact:true}));
   await page.getByRole('button',{name:'Time Period',exact:true}).click();
   const editor=page.getByRole('tooltip').filter({hasText:'Edit time range'});
-  await editor.getByRole('combobox',{name:'Range type',exact:true}).press('ArrowDown');
-  await page.getByRole('option',{name:'Advanced',exact:true}).click();
+  const rangeType=editor.getByRole('combobox',{name:'Range type',exact:true});
+  const selectedType=await rangeType.evaluate(el=>el.closest('.ant-select')?.textContent);
+  if(!selectedType?.includes('Advanced')){
+    await rangeType.press('ArrowDown');
+    await page.getByRole('option',{name:'Advanced',exact:true}).click();
+  }
   const boxes=editor.getByRole('textbox');
   await boxes.nth(0).fill(from);
   await boxes.nth(1).fill(until);
   await expect(editor.getByText(`${from} ≤ col < ${until}`,{exact:true})).toBeVisible();
   await editor.getByRole('button',{name:/^apply$/i}).click();
   await expect(page.getByRole('button',{name:'Time Period',exact:true})).toContainText(from);
-  await page.getByRole('button',{name:'Apply filters',exact:true}).click();
+  await dashboardApply(page).click();
   await page.waitForLoadState('networkidle');
 }
 export async function paintedLabels(plot){
@@ -118,6 +143,7 @@ export async function paintedLabels(plot){
 
 export async function hospital(page,name,id=filters.hospital){
   const control=page.getByRole('combobox',{name:id,exact:true});
+  await revealFilter(page,control);
   const remove=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]').locator('.ant-select-selection-item-remove');
   while(await remove.count())await remove.first().click();
   if(await control.getAttribute('aria-expanded') !== 'true')await control.press('ArrowDown');
@@ -126,7 +152,7 @@ export async function hospital(page,name,id=filters.hospital){
   const menu=page.locator(`[id="${listId}"]`).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select-dropdown ")][1]');
   await menu.getByTitle(name,{exact:true}).click();
   await control.press('Escape');
-  const apply=page.getByRole('button',{name:'Apply filters',exact:true});
+  const apply=dashboardApply(page);
   if(await apply.isEnabled())await apply.click();
   await page.waitForLoadState('networkidle');
 }
@@ -146,6 +172,7 @@ export async function allTrends(watch){
 
 export async function location(page,name){
   const control=page.getByRole('combobox',{name:'NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8',exact:true});
+  await revealFilter(page,control);
   await control.press('ArrowDown');
   await page.getByRole('option',{name,exact:true}).click();
 }

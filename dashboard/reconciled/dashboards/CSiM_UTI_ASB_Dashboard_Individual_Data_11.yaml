@@ -9,7 +9,9 @@ css: "/* Comparison table - cell text */\r\n.table td, .table th {\r\n  font-siz
   li {\r\n  font-size: 15px !important;\r\n}\r\n\r\n/* Chart titles */\r\n.header-title
   {\r\n  font-size: 15px !important;\r\n}\r\n\r\n/* Chart/table container header title
   */\r\n.header-title {\r\n  font-size: 16px !important;\r\n}\r\n\r\n/* Table cell
-  text stays at 14px */\r\n.table td, .table th {\r\n  font-size: 14px !important;\r\n}"
+  text stays at 14px */\r\n.table td, .table th {\r\n  font-size: 14px !important;\r\n}\n/*
+  Keep section headings below the fixed dashboard toolbar. */\n[id^=\"HEADER-\"] {
+  scroll-margin-top: 90px; }\n"
 slug: csim-individual-reconciled
 certified_by: ''
 certification_details: ''
@@ -22,7 +24,7 @@ position:
     meta:
       chartId: 107
       height: 14
-      sliceName: Date of most recent data
+      sliceName: Latest reporting month
       uuid: 06d37544-495c-59be-80db-c9b61738be16
       width: 6
     parents:
@@ -37,7 +39,7 @@ position:
       chartId: 100
       height: 24
       sliceName: Volume of UC submissions (entire cohort)
-      sliceNameOverride: Number of UC submitted by the entire cohort
+      sliceNameOverride: All-time UC submissions by the cohort
       uuid: a5669e1a-be16-5d2b-8955-b0663282ee4b
       width: 4
     parents:
@@ -114,7 +116,7 @@ position:
       chartId: 106
       height: 24
       sliceName: Volume of UC submissions (own hospital)
-      sliceNameOverride: Number of UC submitted by your hospital
+      sliceNameOverride: All-time UC submissions by your hospital
       uuid: 7222eee5-277a-5566-8602-9c718e07009d
       width: 4
     parents:
@@ -578,10 +580,9 @@ position:
     children: []
     id: MARKDOWN-4LE_6MIsEUYEjgMUcvAyM
     meta:
-      code: "Update the <i> Filters for therapy duration (4.2), top antibiotics (4.3),
-        and location of UC collection (4.4)\r\n</i> to display your hospital and state/cohort
-        data "
-      height: 7
+      code: "**Choose Your hospital in Filters and controls to display the hospital
+        charts below.** Then choose Cohort/State for the comparison charts."
+      height: 12
       width: 12
     parents:
     - ROOT_ID
@@ -606,9 +607,8 @@ position:
     children: []
     id: MARKDOWN-8qLF0rtVZnycDfi3XPowe
     meta:
-      code: |2-
-
-        *Most recent data import:* 3/30/2026 (manual upload)
+      code: "*Manual upload note from the source dashboard:* March 30, 2026. This
+        is separate from the latest reporting month shown beside it."
       height: 14
       width: 6
     parents:
@@ -675,10 +675,9 @@ position:
     children: []
     id: MARKDOWN-WIofdf7GkSmIbs0pSuT-6
     meta:
-      code: "Update the <i> Filters for therapy duration (4.2), top antibiotics (4.3),
-        and location of UC collection (4.4)\r\n</i> to display your hospital and state/cohort
-        data "
-      height: 7
+      code: "**Choose Your hospital in Filters and controls to display the hospital
+        charts below.** Then choose Cohort/State for the comparison charts."
+      height: 12
       width: 12
     parents:
     - ROOT_ID
@@ -1654,8 +1653,9 @@ metadata:
   default_filters: "{}"
   native_filter_configuration:
   - chartsInScope: []
-    description: For the complete dashboard, select an individual hospital. Cohort
-      and state views have no hospital-specific comparison or hospital total.
+    description: Start with Cohort, or choose a hospital for the main charts and latest-month
+      comparisons. For the lower hospital charts and all-time total, use Your hospital
+      below.
     id: NATIVE_FILTER_DIVIDER-6zEv6G16s53VZ725ZhoAw
     scope:
       excluded: []
@@ -1685,13 +1685,13 @@ metadata:
         - col: hosp_code
           op: IN
           val:
-          - '53'
+          - Cohort
       filterState:
         validateMessage: false
         validateStatus: false
-        label: '53'
+        label: Cohort
         value:
-        - '53'
+        - Cohort
         excludeFilterValues: true
     cascadeParentIds: []
     scope:
@@ -1707,9 +1707,8 @@ metadata:
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
-    description: Choose an individual hospital for the complete dashboard. Cohort
-      and state selections show aggregate trends; the latest hospital comparisons
-      and your-hospital total need an individual hospital.
+    description: Start with the cohort view, then choose an individual hospital to
+      review its results.
     chartsInScope:
     - 73
     - 74
@@ -1909,20 +1908,6 @@ metadata:
     - column:
         name: hosp_code
       datasetUuid: 8aff6d5b-4a53-57f7-82d0-411b3f9c516e
-    defaultDataMask:
-      extraFormData:
-        filters:
-        - col: hosp_code
-          op: IN
-          val:
-          - '53'
-      filterState:
-        validateMessage: false
-        validateStatus: false
-        label: '53'
-        value:
-        - '53'
-        excludeFilterValues: true
     cascadeParentIds: []
     scope:
       excluded:
@@ -1954,7 +1939,8 @@ metadata:
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
-    description: Change the selection to your own hospital first
+    description: Choose one hospital to display the hospital-only comparison charts
+      and all-time submission total.
     chartsInScope:
     - 82
     - 85

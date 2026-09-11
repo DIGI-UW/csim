@@ -217,5 +217,11 @@ require_relative 'prepare_hourly'
 require_relative 'prepare_examples'
 require_relative 'prepare_simple'
 require_relative 'prepare_reconciled'
+ReconciledDashboard.build('reconciled')
+ReconciledDashboard.build('reconciled-examples', fixture: true)
+require_relative 'prepare_month_range'
+MonthRangeDashboard.build_all
+require_relative 'prepare_standard'
+StandardDashboard.build_all
 
 puts "Prepared #{baseline} and #{corrected} from the preserved April export."

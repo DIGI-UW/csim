@@ -64,7 +64,7 @@ params:
   order_desc: false
   row_limit: 1000
   truncate_metric: true
-  show_empty_columns: false
+  show_empty_columns: true
   comparison_type: values
   annotation_layers: []
   forecastEnabled: false

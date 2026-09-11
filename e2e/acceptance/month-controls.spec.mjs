@@ -1,6 +1,6 @@
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
-import {profile,fixture} from '../acceptance.config.mjs';
+import {profile,fixture,reconciled} from '../acceptance.config.mjs';
 import {openDashboard,timeUnit,timePeriod,allTrends,hospital,location,filters,paintedLabels} from './dashboard.mjs';
 
 enableRecording(test);
@@ -10,9 +10,19 @@ test('07 Inclusive month controls recover on the same page and never widen a par
  const marker=await page.evaluate(()=>window.__monthDocument=crypto.randomUUID());
  const from=page.getByLabel('From month',{exact:true}),through=page.getByLabel('Through month (inclusive)',{exact:true});
  const apply=page.getByRole('button',{name:'Apply filters',exact:true});
- await expect(from).toHaveValue('2025-11');await expect(through).toHaveValue('2026-04');
+ const now=new Date(),start=new Date(Date.UTC(now.getUTCFullYear()-1,now.getUTCMonth(),1)),end=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()-1,1));
+ await expect(from).toHaveValue(reconciled&&!fixture?start.toISOString().slice(0,7):'2025-11');
+ await expect(through).toHaveValue(reconciled&&!fixture?end.toISOString().slice(0,7):'2026-04');
  if(fixture)await hospital(page,'91');
- await allTrends(watch);await watch.trends[0].holder.scrollIntoViewIfNeeded();
+ const initial=await allTrends(watch);
+ if(reconciled&&!fixture){
+  const until=Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),1);
+  for(const rows of Object.values(initial))for(const row of rows){
+   expect(Number(row.month_date)).toBeGreaterThanOrEqual(start.getTime());
+   expect(Number(row.month_date)).toBeLessThan(until);
+  }
+ }
+ await watch.trends[0].holder.scrollIntoViewIfNeeded();
  await scene(page,info,'month-fields','Reporting months','Choose the first and last reporting month. Both endpoints include the whole month.','Choose months and grouping');
  await timePeriod(page,'2026-02-01','2026-04-01');
  await timeUnit(page,'Quarter');
@@ -26,7 +36,7 @@ test('07 Inclusive month controls recover on the same page and never widen a par
  await expect.poll(()=>paintedLabels(watch.trends[0].plot)).toEqual(['Q1 2026']);
  await page.screenshot({path:info.outputPath('partial-quarter-controls.png')});
  await watch.trends[4].holder.scrollIntoViewIfNeeded();
- await scene(page,info,'inclusive-quarter','Quarter','February through March gives Q1 with 10 submissions. January contributes none.','A partial quarter');
+ await scene(page,info,'inclusive-quarter','Quarter',fixture?'February through March gives Q1 with 10 submissions. January contributes none.':'Only February and March contribute to Q1. January is excluded.','A partial quarter');
  await timeUnit(page,'Year');
  await expect(from).toHaveValue('2026-02');await expect(through).toHaveValue('2026-03');
  await expect(page.getByRole('status').filter({hasText:'Partial years'})).toContainText('Feb 2026 – Mar 2026 only');

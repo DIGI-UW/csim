@@ -5,8 +5,8 @@ cd "$(dirname "$0")"
 main() {
 profile="${1:-corrected}"
 action="${2:-status}"
-case "$profile" in baseline|corrected|fixture|preview|preview-fixture) ;; *) echo 'Profile must be baseline, corrected, fixture, or preview.' >&2; exit 2 ;; esac
-case "$profile" in corrected) port=18189 ;; baseline) port=18190 ;; fixture) port=18191 ;; preview) port=18192 ;; preview-fixture) port=18193 ;; esac
+case "$profile" in baseline|corrected|fixture|preview|preview-fixture|standard|development) ;; *) echo 'Unknown CSiM profile.' >&2; exit 2 ;; esac
+case "$profile" in corrected) port=18189 ;; baseline) port=18190 ;; fixture) port=18191 ;; preview) port=18192 ;; preview-fixture) port=18193 ;; standard) port=18194 ;; development) port=18195 ;; esac
 package_profile="$profile"
 [[ "$profile" != fixture ]] || package_profile=corrected
 [[ "$profile" != preview-fixture ]] || package_profile=preview
@@ -24,11 +24,16 @@ with open(path, 'x', encoding='utf-8') as output:
     output.write('CSIM_APP_ROOT=/\n')
     output.write('CSIM_PUBLIC_URL=http://127.0.0.1:'+port+'\n')
     if profile in ('corrected', 'fixture'):
-        output.write('CSIM_DOCKERFILE=Dockerfile.formatter\nCSIM_BUILD_TAG=6.1.0-csim-1\n')
+        output.write('CSIM_DOCKERFILE=Dockerfile.month-controls\nCSIM_BUILD_TAG=6.1.0-csim-september4\n')
     if profile in ('preview','preview-fixture'):
-        output.write('CSIM_DOCKERFILE=Dockerfile.formatter\nCSIM_BUILD_TAG=e22ce197-csim-1\nCSIM_SNAPSHOT=1\n')
+        output.write('CSIM_DOCKERFILE=Dockerfile.month-controls\nCSIM_BUILD_TAG=e22ce197-csim-september6\nCSIM_MONTH_PATCH=superset-snapshot-month-controls.patch\nCSIM_SNAPSHOT=1\n')
         output.write('CSIM_SUPERSET_IMAGE=apache/superset:e22ce197866ded732e4990063ae74697d89d383a-dev@sha256:4abe143d471d0e2b3985b6903a3c2595e0ac94bb9f0c68f5e09934a9ec2a3adb\n')
         output.write('CSIM_SUPERSET_REF=e22ce197866ded732e4990063ae74697d89d383a\nCSIM_PATCH=superset-snapshot-csim-period.patch\nCSIM_NODE_IMAGE=node:24.16.0-bookworm-slim\n')
+    if profile == 'standard':
+        output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=6.1.0-standard\n')
+    if profile == 'development':
+        output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=e22ce197-standard\nCSIM_SNAPSHOT=1\n')
+        output.write('CSIM_SUPERSET_IMAGE=apache/superset:e22ce197866ded732e4990063ae74697d89d383a-dev@sha256:4abe143d471d0e2b3985b6903a3c2595e0ac94bb9f0c68f5e09934a9ec2a3adb\n')
 PY
 fi
 
@@ -89,15 +94,35 @@ case "$action" in
     if [[ "$exists" == 1 ]]; then echo 'Example database already exists; use examples-update for definitions.' >&2; exit 1; fi
     compose exec -T db createdb -U csim csim_fixture
     compose exec -T db psql -v ON_ERROR_STOP=1 -U csim -d csim_fixture < data/edge-cases.sql
-    compose exec -T superset python /repro/scripts/dashboard_import.py import --profile examples
+    example_profile=examples
+    [[ "$profile" != standard && "$profile" != development ]] || example_profile="${profile}-examples"
+    compose exec -T superset python /repro/scripts/dashboard_import.py import --profile "$example_profile"
     ;;
   examples-update)
-    compose exec -T superset python /repro/scripts/dashboard_import.py import --profile examples
+    example_profile=examples
+    [[ "$profile" != standard && "$profile" != development ]] || example_profile="${profile}-examples"
+    compose exec -T superset python /repro/scripts/dashboard_import.py import --profile "$example_profile"
+    ;;
+  candidates)
+    [[ "$profile" == standard || "$profile" == development ]] || { echo 'Native candidates use standard or development.' >&2; exit 2; }
+    exists="$(compose exec -T db psql -U csim -d csim_demo -tAc "SELECT 1 FROM pg_database WHERE datname = 'csim_fixture'")"
+    [[ "$exists" == 1 ]] || { echo 'Initialize the separate fixture with examples-init first.' >&2; exit 1; }
+    for candidate in "${profile}-sortable" "${profile}-sortable-examples"; do
+      compose exec -T superset python /repro/scripts/dashboard_import.py import --profile "$candidate"
+      compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"
+    done
     ;;
   reconciled)
     [[ "$profile" == corrected ]] || { echo 'The September version uses the main instance.' >&2; exit 2; }
     compose exec -T superset python /repro/scripts/reconcile.py
     compose exec -T superset python /repro/demo_access.py
+    ;;
+  september-months)
+    [[ "$profile" == corrected || "$profile" == preview ]] || { echo 'Use a month-controls build with the supplied demo and initialized example database.' >&2; exit 2; }
+    for candidate in reconciled-months reconciled-months-examples; do
+      compose exec -T superset python /repro/scripts/dashboard_import.py import --profile "$candidate"
+      compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"
+    done
     ;;
   simple)
     [[ "$profile" == preview* ]] || { echo "Month controls require the snapshot build." >&2; exit 2; }

@@ -1,8 +1,16 @@
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-index 276db9e6..c3826dbe 100644
+index 276db9e6..404d8871 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-@@ -137,6 +137,7 @@ import {
+@@ -46,6 +46,7 @@ import {
+   resolveAutoCurrency,
+   TimeseriesChartDataResponseResult,
+   TimeseriesDataRecord,
++  TimeGranularity,
+   NumberFormats,
+ } from '@superset-ui/core';
+ import { GenericDataType } from '@apache-superset/core/common';
+@@ -137,6 +138,7 @@ import {
    getTooltipTimeFormatter,
    getXAxisDomain,
    getXAxisFormatter,
@@ -10,24 +18,74 @@ index 276db9e6..c3826dbe 100644
    getYAxisFormatter,
  } from '../utils/formatters';
  import { safeParseEChartOptions } from '../utils/safeEChartOptionsParser';
-@@ -1406,6 +1407,24 @@ export default function transformProps(
+@@ -1370,9 +1372,26 @@ export default function transformProps(
+   // the bottom of the chart (pixel width, character width); a horizontal
+   // orientation chart puts the time axis on the side instead, so it falls
+   // back to dedup-only there.
++  const csimMonthlyLabels =
++    xAxisTimeFormat === 'csim_period' &&
++    resolvedTimeGrain === TimeGranularity.MONTH &&
++    !isHorizontal;
++  // Keep quarter labels horizontal when they fit; narrow comparison cards
++  // rotate them instead of dropping alternate reporting periods.
++  const csimPeriodCount = new Set(
++    rebasedData.map(row => Number(row[xAxisLabel] ?? row[xAxisOrig])),
++  ).size;
++  const csimVerticalLabels = csimMonthlyLabels || (
++    xAxisTimeFormat === 'csim_period' &&
++    resolvedTimeGrain === TimeGranularity.QUARTER && !isHorizontal &&
++    csimPeriodCount * 64 > width - padding.left - padding.right - 32
++  );
++  const effectiveXAxisLabelRotation = csimVerticalLabels
++    ? 90
++    : xAxisLabelRotation;
+   const showMaxLabel =
+     xAxisType === AxisType.Time &&
+-    xAxisLabelRotation === 0 &&
++    effectiveXAxisLabelRotation === 0 &&
+     !!resolvedTimeGrain;
+   const deduplicatedFormatter = showMaxLabel
+     ? isHorizontal
+@@ -1399,17 +1418,51 @@ export default function transformProps(
+     temporalTickValues,
+     showMaxLabel,
+     xAxisType,
+-    xAxisLabelRotation,
++    effectiveXAxisLabelRotation,
+     xAxisLabelInterval,
+     deduplicatedFormatter,
+     isHorizontal,
      zoomable,
    );
  
 +  if (xAxisTimeFormat === 'csim_period') {
-+    const dates = rebasedData.map(row => Number(row[xAxisLabel] ?? row[xAxisOrig])).filter(Number.isFinite);
-+    const first = Math.min(...dates), last = Math.max(...dates);
-+    if (!isHorizontal) padding.right = Math.max(padding.right || 0, 44);
-+    const ticks = getCsimTickValues(dates, value => String(xAxisFormatter?.(value)), Math.max(width - Number(padding.left || 0) - Number(padding.right || 0) - 72, 1));
++    const dates = rebasedData
++      .map(row => Number(row[xAxisLabel] ?? row[xAxisOrig]))
++      .filter(Number.isFinite);
++    const first = Math.min(...dates),
++      last = Math.max(...dates);
++    if (!isHorizontal) {
++      // Vertical month labels need a small right gutter; horizontal quarter
++      // labels still need room for half their width at the final timestamp.
++      padding.right = Math.max(padding.right || 0, csimVerticalLabels ? 16 : 44);
++      if (csimVerticalLabels) padding.left = Math.max(8, padding.left - TIMESERIES_CONSTANTS.gridOffsetLeft);
++    }
++    if (csimVerticalLabels) padding.bottom = Math.max(padding.bottom || 0, 96);
++    const ticks = getCsimTickValues(dates);
 +    temporalAxisTickConfig.axisLabel = {
 +      ...temporalAxisTickConfig.axisLabel,
-+      formatter: (value: number | string) => Number(value) < first || Number(value) > last
-+        ? '' : (xAxisFormatter as (value: number | string) => string)(value),
++      formatter: (value: number | string) =>
++        Number(value) < first || Number(value) > last
++          ? ''
++          : (xAxisFormatter as (value: number | string) => string)(value),
 +      customValues: ticks,
-+      hideOverlap: true,
++      hideOverlap: !csimVerticalLabels,
 +      showMinLabel: true,
 +      showMaxLabel: true,
-+      ...(!isHorizontal && { alignMinLabel: 'center', alignMaxLabel: 'center' }),
++      ...(!isHorizontal && {
++        alignMinLabel: csimVerticalLabels ? 'right' : 'center',
++        alignMaxLabel: csimVerticalLabels ? 'right' : 'center',
++      }),
 +    };
 +    temporalAxisTickConfig.axisTick = { customValues: ticks };
 +  }
@@ -35,27 +93,93 @@ index 276db9e6..c3826dbe 100644
    let xAxis: any = {
      type: xAxisType,
      name: xAxisTitle,
+-    nameGap: convertInteger(xAxisTitleMargin),
++    nameGap: csimVerticalLabels
++      ? Math.max(convertInteger(xAxisTitleMargin), 76)
++      : convertInteger(xAxisTitleMargin),
+     nameLocation: 'middle',
+     ...((xAxisType === AxisType.Category || xAxisType === AxisType.Time) &&
+       groupBy.length === 0 && {
+@@ -1490,14 +1543,16 @@ export default function transformProps(
+   // the last label from being clipped at the chart boundary.
+   if (
+     xAxisType === AxisType.Time &&
+-    xAxisLabelRotation !== 0 &&
++    effectiveXAxisLabelRotation !== 0 &&
++    !csimVerticalLabels &&
+     !isHorizontal
+   ) {
+     padding.right = Math.max(
+       padding.right || 0,
+       TIMESERIES_CONSTANTS.gridOffsetRight +
+         Math.ceil(
+-          Math.abs(Math.sin((xAxisLabelRotation * Math.PI) / 180)) * 80,
++          Math.abs(Math.sin((effectiveXAxisLabelRotation * Math.PI) / 180)) *
++            80,
+         ),
+     );
+   }
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
-index 43166287..63e5a4bb 100644
+index 43166287..77b6a41e 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
-@@ -4155,3 +4155,17 @@ test('tooltip keeps the metric format on a Difference time comparison', () => {
+@@ -4155,3 +4155,57 @@ test('tooltip keeps the metric format on a Difference time comparison', () => {
    expect(result).toContain('$ 100');
    expect(result).toContain('$ 25');
  });
 +
-+
 +test('CSiM single-quarter padding never labels an unselected reporting quarter', () => {
 +  const stamp = Date.UTC(2026, 0, 1);
 +  const props = createEchartsTimeseriesTestChartProps({
-+    formData: { ...DEFAULT_FORM_DATA, xAxis: '__timestamp', timeGrainSqla: TimeGranularity.QUARTER, xAxisTimeFormat: 'csim_period', tooltipTimeFormat: 'csim_period' },
-+    queriesData: [createTestQueryData([{ __timestamp: stamp, sales: 10 }], { colnames: ['__timestamp', 'sales'], coltypes: [GenericDataType.Temporal, GenericDataType.Numeric] })],
++    formData: {
++      ...DEFAULT_FORM_DATA,
++      xAxis: '__timestamp',
++      timeGrainSqla: TimeGranularity.QUARTER,
++      xAxisTimeFormat: 'csim_period',
++      tooltipTimeFormat: 'csim_period',
++    },
++    queriesData: [
++      createTestQueryData([{ __timestamp: stamp, sales: 10 }], {
++        colnames: ['__timestamp', 'sales'],
++        coltypes: [GenericDataType.Temporal, GenericDataType.Numeric],
++      }),
++    ],
 +  });
 +  const axis = transformProps(props).echartOptions.xAxis as any;
 +  expect(axis.axisLabel.formatter(stamp)).toBe('Q1 2026');
 +  expect(axis.axisLabel.formatter(stamp)).toBe('Q1 2026');
 +  expect(axis.axisLabel.formatter(Date.UTC(2025, 11, 31))).toBe('');
 +  expect(axis.axisLabel.formatter(Date.UTC(2026, 3, 1))).toBe('');
++});
++
++test('CSiM monthly axes rotate every reporting label with enough space', () => {
++  const months = Array.from({ length: 13 }, (_, index) => ({
++    __timestamp: Date.UTC(2025, 8 + index, 1),
++    sales: index,
++  }));
++  const props = createEchartsTimeseriesTestChartProps({
++    formData: {
++      ...DEFAULT_FORM_DATA,
++      xAxis: '__timestamp',
++      timeGrainSqla: TimeGranularity.MONTH,
++      xAxisTimeFormat: 'csim_period',
++      tooltipTimeFormat: 'csim_period',
++    },
++    queriesData: [
++      createTestQueryData(months, {
++        colnames: ['__timestamp', 'sales'],
++        coltypes: [GenericDataType.Temporal, GenericDataType.Numeric],
++      }),
++    ],
++  });
++  const options = transformProps(props).echartOptions;
++  const axis = options.xAxis as any;
++  expect(axis.axisLabel.rotate).toBe(90);
++  expect(axis.axisLabel.customValues).toEqual(
++    months.map(row => row.__timestamp),
++  );
++  expect((options.grid as any).bottom).toBeGreaterThanOrEqual(96);
++  expect(axis.nameGap).toBeGreaterThanOrEqual(76);
 +});
 diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/FilterControls/FilterValue.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/FilterControls/FilterValue.tsx
 index 8397d6ce..985cfc2d 100644
@@ -72,73 +196,6 @@ index 8397d6ce..985cfc2d 100644
      const filterOwnState = filter.dataMask?.ownState || {};
      if (transitiveParentIds.length) {
        // Prevent unnecessary backend requests by validating ancestor filter
-diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
-new file mode 100644
-index 00000000..b9d28aba
---- /dev/null
-+++ b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
-@@ -0,0 +1,61 @@
-+/**
-+ * Licensed to the Apache Software Foundation (ASF) under one
-+ * or more contributor license agreements.  See the NOTICE file
-+ * distributed with this work for additional information
-+ * regarding copyright ownership.  The ASF licenses this file
-+ * to you under the Apache License, Version 2.0 (the
-+ * "License"); you may not use this file except in compliance
-+ * with the License.  You may obtain a copy of the License at
-+ *
-+ *   http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing,
-+ * software distributed under the License is distributed on an
-+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-+ * KIND, either express or implied.  See the License for the
-+ * specific language governing permissions and limitations
-+ * under the License.
-+ */
-+
-+import { render, screen, userEvent } from 'spec/helpers/testing-library';
-+import { createSelectNativeFilter } from 'spec/fixtures/mockNativeFilters';
-+import VerticalBar from './Vertical';
-+import type { VerticalBarProps } from './types';
-+
-+jest.mock('./FilterControls/FilterControls', () => ({
-+  __esModule: true,
-+  default: ({ clearAllTriggers, onClearAllComplete }: Pick<VerticalBarProps, 'clearAllTriggers' | 'onClearAllComplete'>) => (
-+    <button type="button" onClick={() => onClearAllComplete?.('hospital')}>
-+      {clearAllTriggers?.hospital ? 'Clear pending' : 'Ready'}
-+    </button>
-+  ),
-+}));
-+
-+// Exercise the vertical sidebar boundary: both the trigger and acknowledgement
-+// must reach its controls, including a second clear after an acknowledgement.
-+// The browser regression checks the real select's retained hospital and results.
-+test('forwards successive clear requests and acknowledgements to vertical controls', async () => {
-+  const acknowledge = jest.fn();
-+  const props: VerticalBarProps = {
-+    actions: null, canEdit: false, dataMaskSelected: {},
-+    filterValues: [createSelectNativeFilter({ id: 'hospital' })],
-+    chartCustomizationValues: [], isInitialized: true,
-+    onSelectionChange: jest.fn(), onPendingCustomizationDataMaskChange: jest.fn(),
-+    onClearAllComplete: acknowledge, filtersOpen: true, height: 700,
-+    offset: 0, toggleFiltersBar: jest.fn(), width: 240,
-+  };
-+  const { rerender } = render(<VerticalBar {...props} />, {
-+    useRedux: true, useRouter: true, initialState: {
-+      dashboardState: { sliceIds: [] }, dashboardInfo: { dash_edit_perm: false },
-+      dashboardLayout: { present: {}, past: [], future: [] }, dataMask: {},
-+    },
-+  });
-+  expect(screen.getByRole('button', { name: 'Ready' })).toBeInTheDocument();
-+  for (let count = 1; count <= 2; count += 1) {
-+    rerender(<VerticalBar {...props} clearAllTriggers={{ hospital: true }} />);
-+    await userEvent.click(screen.getByRole('button', { name: 'Clear pending' }));
-+    expect(acknowledge).toHaveBeenNthCalledWith(count, 'hospital');
-+    rerender(<VerticalBar {...props} clearAllTriggers={{}} />);
-+    expect(screen.getByRole('button', { name: 'Ready' })).toBeInTheDocument();
-+  }
-+});
 diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
 index 7cb98287..1d91d5ee 100644
 --- a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
@@ -184,175 +241,6 @@ index 7f57ac0f..b7124992 100644
            const { filterState } = draft[id];
            if (filterState) {
              filterState.value = clearedValue;
-diff --git a/superset-frontend/src/filters/components/Time/CsimMonthRange.test.tsx b/superset-frontend/src/filters/components/Time/CsimMonthRange.test.tsx
-new file mode 100644
-index 00000000..5f4ca2a1
---- /dev/null
-+++ b/superset-frontend/src/filters/components/Time/CsimMonthRange.test.tsx
-@@ -0,0 +1,58 @@
-+/**
-+ * Licensed to the Apache Software Foundation (ASF) under one
-+ * or more contributor license agreements.  See the NOTICE file
-+ * distributed with this work for additional information
-+ * regarding copyright ownership.  The ASF licenses this file
-+ * to you under the Apache License, Version 2.0 (the
-+ * "License"); you may not use this file except in compliance
-+ * with the License.  You may obtain a copy of the License at
-+ *
-+ *   http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing,
-+ * software distributed under the License is distributed on an
-+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-+ * KIND, either express or implied.  See the License for the
-+ * specific language governing permissions and limitations
-+ * under the License.
-+ */
-+import { fireEvent, render, screen } from 'spec/helpers/testing-library';
-+import CsimMonthRange, { monthRangeMask, readMonthRange, monthCoverage } from './CsimMonthRange';
-+
-+test.each([
-+  ['2026-02', '2026-03', '2026-02-01 : 2026-04-01'],
-+  ['2025-12', '2025-12', '2025-12-01 : 2026-01-01'],
-+  ['2024-02', '2024-02', '2024-02-01 : 2024-03-01'],
-+])('inclusive months %s through %s preserve both endpoints', (from, through, range) => {
-+  expect(monthRangeMask(from, through).extraFormData).toEqual({ time_range: range });
-+  expect(readMonthRange(range)).toEqual([from, through]);
-+});
-+test.each([['', '2026-03'], ['2026-02', ''], ['2026-04', '2026-03'], ['2026-13', '2026-03']])('invalid range %s through %s cannot be applied', (from, through) => {
-+  const result = monthRangeMask(from, through);
-+  expect(result.filterState?.value).toBeNull();
-+  expect(result.filterState?.validateStatus).toBe('error');
-+  expect(result.extraFormData).toEqual({});
-+});
-+test('partial periods describe only the selected months', () => {
-+  expect(monthCoverage('2026-02', '2026-03', 'P3M')).toBe('Partial quarters — Q1 2026: Feb 2026 – Mar 2026 only.');
-+  expect(monthCoverage('2025-11', '2026-04', 'P3M')).toBe('Partial quarters — Q4 2025: Nov 2025 – Dec 2025 only; Q2 2026: Apr 2026 only.');
-+  expect(monthCoverage('2026-02', '2026-03', 'P1Y')).toBe('Partial years — 2026: Feb 2026 – Mar 2026 only.');
-+  expect(monthCoverage('2025-01', '2026-12', 'P1Y')).toContain('complete calendar years');
-+});
-+test('draft months survive invalid input and grouping changes, and clear-all resets them', () => {
-+  const setDataMask = jest.fn(), onClearAllComplete = jest.fn();
-+  const props = { filterId: 'reporting-months', filterState: { value: '2026-02-01 : 2026-04-01' }, setDataMask, onClearAllComplete };
-+  const { rerender } = render(<CsimMonthRange {...props} grain="P3M" />);
-+  expect(screen.getByLabelText('From month')).toHaveValue('2026-02');
-+  expect(screen.getByLabelText('Through month (inclusive)')).toHaveValue('2026-03');
-+  fireEvent.change(screen.getByLabelText('From month'), { target: { value: '2026-04' } });
-+  const invalid = setDataMask.mock.calls[0][0];
-+  rerender(<CsimMonthRange {...props} {...invalid} grain="P1Y" />);
-+  expect(screen.getByLabelText('From month')).toHaveValue('2026-04');
-+  expect(screen.getByRole('alert')).toHaveTextContent('on or before');
-+  fireEvent.change(screen.getByLabelText('Through month (inclusive)'), { target: { value: '2026-05' } });
-+  expect(setDataMask).toHaveBeenLastCalledWith(monthRangeMask('2026-04', '2026-05'));
-+  rerender(<CsimMonthRange {...props} {...invalid} clearAllTrigger />);
-+  expect(setDataMask).toHaveBeenLastCalledWith(monthRangeMask('', ''));
-+  expect(onClearAllComplete).toHaveBeenCalledWith('reporting-months');
-+});
-diff --git a/superset-frontend/src/filters/components/Time/CsimMonthRange.tsx b/superset-frontend/src/filters/components/Time/CsimMonthRange.tsx
-new file mode 100644
-index 00000000..79d14c0c
---- /dev/null
-+++ b/superset-frontend/src/filters/components/Time/CsimMonthRange.tsx
-@@ -0,0 +1,99 @@
-+/**
-+ * Licensed to the Apache Software Foundation (ASF) under one
-+ * or more contributor license agreements.  See the NOTICE file
-+ * distributed with this work for additional information
-+ * regarding copyright ownership.  The ASF licenses this file
-+ * to you under the Apache License, Version 2.0 (the
-+ * "License"); you may not use this file except in compliance
-+ * with the License.  You may obtain a copy of the License at
-+ *
-+ *   http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing,
-+ * software distributed under the License is distributed on an
-+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-+ * KIND, either express or implied.  See the License for the
-+ * specific language governing permissions and limitations
-+ * under the License.
-+ */
-+import { useEffect } from 'react';
-+import { DataMask, FilterState } from '@superset-ui/core';
-+import { styled } from '@apache-superset/core/theme';
-+
-+const Fields = styled.div`
-+  width: 100%;
-+  display: grid;
-+  gap: 10px;
-+  label { display: grid; gap: 4px; font-size: 13px; }
-+  input {
-+    width: 100%; min-width: 0; padding: 7px 9px; border-radius: 4px;
-+    border: 1px solid ${({ theme }) => theme.colorBorder};
-+    background: ${({ theme }) => theme.colorBgContainer};
-+    color: ${({ theme }) => theme.colorText};
-+    font: inherit;
-+  }
-+  input:focus { outline: 2px solid ${({ theme }) => theme.colorPrimary}; }
-+  p { margin: 0; font-size: 12px; line-height: 1.45; }
-+  [role='alert'] { color: ${({ theme }) => theme.colorError}; }
-+  button { justify-self: start; padding: 3px 0; border: 0; background: transparent; color: ${({ theme }) => theme.colorPrimary}; font: inherit; font-size: 12px; cursor: pointer; text-decoration: underline; }
-+`;
-+const validMonth = (value: string) => /^\d{4}-(0[1-9]|1[0-2])$/.test(value) && Number(value.slice(0, 4)) > 0 && Number(value.slice(0, 4)) < 9999;
-+const monthNumber = (value: string) => Number(value.slice(0, 4)) * 12 + Number(value.slice(5)) - 1;
-+const monthString = (value: number) => `${String(Math.floor(value / 12)).padStart(4, '0')}-${String(value % 12 + 1).padStart(2, '0')}`;
-+const monthLabel = (value: number) => `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][value % 12]} ${Math.floor(value / 12)}`;
-+
-+export function readMonthRange(value?: string | null): [string, string] {
-+  const match = value?.match(/^(\d{4}-\d{2})-01 : (\d{4}-\d{2})-01$/);
-+  if (!match || !validMonth(match[1]) || !validMonth(match[2])) return ['', ''];
-+  return [match[1], monthString(monthNumber(match[2]) - 1)];
-+}
-+export function monthRangeMask(from: string, through: string): DataMask {
-+  const error = !validMonth(from) || !validMonth(through)
-+    ? 'Choose both months before applying.'
-+    : from > through ? 'From month must be on or before Through month.' : '';
-+  const range = error ? null : `${from}-01 : ${monthString(monthNumber(through) + 1)}-01`;
-+  return {
-+    extraFormData: range ? { time_range: range } : {},
-+    filterState: { value: range, validateStatus: error ? 'error' : undefined, validateMessage: error },
-+    ownState: { csimMonths: [from, through] },
-+  };
-+}
-+export function monthCoverage(from: string, through: string, grain: string): string {
-+  if (!validMonth(from) || !validMonth(through) || from > through) return '';
-+  if (grain !== 'P3M' && grain !== 'P1Y') return 'Each point represents one selected month.';
-+  const size = grain === 'P3M' ? 3 : 12;
-+  const first = monthNumber(from), last = monthNumber(through);
-+  const boundaries = [...new Set([Math.floor(first / size) * size, Math.floor(last / size) * size])];
-+  const partial = boundaries.filter(start => first > start || last < start + size - 1).map(start => {
-+    const label = grain === 'P3M' ? `Q${Math.floor(start % 12 / 3) + 1} ${Math.floor(start / 12)}` : String(Math.floor(start / 12));
-+    const a = Math.max(start, first), b = Math.min(start + size - 1, last);
-+    return `${label}: ${monthLabel(a)}${a === b ? '' : ` – ${monthLabel(b)}`} only`;
-+  });
-+  return partial.length ? `Partial ${grain === 'P3M' ? 'quarters' : 'years'} — ${partial.join('; ')}.` : `The selected window covers complete calendar ${grain === 'P3M' ? 'quarters' : 'years'}.`;
-+}
-+interface Props {
-+  filterState: FilterState;
-+  ownState?: { csimMonths?: [string, string] };
-+  grain?: string;
-+  setDataMask: (mask: DataMask) => void;
-+  clearAllTrigger?: boolean;
-+  onClearAllComplete?: (filterId: string) => void;
-+  filterId: string;
-+}
-+export default function CsimMonthRange({ filterState, ownState, grain = 'P1M', setDataMask, clearAllTrigger, onClearAllComplete, filterId }: Props) {
-+  const [from, through] = ownState?.csimMonths ?? readMonthRange(filterState.value);
-+  const mask = monthRangeMask(from, through);
-+  useEffect(() => {
-+    if (clearAllTrigger) {
-+      setDataMask(monthRangeMask('', ''));
-+      onClearAllComplete?.(filterId);
-+    }
-+  }, [clearAllTrigger, setDataMask, onClearAllComplete, filterId]);
-+  return <Fields aria-label="Reporting months">
-+    <label>From month<input type="month" aria-label="From month" value={from} onChange={e => setDataMask(monthRangeMask(e.target.value, through))} /></label>
-+    <label>Through month (inclusive)<input type="month" aria-label="Through month (inclusive)" value={through} onChange={e => setDataMask(monthRangeMask(from, e.target.value))} /></label>
-+    {mask.filterState?.validateMessage ? <p role="alert">{mask.filterState.validateMessage}</p> : <p role="status">{monthCoverage(from, through, grain)}</p>}
-+    <p>Apply filters to update the charts.</p>
-+    <button type="button" onClick={() => setDataMask(monthRangeMask('', ''))}>Clear months</button>
-+  </Fields>;
-+}
 diff --git a/superset-frontend/src/filters/components/Time/TimeFilterPlugin.tsx b/superset-frontend/src/filters/components/Time/TimeFilterPlugin.tsx
 index f2f88f67..3a2b452b 100644
 --- a/superset-frontend/src/filters/components/Time/TimeFilterPlugin.tsx
@@ -433,3 +321,262 @@ index 39ee425b..0a3eb65e 100644
    isOverflowingFilterBar?: boolean;
  } & PluginFilterHooks;
  
+diff --git a/superset-frontend/src/filters/components/Time/CsimMonthRange.test.tsx b/superset-frontend/src/filters/components/Time/CsimMonthRange.test.tsx
+new file mode 100644
+index 00000000..1da19091
+--- /dev/null
++++ b/superset-frontend/src/filters/components/Time/CsimMonthRange.test.tsx
+@@ -0,0 +1,72 @@
++/**
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ *   http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing,
++ * software distributed under the License is distributed on an
++ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ * KIND, either express or implied.  See the License for the
++ * specific language governing permissions and limitations
++ * under the License.
++ */
++import { fireEvent, render, screen } from 'spec/helpers/testing-library';
++import CsimMonthRange, { monthRangeMask, readMonthRange, monthCoverage, LAST_COMPLETE_YEAR } from './CsimMonthRange';
++
++test.each([
++  ['2026-02', '2026-03', '2026-02-01 : 2026-04-01'],
++  ['2025-12', '2025-12', '2025-12-01 : 2026-01-01'],
++  ['2024-02', '2024-02', '2024-02-01 : 2024-03-01'],
++])('inclusive months %s through %s preserve both endpoints', (from, through, range) => {
++  expect(monthRangeMask(from, through).extraFormData).toEqual({ time_range: range });
++  expect(readMonthRange(range)).toEqual([from, through]);
++});
++test.each([['', '2026-03'], ['2026-02', ''], ['2026-04', '2026-03'], ['2026-13', '2026-03']])('invalid range %s through %s cannot be applied', (from, through) => {
++  const result = monthRangeMask(from, through);
++  expect(result.filterState?.value).toBeNull();
++  expect(result.filterState?.validateStatus).toBe('error');
++  expect(result.extraFormData).toEqual({});
++});
++test('partial periods describe only the selected months', () => {
++  expect(monthCoverage('2026-02', '2026-03', 'P3M')).toBe('Partial quarters — Q1 2026: Feb 2026 – Mar 2026 only.');
++  expect(monthCoverage('2025-11', '2026-04', 'P3M')).toBe('Partial quarters — Q4 2025: Nov 2025 – Dec 2025 only; Q2 2026: Apr 2026 only.');
++  expect(monthCoverage('2026-02', '2026-03', 'P1Y')).toBe('Partial years — 2026: Feb 2026 – Mar 2026 only.');
++  expect(monthCoverage('2025-01', '2026-12', 'P1Y')).toContain('complete calendar years');
++});
++test('draft months survive invalid input and grouping changes, and clear-all resets them', () => {
++  const setDataMask = jest.fn(), onClearAllComplete = jest.fn();
++  const props = { filterId: 'reporting-months', filterState: { value: '2026-02-01 : 2026-04-01' }, setDataMask, onClearAllComplete };
++  const { rerender } = render(<CsimMonthRange {...props} grain="P3M" />);
++  expect(screen.getByLabelText('From month')).toHaveValue('2026-02');
++  expect(screen.getByLabelText('Through month (inclusive)')).toHaveValue('2026-03');
++  fireEvent.change(screen.getByLabelText('From month'), { target: { value: '2026-04' } });
++  const invalid = setDataMask.mock.calls[0][0];
++  rerender(<CsimMonthRange {...props} {...invalid} grain="P1Y" />);
++  expect(screen.getByLabelText('From month')).toHaveValue('2026-04');
++  expect(screen.getByRole('alert')).toHaveTextContent('on or before');
++  fireEvent.change(screen.getByLabelText('Through month (inclusive)'), { target: { value: '2026-05' } });
++  expect(setDataMask).toHaveBeenLastCalledWith(monthRangeMask('2026-04', '2026-05'));
++  rerender(<CsimMonthRange {...props} {...invalid} clearAllTrigger />);
++  expect(setDataMask).toHaveBeenLastCalledWith(monthRangeMask('', ''));
++  expect(onClearAllComplete).toHaveBeenCalledWith('reporting-months');
++});
++
++
++test.each([
++  ['2026-09-11T19:00:00Z', ['2025-09', '2026-08']],
++  ['2027-01-01T00:00:00Z', ['2026-01', '2026-12']],
++  ['2024-03-01T00:00:00Z', ['2023-03', '2024-02']],
++])('the saved default moves by complete months at %s', (now, expected) => {
++  jest.useFakeTimers().setSystemTime(new Date(now));
++  try {
++    expect(readMonthRange(LAST_COMPLETE_YEAR)).toEqual(expected);
++  } finally {
++    jest.useRealTimers();
++  }
++});
+diff --git a/superset-frontend/src/filters/components/Time/CsimMonthRange.tsx b/superset-frontend/src/filters/components/Time/CsimMonthRange.tsx
+new file mode 100644
+index 00000000..1a68ba51
+--- /dev/null
++++ b/superset-frontend/src/filters/components/Time/CsimMonthRange.tsx
+@@ -0,0 +1,108 @@
++/**
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ *   http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing,
++ * software distributed under the License is distributed on an
++ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ * KIND, either express or implied.  See the License for the
++ * specific language governing permissions and limitations
++ * under the License.
++ */
++import { useEffect } from 'react';
++import { DataMask, FilterState } from '@superset-ui/core';
++import { styled } from '@apache-superset/core/theme';
++
++const Fields = styled.div`
++  width: 100%;
++  display: grid;
++  gap: 10px;
++  label { display: grid; gap: 4px; font-size: 13px; }
++  input {
++    width: 100%; min-width: 0; padding: 7px 9px; border-radius: 4px;
++    border: 1px solid ${({ theme }) => theme.colorBorder};
++    background: ${({ theme }) => theme.colorBgContainer};
++    color: ${({ theme }) => theme.colorText};
++    font: inherit;
++  }
++  input:focus { outline: 2px solid ${({ theme }) => theme.colorPrimary}; }
++  p { margin: 0; font-size: 12px; line-height: 1.45; }
++  [role='alert'] { color: ${({ theme }) => theme.colorError}; }
++  button { justify-self: start; padding: 3px 0; border: 0; background: transparent; color: ${({ theme }) => theme.colorPrimary}; font: inherit; font-size: 12px; cursor: pointer; text-decoration: underline; }
++`;
++const validMonth = (value: string) => /^\d{4}-(0[1-9]|1[0-2])$/.test(value) && Number(value.slice(0, 4)) > 0 && Number(value.slice(0, 4)) < 9999;
++const monthNumber = (value: string) => Number(value.slice(0, 4)) * 12 + Number(value.slice(5)) - 1;
++const monthString = (value: number) => `${String(Math.floor(value / 12)).padStart(4, '0')}-${String(value % 12 + 1).padStart(2, '0')}`;
++const monthLabel = (value: number) => `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][value % 12]} ${Math.floor(value / 12)}`;
++
++// Superset evaluates this expression on every fresh dashboard load. Its UTC
++// month boundaries match these fields and keep the saved default from aging.
++export const LAST_COMPLETE_YEAR = "DATETRUNC(DATEADD(DATETIME('today'), -1, YEAR), MONTH) : DATETRUNC(DATETIME('today'), MONTH)";
++export function readMonthRange(value?: string | null): [string, string] {
++  if (value === LAST_COMPLETE_YEAR) {
++    const now = new Date();
++    const current = now.getUTCFullYear() * 12 + now.getUTCMonth();
++    return [monthString(current - 12), monthString(current - 1)];
++  }
++  const match = value?.match(/^(\d{4}-\d{2})-01 : (\d{4}-\d{2})-01$/);
++  if (!match || !validMonth(match[1]) || !validMonth(match[2])) return ['', ''];
++  return [match[1], monthString(monthNumber(match[2]) - 1)];
++}
++export function monthRangeMask(from: string, through: string): DataMask {
++  const error = !validMonth(from) || !validMonth(through)
++    ? 'Choose both months before applying.'
++    : from > through ? 'From month must be on or before Through month.' : '';
++  const range = error ? null : `${from}-01 : ${monthString(monthNumber(through) + 1)}-01`;
++  return {
++    extraFormData: range ? { time_range: range } : {},
++    filterState: { value: range, validateStatus: error ? 'error' : undefined, validateMessage: error },
++    ownState: { csimMonths: [from, through] },
++  };
++}
++export function monthCoverage(from: string, through: string, grain: string): string {
++  if (!validMonth(from) || !validMonth(through) || from > through) return '';
++  if (grain !== 'P3M' && grain !== 'P1Y') return 'Each point represents one selected month.';
++  const size = grain === 'P3M' ? 3 : 12;
++  const first = monthNumber(from), last = monthNumber(through);
++  const boundaries = [...new Set([Math.floor(first / size) * size, Math.floor(last / size) * size])];
++  const partial = boundaries.filter(start => first > start || last < start + size - 1).map(start => {
++    const label = grain === 'P3M' ? `Q${Math.floor(start % 12 / 3) + 1} ${Math.floor(start / 12)}` : String(Math.floor(start / 12));
++    const a = Math.max(start, first), b = Math.min(start + size - 1, last);
++    return `${label}: ${monthLabel(a)}${a === b ? '' : ` – ${monthLabel(b)}`} only`;
++  });
++  return partial.length ? `Partial ${grain === 'P3M' ? 'quarters' : 'years'} — ${partial.join('; ')}.` : `The selected window covers complete calendar ${grain === 'P3M' ? 'quarters' : 'years'}.`;
++}
++interface Props {
++  filterState: FilterState;
++  ownState?: { csimMonths?: [string, string] };
++  grain?: string;
++  setDataMask: (mask: DataMask) => void;
++  clearAllTrigger?: boolean;
++  onClearAllComplete?: (filterId: string) => void;
++  filterId: string;
++}
++export default function CsimMonthRange({ filterState, ownState, grain = 'P1M', setDataMask, clearAllTrigger, onClearAllComplete, filterId }: Props) {
++  const [from, through] = ownState?.csimMonths ?? readMonthRange(filterState.value);
++  const mask = monthRangeMask(from, through);
++  useEffect(() => {
++    if (clearAllTrigger) {
++      setDataMask(monthRangeMask('', ''));
++      onClearAllComplete?.(filterId);
++    }
++  }, [clearAllTrigger, setDataMask, onClearAllComplete, filterId]);
++  return <Fields aria-label="Reporting months">
++    <label>From month<input type="month" aria-label="From month" value={from} onChange={e => setDataMask(monthRangeMask(e.target.value, through))} /></label>
++    <label>Through month (inclusive)<input type="month" aria-label="Through month (inclusive)" value={through} onChange={e => setDataMask(monthRangeMask(from, e.target.value))} /></label>
++    {mask.filterState?.validateMessage ? <p role="alert">{mask.filterState.validateMessage}</p> : <p role="status">{monthCoverage(from, through, grain)}</p>}
++    {filterState.value === LAST_COMPLETE_YEAR && <p>Last 12 complete months</p>}
++    <p>Apply filters to update the charts.</p>
++    <button type="button" onClick={() => setDataMask(monthRangeMask('', ''))}>Clear months</button>
++  </Fields>;
++}
+diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
+new file mode 100644
+index 00000000..b9d28aba
+--- /dev/null
++++ b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
+@@ -0,0 +1,61 @@
++/**
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ *   http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing,
++ * software distributed under the License is distributed on an
++ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ * KIND, either express or implied.  See the License for the
++ * specific language governing permissions and limitations
++ * under the License.
++ */
++
++import { render, screen, userEvent } from 'spec/helpers/testing-library';
++import { createSelectNativeFilter } from 'spec/fixtures/mockNativeFilters';
++import VerticalBar from './Vertical';
++import type { VerticalBarProps } from './types';
++
++jest.mock('./FilterControls/FilterControls', () => ({
++  __esModule: true,
++  default: ({ clearAllTriggers, onClearAllComplete }: Pick<VerticalBarProps, 'clearAllTriggers' | 'onClearAllComplete'>) => (
++    <button type="button" onClick={() => onClearAllComplete?.('hospital')}>
++      {clearAllTriggers?.hospital ? 'Clear pending' : 'Ready'}
++    </button>
++  ),
++}));
++
++// Exercise the vertical sidebar boundary: both the trigger and acknowledgement
++// must reach its controls, including a second clear after an acknowledgement.
++// The browser regression checks the real select's retained hospital and results.
++test('forwards successive clear requests and acknowledgements to vertical controls', async () => {
++  const acknowledge = jest.fn();
++  const props: VerticalBarProps = {
++    actions: null, canEdit: false, dataMaskSelected: {},
++    filterValues: [createSelectNativeFilter({ id: 'hospital' })],
++    chartCustomizationValues: [], isInitialized: true,
++    onSelectionChange: jest.fn(), onPendingCustomizationDataMaskChange: jest.fn(),
++    onClearAllComplete: acknowledge, filtersOpen: true, height: 700,
++    offset: 0, toggleFiltersBar: jest.fn(), width: 240,
++  };
++  const { rerender } = render(<VerticalBar {...props} />, {
++    useRedux: true, useRouter: true, initialState: {
++      dashboardState: { sliceIds: [] }, dashboardInfo: { dash_edit_perm: false },
++      dashboardLayout: { present: {}, past: [], future: [] }, dataMask: {},
++    },
++  });
++  expect(screen.getByRole('button', { name: 'Ready' })).toBeInTheDocument();
++  for (let count = 1; count <= 2; count += 1) {
++    rerender(<VerticalBar {...props} clearAllTriggers={{ hospital: true }} />);
++    await userEvent.click(screen.getByRole('button', { name: 'Clear pending' }));
++    expect(acknowledge).toHaveBeenNthCalledWith(count, 'hospital');
++    rerender(<VerticalBar {...props} clearAllTriggers={{}} />);
++    expect(screen.getByRole('button', { name: 'Ready' })).toBeInTheDocument();
++  }
++});

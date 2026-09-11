@@ -1,0 +1,190 @@
+---
+slice_name: Abx duration (cohort/state stacked) - Ind
+description:
+certified_by:
+certification_details:
+viz_type: echarts_timeseries_bar
+params:
+  datasource: 40__table
+  viz_type: echarts_timeseries_bar
+  slice_id: 97
+  x_axis: month_date
+  time_grain_sqla: P1M
+  xAxisForceCategorical: false
+  metrics:
+  - aggregate: SUM
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-17T18:08:24.135563'
+      column_name: dur_cat_1
+      created_on: '2026-03-17T18:08:24.018584'
+      description:
+      expression: ''
+      extra:
+      filterable: true
+      groupby: true
+      id: 425
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: DECIMAL
+      type_generic: 0
+      uuid: 90a2fcea-950e-4332-a919-f2d4f6caf159
+      verbose_name:
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: true
+    label: "<=3 days"
+    optionName: metric_h0449g4972c_4afw3hujrn5
+    sqlExpression:
+  - aggregate: SUM
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-17T18:08:24.135571'
+      column_name: dur_cat_2
+      created_on: '2026-03-17T18:08:24.018604'
+      description:
+      expression: ''
+      extra:
+      filterable: true
+      groupby: true
+      id: 426
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: DECIMAL
+      type_generic: 0
+      uuid: 69af81c4-a7e7-4fa2-9caf-ca5f7d91ac40
+      verbose_name:
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: true
+    label: ">3 to 5 days"
+    optionName: metric_w0rgycznrei_mf4pmy8sshr
+    sqlExpression:
+  - aggregate: SUM
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-17T18:08:24.135578'
+      column_name: dur_cat_3
+      created_on: '2026-03-17T18:08:24.018623'
+      description:
+      expression: ''
+      extra:
+      filterable: true
+      groupby: true
+      id: 427
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: DECIMAL
+      type_generic: 0
+      uuid: b13cc836-71ef-4edd-9c2b-a30877a1370f
+      verbose_name:
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: true
+    label: ">5 to 7 days"
+    optionName: metric_qwkadevajt_xpce46lxc1
+    sqlExpression:
+  - aggregate: SUM
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-17T18:08:24.135585'
+      column_name: dur_cat_4
+      created_on: '2026-03-17T18:08:24.018642'
+      description:
+      expression: ''
+      extra:
+      filterable: true
+      groupby: true
+      id: 428
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: DECIMAL
+      type_generic: 0
+      uuid: 5e098d80-8b2a-4825-9c4f-85b6f5652bc1
+      verbose_name:
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: true
+    label: ">7 days"
+    optionName: metric_0duxilczpm2g_5n2if7v5pi4
+    sqlExpression:
+  groupby: []
+  adhoc_filters:
+  - clause: WHERE
+    comparator: No filter
+    datasourceWarning: false
+    expressionType: SIMPLE
+    filterOptionName: filter_rcvi91ewhb_1kfj0nbxpir
+    isExtra: false
+    isNew: false
+    operator: TEMPORAL_RANGE
+    sqlExpression:
+    subject: month_date
+  - clause: WHERE
+    comparator:
+    datasourceWarning: false
+    expressionType: SQL
+    filterOptionName: filter_a4hkc98p6ip_5y5zz08wzby
+    isExtra: false
+    isNew: false
+    operator:
+    operatorId:
+    sqlExpression: hosp_code !~ '^[0-9]+([.][0-9]+)?$'
+    subject:
+  group_others_when_limit_reached: false
+  row_limit: 1000
+  truncate_metric: true
+  show_empty_columns: true
+  comparison_type: values
+  annotation_layers: []
+  forecastEnabled: false
+  forecastPeriods: 10
+  forecastInterval: 0.8
+  orientation: vertical
+  x_axis_title: Time
+  x_axis_title_margin: 75
+  y_axis_title: Number of treated patients
+  y_axis_title_margin: 30
+  y_axis_title_position: Left
+  sort_series_type: name
+  sort_series_ascending: true
+  color_scheme: presetColors
+  time_shift_color: true
+  show_value: false
+  stack: Stack
+  only_total: true
+  percentage_threshold: 0
+  minorTicks: false
+  zoomable: false
+  show_legend: true
+  legendType: scroll
+  legendOrientation: top
+  x_axis_time_format: smart_date
+  xAxisLabelRotation: 90
+  xAxisLabelInterval: 0
+  y_axis_format: SMART_NUMBER
+  logAxis: false
+  minorSplitLine: false
+  truncateYAxis: false
+  y_axis_bounds:
+  -
+  -
+  truncateXAxis: true
+  rich_tooltip: true
+  showTooltipTotal: true
+  showTooltipPercentage: true
+  tooltipSortByMetric: false
+  extra_form_data: {}
+  dashboards:
+  - 11
+  granularity_sqla: month_date
+  order_desc: false
+query_context:
+cache_timeout:
+uuid: 01aab297-8b6a-5ab0-8b66-3f0df582f44a
+version: 1.0.0
+dataset_uuid: 1775d7cb-1c31-5791-86b4-d396af35e32c

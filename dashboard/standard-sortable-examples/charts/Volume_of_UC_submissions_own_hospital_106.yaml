@@ -1,0 +1,61 @@
+---
+slice_name: Volume of UC submissions (own hospital)
+description: Choose one numeric hospital in Your hospital. Until then this panel has
+  no hospital result.
+certified_by:
+certification_details:
+viz_type: big_number_total
+params:
+  datasource: 40__table
+  viz_type: big_number_total
+  slice_id: 106
+  metric:
+    expressionType: SQL
+    sqlExpression: SUM(ucsub)
+    label: All-time hospital submissions
+    hasCustomLabel: true
+  adhoc_filters:
+  - clause: WHERE
+    comparator: No filter
+    datasourceWarning: false
+    expressionType: SIMPLE
+    filterOptionName: filter_xxq6m6v254_zrkj0th85ts
+    isExtra: false
+    isNew: false
+    operator: TEMPORAL_RANGE
+    sqlExpression:
+    subject: month_date
+  - expressionType: SQL
+    sqlExpression: hosp_code ~ '^[0-9]+([.][0-9]+)?$'
+    clause: WHERE
+    subject:
+    operator:
+    operatorId:
+    comparator:
+    isExtra: false
+    isNew: false
+    datasourceWarning: false
+    filterOptionName: filter_csim_numeric_hospital
+  - expressionType: SQL
+    sqlExpression: "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~
+      '^[0-9]+([.][0-9]+)?$'"
+    clause: WHERE
+    isExtra: false
+    filterOptionName: filter_csim_selected_hospital
+  header_font_size: 0.5
+  subtitle: Choose Your hospital above
+  subtitle_font_size: 0.125
+  show_metric_name: false
+  metric_name_font_size: 0.15
+  y_axis_format: SMART_NUMBER
+  time_format: smart_date
+  force_timestamp_formatting: false
+  conditional_formatting: []
+  extra_form_data: {}
+  dashboards:
+  - 11
+query_context:
+cache_timeout:
+uuid: 5b2d2ed9-93c4-573e-8696-98a583bc9668
+version: 1.0.0
+dataset_uuid: 11ba753d-f641-5e12-8354-d70ce5423254

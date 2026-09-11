@@ -40,12 +40,20 @@ test('02 All eleven date axes keep real dates and display Month, Quarter and Yea
       expect(label,`${trend.name} must offer a visible populated period for the hover check`).toBeTruthy();
       // Endpoint ticks can lie exactly on the plot boundary. Hover just inside
       // the plot, preferring a populated interior period when one is available.
-      await page.mouse.move(box.x+label.x+(label.x<box.width/2?2:-2),box.y+box.height*0.45);
       const tooltip=page.locator('.echarts-tooltip:visible');
+      let hoverTexts=[];
+      // Chart heights and legend space differ. Search inside the rendered canvas
+      // for the data region instead of assuming its midpoint lies in the plot.
       await expect.poll(async()=>{
-        const texts=await tooltip.evaluateAll(elements=>elements.filter(el=>Number(getComputedStyle(el).opacity)>0.99).map(el=>el.innerText));
-        return texts.length>0 && texts.every(text=>text.split('\n').some(line=>line.trim()===label.text&&pattern.test(line.trim())));
+        for(const fraction of [0.2,0.3,0.4,0.5,0.6]){
+          await page.mouse.move(box.x+label.x+(label.x<box.width/2?2:-2),box.y+box.height*fraction);
+          await page.waitForTimeout(120);
+          hoverTexts=await tooltip.evaluateAll(elements=>elements.filter(el=>Number(getComputedStyle(el).opacity)>0.99).map(el=>el.innerText));
+          if(hoverTexts.length>0 && hoverTexts.every(text=>text.split('\n').some(line=>line.trim()===label.text&&pattern.test(line.trim()))))return true;
+        }
+        return false;
       },{message:`${trend.name} hover must use ${name} format`}).toBe(true);
+      await info.attach(`${name}-${trend.id}-hover`,{body:Buffer.from(JSON.stringify({period:label.text,texts:hoverTexts})),contentType:'application/json'});
       const shot=info.outputPath(`${name}-${trend.id}.png`);
       await trend.plot.screenshot({path:shot});
       await info.attach(`${name}-${trend.id}`,{path:shot,contentType:'image/png'});
