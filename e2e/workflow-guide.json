@@ -1,8 +1,49 @@
 {
-  "01":{"label":"The full dashboard after transfer","try":"Open the complete 20-chart Individual Data dashboard with an explicit reporting window.","expected":"All 20 charts render or report a legitimate empty result. SQL, calculated columns, layout and filter bindings match the versioned package.","videoIntro":"The April dashboard is imported into a separate instance with different chart IDs. This walkthrough shows the complete dashboard after the import checks pass.","videoOutro":"The full dashboard is preserved. On 6.1.0, the deployment helper repairs cached filter references; the snapshot remaps those references natively."},
-  "02":{"label":"Month, Quarter and Year labels","try":"Change Time Unit while keeping the reporting dates fixed.","expected":"Date axes and hover details use Jan 2025, Q1 2025 and 2025. Dates remain chronologically ordered.","videoIntro":"Use the same reporting window with three grouping choices. The CSiM formatter follows the selected unit on the trend charts and the lower date axes.","videoOutro":"The formatter changes presentation without converting dates into text. All eleven date axes are checked when they contain data."},
-  "03":{"label":"Missing periods and selected dates","try":"Inspect hospital 91, then narrow the window to February–March and group by Quarter.","expected":"February is missing, March is a valid zero, and February–March has 10 submissions without January.","videoIntro":"Known test records make these differences visible: no February submissions, a valid zero rate in March, and a partial-quarter window.","videoOutro":"Calendar rows retain missing months. The date window filters observations before grouping, and an empty selection can return to a populated result on the same page."},
-  "04":{"label":"Change and clear dashboard filters","try":"Set Time Period and Time Unit in either order, then clear and reselect.","expected":"Equivalent selections return equivalent results. The dashboard recovers without a page reload.","videoIntro":"Time Period selects observations; Time Unit groups them. This workflow checks both selection orders and recovery after Clear all.","videoOutro":"Both orders produce the same results. Reselecting the filters restores the charts on the same page. Historical intermittent authoring and navigation reports remain separate."},
-  "05":{"label":"Time Unit choices","try":"Inspect the saved Time Unit menus for this installation.","expected":"Main: Month/Quarter/Year is an instance-wide workaround. Snapshot: CSiM and hourly reporting save independent menus.","videoIntro":"The released build restricts choices across the whole instance. The pinned development snapshot supports independent saved choices for each dashboard.","videoOutro":"The distinction is a Superset version capability. The main build retains the global workaround; the snapshot demonstrates the native per-dashboard feature."},
-  "06":{"label":"Two series across a year boundary","try":"Compare hospitals 91 and 92 in Month, Quarter and Year views.","expected":"Both series remain ordered across 2025–2026, with readable date labels.","videoIntro":"Text dates can sort incorrectly when a chart compares multiple series. These charts retain real dates and format the labels separately.","videoOutro":"The two series remain chronological. The released renderer also includes an opt-in correction that keeps the first date label visible."}
+  "01": {
+    "label": "The full dashboard after transfer",
+    "try": "Open the complete 20-chart Individual Data dashboard with an explicit reporting window.",
+    "expected": "All 20 charts render or report a legitimate empty result. SQL, calculated columns, layout and filter bindings match the versioned package.",
+    "videoIntro": "The April dashboard is imported into a separate instance with different chart IDs. This walkthrough shows the complete dashboard after the import checks pass.",
+    "videoOutro": "The full dashboard is preserved. On 6.1.0, the deployment helper repairs cached filter references; the snapshot remaps those references natively."
+  },
+  "02": {
+    "label": "Month, Quarter and Year labels",
+    "try": "Change Time Unit while keeping the reporting dates fixed.",
+    "expected": "Date axes and hover details use Jan 2025, Q1 2025 and 2025. Dates remain chronologically ordered.",
+    "videoIntro": "Use the same reporting window with three grouping choices. The CSiM formatter follows the selected unit on the trend charts and the lower date axes.",
+    "videoOutro": "The formatter changes presentation without converting dates into text. All eleven date axes are checked when they contain data."
+  },
+  "03": {
+    "label": "Missing periods and selected dates",
+    "try": "Inspect hospital 91, then narrow the window to February\u2013March and group by Quarter.",
+    "expected": "February is missing, March is a valid zero, and February\u2013March has 10 submissions without January.",
+    "videoIntro": "Known test records make these differences visible: no February submissions, a valid zero rate in March, and a partial-quarter window.",
+    "videoOutro": "Calendar rows retain missing months. The date window filters observations before grouping, and an empty selection can return to a populated result on the same page."
+  },
+  "04": {
+    "label": "Change and clear dashboard filters",
+    "try": "Set Time Period and Time Unit in either order, then clear and reselect.",
+    "expected": "Equivalent selections return equivalent results. The dashboard recovers without a page reload.",
+    "videoIntro": "Time Period selects observations; Time Unit groups them. This workflow checks both selection orders and recovery after Clear all.",
+    "videoOutro": "Both orders produce the same results. Reselecting the filters restores the charts on the same page. Historical intermittent authoring and navigation reports remain separate."
+  },
+  "05": {
+    "label": "Time Unit choices",
+    "try": "Inspect the saved Time Unit menus for this installation.",
+    "expected": "Main: Month/Quarter/Year is an instance-wide workaround. Snapshot: CSiM and hourly reporting save independent menus.",
+    "videoIntro": "The released build restricts choices across the whole instance. The pinned development snapshot supports independent saved choices for each dashboard.",
+    "videoOutro": "The distinction is a Superset version capability. The main build retains the global workaround; the snapshot demonstrates the native per-dashboard feature."
+  },
+  "06": {
+    "label": "Two series across a year boundary",
+    "try": "Compare hospitals 91 and 92 in Month, Quarter and Year views.",
+    "expected": "Both series remain ordered across 2025\u20132026, with readable date labels.",
+    "videoIntro": "Text dates can sort incorrectly when a chart compares multiple series. These charts retain real dates and format the labels separately.",
+    "videoOutro": "The two series remain chronological. The released renderer also includes an opt-in correction that keeps the first date label visible."
+  },
+  "07": {
+    "label": "From month, Through month and Group by",
+    "try": "Choose February through March, then compare Quarter and Year. Clear and reselect the months.",
+    "expected": "Both endpoints are inclusive. Q1 contains February and March only; invalid ranges cannot be applied, and clearing recovers on the same page."
+  }
 }

@@ -63,6 +63,15 @@ export async function timeUnit(page,name){
   await page.waitForLoadState('networkidle');
 }
 export async function timePeriod(page,from,until){
+  if(process.env.CSIM_SIMPLE_CONTROLS==='1'){
+    const end=new Date(until+'T00:00:00Z');end.setUTCMonth(end.getUTCMonth()-1);
+    await page.getByLabel('From month',{exact:true}).fill(from.slice(0,7));
+    await page.getByLabel('Through month (inclusive)',{exact:true}).fill(end.toISOString().slice(0,7));
+    const apply=page.getByRole('button',{name:'Apply filters',exact:true});
+    if(await apply.isEnabled())await apply.click();
+    await page.waitForLoadState('networkidle');
+    return;
+  }
   await page.getByRole('button',{name:'Time Period',exact:true}).click();
   const editor=page.getByRole('tooltip').filter({hasText:'Edit time range'});
   await editor.getByRole('combobox',{name:'Range type',exact:true}).press('ArrowDown');

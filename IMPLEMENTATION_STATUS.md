@@ -13,12 +13,12 @@ The acceptance contract is in PLAN.md. This file records implementation and veri
 - The assembled overview, matching logins, evidence, downloads and mobile layout passed local browser checks. The final GitHub matrix runs both builds with supplied data and the numerical fixture, without video.
 - Read-only access to 34.223.100.228:8088 confirms runtime 6.1.0 and enabled template processing. See sources/test-instance-configuration.json. The local AWS session is expired, so host-level configuration is not confirmed by this check.
 
-## Remaining delivery checks
+## Public release and inclusive month version
 
-- Finish the full GitHub matrix and merge the tested implementation.
-- Initialize the new main and snapshot server instances; preserve existing stacks for rollback.
-- Publish the overview and seven recordings with the deployed viewer logins and release identity.
-- Validate the four new HTTPS hostnames, both deployed dashboard/data profiles, generated links, downloads and independent sessions. Enable and check legacy redirects afterward.
-- Record final delivery evidence and provide Beth's review checklist. Beth's acceptance remains separate from implementation and automated validation.
+- Release 149e281 is deployed at dashboard.csim.uwdigi.org and preview.csim.uwdigi.org; design.csim.uwdigi.org serves the overview, matching viewer logins, seven reviewed recordings and definition download. All four certificates are issued. PR 1 is merged; its main-branch regression run 34556580482 passed.
+- Main public supplied and fixture acceptance passed. Snapshot query/date tests passed, but screenshot inspection exposed its migrated table renderer being disabled; query success alone was insufficient. The follow-up enables the snapshot renderer and adds visible-error/table assertions.
+- The second snapshot dashboard uses From month, Through month inclusive and Group by, with partial-period notes. It preserves the existing dashboard and six shared dataset definitions. MONTH_CONTROLS.md records its commands and acceptance.
+- Nine month-control component tests and 169 snapshot formatter/transformation tests pass. Local browser checks cover the control, invalid input, same-page Clear all recovery, the one-quarter axis extent, and all 20 charts. Full data-profile checks, public rollout and the eighth recording are being completed.
+- Metadata initialization now runs before web workers start, addressing the observed first-start SQLite WAL lock. Normal updates do not restore reporting data.
 
-The new public release is not yet deployed. The existing public dashboard and overview remain in place until the deployment checks above pass.
+Remaining: finish the new variant's public checks and reviewed recording; publish the revised overview/evidence; activate and check old-path redirects. Beth's acceptance remains separate. April's historical production identity remains unconfirmed; inherited source permalinks are not corrected by the date-control work.

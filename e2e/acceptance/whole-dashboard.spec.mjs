@@ -20,6 +20,9 @@ test('01 All twenty baseline charts load or report legitimate empty results',asy
     expect(result.error).toBeNull();
     expect(result.status).toBe('success');
     await expect(holder.getByText('Waiting on CSiM demo PostgreSQL',{exact:true})).toHaveCount(0);
+    await expect(holder.getByText('Data error',{exact:true})).toHaveCount(0);
+    await expect(holder.getByText(/An error occurred while rendering/)).toHaveCount(0);
+    if(title.includes('latest comparison')&&result.data.length>0)await expect(holder.locator('table,[role=grid]').first()).toBeVisible();
     const shot=info.outputPath(`chart-${id}.png`);
     await holder.screenshot({path:shot});
     await info.attach(`chart-${id}`,{path:shot,contentType:'image/png'});
