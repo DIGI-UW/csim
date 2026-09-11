@@ -25,6 +25,7 @@ test('07 Inclusive month controls recover on the same page and never widen a par
  await watch.trends[0].holder.scrollIntoViewIfNeeded();
  await expect.poll(()=>paintedLabels(watch.trends[0].plot)).toEqual(['Q1 2026']);
  await page.screenshot({path:info.outputPath('partial-quarter-controls.png')});
+ await watch.trends[4].holder.scrollIntoViewIfNeeded();
  await scene(page,info,'inclusive-quarter','Quarter','February through March gives Q1 with 10 submissions. January contributes none.','A partial quarter');
  await timeUnit(page,'Year');
  await expect(from).toHaveValue('2026-02');await expect(through).toHaveValue('2026-03');
@@ -55,8 +56,12 @@ test('07 Inclusive month controls recover on the same page and never widen a par
  await location(page,'All locations');
  // Stage a valid time range before applying the restored hospital selection.
  await hospital(page,fixture?'91':'31');
+ await expect(page.getByRole('combobox',{name:filters.hospital,exact:true}).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]')).toContainText(fixture?'91':'31');
  await timeUnit(page,'Month');
- expect(Object.values(await allTrends(watch)).every(rows=>rows.length>0)).toBe(true);
+ const restored=await allTrends(watch);
+ await expect(page.getByRole('combobox',{name:filters.hospital,exact:true}).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]')).toContainText(fixture?'91':'31');
+ expect(Object.values(restored).every(rows=>rows.length>0)).toBe(true);
+ if(fixture)expect(restored[watch.trends[4].name].map(row=>Object.values(row).filter(v=>v!==row.month_date))).toEqual([[4],[8],[12],[null],[10],[5]]);
  expect(await page.evaluate(()=>window.__monthDocument)).toBe(marker);
  await watch.trends[0].holder.scrollIntoViewIfNeeded();
  await page.screenshot({path:info.outputPath('restored-month-controls.png')});
