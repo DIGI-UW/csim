@@ -55,6 +55,9 @@ module StandardDashboard
         item['description'] = 'Full September dashboard with standard Superset settings and prepared SQL. Native label and filter behavior is under comparison.'
         item['metadata']['filter_bar_orientation'] = orientation
         if orientation == 'HORIZONTAL'
+          # The horizontal filters stay below the dashboard title while scrolling.
+          # Fragment targets must clear both fixed rows, not only the title bar.
+          item['css'] = item.fetch('css', '') + "\n[id^=\"HEADER-\"] { scroll-margin-top: 160px; }\n"
           %w[MARKDOWN-4LE_6MIsEUYEjgMUcvAyM MARKDOWN-WIofdf7GkSmIbs0pSuT-6].each do |id|
             item['position'].fetch(id).fetch('meta')['code'] =
               '**Choose Your hospital in the filter bar to display the hospital comparison panels.** ' \

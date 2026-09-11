@@ -8,9 +8,9 @@ const browser=await chromium.launch();
 try{
  const page=await browser.newPage({viewport:{width:1280,height:1000}});
  await page.goto(url);await page.getByRole('heading',{level:1,name:'CSiM dashboard workflows'}).waitFor();
- const videos=page.locator('video');assert.equal(await videos.count(),6);
+ const videos=page.locator('video');assert.equal(await videos.count(),7);
  const result=[];
- for(let i=0;i<6;i++){
+ for(let i=0;i<7;i++){
   const video=videos.nth(i);await video.scrollIntoViewIfNeeded();
   await video.evaluate(el=>{el.muted=true;el.load();});
   await page.waitForFunction(i=>{const v=document.querySelectorAll('video')[i];return v.readyState>=2&&v.duration>30;},i);
@@ -26,5 +26,5 @@ try{
  const manifest=await page.request.get(new URL('validation.json',url).href);assert(manifest.ok());
  const data=await manifest.json();assert.equal(data.xAxisScreenshots,99);
  await fs.writeFile(`${out}/playback.json`,JSON.stringify({url,videos:result,xAxisScreenshots:99},null,2));
- console.log('Six videos decode and play; desktop/mobile layout and 99-screenshot manifest pass.');
+ console.log('Seven videos decode and play; desktop/mobile layout and 99-screenshot manifest pass.');
 }finally{await browser.close();}

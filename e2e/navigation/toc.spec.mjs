@@ -2,7 +2,8 @@ import {test,expect} from '@playwright/test';
 import {profile} from '../acceptance.config.mjs';
 import {openDashboard,timePeriod,timeUnit,allTrends,waitForChartPaint} from '../acceptance/dashboard.mjs';
 
-test('Every section link stays in this dashboard and preserves all filter selections',async({page},info)=>{
+for(const width of [1024,1280,1600])test(`Every section link stays in this dashboard and preserves all filter selections at ${width}px`,async({page},info)=>{
+  await page.setViewportSize({width,height:1100});
   const watch=await openDashboard(page,profile);
   await timePeriod(page,'2025-11-01','2026-05-01');
   await timeUnit(page,'Quarter');
@@ -33,6 +34,12 @@ test('Every section link stays in this dashboard and preserves all filter select
     const heading=page.locator(`[id="${link.href.slice(1)}"]`);
     await expect(heading).toBeInViewport();
     expect((await heading.boundingBox()).y,`${link.text}: heading clears the fixed toolbar`).toBeGreaterThanOrEqual(65);
+    // Being inside the viewport is insufficient: a fixed horizontal filter bar
+    // can cover the heading. Check the actual painted surface at both edges.
+    await expect.poll(()=>heading.evaluate(el=>{
+      const r=el.getBoundingClientRect();
+      return [r.top+4,r.bottom-4].map(y=>el.contains(document.elementFromPoint(r.left+8,y)));
+    }),{message:`${link.text}: the fixed controls must not cover the heading`}).toEqual([true,true]);
     const current=new URL(page.url());
     expect([current.origin,current.pathname,current.search]).toEqual([original.origin,original.pathname,original.search]);
     expect(await page.evaluate(()=>window.__tocDocument)).toBe(token);
