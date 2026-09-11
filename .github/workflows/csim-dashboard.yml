@@ -62,7 +62,6 @@ jobs:
       - name: Restore and test independent numerical fixture without video
         run: |
           profile=fixture
-          bash csim.sh ${{ matrix.build }} examples-init
           if [ '${{ matrix.build }}' = preview ]; then profile=preview-fixture; fi
           bash csim.sh "$profile" init
           bash csim.sh "$profile" verify-import
