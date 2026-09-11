@@ -8,7 +8,8 @@ The acceptance contract is in [PLAN.md](PLAN.md). This records delivery status; 
 
 | Component | Address | Source revision |
 | --- | --- | --- |
-| Main full dashboard | [Released build](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-corrected/) | `34d426f5534ccdbe4c531a65239280040423bbfd` |
+| September familiar-control dashboard | [21-chart version](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled/) | Assets `e60bb6ed4dabe4a8228a52362197492f696d69f4`; unchanged main runtime |
+| Established main dashboard | [Released build](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-corrected/) | `34d426f5534ccdbe4c531a65239280040423bbfd` |
 | Original snapshot controls | [Snapshot dashboard](https://preview.csim.uwdigi.org/dashboard/csim-individual-preview/) | `34d426f5534ccdbe4c531a65239280040423bbfd` |
 | Inclusive month controls | [Second full dashboard](https://preview.csim.uwdigi.org/dashboard/csim-individual-simple/) | Same snapshot build |
 | Overview and eight workflow recordings | [Overview, logins and evidence](https://design.csim.uwdigi.org/) | [Published release identity](https://design.csim.uwdigi.org/release.json) |
@@ -17,12 +18,12 @@ Main uses Superset 6.1.0 with the opt-in CSiM formatter and vertical-sidebar cle
 
 All four hostnames use HTTPS. `csim.uwdigi.org` redirects to main; the old Catalyst paths redirect to the corresponding new instances, preserving the checked dashboard and login return destinations. The preceding images, metadata/configuration backups and overview release remain available for rollback.
 
-The new version offers From month, Through month (inclusive) and Group by Month/Quarter/Year. It retains the full 20-chart layout and six shared dataset definitions. The initial range is November 2025–April 2026. The familiar-control dashboards retain Last year and Month. All three full-dashboard views start with hospital 53; the known-record examples start with hospital 91. The unchanged baseline retains Cohort.
+The simpler snapshot version offers From month, Through month (inclusive) and Group by Month/Quarter/Year. It retains the full 20-chart layout and six shared dataset definitions. The initial range is November 2025–April 2026. The familiar-control dashboards retain Last year and Month. All four full-dashboard views start with hospital 53; the known-record examples start with hospital 91. The unchanged baseline retains Cohort.
 
 ## Reproduction and definitions
 
 - Private DIGI-UW/csim contains the standalone implementation and attribution to harness PR 111 at `fa86f2d1a1c1883ee516887779111b3106d3dd4e` (Piotr Mankowski).
-- Original April, September test and September production exports are preserved with checksums and a UUID-based comparison. April is the selected 20-chart/six-dataset technical baseline. September test's extra card is excluded.
+- Original April, September test and September production exports are preserved with checksums and a UUID-based comparison. April is the selected 20-chart/six-dataset technical baseline. The established version excludes September test’s extra card; the separate September version includes it.
 - The supplied demo dump restores in isolated PostgreSQL 14.24. The unchanged baseline, corrected dashboard, generated numerical fixture and snapshot run locally. Normal updates do not reseed.
 - Import checks compare SQL, calculated columns, metrics, chart settings, layout, defaults, bindings and cached filter scopes. Updates to existing definitions and restoration pass without duplicate objects. Main uses a deterministic reference-repair helper; the snapshot remaps the checked references natively.
 - The public snapshot's familiar-control and simpler-control dashboards, including their known-record copies, each match 20 charts, six datasets and six filters; all imported filter scopes match destination chart IDs.
