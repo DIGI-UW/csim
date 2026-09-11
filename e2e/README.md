@@ -5,7 +5,7 @@ Run `npm ci` and `npx playwright install chromium` in this directory.
 - `CSIM_PROFILE=corrected npm test`: all browser checks, no video.
 - Repeat with `preview`, `fixture`, and `preview-fixture` after initialization.
 - `npx playwright test -c site.config.mjs`: overview navigation and responsive layout, no video.
-- `CSIM_RECORD=1 CSIM_OUTPUT=/absolute/run/path npm test -- --grep '^02 '`: record an asserted dashboard workflow.
+- `CSIM_RECORD=1 CSIM_OUTPUT=/absolute/run/path npm test -- --grep '\b02 '`: record an asserted dashboard workflow.
 
 `CSIM_BASE_URL`, `CSIM_USERNAME`, `CSIM_PASSWORD`, and `CSIM_ENV_FILE` select a
 remote instance and its viewer login. The credentials and browser session are

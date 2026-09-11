@@ -3,6 +3,7 @@ import hashlib
 import base64
 import html
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -25,6 +26,12 @@ def specs(suites):
     for suite in suites:
         yield from suite.get('specs', [])
         yield from specs(suite.get('suites', []))
+
+
+def attachment_json(attachment):
+    if 'path' in attachment:
+        return json.loads(Path(attachment['path']).read_text())
+    return json.loads(base64.b64decode(attachment['body']))
 
 
 def build_gallery(root: Path, destination: Path, review_file: Path, revision: str):
@@ -50,6 +57,12 @@ def build_gallery(root: Path, destination: Path, review_file: Path, revision: st
             raise ValueError('Cannot publish a passing claim for a failing run.')
         summary = {key: run[key] for key in ('key', 'label', 'url', 'sha256')}
         summary.update(passed=report['stats']['expected'], skipped=report['stats']['skipped'], screenshots=[])
+        chart_names = {}
+        for spec in specs(report['suites']):
+            for test in spec['tests']:
+                for attachment in test['results'][-1].get('attachments', []):
+                    if attachment['name'] == 'opening-view':
+                        chart_names.update({str(row['id']): row['title'] for row in attachment_json(attachment)})
         for spec in specs(report['suites']):
             group = next((anchor for anchor, _, match in GROUPS if spec['title'].startswith(match)), None)
             if group is None:
@@ -70,6 +83,9 @@ def build_gallery(root: Path, destination: Path, review_file: Path, revision: st
                     else:
                         target.write_bytes(base64.b64decode(attachment['body']))
                     label = attachment['name']
+                    chart = re.fullmatch(r'(Month|Quarter|Year|chart)-(\d+)', label)
+                    if chart and chart[2] in chart_names:
+                        label = chart_names[chart[2]] + ('' if chart[1] == 'chart' else ' · ' + chart[1] + ' grouping')
                     pictures.append(f'<figure><a href="{relative.as_posix()}"><img loading="lazy" src="{relative.as_posix()}" alt="{html.escape(label, quote=True)}"></a><figcaption>{html.escape(label)}</figcaption></figure>')
                     summary['screenshots'].append({'file': relative.as_posix(), 'label': label, 'test': spec['title']})
                 if pictures:
