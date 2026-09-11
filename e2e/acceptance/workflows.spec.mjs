@@ -34,14 +34,17 @@ test('02 All eleven date axes keep real dates and display Month, Quarter and Yea
         return name==='Year'?String(year):name==='Quarter'?`Q${Math.floor(date.getUTCMonth()/3)+1} ${year}`:new Intl.DateTimeFormat('en-US',{month:'short',year:'numeric',timeZone:'UTC'}).format(date);
       };
       const populated=new Set(result.data.filter(row=>Object.entries(row).some(([key,value])=>key!=='month_date'&&typeof value==='number')).map(row=>format(row.month_date)));
-      const label=(await paintedPeriodBounds(trend.plot)).find(item=>populated.has(item.text));
-      expect(label,`${trend.name} must offer a visible populated period for the hover check`).toBeTruthy();
       const box=await trend.plot.locator('canvas').first().boundingBox();
-      await page.mouse.move(box.x+label.x,box.y+box.height*0.45);
+      const label=(await paintedPeriodBounds(trend.plot)).filter(item=>populated.has(item.text))
+        .sort((a,b)=>Math.abs(a.x-box.width/2)-Math.abs(b.x-box.width/2))[0];
+      expect(label,`${trend.name} must offer a visible populated period for the hover check`).toBeTruthy();
+      // Endpoint ticks can lie exactly on the plot boundary. Hover just inside
+      // the plot, preferring a populated interior period when one is available.
+      await page.mouse.move(box.x+label.x+(label.x<box.width/2?2:-2),box.y+box.height*0.45);
       const tooltip=page.locator('.echarts-tooltip:visible');
       await expect.poll(async()=>{
         const texts=await tooltip.evaluateAll(elements=>elements.filter(el=>Number(getComputedStyle(el).opacity)>0.99).map(el=>el.innerText));
-        return texts.length>0 && texts.every(text=>text.split('\n').some(line=>pattern.test(line.trim())));
+        return texts.length>0 && texts.every(text=>text.split('\n').some(line=>line.trim()===label.text&&pattern.test(line.trim())));
       },{message:`${trend.name} hover must use ${name} format`}).toBe(true);
       const shot=info.outputPath(`${name}-${trend.id}.png`);
       await trend.plot.screenshot({path:shot});
