@@ -133,8 +133,8 @@ def verify(profile: str):
         }
         Path(f'/tmp/csim-{profile}-import-verification.json').write_text(json.dumps(report, indent=2))
         print(json.dumps(report))
-        if profile == 'corrected':
-            assert report['cached_scope_references']['all_match'], 'The deployment reference repair must fix all scope caches'
+        if profile in ('corrected', 'preview'):
+            assert report['cached_scope_references']['all_match'], 'Imported filter scope caches must match the intended chart references'
 
 
 if __name__ == '__main__':

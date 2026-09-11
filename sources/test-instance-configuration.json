@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-09-10T23:56:05.672821+00:00",
+  "instance": "http://34.223.100.228:8088",
+  "reachability": 200,
+  "runtimeVersions": {
+    "/common/menu_data/navbar_right/version_string": "6.1.0",
+    "/common/menu_data/navbar_right/version_sha": ""
+  },
+  "relevantFeatureFlags": {
+    "ENABLE_TEMPLATE_PROCESSING": true,
+    "ALLOW_ADHOC_SUBQUERY": false,
+    "DASHBOARD_VIRTUALIZATION": true,
+    "FILTERBAR_CLOSED_BY_DEFAULT": false
+  },
+  "awsHostRecon": "Current local AWS session expired; application remains reachable. Historical checkout age is not runtime version evidence."
+}
