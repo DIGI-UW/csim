@@ -1,13 +1,31 @@
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
-import {profile,dataProfile,openingHospital} from '../acceptance.config.mjs';
+import {profile,dataProfile,openingHospital,fixture} from '../acceptance.config.mjs';
 import {openDashboard,timeUnit,timePeriod,hospital,allTrends,filters,location} from './dashboard.mjs';
 
 enableRecording(test);
 const first=dataProfile.representativeHospital;
+function expectSameResults(actual,expected){
+  expect(Object.keys(actual)).toEqual(Object.keys(expected));
+  for(const [chart,rows] of Object.entries(expected)){
+    expect(actual[chart]).toHaveLength(rows.length);
+    rows.forEach((row,index)=>{
+      expect(Object.keys(actual[chart][index])).toEqual(Object.keys(row));
+      for(const [key,value] of Object.entries(row)){
+        // PostgreSQL floating-point aggregates can differ at the last binary
+        // digit. Dates, integer counts, nulls and row order remain exact.
+        if(typeof value==='number'&&!Number.isInteger(value))expect(actual[chart][index][key]).toBeCloseTo(value,12);
+        else expect(actual[chart][index][key]).toEqual(value);
+      }
+    });
+  }
+}
 test('04 Time Period and Time Unit work in either selection order and recover without reloading',async({page},info)=>{
   const watch=await openDashboard(page,profile);
+  await hospital(page,first);
   await timePeriod(page,'2025-11-01','2026-05-01');
+  await timeUnit(page,'Month');
+  const expectedRestored=await allTrends(watch);
   await timeUnit(page,'Quarter');
   const periodFirst=await allTrends(watch);
   await watch.trends[0].holder.scrollIntoViewIfNeeded();
@@ -17,19 +35,7 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await timeUnit(page,'Quarter');
   await timePeriod(page,'2025-11-01','2026-05-01');
   const unitFirst=await allTrends(watch);
-  expect(Object.keys(unitFirst)).toEqual(Object.keys(periodFirst));
-  for(const [chart,rows] of Object.entries(periodFirst)){
-    expect(unitFirst[chart]).toHaveLength(rows.length);
-    rows.forEach((row,index)=>{
-      expect(Object.keys(unitFirst[chart][index])).toEqual(Object.keys(row));
-      for(const [key,value] of Object.entries(row)){
-        // PostgreSQL floating-point aggregates can differ at the last binary
-        // digit. Dates, integer counts, nulls and row order remain exact.
-        if(typeof value==='number'&&!Number.isInteger(value))expect(unitFirst[chart][index][key]).toBeCloseTo(value,12);
-        else expect(unitFirst[chart][index][key]).toEqual(value);
-      }
-    });
-  }
+  expectSameResults(unitFirst,periodFirst);
   await info.attach('selection-order-results',{body:Buffer.from(JSON.stringify({periodFirst,unitFirst})),contentType:'application/json'});
   await watch.trends[0].holder.scrollIntoViewIfNeeded();
   await scene(page,info,'unit-first','Unit then period','The same final selections produce equivalent chart results.');
@@ -44,7 +50,11 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await timePeriod(page,'2025-11-01','2026-05-01');
   await timeUnit(page,'Month');
   const restored=await allTrends(watch);
+  const selected=page.getByRole('combobox',{name:filters.hospital,exact:true}).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]');
+  await expect(selected).toContainText(first);
+  expectSameResults(restored,expectedRestored);
   expect(Object.values(restored).every(rows=>rows.length>0)).toBe(true);
+  if(fixture)expect(restored[watch.trends[4].name].map(row=>Object.values(row).filter(v=>v!==row.month_date))).toEqual([[4],[8],[12],[null],[10],[5]]);
   expect(await page.evaluate(()=>window.__csimDocumentMarker)).toBe(marker);
   await watch.trends[0].holder.scrollIntoViewIfNeeded();
   await scene(page,info,'reselected','Results return','The charts respond on the same page. No reload is used.');
