@@ -16,9 +16,23 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await timePeriod(page,'2025-01-01','2026-01-01');
   await timeUnit(page,'Quarter');
   await timePeriod(page,'2025-11-01','2026-05-01');
-  expect(await allTrends(watch)).toEqual(periodFirst);
+  const unitFirst=await allTrends(watch);
+  expect(Object.keys(unitFirst)).toEqual(Object.keys(periodFirst));
+  for(const [chart,rows] of Object.entries(periodFirst)){
+    expect(unitFirst[chart]).toHaveLength(rows.length);
+    rows.forEach((row,index)=>{
+      expect(Object.keys(unitFirst[chart][index])).toEqual(Object.keys(row));
+      for(const [key,value] of Object.entries(row)){
+        // PostgreSQL floating-point aggregates can differ at the last binary
+        // digit. Dates, integer counts, nulls and row order remain exact.
+        if(typeof value==='number'&&!Number.isInteger(value))expect(unitFirst[chart][index][key]).toBeCloseTo(value,12);
+        else expect(unitFirst[chart][index][key]).toEqual(value);
+      }
+    });
+  }
+  await info.attach('selection-order-results',{body:Buffer.from(JSON.stringify({periodFirst,unitFirst})),contentType:'application/json'});
   await watch.trends[0].holder.scrollIntoViewIfNeeded();
-  await scene(page,info,'unit-first','Unit then period','The same final selections produce exactly the same chart results.');
+  await scene(page,info,'unit-first','Unit then period','The same final selections produce equivalent chart results.');
   const marker=await page.evaluate(()=>window.__csimDocumentMarker=crypto.randomUUID());
   await page.getByRole('button',{name:'Clear all',exact:true}).click();
   const apply=page.getByRole('button',{name:'Apply filters',exact:true});
