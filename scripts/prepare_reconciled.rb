@@ -14,7 +14,8 @@ module ReconciledDashboard
     YAML.safe_load(File.read(path))
   end
   def self.write(path, value)
-    File.write(path, YAML.dump(value).gsub(/: \n/, ":\n").gsub(/^(\s*-) +\n/, "\\1\n"))
+    # Psych versions indent a standalone closing quote differently; normalize that syntax.
+    File.write(path, YAML.dump(value).gsub(/^ +'$/, "'").gsub(/: \n/, ":\n").gsub(/^(\s*-) +\n/, "\\1\n"))
   end
   def self.uuid(namespace, source)
     hex = Digest::SHA256.hexdigest("https://csim.uwdigi.org/#{namespace}/#{source}")[0,32]
