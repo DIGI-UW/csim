@@ -99,7 +99,7 @@ def verify(profile: str):
             item for item in definition['metadata']['native_filter_configuration']
             if item.get('type') == 'NATIVE_FILTER'
         ]
-        assert len(actual_filters) == len(expected_filters) == 6
+        assert len(actual_filters) == len(expected_filters) == inventory.get('filters', 6)
         caches = []
         for expected in expected_filters:
             actual = actual_filters[expected['id']]
@@ -127,7 +127,7 @@ def verify(profile: str):
         }
         actual_global = set(actual_metadata.get('global_chart_configuration', {}).get('chartsInScope', []))
         report = {
-            'profile': profile, 'charts': len(charts), 'datasets': inventory['datasets'], 'filters': 6,
+            'profile': profile, 'charts': len(charts), 'datasets': inventory['datasets'], 'filters': len(actual_filters),
             'changed_chart_identifiers': sum(source != target for source, target in remap.items()),
             'cached_scope_references': {
                 'all_match': all(item['matches'] for item in caches) and actual_global == expected_global,

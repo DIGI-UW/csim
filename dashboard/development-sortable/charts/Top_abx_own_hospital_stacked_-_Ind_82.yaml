@@ -94,7 +94,7 @@ params:
   minorTicks: false
   zoomable: false
   show_legend: true
-  legendType: plain
+  legendType: scroll
   legendOrientation: top
   legendMargin: ''
   x_axis_time_format: smart_date

@@ -106,6 +106,9 @@ module ReconciledDashboard
     Dir[File.join(target, 'charts/*.yaml')].each do |path|
       chart = read(path)
       original = test_charts.fetch(chart.fetch('uuid')).last
+      # Native scrolling keeps long antibiotic legends and their All/Inv
+      # controls inside the panel at each supported dashboard width.
+      chart['params']['legendType'] = 'scroll' if chart['slice_name'].start_with?('Top abx ')
       chart['params']['show_empty_columns'] = true if chart['params']['x_axis']=='month_date'
       chart['params']['y_axis_format'] = original['params']['y_axis_format'] if original['params']['y_axis_format'] == ',.0%'
       if chart['slice_name'] == 'Inappropriate UTI diagnosis (latest month comparison) - Ind'

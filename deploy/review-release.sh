@@ -36,11 +36,16 @@ if [[ "$action" == assets ]]; then
     packages=(reconciled reconciled-examples reconciled-months reconciled-months-examples)
   else
     packages=("$profile" "$profile-examples" "$profile-sortable" "$profile-sortable-examples")
+    if [[ "$profile" == standard ]]; then
+      packages+=(standard-month-selectors standard-month-selectors-examples)
+    fi
   fi
   for package in "${packages[@]}"; do
     docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/dashboard_import.py" import --profile "$package" </dev/null
     docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/verify_import.py" --profile "$package" </dev/null
   done
+  docker cp "$1/demo_access.py" "$container:$target/demo_access.py"
+  docker exec "$container" python "$target/demo_access.py" </dev/null
   python3 - "$profile" "$revision" "$backup" "${packages[@]}" <<'PYRECEIPT'
 import datetime,json,subprocess,sys
 from pathlib import Path

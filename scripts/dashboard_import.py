@@ -16,6 +16,7 @@ import yaml
 
 ROOT = Path(os.environ.get('CSIM_PROJECT_ROOT', '/repro'))
 STANDARD_PROFILES = ('standard', 'standard-examples', 'development', 'development-examples', 'standard-sortable', 'development-sortable', 'standard-sortable-examples', 'development-sortable-examples')
+STANDARD_PROFILES += ('standard-month-selectors', 'standard-month-selectors-examples')
 MONTH_PROFILES = ('reconciled-months', 'reconciled-months-examples')
 
 

@@ -3,7 +3,7 @@ import {profile,dataProfile,reconciled} from '../acceptance.config.mjs';
 import {openDashboard,timePeriod,timeUnit,hospital,waitForChartPaint} from './dashboard.mjs';
 
 const title='Number of antibiotic prescriptions';
-for(const width of [1024,1280,1600])test(`Antibiotic axis titles stay below the legend at ${width}px`,async({page},info)=>{
+for(const grain of ['Month','Quarter','Year'])for(const width of [1024,1280,1600])test(`Antibiotic axis titles stay below the legend at ${width}px (${grain})`,async({page},info)=>{
   test.skip(!reconciled&&!['standard','development'].includes(profile));
   await page.setViewportSize({width,height:1100});
   await page.addInitScript(()=>{
@@ -24,7 +24,7 @@ for(const width of [1024,1280,1600])test(`Antibiotic axis titles stay below the 
   const watch=await openDashboard(page,profile);
   await timePeriod(page,'2025-09-01','2026-10-01');
   await hospital(page,dataProfile.openingHospital,'NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI');
-  await timeUnit(page,'Month');
+  await timeUnit(page,grain);
   const report=[];
   const charts=watch.dateAxes.filter(item=>item.name.endsWith('(abx)'));
   for(const chart of charts){
@@ -41,7 +41,7 @@ for(const width of [1024,1280,1600])test(`Antibiotic axis titles stay below the 
         const scale=canvas.clientWidth/canvas.width;
         const offset=canvas.getBoundingClientRect().top-canvas.closest('[data-test=dashboard-component-chart-holder]').getBoundingClientRect().top;
         return [...new Map((canvas.__spacingText||[]).map(item=>[item.text,item])).values()]
-          .map(item=>({...item,canvasTop:item.top*scale,top:item.top*scale+offset,bottom:item.bottom*scale+offset}));
+          .map(item=>({...item,left:item.left*scale,right:item.right*scale,canvasWidth:canvas.clientWidth,canvasTop:item.top*scale,top:item.top*scale+offset,bottom:item.bottom*scale+offset}));
       }));
       const axis=texts.find(item=>item.text===title);
       // Development renders its legend in the DOM; 6.1 renders it on canvas.
@@ -55,6 +55,14 @@ for(const width of [1024,1280,1600])test(`Antibiotic axis titles stay below the 
       expect(legend.length,`${chart.name}: legend rendered`).toBeGreaterThan(0);
       const gap=axis.top-Math.max(...legend.map(item=>item.bottom));
       expect.soft(gap,`${width}px ${chart.name}: title-to-legend gap`).toBeGreaterThanOrEqual(8);
+      if(!await domLegend.count()){
+        const selectors=texts.filter(item=>['All','Inv','Inverse'].includes(item.text));
+        expect(selectors,`${chart.name}: both legend controls render`).toHaveLength(2);
+        for(const selector of selectors){
+          expect.soft(selector.left,`${chart.name}: ${selector.text} left edge`).toBeGreaterThanOrEqual(0);
+          expect.soft(selector.right,`${chart.name}: ${selector.text} right edge`).toBeLessThanOrEqual(selector.canvasWidth-2);
+        }
+      }
       const screenshot=info.outputPath(`${width}-${chart.id}.png`);
       await chart.holder.screenshot({path:screenshot});
       await info.attach(`${width}px ${chart.name}`,{path:screenshot,contentType:'image/png'});

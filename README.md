@@ -113,6 +113,32 @@ Native observation reports retain their individual gaps. Successful screenshot
 capture is not acceptance of the labels shown. No comparison videos are published
 automatically by these commands.
 
+### Native From / Through month comparison
+
+The local `standard-month-selectors` packages retain all 21 charts and six datasets
+on official Superset 6.1.0. Two native dropdowns supply inclusive month bounds to
+the existing dataset queries, before aggregation. The option lists include whole
+calendar years covering the reporting data, including months without observations.
+No reporting tables or Superset application files are changed.
+
+```sh
+ruby scripts/prepare_native_months.rb
+ruby scripts/test_native_months.rb
+bash csim.sh standard native-months
+cd e2e
+CSIM_PROFILE=standard CSIM_NATIVE_MONTHS=1 CSIM_DATA_PROFILE=edge-cases \
+  CSIM_DASHBOARD_SLUG=csim-standard-month-selectors-examples \
+  npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|Opening afresh'
+```
+
+This imports definitions into the already initialized instance; it does not reseed.
+The supplied-data dashboard is `/superset/dashboard/csim-individual-standard-month-selectors/`.
+Its saved window is September 2025–August 2026, rather than a rolling default.
+The known-record version saves November 2025–April 2026. Clearing an endpoint removes
+that bound. The horizontal bar avoids the reproduced native vertical-sidebar reset
+defect. Year-first chart labels remain an explicit wording tradeoff. These packages
+are a comparison candidate until their full acceptance and public verification are recorded.
+
 The corrected build adds an opt-in `csim_period` formatter to Superset 6.1.0.
 The source patch, exact upstream source revision, runtime driver, and build tests
 are versioned here. All chart axes retain real dates. Dashboard SQL consumes the

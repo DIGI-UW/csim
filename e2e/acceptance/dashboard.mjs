@@ -137,6 +137,12 @@ export async function timeUnit(page,name){
   await page.waitForLoadState('networkidle');
 }
 export async function timePeriod(page,from,until){
+  if(process.env.CSIM_NATIVE_MONTHS==='1'){
+    const end=new Date(until+'T00:00:00Z');end.setUTCMonth(end.getUTCMonth()-1);
+    await selectValue(page,from.slice(0,7),'NATIVE_FILTER-csim-from_month');
+    await selectValue(page,end.toISOString().slice(0,7),'NATIVE_FILTER-csim-through_month');
+    return;
+  }
   if(process.env.CSIM_SIMPLE_CONTROLS==='1'){
     const end=new Date(until+'T00:00:00Z');end.setUTCMonth(end.getUTCMonth()-1);
     await page.getByLabel('From month',{exact:true}).fill(from.slice(0,7));
@@ -171,7 +177,11 @@ export async function paintedLabels(plot){
   });
 }
 
-export async function hospital(page,name,id=filters.hospital){
+export async function hospital(page,name,id=filters.hospital,options){
+  return selectValue(page,name,id,options);
+}
+
+export async function selectValue(page,name,id,{apply:applySelection=true}={}){
   const control=page.getByRole('combobox',{name:id,exact:true});
   await revealFilter(page,control);
   const selection=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]');
@@ -188,15 +198,29 @@ export async function hospital(page,name,id=filters.hospital){
   await control.fill(name);
   const listId=await control.getAttribute('aria-controls');
   const menu=page.locator(`[id="${listId}"]`).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select-dropdown ")][1]');
-  await menu.getByTitle(name,{exact:true}).click();
+  const option=menu.getByTitle(name,{exact:true});
+  // Use a pointer at the visible option, without Playwright's automatic
+  // scroll that dismisses Superset's overflow popover. Hit-testing still
+  // requires an unobstructed option; this is not a forced DOM click.
+  await expect.poll(()=>option.evaluate(el=>{
+    const r=el.getBoundingClientRect();
+    return r.width>0&&r.height>0&&el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));
+  }),{message:'Filter option must be visible and unobstructed'}).toBe(true);
+  const changed=!/ant-select-item-option-selected/.test(await option.getAttribute('class'));
+  if(changed){
+    const r=await option.boundingBox();
+    await page.mouse.click(r.x+r.width/2,r.y+r.height/2);
+  }
   // Compact filters may show +1 instead of the selected text. The option's
   // selected state remains the direct signal for the value just chosen.
-  await expect(menu.getByTitle(name,{exact:true})).toHaveClass(/ant-select-item-option-selected/);
+  await expect(option).toHaveClass(/ant-select-item-option-selected/);
   await control.press('Escape');
+  if(!applySelection)return;
   const apply=dashboardApply(page);
   // A changed selection must reach pending filter state before Apply.
   // A one-time isEnabled check can skip the update on slower machines.
-  await expect(apply).toBeEnabled();
+  if(changed)await expect(apply).toBeEnabled();
+  else if(!await apply.isEnabled())return;
   await apply.click();
   await page.waitForLoadState('networkidle');
 }

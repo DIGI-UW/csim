@@ -46,7 +46,9 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await page.waitForLoadState('networkidle');
   await scene(page,info,'cleared','Clear all','Clear the dashboard filters, then select a hospital and time window again.','Clear and reselect');
   await location(page,'All locations');
-  await hospital(page,first);
+  // Stage the hospital while required month inputs are blank. Apply becomes
+  // available after the complete window is restored in the next interaction.
+  await hospital(page,first,filters.hospital,{apply:false});
   await timePeriod(page,'2025-11-01','2026-05-01');
   await timeUnit(page,'Month');
   const restored=await allTrends(watch);
@@ -68,7 +70,12 @@ test('Opening afresh applies the saved hospital, date window and Month defaults'
     const selected=await page.getByRole('combobox',{name:id,exact:true}).evaluate(el=>el.closest('[title]')?.getAttribute('title') || el.closest('.ant-select').querySelector('.ant-select-selection-item')?.getAttribute('title'));
     expect(selected).toBe(label);
   }
-  if(process.env.CSIM_SIMPLE_CONTROLS==='1'){
+  if(process.env.CSIM_NATIVE_MONTHS==='1'){
+    for(const [id,value] of [['from_month',fixture?'2025-11':'2025-09'],['through_month',fixture?'2026-04':'2026-08']]){
+      const control=page.getByRole('combobox',{name:`NATIVE_FILTER-csim-${id}`,exact:true});
+      await expect(control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]')).toContainText(value);
+    }
+  }else if(process.env.CSIM_SIMPLE_CONTROLS==='1'){
     const now=new Date();
     const from=reconciled&&!fixture?new Date(Date.UTC(now.getUTCFullYear()-1,now.getUTCMonth(),1)).toISOString().slice(0,7):'2025-11';
     const through=reconciled&&!fixture?new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()-1,1)).toISOString().slice(0,7):'2026-04';
