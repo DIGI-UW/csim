@@ -23,3 +23,18 @@ and section cards, persistent captions, and six-second minimum screenshot
 holds. It decodes the final videos and compares every checkpoint with the
 asserted screenshot. Contact sheets require visual inspection before publication.
 Website navigation tests never record or enter the public workflow collection.
+
+The presentation checks capture all twenty opening panels and all eleven date
+axes at 1024, 1280 and 1600 pixels. They measure the text actually painted on the
+canvas, including the first/last label and the gap between labels. Captures wait
+for chart pixels to settle after animation. Workflow checkpoints also produce
+screenshots when video is off.
+
+Publish with `scripts/build_evidence_site.py --screenshot-review /path/review.json`
+after inspecting the screenshots. The review contains `revision`, `reviewed: true`,
+and a `runs` list. Each run names its `key`, readable `label`, dashboard `url`,
+absolute Playwright `report` path and that report's `sha256`. Include the three
+full dashboard variants with both supplied and known-record data. The publisher
+rejects failed runs, changed reports, runtime changes after review and missing
+issue coverage. It groups screenshots by concern, with the version details
+collapsed until opened.

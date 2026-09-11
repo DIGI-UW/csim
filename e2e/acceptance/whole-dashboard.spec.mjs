@@ -1,7 +1,7 @@
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
 import {profile} from '../acceptance.config.mjs';
-import {openDashboard,timePeriod} from './dashboard.mjs';
+import {openDashboard,timePeriod,waitForChartPaint} from './dashboard.mjs';
 
 enableRecording(test);
 test('01 All twenty baseline charts load or report legitimate empty results',async({page},info)=>{
@@ -23,6 +23,7 @@ test('01 All twenty baseline charts load or report legitimate empty results',asy
     await expect(holder.getByText('Data error',{exact:true})).toHaveCount(0);
     await expect(holder.getByText(/An error occurred while rendering/)).toHaveCount(0);
     if(title.includes('latest comparison')&&result.data.length>0)await expect(holder.locator('table,[role=grid]').first()).toBeVisible();
+    await waitForChartPaint(holder);
     const shot=info.outputPath(`chart-${id}.png`);
     await holder.screenshot({path:shot});
     await info.attach(`chart-${id}`,{path:shot,contentType:'image/png'});

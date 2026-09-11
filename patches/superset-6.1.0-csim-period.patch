@@ -1,8 +1,16 @@
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-index 8bf09094..d9b531a7 100644
+index 8bf09094..10456e27 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-@@ -715,13 +715,17 @@ export default function transformProps(
+@@ -119,6 +119,7 @@ import {
+   getPercentFormatter,
+   getTooltipTimeFormatter,
+   getXAxisFormatter,
++  getCsimTickValues,
+   getYAxisFormatter,
+ } from '../utils/formatters';
+ import { safeParseEChartOptions } from '../utils/safeEChartOptionsParser';
+@@ -715,13 +716,17 @@ export default function transformProps(
      }
    }
  
@@ -22,7 +30,7 @@ index 8bf09094..d9b531a7 100644
        : xAxisDataType === GenericDataType.Numeric
          ? getNumberFormatter(xAxisNumberFormat)
          : String;
-@@ -883,6 +887,21 @@ export default function transformProps(
+@@ -883,6 +888,26 @@ export default function transformProps(
        })()
      : xAxisFormatter;
  
@@ -41,10 +49,15 @@ index 8bf09094..d9b531a7 100644
 +      : String(value);
 +  };
 +
++  if (xAxisTimeFormat === 'csim_period' && !isHorizontal) {
++    padding.right = Math.max(padding.right || 0, 44);
++  }
++  const csimTicks = getCsimTickValues(csimDates, csimAxisFormatter, Math.max(width - Number(padding.left || 0) - Number(padding.right || 0) - 72, 1));
++
    let xAxis: any = {
      type: xAxisType,
      name: xAxisTitle,
-@@ -896,7 +915,12 @@ export default function transformProps(
+@@ -896,7 +921,13 @@ export default function transformProps(
        // from overlapping each other, with showMaxLabel to ensure
        // the last data point label stays visible (#37181).
        hideOverlap: !(xAxisType === AxisType.Time && xAxisLabelRotation !== 0),
@@ -53,13 +66,21 @@ index 8bf09094..d9b531a7 100644
 +        xAxisTimeFormat === 'csim_period' ? csimAxisFormatter : deduplicatedFormatter,
 +      ...(xAxisTimeFormat === 'csim_period' && {
 +        showMinLabel: true,
-+        alignMinLabel: 'left',
++        alignMinLabel: 'center',
++        customValues: csimTicks,
 +      }),
        rotate: xAxisLabelRotation,
        interval: xAxisLabelInterval,
        // Force last label on non-rotated time axes to prevent
-@@ -909,15 +933,15 @@ export default function transformProps(
+@@ -904,20 +935,21 @@ export default function transformProps(
+       // avoid phantom labels at the axis boundary.
+       ...(showMaxLabel && {
+         showMaxLabel: true,
+-        alignMaxLabel: 'right',
++        alignMaxLabel: xAxisTimeFormat === 'csim_period' ? 'center' : 'right',
+       }),
      },
++    ...(xAxisTimeFormat === 'csim_period' && { axisTick: { customValues: csimTicks } }),
      minorTick: { show: minorTicks },
      minInterval:
 -      xAxisType === AxisType.Time && timeGrainSqla && !forceMaxInterval
@@ -79,15 +100,36 @@ index 8bf09094..d9b531a7 100644
          : undefined,
      ...getMinAndMaxFromBounds(
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
-index 4582253a..367b7202 100644
+index 4582253a..ff8da34f 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
-@@ -36,6 +36,22 @@ import {
+@@ -36,6 +36,43 @@ import {
  export const getSmartDateDetailedFormatter = () =>
    getTimeFormatter(SMART_DATE_DETAILED_ID);
  
 +// Opt-in reporting labels: keep typed timestamps for sorting and filtering,
 +// while axis labels and hover titles follow the selected grouping.
++// Select real reporting buckets before formatting. Layout must not depend on
++// how often ECharts calls a formatter while measuring and painting labels.
++export function getCsimTickValues(
++  values: number[],
++  formatter: (value: number) => string,
++  availableWidth: number,
++): number[] {
++  const dates = [...new Set(values.filter(Number.isFinite))].sort((a, b) => a - b);
++  if (dates.length < 3) return dates;
++  const first = dates[0];
++  const span = dates[dates.length - 1] - first;
++  // Twelve-pixel chart text plus a readable gap; browser checks measure the
++  // actual painted glyphs at several dashboard widths.
++  const separation = Math.max(...dates.map(date => formatter(date).length * 7)) + 12;
++  for (let count = Math.min(dates.length, Math.floor(availableWidth / separation) + 1); count > 2; count -= 1) {
++    const selected = Array.from({ length: count }, (_, i) => dates[Math.round(i * (dates.length - 1) / (count - 1))]);
++    if (selected.every((date, i) => i === 0 || (date - selected[i - 1]) / span * availableWidth >= separation)) return selected;
++  }
++  return [first, dates[dates.length - 1]];
++}
++
 +export const getCsimPeriodFormatter = (timeGrain?: string) =>
 +  new TimeFormatter({
 +    id: 'csim_period',
@@ -105,7 +147,7 @@ index 4582253a..367b7202 100644
  export const getSmartDateFormatter = (timeGrain?: string) => {
    const baseFormatter = getTimeFormatter(SMART_DATE_ID);
  
-@@ -162,7 +178,9 @@ export const getYAxisFormatter = (
+@@ -162,7 +199,9 @@ export const getYAxisFormatter = (
  
  export function getTooltipTimeFormatter(
    format?: string,
@@ -115,7 +157,7 @@ index 4582253a..367b7202 100644
    if (format === SMART_DATE_ID) {
      return getSmartDateVerboseFormatter();
    }
-@@ -176,6 +194,7 @@ export function getXAxisFormatter(
+@@ -176,6 +215,7 @@ export function getXAxisFormatter(
    format?: string,
    timeGrain?: string,
  ): TimeFormatter | StringConstructor | undefined {
@@ -163,16 +205,30 @@ index 373cf6a0..408cabbe 100644
 +  expect(axis.axisLabel.formatter(Date.UTC(2027, 0, 1))).toBe('');
 +});
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
-index a4e4dea5..88e9f53c 100644
+index a4e4dea5..103ef72f 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
-@@ -25,8 +25,21 @@ import {
+@@ -25,8 +25,35 @@ import {
  import {
    getPercentFormatter,
    getXAxisFormatter,
++  getCsimTickValues,
 +  getTooltipTimeFormatter,
  } from '../../src/utils/formatters';
  
++test('CSiM ticks keep both ends, all short-range months, and readable long-range spacing', () => {
++  const months = Array.from({ length: 13 }, (_, i) => Date.UTC(2025, 8 + i, 1));
++  const format = (value: number) => String(getXAxisFormatter('csim_period', 'P1M')?.(value));
++  expect(getCsimTickValues(months.slice(0, 6), format, 400)).toEqual(months.slice(0, 6));
++  const narrow = getCsimTickValues(months, format, 400);
++  expect(narrow[0]).toBe(Date.UTC(2025, 8, 1));
++  expect(narrow[narrow.length - 1]).toBe(Date.UTC(2026, 8, 1));
++  expect(narrow.length).toBeLessThan(months.length);
++  narrow.slice(1).forEach((date, i) => expect((date - narrow[i]) / (months[12] - months[0]) * 400).toBeGreaterThanOrEqual(68));
++  expect(getCsimTickValues([months[0], months[0]], format, 400)).toEqual([months[0]]);
++  expect(getCsimTickValues([], format, 400)).toEqual([]);
++});
++
 +test.each([
 +  ['2025-01-01T00:00:00Z', 'P1M', 'Jan 2025'],
 +  ['2025-12-01T00:00:00Z', 'P1M', 'Dec 2025'],

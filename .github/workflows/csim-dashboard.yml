@@ -61,6 +61,14 @@ jobs:
         env:
           CSIM_PROFILE: ${{ matrix.build }}
         run: npm test
+      - name: Test the linked known-record dashboard without video
+        working-directory: e2e
+        env:
+          CSIM_PROFILE: ${{ matrix.build }}
+          CSIM_DATA_PROFILE: edge-cases
+          CSIM_DASHBOARD_SLUG: csim-filter-examples
+          CSIM_OUTPUT: ${{ github.workspace }}/output/linked-examples
+        run: npm test
       - name: Restore and test independent numerical fixture without video
         run: |
           profile=fixture
@@ -91,5 +99,9 @@ jobs:
           path: |
             output/acceptance/**/results.json
             output/acceptance/**/results/**/*.png
+            output/linked-examples/results.json
+            output/linked-examples/results/**/*.png
+            output/month-*/results.json
+            output/month-*/results/**/*.png
             output/*-receipt.json
             output/*-import-verification.json

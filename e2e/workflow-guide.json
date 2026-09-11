@@ -2,21 +2,21 @@
   "01": {
     "label": "The full dashboard after transfer",
     "try": "Open the complete 20-chart Individual Data dashboard with an explicit reporting window.",
-    "expected": "All 20 charts render or report a legitimate empty result. SQL, calculated columns, layout and filter bindings match the versioned package.",
+    "expected": "All 20 charts are present and the opening hospital has useful content in every panel. SQL, calculated columns, layout and filter bindings match the versioned package.",
     "videoIntro": "The April dashboard is imported into a separate instance with different chart IDs. This walkthrough shows the complete dashboard after the import checks pass.",
     "videoOutro": "The full dashboard is preserved. On 6.1.0, the deployment helper repairs cached filter references; the snapshot remaps those references natively."
   },
   "02": {
     "label": "Month, Quarter and Year labels",
     "try": "Change Time Unit while keeping the reporting dates fixed.",
-    "expected": "Date axes and hover details use Jan 2025, Q1 2025 and 2025. Dates remain chronologically ordered.",
+    "expected": "Date axes and hover details use Jan 2025, Q1 2025 and 2025. Both endpoints remain visible, with spaced intermediate labels and chronological dates.",
     "videoIntro": "Use the same reporting window with three grouping choices. The CSiM formatter follows the selected unit on the trend charts and the lower date axes.",
     "videoOutro": "The formatter changes presentation without converting dates into text. All eleven date axes are checked when they contain data."
   },
   "03": {
     "label": "Missing periods and selected dates",
-    "try": "Inspect hospital 91, then narrow the window to February\u2013March and group by Quarter.",
-    "expected": "February is missing, March is a valid zero, and February\u2013March has 10 submissions without January.",
+    "try": "Inspect hospital 91, then narrow the window to February–March and group by Quarter.",
+    "expected": "February is missing, March is a valid zero, and February–March has 10 submissions without January.",
     "videoIntro": "Known test records make these differences visible: no February submissions, a valid zero rate in March, and a partial-quarter window.",
     "videoOutro": "Calendar rows retain missing months. The date window filters observations before grouping, and an empty selection can return to a populated result on the same page."
   },
@@ -37,9 +37,9 @@
   "06": {
     "label": "Two series across a year boundary",
     "try": "Compare hospitals 91 and 92 in Month, Quarter and Year views.",
-    "expected": "Both series remain ordered across 2025\u20132026, with readable date labels.",
+    "expected": "Both series remain ordered across 2025–2026, with readable date labels.",
     "videoIntro": "Text dates can sort incorrectly when a chart compares multiple series. These charts retain real dates and format the labels separately.",
-    "videoOutro": "The two series remain chronological. The released renderer also includes an opt-in correction that keeps the first date label visible."
+    "videoOutro": "The two series remain chronological. Labels keep the first and last period visible, with enough space at the graph edges."
   },
   "07": {
     "label": "From month, Through month and Group by",

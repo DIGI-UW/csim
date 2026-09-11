@@ -1,12 +1,33 @@
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
-index 5fe4dd19..17b2a2af 100644
+index 5fe4dd19..e9f884a0 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
-@@ -38,6 +38,21 @@ import { TIMESERIES_CONSTANTS } from '../constants';
+@@ -38,6 +38,42 @@ import { TIMESERIES_CONSTANTS } from '../constants';
  export const getSmartDateDetailedFormatter = () =>
    getTimeFormatter(SMART_DATE_DETAILED_ID);
  
 +// Opt-in CSiM labels preserve typed dates while following the reporting grain.
++// Select real reporting buckets before formatting. Layout must not depend on
++// how often ECharts calls a formatter while measuring and painting labels.
++export function getCsimTickValues(
++  values: number[],
++  formatter: (value: number) => string,
++  availableWidth: number,
++): number[] {
++  const dates = [...new Set(values.filter(Number.isFinite))].sort((a, b) => a - b);
++  if (dates.length < 3) return dates;
++  const first = dates[0];
++  const span = dates[dates.length - 1] - first;
++  // Twelve-pixel chart text plus a readable gap; browser checks measure the
++  // actual painted glyphs at several dashboard widths.
++  const separation = Math.max(...dates.map(date => formatter(date).length * 7)) + 12;
++  for (let count = Math.min(dates.length, Math.floor(availableWidth / separation) + 1); count > 2; count -= 1) {
++    const selected = Array.from({ length: count }, (_, i) => dates[Math.round(i * (dates.length - 1) / (count - 1))]);
++    if (selected.every((date, i) => i === 0 || (date - selected[i - 1]) / span * availableWidth >= separation)) return selected;
++  }
++  return [first, dates[dates.length - 1]];
++}
++
 +export const getCsimPeriodFormatter = (timeGrain?: string) =>
 +  new TimeFormatter({
 +    id: 'csim_period',
@@ -24,7 +45,7 @@ index 5fe4dd19..17b2a2af 100644
  export const getSmartDateFormatter = (timeGrain?: string) => {
    const baseFormatter = getTimeFormatter(SMART_DATE_ID);
  
-@@ -187,6 +202,7 @@ export function getTooltipTimeFormatter(
+@@ -187,6 +223,7 @@ export function getTooltipTimeFormatter(
    format?: string,
    timeGrain?: TimeGranularity,
  ): TimeFormatter | StringConstructor {
@@ -32,7 +53,7 @@ index 5fe4dd19..17b2a2af 100644
    // When a time grain is active and the user hasn't pinned an explicit format,
    // honor the grain so tooltips read "Jan 2021", "2021 Q1", "2021", weekly
    // ranges, etc. instead of a fixed timestamp. An explicit custom format is
-@@ -207,6 +223,7 @@ export function getXAxisFormatter(
+@@ -207,6 +244,7 @@ export function getXAxisFormatter(
    format?: string,
    timeGrain?: string,
  ): TimeFormatter | StringConstructor | undefined {
@@ -41,13 +62,29 @@ index 5fe4dd19..17b2a2af 100644
      return getSmartDateFormatter(timeGrain);
    }
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
-index cf670f09..0997d637 100644
+index cf670f09..c019722d 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
-@@ -32,6 +32,18 @@ import {
+@@ -30,8 +30,34 @@ import {
+   getPercentFormatter,
+   getTooltipTimeFormatter,
    getXAxisFormatter,
++  getCsimTickValues,
  } from '../../src/utils/formatters';
  
++test('CSiM ticks keep both ends, all short-range months, and readable long-range spacing', () => {
++  const months = Array.from({ length: 13 }, (_, i) => Date.UTC(2025, 8 + i, 1));
++  const format = (value: number) => String(getXAxisFormatter('csim_period', 'P1M')?.(value));
++  expect(getCsimTickValues(months.slice(0, 6), format, 400)).toEqual(months.slice(0, 6));
++  const narrow = getCsimTickValues(months, format, 400);
++  expect(narrow[0]).toBe(Date.UTC(2025, 8, 1));
++  expect(narrow[narrow.length - 1]).toBe(Date.UTC(2026, 8, 1));
++  expect(narrow.length).toBeLessThan(months.length);
++  narrow.slice(1).forEach((date, i) => expect((date - narrow[i]) / (months[12] - months[0]) * 400).toBeGreaterThanOrEqual(68));
++  expect(getCsimTickValues([months[0], months[0]], format, 400)).toEqual([months[0]]);
++  expect(getCsimTickValues([], format, 400)).toEqual([]);
++});
++
 +test.each([
 +  ['2025-01-01T00:00:00Z', 'P1M', 'Jan 2025'],
 +  ['2025-12-01T00:00:00Z', 'P1M', 'Dec 2025'],

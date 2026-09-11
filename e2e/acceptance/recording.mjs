@@ -1,10 +1,11 @@
+import {waitForChartPaint} from './dashboard.mjs';
 import {recording} from '../acceptance.config.mjs';
 
 // Screenshots are taken only after the workflow assertion that they explain.
 export async function scene(page,info,name,chapter,caption,majorBreak){
-  if(!recording)return;
   await page.mouse.move(5,5);
-  await page.waitForTimeout(1800);
+  if(recording)await page.waitForTimeout(1800);
+  await waitForChartPaint(page);
   const file=info.outputPath(`${name}.png`);
   await page.screenshot({path:file});
   await info.attach(name,{path:file,contentType:'image/png'});

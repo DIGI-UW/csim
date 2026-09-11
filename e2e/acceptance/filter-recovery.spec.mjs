@@ -1,6 +1,6 @@
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
-import {profile,dataProfile} from '../acceptance.config.mjs';
+import {profile,dataProfile,openingHospital} from '../acceptance.config.mjs';
 import {openDashboard,timeUnit,timePeriod,hospital,allTrends,filters,location} from './dashboard.mjs';
 
 enableRecording(test);
@@ -52,9 +52,9 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await info.attach('recovered-results',{body:Buffer.from(JSON.stringify(restored)),contentType:'application/json'});
 });
 
-test('Opening afresh applies saved Cohort, Last year and Month defaults',async({page})=>{
+test('Opening afresh applies the saved hospital, Last year and Month defaults',async({page})=>{
   const watch=await openDashboard(page,profile);
-  for(const [id,label] of [[filters.hospital,'Cohort'],[filters.grain,'Month']]){
+  for(const [id,label] of [[filters.hospital,openingHospital],[filters.grain,'Month']]){
     const selected=await page.getByRole('combobox',{name:id,exact:true}).evaluate(el=>el.closest('[title]')?.getAttribute('title') || el.closest('.ant-select').querySelector('.ant-select-selection-item')?.getAttribute('title'));
     expect(selected).toBe(label);
   }

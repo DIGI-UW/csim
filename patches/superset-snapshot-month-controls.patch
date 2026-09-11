@@ -1,22 +1,35 @@
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-index 276db9e6..d85f5fdd 100644
+index 276db9e6..c3826dbe 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-@@ -1406,6 +1406,19 @@ export default function transformProps(
+@@ -137,6 +137,7 @@ import {
+   getTooltipTimeFormatter,
+   getXAxisDomain,
+   getXAxisFormatter,
++  getCsimTickValues,
+   getYAxisFormatter,
+ } from '../utils/formatters';
+ import { safeParseEChartOptions } from '../utils/safeEChartOptionsParser';
+@@ -1406,6 +1407,24 @@ export default function transformProps(
      zoomable,
    );
  
 +  if (xAxisTimeFormat === 'csim_period') {
 +    const dates = rebasedData.map(row => Number(row[xAxisLabel] ?? row[xAxisOrig])).filter(Number.isFinite);
 +    const first = Math.min(...dates), last = Math.max(...dates);
-+    // ECharts extends a one-point scale and bar domains for drawing space.
-+    // Padding is not an additional reporting period.
++    if (!isHorizontal) padding.right = Math.max(padding.right || 0, 44);
++    const ticks = getCsimTickValues(dates, value => String(xAxisFormatter?.(value)), Math.max(width - Number(padding.left || 0) - Number(padding.right || 0) - 72, 1));
 +    temporalAxisTickConfig.axisLabel = {
 +      ...temporalAxisTickConfig.axisLabel,
 +      formatter: (value: number | string) => Number(value) < first || Number(value) > last
 +        ? '' : (xAxisFormatter as (value: number | string) => string)(value),
++      customValues: ticks,
++      hideOverlap: true,
 +      showMinLabel: true,
++      showMaxLabel: true,
++      ...(!isHorizontal && { alignMinLabel: 'center', alignMaxLabel: 'center' }),
 +    };
++    temporalAxisTickConfig.axisTick = { customValues: ticks };
 +  }
 +
    let xAxis: any = {

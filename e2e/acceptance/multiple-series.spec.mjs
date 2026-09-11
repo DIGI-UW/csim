@@ -10,6 +10,7 @@ test('06 Two hospital series stay chronological across the year boundary',async(
   await hospital(page,'91');
   const control=page.getByRole('combobox',{name:filters.hospital,exact:true});
   await control.press('ArrowDown');
+  await control.fill('92');
   await page.locator('.ant-select-dropdown:visible').getByTitle('92',{exact:true}).click();
   await control.press('Escape');
   await page.getByRole('button',{name:'Apply filters',exact:true}).click();

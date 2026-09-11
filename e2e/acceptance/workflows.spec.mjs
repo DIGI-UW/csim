@@ -1,7 +1,7 @@
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
 import {profile,dataProfile} from '../acceptance.config.mjs';
-import {openDashboard,timeUnit,timePeriod,paintedLabels,hospital} from './dashboard.mjs';
+import {openDashboard,timeUnit,timePeriod,paintedLabels,paintedPeriodBounds,hospital,waitForChartPaint} from './dashboard.mjs';
 
 enableRecording(test);
 test('02 All eleven date axes keep real dates and display Month, Quarter and Year',async({page},info)=>{
@@ -28,12 +28,23 @@ test('02 All eleven date axes keep real dates and display Month, Quarter and Yea
         const labels=await paintedLabels(trend.plot);
         return labels.length>0&&labels.every(label=>pattern.test(label));
       },{message:`${trend.name} must actually draw ${name} labels`}).toBe(true);
-      const box=await trend.plot.boundingBox();
-      await page.mouse.move(box.x+box.width*0.55,box.y+box.height*0.45);
+      await waitForChartPaint(trend.plot);
+      const format=value=>{
+        const date=new Date(value),year=date.getUTCFullYear();
+        return name==='Year'?String(year):name==='Quarter'?`Q${Math.floor(date.getUTCMonth()/3)+1} ${year}`:new Intl.DateTimeFormat('en-US',{month:'short',year:'numeric',timeZone:'UTC'}).format(date);
+      };
+      const populated=new Set(result.data.filter(row=>Object.entries(row).some(([key,value])=>key!=='month_date'&&typeof value==='number')).map(row=>format(row.month_date)));
+      const box=await trend.plot.locator('canvas').first().boundingBox();
+      const label=(await paintedPeriodBounds(trend.plot)).filter(item=>populated.has(item.text))
+        .sort((a,b)=>Math.abs(a.x-box.width/2)-Math.abs(b.x-box.width/2))[0];
+      expect(label,`${trend.name} must offer a visible populated period for the hover check`).toBeTruthy();
+      // Endpoint ticks can lie exactly on the plot boundary. Hover just inside
+      // the plot, preferring a populated interior period when one is available.
+      await page.mouse.move(box.x+label.x+(label.x<box.width/2?2:-2),box.y+box.height*0.45);
       const tooltip=page.locator('.echarts-tooltip:visible');
       await expect.poll(async()=>{
         const texts=await tooltip.evaluateAll(elements=>elements.filter(el=>Number(getComputedStyle(el).opacity)>0.99).map(el=>el.innerText));
-        return texts.length>0 && texts.every(text=>text.split('\n').some(line=>pattern.test(line.trim())));
+        return texts.length>0 && texts.every(text=>text.split('\n').some(line=>line.trim()===label.text&&pattern.test(line.trim())));
       },{message:`${trend.name} hover must use ${name} format`}).toBe(true);
       const shot=info.outputPath(`${name}-${trend.id}.png`);
       await trend.plot.screenshot({path:shot});
