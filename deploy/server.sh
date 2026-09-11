@@ -19,6 +19,7 @@ main() {
       ;;
     init|update)
       ssh -o BatchMode=yes "$host" bash -s -- "$release" "$action" <<'REMOTE'
+# Container commands below receive no stdin: Compose must not consume this SSH script.
 set -euo pipefail
 release="$1"; action="$2"
 cd "$release"
@@ -27,7 +28,7 @@ for profile in corrected preview; do
   if [[ ! -f "$shared" ]]; then
     [[ "$action" == init ]] || { echo 'Missing instance configuration.' >&2; exit 1; }
     # config creates credentials without starting or restoring a service.
-    bash csim.sh "$profile" config >/dev/null
+    bash csim.sh "$profile" config >/dev/null </dev/null
     mv ".env.$profile" "$shared"
     python3 - "$shared" "$profile" <<'PY'
 import sys
@@ -44,15 +45,15 @@ PY
     docker exec "csim-$profile-superset-1" python -c "import sqlite3; s=sqlite3.connect('/app/superset_home/csim.db'); d=sqlite3.connect('/app/superset_home/before-update.db'); s.backup(d)"
     docker cp "csim-$profile-superset-1:/app/superset_home/before-update.db" "/home/ubuntu/csim/backups/$profile-$(date -u +%Y%m%dT%H%M%S).db"
   fi
-  CSIM_SERVER=1 CSIM_SKIP_BUILD=1 bash csim.sh "$profile" "$action"
+  CSIM_SERVER=1 CSIM_SKIP_BUILD=1 bash csim.sh "$profile" "$action" </dev/null
   if [[ "$action" == init ]]; then example_action=examples-init; else example_action=examples-update; fi
-  CSIM_SERVER=1 bash csim.sh "$profile" "$example_action"
-  if [[ "$profile" == preview ]]; then CSIM_SERVER=1 bash csim.sh preview hourly; fi
-  CSIM_SERVER=1 bash csim.sh "$profile" viewer
-  CSIM_SERVER=1 bash csim.sh "$profile" verify-import
-  CSIM_SERVER=1 bash csim.sh "$profile" pack
-  CSIM_SERVER=1 bash csim.sh "$profile" test-update
-  CSIM_SERVER=1 bash csim.sh "$profile" verify-import
+  CSIM_SERVER=1 bash csim.sh "$profile" "$example_action" </dev/null
+  if [[ "$profile" == preview ]]; then CSIM_SERVER=1 bash csim.sh preview hourly </dev/null; fi
+  CSIM_SERVER=1 bash csim.sh "$profile" viewer </dev/null
+  CSIM_SERVER=1 bash csim.sh "$profile" verify-import </dev/null
+  CSIM_SERVER=1 bash csim.sh "$profile" pack </dev/null
+  CSIM_SERVER=1 bash csim.sh "$profile" test-update </dev/null
+  CSIM_SERVER=1 bash csim.sh "$profile" verify-import </dev/null
   cp "output/$profile-viewer.json" "/home/ubuntu/csim/shared/$profile-viewer.json"
 done
 ln -sfn "$release" /home/ubuntu/csim/current
@@ -60,6 +61,7 @@ REMOTE
       ;;
     hosts|redirects)
       ssh -o BatchMode=yes "$host" bash -s -- "$release" "$action" <<'REMOTE'
+# Container commands below receive no stdin: Compose must not consume this SSH script.
 set -euo pipefail
 release="$1"; action="$2"
 config=/home/ubuntu/catalyst-demo/targets/catalyst/Caddyfile
