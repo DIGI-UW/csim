@@ -24,6 +24,7 @@ docker cp "$release/demo_access.py" "$container:$target/demo_access.py"
 docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/reconcile.py" </dev/null
 docker exec "$container" python "$target/demo_access.py" </dev/null
 mkdir -p "$release/output"
+printf '%s\n' "$revision" > "$release/output/assets-revision.txt"
 for file in reconciliation-verification reconciled-import-verification reconciled-receipt reconciled-examples-import-verification reconciled-examples-receipt; do
   docker cp "$container:/tmp/csim-$file.json" "$release/output/$file.json"
 done

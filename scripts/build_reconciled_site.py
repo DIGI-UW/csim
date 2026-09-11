@@ -31,7 +31,8 @@ release=dict(old_release,revision=revision,previousOverviewRevision=old_release[
 deployment=ROOT/'output/reconciled-deployment'
 verification=json.loads((deployment/'reconciliation-verification.json').read_text())
 assert verification['beforeSha256']==verification['afterSha256']
-release['reconciledAssets']={'revision':revision,'url':'https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled/',
+assets_revision=(deployment/'assets-revision.txt').read_text().strip()
+release['reconciledAssets']={'revision':assets_revision,'url':'https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled/',
     'charts':21,'datasets':6,'preservation':verification,'runtimeImageId':(deployment/'runtime-image-id.txt').read_text().strip()}
 (output/'release.json').write_text(json.dumps(release,indent=2))
 for name in ['reconciled','reconciled-examples']:
@@ -56,7 +57,7 @@ assert checks
 shutil.copy2(checks[0]['assertedScreenshot'],destination/'opening.png')
 for i,sheet in enumerate(film['contactSheets']):shutil.copy2(sheet,destination/f'frames-{i+1}.jpg')
 for path in deployment.glob('*.json'):shutil.copy2(path,destination/path.name)
-(destination/'validation.json').write_text(json.dumps({'assetsRevision':revision,'recordedRevision':provenance['revision'],
+(destination/'validation.json').write_text(json.dumps({'assetsRevision':assets_revision,'recordedRevision':provenance['revision'],
     'runtime':old_release['deployments']['main'],'framesChecked':film['framesChecked'],
     'maxPixelDifference':film['maxPixelDifference'],'visuallyReviewed':True},indent=2))
 (destination/'index.html').write_text(f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>September CSiM dashboard: workflow and screenshots</title><style>body{{max-width:1100px;margin:auto;padding:28px;background:#f5f7f4;color:#253c3b;font:17px/1.6 system-ui}}h1,h2{{line-height:1.2}}a{{color:#24665f}}video{{width:100%;background:white}}section,details{{padding:22px;background:white;border:1px solid #d9e2de;border-radius:8px;margin:24px 0}}.links{{display:flex;gap:18px;flex-wrap:wrap}}img{{max-width:100%}}</style>
@@ -64,7 +65,7 @@ for path in deployment.glob('*.json'):shutil.copy2(path,destination/path.name)
 <p class="links"><a href="https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled/">Open September dashboard ↗</a><a href="../../#demo-access">Matching login</a><a href="https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-corrected/">Compare established version ↗</a></p>
 <section><h2>Latest data, section links and comparison selectors</h2><p>The recording uses known records. The latest-data card remains independent of the viewing window; section links keep the selections; and named states produce comparison charts.</p><video controls preload="none" poster="opening.png"><source src="workflow.mp4" type="video/mp4"><track kind="captions" src="captions.vtt" srclang="en" label="English"></video><p class="links"><a href="https://dashboard.csim.uwdigi.org/superset/dashboard/csim-reconciled-examples/">Repeat with known records ↗</a><a href="frames-1.jpg">Inspected video frames</a><a href="validation.json">Validation details</a></p></section>
 <section><h2>Check every original reporting concern</h2><p>The screenshots cover all 21 opening panels, eleven date axes in Month/Quarter/Year at three widths, hover details, missing periods, valid zeroes, partial quarters, multiple series and filter recovery. Both supplied and known-record data are included.</p><p><a href="screenshots/">Open the September screenshot gallery →</a></p></section>
-<details><summary>Version and import checks</summary><p>Dashboard assets: <code>{revision[:12]}</code>. Runtime: the existing main Superset 6.1.0 CSiM build. Adding this version left {verification['existingDashboardsUnchanged']} existing dashboard definitions unchanged.</p><p><a href="reconciliation-verification.json">Preservation check</a> · <a href="reconciled-import-verification.json">21-chart definition check</a> · <a href="https://github.com/DIGI-UW/csim/blob/main/RECONCILIATION.md">Included changes and reproduction</a></p></details><p>Automated checks and screenshot review are complete for this release. Beth’s usability acceptance remains separate.</p></html>''')
+<details><summary>Version and import checks</summary><p>Dashboard assets: <code>{assets_revision[:12]}</code>. Runtime: the existing main Superset 6.1.0 CSiM build. Adding this version left {verification['existingDashboardsUnchanged']} existing dashboard definitions unchanged.</p><p><a href="reconciliation-verification.json">Preservation check</a> · <a href="reconciled-import-verification.json">21-chart definition check</a> · <a href="https://github.com/DIGI-UW/csim/blob/main/RECONCILIATION.md">Included changes and reproduction</a></p></details><p>Automated checks and screenshot review are complete for this release. Beth’s usability acceptance remains separate.</p></html>''')
 index=output/'evidence/index.html'
 text=index.read_text().replace('<nav>','<nav><a href="september/">September version: additions and full screenshot checks</a>',1)
 index.write_text(text)

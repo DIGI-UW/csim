@@ -32,6 +32,9 @@ test('08 Beth’s September additions preserve context and comparison selections
   await expect(page.getByRole('button',{name:'Time Period',exact:true})).toContainText('2025-11-01');
   const grain=page.getByRole('combobox',{name:'NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_',exact:true}).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]');
   await expect(grain).toContainText('Quarter');
+  await page.waitForLoadState('networkidle');await watch.settle();
+  await expect(page.getByText(/Waiting on CSiM.*PostgreSQL/).filter({visible:true})).toHaveCount(0);
+  await waitForChartPaint(page);
   await scene(page,info,'section-navigation','Section links keep your selections','Jump to antibiotic duration without resetting the reporting window or grouping.');
   const menuReport=[];
   for(const [filter,numeric] of [['NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI',true],['NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG',false]]){
@@ -47,12 +50,14 @@ test('08 Beth’s September additions preserve context and comparison selections
   }
   if(fixture){
     await hospital(page,'Demo State','NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG');
-    for(const name of ['Cohort/State (abx)','Cohort/State (duration)','Cohort/State (UC location)']){
+    for(const name of ['Cohort/State (duration)','Cohort/State (abx)','Cohort/State (UC location)']){
       const chart=watch.dateAxes.find(c=>c.name===name);
       await chart.holder.scrollIntoViewIfNeeded();await watch.settle();
       await expect.poll(()=>watch.replies.get(chart.id)?.result?.data?.length, {message:`${name} supports the named state selection`}).toBeGreaterThan(0);
+      await chart.holder.evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
       await waitForChartPaint(chart.holder);
       const shot=info.outputPath(`named-state-${chart.id}.png`);await chart.holder.screenshot({path:shot});await info.attach(name,{path:shot,contentType:'image/png'});
+      await scene(page,info,`named-state-${chart.id}`,name,'Demo State contains both known hospitals. The selected state produces comparison results.',name==='Cohort/State (duration)'?'Named-state comparisons':undefined);
     }
   }
   await card.scrollIntoViewIfNeeded();await expect(card).toContainText(expected);
