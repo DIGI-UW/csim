@@ -21,13 +21,15 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs):return None
 opener=urllib.request.build_opener(NoRedirect)
 container='csim-proxy-check'
-subprocess.run(['docker','run','--rm','-d','--name',container,'-p','127.0.0.1:18781:80','-v',str(ROOT/'output')+':/check:ro','caddy:2.11.4','caddy','run','--config','/check/Caddyfile-http','--adapter','caddyfile'],check=True,stdout=subprocess.DEVNULL)
+subprocess.run(['docker','run','--rm','-d','--name',container,'-p','127.0.0.1::80','-v',str(ROOT/'output')+':/check:ro','caddy:2.11.4','caddy','run','--config','/check/Caddyfile-http','--adapter','caddyfile'],check=True,stdout=subprocess.DEVNULL)
 try:
+ port=subprocess.check_output(['docker','port',container,'80/tcp'],text=True).strip().rsplit(':',1)[1]
+ base='http://127.0.0.1:'+port
  for attempt in range(30):
   try:
-   urllib.request.urlopen('http://127.0.0.1:18781/ready',timeout=1)
+   response=urllib.request.urlopen(base+'/ready',timeout=1)
+   assert response.read()==b'Catalyst','The disposable Caddy must answer readiness'
    break
-  except urllib.error.HTTPError:break
   except (urllib.error.URLError,http.client.RemoteDisconnected,ConnectionResetError,TimeoutError):time.sleep(0.1)
  else:
   subprocess.run(['docker','logs',container],check=False)
@@ -43,7 +45,7 @@ try:
  ('/superset-preview/login/?next=%2Fsuperset-preview%2Fsuperset%2Fdashboard%2Fcsim-full-synthetic%2F','preview.csim.uwdigi.org','/login/?next=/superset/dashboard/csim-individual-preview/'),
  ]
  for path,host,expected in cases:
-  request=urllib.request.Request('http://127.0.0.1:18781'+path,headers={'Host':'catalyst.openelis-global.org'})
+  request=urllib.request.Request(base+path,headers={'Host':'catalyst.openelis-global.org'})
   try:opener.open(request,timeout=10)
   except urllib.error.HTTPError as response:
    assert response.code==308,(path,response.code)

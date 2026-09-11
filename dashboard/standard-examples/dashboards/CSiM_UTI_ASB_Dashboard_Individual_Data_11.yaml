@@ -239,7 +239,7 @@ position:
     id: CHART-explore-82-1
     meta:
       chartId: 82
-      height: 51
+      height: 61
       sliceName: Top abx (own hospital stacked) - Ind
       sliceNameOverride: Your hospital (abx)
       uuid: 354ecd98-986d-5b58-89ac-cf005d215389
@@ -269,7 +269,7 @@ position:
     id: CHART-explore-93-1
     meta:
       chartId: 93
-      height: 51
+      height: 61
       sliceName: Top abx (cohort/state stacked) - Ind
       sliceNameOverride: Cohort/State (abx)
       uuid: 0f1c289e-2f0b-5d87-8e64-bdabc1f35c95

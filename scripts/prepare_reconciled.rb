@@ -86,6 +86,11 @@ module ReconciledDashboard
       dashboard['position'].fetch(id).fetch('meta')['code'] = HOSPITAL_PROMPT
       dashboard['position'].fetch(id).fetch('meta')['height'] = 12
     end
+    # The long antibiotic-count title needs space between the legend and
+    # rotated monthly ticks. Keep both comparison panels the same height.
+    %w[CHART-explore-82-1 CHART-explore-93-1].each do |id|
+      dashboard['position'].fetch(id).fetch('meta')['height'] = 61
+    end
     dashboard['position']['MARKDOWN-8qLF0rtVZnycDfi3XPowe']['meta']['code'] =
       '*Manual upload note from the source dashboard:* March 30, 2026. This is separate from the latest reporting month shown beside it.'
 

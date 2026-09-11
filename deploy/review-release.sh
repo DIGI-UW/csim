@@ -3,7 +3,7 @@
 # The exact revision must already be on a remote branch. Existing data is retained.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-action="${1:?Use stage or activate}"
+action="${1:?Use stage, activate or assets}"
 revision="${2:?Use a full committed revision}"
 profile="${3:?Use corrected, standard or development}"
 [[ "$revision" =~ ^[0-9a-f]{40}$ ]] || exit 2
@@ -12,7 +12,7 @@ git cat-file -e "$revision^{commit}"
 [[ -n "$(git branch -r --contains "$revision")" ]] || { echo 'Push the exact candidate before publication.' >&2; exit 1; }
 host="${CSIM_SSH_HOST:-catalyst.openelis-global.org}"
 release="/home/ubuntu/csim/releases/$revision"
-if [[ "$action" == stage ]]; then
+if [[ "$action" == stage || "$action" == assets ]]; then
   ssh -o BatchMode=yes "$host" "mkdir -p '$release' /home/ubuntu/csim/shared /home/ubuntu/csim/backups"
   git archive "$revision" | ssh -o BatchMode=yes "$host" "tar -xf - -C '$release'"
 elif [[ "$action" != activate ]]; then exit 2; fi
@@ -20,6 +20,39 @@ ssh -o BatchMode=yes "$host" bash -s -- "$release" "$profile" "$action" <<'REMOT
 set -euo pipefail
 cd "$1"; profile="$2"; action="$3"; revision="${1##*/}"
 shared="/home/ubuntu/csim/shared/.env.$profile"
+if [[ "$action" == assets ]]; then
+  # Replace only saved definitions in the already running application. This
+  # path never starts containers, rebuilds an image or writes reporting data.
+  container="csim-$profile-superset-1"
+  [[ "$(docker inspect --format '{{.State.Running}}' "$container")" == true ]]
+  stamp="$(date -u +%Y%m%dT%H%M%S)"
+  backup="/home/ubuntu/csim/backups/$profile-assets-$stamp.db"
+  docker exec "$container" python -c "import sqlite3; s=sqlite3.connect('/app/superset_home/csim.db'); d=sqlite3.connect('/app/superset_home/before-assets.db'); s.backup(d)" </dev/null
+  docker cp "$container:/app/superset_home/before-assets.db" "$backup"
+  target="/tmp/csim-assets-$revision"
+  docker exec "$container" mkdir -p "$target" </dev/null
+  for directory in dashboard scripts; do docker cp "$1/$directory" "$container:$target/"; done
+  if [[ "$profile" == corrected ]]; then
+    packages=(reconciled reconciled-examples reconciled-months reconciled-months-examples)
+  else
+    packages=("$profile" "$profile-examples" "$profile-sortable" "$profile-sortable-examples")
+  fi
+  for package in "${packages[@]}"; do
+    docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/dashboard_import.py" import --profile "$package" </dev/null
+    docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/verify_import.py" --profile "$package" </dev/null
+  done
+  python3 - "$profile" "$revision" "$backup" "${packages[@]}" <<'PYRECEIPT'
+import datetime,json,subprocess,sys
+from pathlib import Path
+profile,revision,backup,*packages=sys.argv[1:]
+receipt={'profile':profile,'assetsRevision':revision,'packages':packages,'rollbackMetadata':backup,
+ 'runtimeImageId':subprocess.check_output(['docker','inspect','--format','{{.Image}}',f'csim-{profile}-superset-1'],text=True).strip(),
+ 'updatedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'publicVerification':'pending'}
+Path(f'/home/ubuntu/csim/shared/{profile}-assets-release.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps(receipt))
+PYRECEIPT
+  exit
+fi
 if [[ ! -f "$shared" ]]; then
   [[ "$action" == stage && "$profile" != corrected ]] || { echo 'Missing existing main configuration.' >&2; exit 1; }
   bash csim.sh "$profile" config >/dev/null </dev/null

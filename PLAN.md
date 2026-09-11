@@ -60,11 +60,11 @@ Test native formatting, rotation and margins before extending the formatter; com
 | Area | Implemented, validated and deployed | Remaining |
 | --- | --- | --- |
 | Source and deployment | PR #13; runtime/definitions `9f7d15dbc736bd859a6a3308b81d263f162319ae`. Custom full September and official stable comparison are public, each with 21 charts and six datasets. | Review/merge and complete CI. |
-| Custom workflow | [Full month-controls dashboard](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled-months/). Three public checks passed: inclusive month boundaries/order/clear-reselect; cohort opening across 21 panels; all eleven Month/Quarter/Year axes and hover formats. | Public supplied-data suite and all nine section links pass; public fixture coverage continues. |
+| Custom workflow | [Full month-controls dashboard](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled-months/). Three public checks passed: inclusive month boundaries/order/clear-reselect; cohort opening across 21 panels; all eleven Month/Quarter/Year axes and hover formats. | Public supplied-data suite, all nine section links and all 12 applicable fixture checks pass. |
 | Official comparison | [Official 6.1.0 dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-sortable/). Public all-21-chart, hospital guidance/980 total/clear-reselect and filter-order checks passed. Server assets match the pinned official image. | Native controls use the ordinary Time Period editor, horizontal layout and year-first labels. Dedicated month fields and exact client wording remain gaps. Unmodified development remains local. |
-| Overview and evidence | [Comparison and matching copyable logins](https://design.csim.uwdigi.org/comparison.html), overview revision `565f36ea2d957de2b2528ffdae233d3bba3342e2`. Six public website checks passed. Two current chart screenshots inspected. | Six new workflow films are rendered and reviewed, with 99 date-axis screenshots inspected. Publishing this evidence package is next. Older films remain separately labelled. |
+| Overview and evidence | [Comparison and matching copyable logins](https://design.csim.uwdigi.org/comparison.html), overview revision `dd35db71a56cfb85bca6295ee2ed4965110e836f`. Six public website checks passed. Two current chart screenshots inspected. | Six reviewed workflow films and 99 inspected date-axis screenshots are published at evidence/current/. Public playback, seeking and layout checks pass. Older films remain separately labelled. |
 | Broader local validation | Custom 99-case matrices pass on both bases. Stable supplied suite: 10 applicable passes. Stable and snapshot fixtures: 12 applicable passes each. | Finish release-wide regression and public verification. |
-| CI | Initial review run failed at the comparison-image check: the published screenshots were absent from Git. This update includes those exact assets. | Run again; do not report CI as passing before it completes. |
+| CI | Run `34647263047` failed: two native dropdown interactions, one development hospital result, and the new September matrix running against the preserved April comparison. | Correct and rerun; local results do not establish CI success. |
 | Preservation | No existing database was reseeded. Previous image/environment/metadata and routes retained. Main rollback: `/home/ubuntu/csim/backups/corrected-20260911T202231`; Caddy backup: `/home/ubuntu/csim/backups/Caddyfile-before-review-565f36e`. | Validate the remaining legacy links and handover restoration. |
 | Client ownership | No-Git editing/export guidance is published. The supplied demo independently supports hospital 53's 980 total. | GUI edit/export/restore rehearsal; source of the requested 500 and approved transition schedule; Beth's separate acceptance. |
 
@@ -182,3 +182,32 @@ The original implementation plan remains in Git history. This is the current exe
 Publish the custom stable 21-chart month dashboard and the official stable sortable-label candidate first, retaining existing routes. The comparison must distinguish tested native configurations from a claim that no other native solution is possible. The full release goal remains open through public verification, refreshed evidence and client acceptance.
 
 [Client handover](CLIENT-HANDOVER.md) describes direct Superset editing with dated exports in Drive, dependency-aware restore, administrator responsibilities and preventing later repository deployment from overwriting client edits. Rehearse that procedure with an editor account; current documentation is not operational acceptance.
+
+## Evidence publication checkpoint — September 11, 21:05 UTC
+
+Published overview/evidence revision `dd35db71a56cfb85bca6295ee2ed4965110e836f`;
+runtime and definitions remain `9f7d15dbc736bd859a6a3308b81d263f162319ae`.
+[Current workflows and 99 screenshots](https://design.csim.uwdigi.org/evidence/current/)
+are linked from the overview and build comparison. Public six-video playback/seek,
+desktop/mobile layout, six website checks and exact HTTPS file hashes pass.
+Previous overview revision `565f36e` is retained for rollback.
+
+CI run `34647263047` is active at this checkpoint, including custom stable/snapshot
+and official stable/development comparisons. Keep it running while preparing the
+next corrections; do not confuse public workflow passes with complete CI.
+Next: narrow antibiotic-count title spacing, remaining public fixture and native
+comparison coverage, and client-editor export/edit/restore rehearsal. Continue
+resolving the disputed total and transition schedule from evidence. Beth's
+acceptance remains unrecorded.
+
+## Spacing and regression iteration
+
+- Public custom fixture: all 12 applicable tests pass, with one supplied-data-only skip (`output/public-custom-fixture-complete/results.json`). This includes missing/zero, partial quarters, multiple series, both filter orders, clear/reselect, 21 panels and all eleven date formats.
+- Implemented: increase only the two antibiotic comparison panel heights, preserving their wording, layout positions and measures. The spacing assertion detects the published overlap at 1024/1280; updated local custom and official packages pass. Source preservation remains 636 passing assertions; import/update preserves SQL, bindings, scopes and identities on both stable options.
+- The 99-case complete-label matrix belongs to the September release. The preserved April comparison has older lower-chart settings and is not promoted by that matrix; its existing functional tests continue. CI must execute the strict matrix on the full September packages.
+- Native browser checks now verify a selected option and wait for Apply to enable. More filters closes on document scroll in the upstream source, so browser positioning must finish before opening it. CI failures remain unresolved until the revised checks run successfully; no product recovery fix is inferred solely from harness changes.
+- A definition-only review deployment path retains the current runtime and database, backs up Superset metadata, imports the versioned packages and verifies each package. It does not rebuild or reseed.
+- Deployed state remains runtime/definitions `9f7d15d` and overview/evidence `dd35db7` until the spacing increment is published and verified. Remaining: complete CI, native comparison gaps, client editor rehearsal, reviewed source and the final Beth checklist.
+
+- Latest local checks: the custom September 99-case matrix and title spacing pass; official stable matrix/recovery/hospital checks pass; unmodified development recovery/hospital checks pass with its actual Ant Design 6 markup. The new option-state assertion is retained across both versions. CI still needs a fresh run.
+- Redirect validation now uses a Docker-assigned port and checks its own readiness response. All eight routes pass; a preceding local failure contacted the separate video-preview server on the former fixed port, not Caddy.

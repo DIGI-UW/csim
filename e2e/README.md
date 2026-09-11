@@ -57,3 +57,14 @@ After building the evidence artifact, run `node evidence-smoke.mjs` from this
 directory with `CSIM_EVIDENCE_URL` pointing to the generated or published page.
 It checks all six videos decode/play, desktop/mobile layout and the screenshot
 manifest without recording or publishing a website-navigation video.
+
+Video seeking requires an HTTP server that supports byte-range requests (206),
+as the public Caddy server does. Python's basic `http.server` is suitable for
+website navigation checks but does not satisfy the video-seeking smoke test.
+
+The strict 99-case date-label matrix targets the full September packages. The
+preserved April comparison keeps its original chart settings and continues to
+run functional regressions. Antibiotic-title checks open each required width
+in a fresh browser page and assert separation from the legend. Native dropdown
+checks click the visible selector, assert the chosen option and wait for pending
+Apply state; their numeric result assertions are unchanged.

@@ -3,6 +3,7 @@ import {profile,fixture,dataProfile,reconciled} from '../acceptance.config.mjs';
 import {openDashboard,timePeriod,timeUnit,hospital,allTrends,paintedPeriodBounds,waitForChartPaint,filters} from './dashboard.mjs';
 
 test('Date labels retain both ends without collision at dashboard widths',async({page},info)=>{
+  test.skip(!reconciled,'Complete eleven-axis presentation is required for September; the preserved April comparison retains its original chart settings.');
   const watch=await openDashboard(page,profile);
   await timePeriod(page,'2025-09-01','2026-10-01');
   // This gives the supplied-data test a complete calendar even when an

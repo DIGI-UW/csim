@@ -36,7 +36,8 @@ test('Native hospital panels retain selection guidance and never combine unset h
       await page.screenshot({path:info.outputPath(`${phase}-selection-guidance.png`)});
     }
     for(const chart of charts){
-      await chart.holder.scrollIntoViewIfNeeded();await watch.settle();
+      await chart.holder.scrollIntoViewIfNeeded();
+      await page.waitForLoadState('networkidle');await watch.settle();
       await expect.poll(()=>watch.replies.get(chart.id)?.result).toBeTruthy();
       const result=watch.replies.get(chart.id).result;
       expect(result.error,chart.name).toBeNull();

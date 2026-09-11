@@ -9,6 +9,7 @@ export const trendNames=[
 ];
 export const additionalDateNames=['Your hospital (abx)','Cohort/State (abx)','Your hospital (UC location)','Cohort/State (UC location)','Your hospital (duration)','Cohort/State (duration)'];
 export const filters={hospital:'NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE',grain:'NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_'};
+const selectTrigger=control=>control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]').locator(':scope > .ant-select-selector, :scope > .ant-select-content');
 export const dashboardApply=page=>page.locator('[data-test="filter-bar__apply-button"]');
 export async function revealFilter(page,control){
   if(await page.getByRole('button',{name:/More filters/}).count()){
@@ -19,7 +20,17 @@ export async function revealFilter(page,control){
   }
   if(!await control.isVisible()){
     const more=page.getByRole('button',{name:/More filters/});
-    if(await more.isVisible())await more.click();
+    if(await more.isVisible()){
+      await more.scrollIntoViewIfNeeded();
+      // Superset closes More filters on document scroll. Finish the browser's
+      // positioning before opening it, so a late scroll cannot dismiss it.
+      let previous;
+      await expect.poll(async()=>{
+        const position=await page.evaluate(()=>`${window.scrollX},${window.scrollY}`);
+        const stable=position===previous;previous=position;return stable;
+      },{intervals:[100,100]}).toBe(true);
+      await more.click();
+    }
   }
   await expect(control).toBeVisible();
 }
@@ -101,7 +112,7 @@ export async function timeUnit(page,name){
   await revealFilter(page,control);
   const current=await control.evaluate(el=>el.closest('[title]')?.getAttribute('title') || el.closest('.ant-select').querySelector('.ant-select-selection-item')?.getAttribute('title'));
   if(current===name)return;
-  await control.press('ArrowDown');
+  await selectTrigger(control).click();
   await page.getByRole('option',{name,exact:true}).click();
   await dashboardApply(page).click();
   await page.waitForLoadState('networkidle');
@@ -144,16 +155,25 @@ export async function paintedLabels(plot){
 export async function hospital(page,name,id=filters.hospital){
   const control=page.getByRole('combobox',{name:id,exact:true});
   await revealFilter(page,control);
-  const remove=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]').locator('.ant-select-selection-item-remove');
+  const selection=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]');
+  const values=await selection.locator('.ant-select-selection-item').evaluateAll(items=>items.map(item=>item.getAttribute('title')));
+  if(values.length===1&&values[0]===name)return;
+  const remove=selection.locator('.ant-select-selection-item-remove');
   while(await remove.count())await remove.first().click();
-  if(await control.getAttribute('aria-expanded') !== 'true')await control.press('ArrowDown');
+  if(await control.getAttribute('aria-expanded') !== 'true')await selectTrigger(control).click();
   await control.fill(name);
   const listId=await control.getAttribute('aria-controls');
   const menu=page.locator(`[id="${listId}"]`).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select-dropdown ")][1]');
   await menu.getByTitle(name,{exact:true}).click();
+  // Compact filters may show +1 instead of the selected text. The option's
+  // selected state remains the direct signal for the value just chosen.
+  await expect(menu.getByTitle(name,{exact:true})).toHaveClass(/ant-select-item-option-selected/);
   await control.press('Escape');
   const apply=dashboardApply(page);
-  if(await apply.isEnabled())await apply.click();
+  // A changed selection must reach pending filter state before Apply.
+  // A one-time isEnabled check can skip the update on slower machines.
+  await expect(apply).toBeEnabled();
+  await apply.click();
   await page.waitForLoadState('networkidle');
 }
 export async function allTrends(watch){
@@ -173,6 +193,6 @@ export async function allTrends(watch){
 export async function location(page,name){
   const control=page.getByRole('combobox',{name:'NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8',exact:true});
   await revealFilter(page,control);
-  await control.press('ArrowDown');
+  await selectTrigger(control).click();
   await page.getByRole('option',{name,exact:true}).click();
 }

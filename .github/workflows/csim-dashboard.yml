@@ -48,7 +48,7 @@ jobs:
         env:
           CSIM_DASHBOARD_SLUG: csim-individual-${{ matrix.build }}-sortable
           CSIM_OUTPUT: ${{ github.workspace }}/output/native-supplied
-        run: npx playwright test -c acceptance.config.mjs --grep 'Native|10 Official|01 All|04 Time Period'
+        run: npx playwright test -c acceptance.config.mjs --grep 'Native|10 Official|01 All|04 Time Period|Antibiotic axis'
       - name: Test the same independent numerical examples without video
         working-directory: e2e
         env:

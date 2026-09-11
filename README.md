@@ -172,3 +172,10 @@ To validate a worked example through an existing instance, use
 `CSIM_DASHBOARD_SLUG=csim-filter-examples CSIM_DATA_PROFILE=edge-cases`
 with the corresponding `CSIM_PROFILE`. `CSIM_BASE_URL`, `CSIM_USERNAME` and
 `CSIM_PASSWORD` support the same checks against a deployed viewer session.
+
+For an explicitly authorized review update that changes only saved dashboard
+definitions, use `bash deploy/review-release.sh assets FULL_REMOTE_REVISION corrected`
+(and `standard` for the official comparison). This keeps the running image and
+reporting data, saves a metadata rollback copy, imports the named packages and
+verifies their definitions. The receipt records the assets revision separately
+from the unchanged image; complete public browser checks before marking it verified.
