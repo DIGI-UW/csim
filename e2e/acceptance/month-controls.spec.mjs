@@ -30,6 +30,10 @@ test('07 Inclusive month controls recover on the same page and never widen a par
  await timeUnit(page,'Year');
  await expect(from).toHaveValue('2026-02');await expect(through).toHaveValue('2026-03');
  await expect(page.getByRole('status').filter({hasText:'Partial years'})).toContainText('Feb 2026 – Mar 2026 only');
+ const annual=await allTrends(watch);
+ await watch.trends[4].holder.scrollIntoViewIfNeeded();
+ await expect.poll(()=>paintedLabels(watch.trends[4].plot)).toEqual(['2026']);
+ if(fixture)expect(annual[watch.trends[4].name].map(row=>Object.values(row).filter(v=>v!==row.month_date))).toEqual([[10]]);
  await scene(page,info,'inclusive-year','Year','Changing Group by keeps the same months. The note identifies the partial year.');
  await timePeriod(page,'2025-11-01','2026-05-01');
  await timeUnit(page,'Quarter');

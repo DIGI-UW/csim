@@ -11,6 +11,7 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser()
 p.add_argument('--access-dir',type=Path,default=ROOT/'output')
+p.add_argument('--deployment-manifest',type=Path)
 a=p.parse_args()
 revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
 output=ROOT/'output/public-release'/revision
@@ -22,6 +23,7 @@ release={'revision':revision,'date':dt.datetime.now(dt.timezone.utc).date().isof
     'main':'Superset 6.1.0 + versioned CSiM formatter','snapshot':'e22ce197866ded732e4990063ae74697d89d383a + CSiM formatter, inclusive month controls and vertical-filter clear fix',
     'demoSha256':hashlib.sha256((ROOT/'data/v1_schema_dump.sql').read_bytes()).hexdigest(),
     'fixtureSha256':hashlib.sha256((ROOT/'data/edge-cases.sql').read_bytes()).hexdigest()}
+if a.deployment_manifest:release['deployments']=json.loads(a.deployment_manifest.read_text())
 (output/'release.json').write_text(json.dumps(release,indent=2))
 definitions=output/'definitions';definitions.mkdir(exist_ok=True)
 shutil.copy2(ROOT/'output/corrected-dashboard.zip',definitions/'csim-individual-corrected.zip')
@@ -34,7 +36,11 @@ for target in ['main','examples','preview','months']:
     provenance=json.loads((run/'provenance.json').read_text())
     # Documentation and deployment-test updates need not invalidate unchanged
     # dashboard footage. Verify the recorded runtime and browser contract exactly.
-    subprocess.run(['git','diff','--exit-code',provenance['revision'],revision,'--','dashboard','data','patches','Dockerfile','Dockerfile.formatter','Dockerfile.month-controls','superset_config.py','compose.yaml','e2e/acceptance','e2e/acceptance.config.mjs','e2e/workflow-guide.json','e2e/video'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
+    paths=['dashboard','data','patches','Dockerfile','Dockerfile.formatter','Dockerfile.month-controls','superset_config.py','compose.yaml','e2e/acceptance','e2e/acceptance.config.mjs','e2e/workflow-guide.json','e2e/video']
+    # Workflow 07 runs only for the months target. Changes to that test cannot
+    # change the other recorded workflows; shared helpers and runtime still must match.
+    if target != 'months':paths.append(':(exclude)e2e/acceptance/month-controls.spec.mjs')
+    subprocess.run(['git','diff','--exit-code',provenance['revision'],revision,'--',*paths],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
     manifest=json.loads((run/'films/manifest.json').read_text())
     reviewed=json.loads((run/'reviewed-frames.json').read_text())
     for number,item in manifest['workflows'].items():

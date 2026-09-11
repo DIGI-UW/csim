@@ -10,6 +10,7 @@ git merge-base --is-ancestor "$revision" origin/main
 ssh -o BatchMode=yes "$host" "mkdir -p '$release'"
 git archive "$revision" | ssh -o BatchMode=yes "$host" "tar -xf - -C '$release'"
 ssh -o BatchMode=yes "$host" bash -s -- "$release" <<'REMOTE'
+# Container commands below receive no stdin: Compose must not consume this SSH script.
 set -euo pipefail
 release="$1"
 cd "$release"
@@ -35,12 +36,12 @@ p.write_text(''.join(k+'='+v+'\n' for k,v in values.items()))
 PY
 ln -sfn /home/ubuntu/csim/shared/.env.preview .env.preview
 export CSIM_SERVER=1 CSIM_SKIP_BUILD=1
-bash csim.sh preview update
-bash csim.sh preview examples-update
-bash csim.sh preview simple
-bash csim.sh preview viewer
-bash csim.sh preview verify-import
-bash csim.sh preview pack
+bash csim.sh preview update </dev/null
+bash csim.sh preview examples-update </dev/null
+bash csim.sh preview simple </dev/null
+bash csim.sh preview viewer </dev/null
+bash csim.sh preview verify-import </dev/null
+bash csim.sh preview pack </dev/null
 for profile in simple simple-examples; do
   docker exec csim-preview-superset-1 python /repro/scripts/verify_import.py --profile "$profile"
 done
