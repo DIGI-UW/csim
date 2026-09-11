@@ -1,6 +1,6 @@
 # Unmodified Superset candidates: local validation
 
-Checkpoint: September 11, 2026. These results describe local, uncommitted candidate definitions. They are not a public release or Beth's acceptance.
+Checkpoint: September 11, 2026. The stable candidate is now published at standard.csim.uwdigi.org, runtime/definitions revision 9f7d15d. The local results below remain valid for that implementation. Beth's acceptance is separate.
 
 Client clarification: the delivery must include the full 21-chart month-range workflow and options with and without custom Superset code. The existing comparisons below still use native Time Period controls; they do not yet establish the requested From month / Through month interaction. The latest notes also dispute the 980 total and request hospital-specific historical/individual transition rules. The 980 checks below verify the current query on the supplied records, not acceptance of that reporting rule.
 
@@ -66,4 +66,15 @@ Use `development` in both profile and slug for its equivalent. The observation t
 2. Finish hover, opening-panel, section-link and update-existing-object validation on the selected native configuration; retain the explicit custom alternative.
 3. Review and commit the implementation, run CI, deploy without reseeding, verify public routes/logins, and publish matching evidence.
 
-The live overview already includes password copy icons. The live dashboard runtime remains the earlier custom release; no native candidate or calendar change in this checkpoint has been deployed.
+The live comparison page includes both dashboard links and matching copyable passwords. The official stable candidate and custom full September month controls are deployed. Unmodified development remains local.
+
+## Public comparison checkpoint
+
+Official stable public tests pass for all 21 charts, hospital selection guidance,
+hospital 53's 980 total, clear/reselect and both date/grouping selection orders.
+The new official workflow separately verifies year-first Month/Quarter/Year labels
+and February–March as an exclusive-end native date window. Local fixture checks
+pass for missing versus zero, the independently specified 10 submissions in that
+partial quarter, and both hospital series across 2025–2026. CI now includes both
+unmodified stable and pinned development comparisons without video; remaining
+wording discrepancies are saved as explicit gaps, never passing format fixes.

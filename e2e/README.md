@@ -24,7 +24,7 @@ holds. It decodes the final videos and compares every checkpoint with the
 asserted screenshot. Contact sheets require visual inspection before publication.
 Website navigation tests never record or enter the public workflow collection.
 
-The presentation checks capture all twenty opening panels and all eleven date
+The presentation checks capture all 21 September opening panels (20 for the preserved April comparison) and all eleven date
 axes at 1024, 1280 and 1600 pixels. They measure the text actually painted on the
 canvas, including the first/last label and the gap between labels. Captures wait
 for chart pixels to settle after animation. Workflow checkpoints also produce
@@ -38,3 +38,17 @@ full dashboard variants with both supplied and known-record data. The publisher
 rejects failed runs, changed reports, runtime changes after review and missing
 issue coverage. It groups screenshots by concern, with the version details
 collapsed until opened.
+
+## Record the current public options
+
+From the repository root, use `python3 scripts/record_evidence.py september-months`
+or `september-months-examples` for the full custom September dashboard. Use
+`official` or `official-examples` for the official stable candidate. Supply
+`--base-url`, `--access-file`, `--runtime-revision` and `--runtime-image-id` from the
+matching deployment receipt when recording a public instance. The access file
+is read only for authentication and is excluded from provenance and publication.
+
+The test revision, deployed runtime revision and input-data checksum are recorded
+separately. These targets record dashboard behavior only. Official wording and
+date-editor differences are shown as differences, not accepted fixes. Inspect
+all generated contact sheets before publishing any film.

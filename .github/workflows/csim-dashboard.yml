@@ -10,6 +10,64 @@ concurrency:
   group: csim-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  official-comparison:
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [standard, development]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      CI: 'true'
+      CSIM_PROFILE: ${{ matrix.build }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+      - name: Prepare the official comparison with isolated demo records
+        run: |
+          ruby scripts/test_standard.rb
+          bash csim.sh "$CSIM_PROFILE" init
+          bash csim.sh "$CSIM_PROFILE" examples-init
+          bash csim.sh "$CSIM_PROFILE" candidates
+          python3 scripts/verify_standard_assets.py "$CSIM_PROFILE"
+          docker exec "csim-$CSIM_PROFILE-superset-1" python /repro/scripts/test_update.py --profile "$CSIM_PROFILE-sortable"
+      - name: Install browser
+        working-directory: e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Test official presentation and interactions without video
+        working-directory: e2e
+        env:
+          CSIM_DASHBOARD_SLUG: csim-individual-${{ matrix.build }}-sortable
+          CSIM_OUTPUT: ${{ github.workspace }}/output/native-supplied
+        run: npx playwright test -c acceptance.config.mjs --grep 'Native|10 Official|01 All|04 Time Period'
+      - name: Test the same independent numerical examples without video
+        working-directory: e2e
+        env:
+          CSIM_DATA_PROFILE: edge-cases
+          CSIM_DASHBOARD_SLUG: csim-${{ matrix.build }}-sortable-examples
+          CSIM_OUTPUT: ${{ github.workspace }}/output/native-known
+        run: npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|10 Official'
+      - name: Preserve evidence and explicit native gaps
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csim-${{ matrix.build }}-comparison
+          retention-days: 14
+          path: |
+            output/native-*/results.json
+            output/native-*/results/**/*.png
+            output/native-*/results/**/*.json
+            output/*-asset-verification.json
+            output/*-import-verification.json
   regression:
     strategy:
       fail-fast: false

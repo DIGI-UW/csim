@@ -90,3 +90,11 @@ The detailed checkpoints below preserve earlier local validation. This public ch
 | Transfer and preserved definitions | `scripts/verify_import.py`, `scripts/test_update.py`, `scripts/reconcile.py` | Import receipts and definition fingerprints |
 
 Update implemented, validated and deployed statuses separately after each iteration. Passing a reproduction of a defect is not a fix.
+
+## Public screenshot and evidence iteration
+
+- Public custom full supplied-data suite: 10 applicable tests passed, 3 fixture/other-profile skips (`output/public-custom-complete/results.json`). All 99 width/grouping/axis cases pass; opening, all eleven hover formats, hospital guards, both selection orders, same-page clear/reselect, September additions and Time Unit menu pass.
+- The screenshot review confirms complete x-axis labels. It also identifies a separate presentation defect: the long antibiotic-count y-axis title approaches/overlaps its legend in narrow monthly charts. Record and correct its spacing before calling every chart's presentation complete.
+- Official fixture checks pass for missing/zero and partial-quarter results (10 submissions), plus both hospital series across the year boundary. The new official demonstration verifies its native date editor and actual year-first labels.
+- Evidence tooling now targets the full custom and official September dashboards, records runtime and test revisions separately, and supports each matching viewer account. Films require assertion success, encoded-frame validation and visual inspection before publication.
+- CI adds stable/development official comparison jobs. The preceding custom run has passed source, website and redirect checks and is building the runtimes. New job execution and final results remain pending.
