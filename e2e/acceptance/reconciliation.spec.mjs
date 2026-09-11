@@ -50,13 +50,14 @@ test('08 Beth’s September additions preserve context and comparison selections
   }
   if(fixture){
     await hospital(page,'Demo State','NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG');
-    for(const name of ['Cohort/State (abx)','Cohort/State (duration)','Cohort/State (UC location)']){
+    for(const name of ['Cohort/State (duration)','Cohort/State (abx)','Cohort/State (UC location)']){
       const chart=watch.dateAxes.find(c=>c.name===name);
       await chart.holder.scrollIntoViewIfNeeded();await watch.settle();
       await expect.poll(()=>watch.replies.get(chart.id)?.result?.data?.length, {message:`${name} supports the named state selection`}).toBeGreaterThan(0);
+      await chart.holder.evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
       await waitForChartPaint(chart.holder);
       const shot=info.outputPath(`named-state-${chart.id}.png`);await chart.holder.screenshot({path:shot});await info.attach(name,{path:shot,contentType:'image/png'});
-      await scene(page,info,`named-state-${chart.id}`,name,'Demo State contains both known hospitals. The selected state produces comparison results.',name==='Cohort/State (abx)'?'Named-state comparisons':undefined);
+      await scene(page,info,`named-state-${chart.id}`,name,'Demo State contains both known hospitals. The selected state produces comparison results.',name==='Cohort/State (duration)'?'Named-state comparisons':undefined);
     }
   }
   await card.scrollIntoViewIfNeeded();await expect(card).toContainText(expected);
