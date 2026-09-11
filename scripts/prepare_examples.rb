@@ -2,6 +2,7 @@
 require 'digest'
 require 'fileutils'
 require 'yaml'
+require 'json'
 root=File.expand_path('..',__dir__)
 source=File.join(root,'dashboard','corrected')
 target=File.join(root,'dashboard','examples')
@@ -27,6 +28,14 @@ files.each do |path|
     data=YAML.safe_load(text)
     data['slug']='csim-filter-examples'
     data['dashboard_title']='CSiM date and filter examples — known test records'
+    hospital=JSON.parse(File.read(File.join(root,'data/profiles.json'))).fetch('edge-cases').fetch('openingHospital')
+    data.fetch('metadata').fetch('native_filter_configuration').each do |filter|
+      filter['time_grains']=%w[P1M P3M P1Y] if filter['filterType']=='filter_timegrain'
+      next unless ['Hospital and state','Your hospital'].include?(filter['name'])
+      mask=filter.fetch('defaultDataMask')
+      mask.fetch('extraFormData').fetch('filters').first['val']=[hospital]
+      mask.fetch('filterState').merge!('value'=>[hospital],'label'=>hospital)
+    end
     text=YAML.dump(data).gsub(/: \n/,":\n").gsub(/^(\s*-) +\n/,"\\1\n")
   end
   File.write(path,text)

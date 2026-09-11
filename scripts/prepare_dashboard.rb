@@ -9,6 +9,7 @@
 require 'fileutils'
 require 'yaml'
 require 'date'
+require 'json'
 
 ROOT = File.expand_path('..', __dir__)
 SOURCE = File.join(ROOT, 'sources', 'exports', 'april-2026', 'unpacked',
@@ -133,6 +134,12 @@ def corrected_package!(package)
 
   filters = dashboard.fetch('metadata').fetch('native_filter_configuration')
   filters.each do |filter|
+    if ['Hospital and state', 'Your hospital'].include?(filter['name'])
+      hospital = JSON.parse(File.read(File.join(ROOT, 'data/profiles.json'))).fetch('supplied-demo').fetch('openingHospital')
+      mask = filter.fetch('defaultDataMask')
+      mask.fetch('extraFormData').fetch('filters').first['val'] = [hospital]
+      mask.fetch('filterState').merge!('value' => [hospital], 'label' => hospital)
+    end
     case filter['name']
     when 'Time Period'
       filter['description'] = 'Select the reporting dates. This limits the observations before they are grouped.'
@@ -140,6 +147,12 @@ def corrected_package!(package)
       filter['description'] = 'Group the selected observations by Month, Quarter, or Year.'
     end
   end
+  # The latest comparison and own-hospital total deliberately exclude aggregate
+  # populations. Explain this next to the controls, including restored old links.
+  hospital_filter = filters.find { |filter| filter['name'] == 'Hospital and state' }
+  hospital_filter['description'] = 'Choose an individual hospital for the complete dashboard. Cohort and state selections show aggregate trends; the latest hospital comparisons and your-hospital total need an individual hospital.'
+  header = filters.find { |filter| filter['type'] == 'DIVIDER' && filter['title'].to_s.include?('SELECT YOUR HOSPITAL') }
+  header['description'] = 'For the complete dashboard, select an individual hospital. Cohort and state views have no hospital-specific comparison or hospital total.' if header
   write_yaml(dashboard_path, dashboard)
 
   aggregate_paths = Dir[File.join(package, 'datasets', '**', 'UTI_Aggregate_ALL_DATA_*.yaml')]
@@ -163,6 +176,9 @@ def corrected_package!(package)
     params['xAxisLabelRotation'] = 0
     params['x_axis_time_format'] = 'csim_period'
     params['tooltipTimeFormat'] = 'csim_period'
+    # Side legends leave too little horizontal room for reporting dates in the
+    # half-width panels. Superset wraps or scrolls the legend above the plot.
+    params['legendOrientation'] = 'top' if params['viz_type'] == 'echarts_timeseries_bar'
     params['order_desc'] = false
     params['row_limit'] = 1000
     params['show_empty_columns'] = true if TIME_SERIES.include?(chart['slice_name'])

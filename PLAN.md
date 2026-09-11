@@ -8,7 +8,7 @@ Deliver the full CSiM Individual Data dashboard from this repository and the sup
 
 - Use private `DIGI-UW/csim`; preserve the source revisions and attribution of the implementation transferred from harness pull request 111.
 - Select April as the technical baseline: 20 charts, six datasets, original layout and measure definitions. Preserve September test and production for comparison. Exclude the test-only latest-data card. Exact historical production identity remains an independent confirmation.
-- Keep saved Cohort, Month and Last year defaults. Use explicit dates in reproducible evidence.
+- Preserve the baseline’s Cohort, Month and Last year defaults. The corrected full dashboards open with demo hospital 53 so all twenty panels are useful; known-record examples open with hospital 91. Familiar controls retain Month and Last year. Use explicit dates in reproducible evidence.
 - Restore the supplied demo database with PostgreSQL 14.24. Retain a separate generated fixture with known missing and zero cases. Normal updates never reseed.
 - Keep released Superset 6.1.0 and a separately pinned upstream development snapshot. Any customization has versioned source, tests and a reproducible image.
 - Production changes, WordPress, other dashboard tools and Catalyst Workbench redesign are outside this execution.
@@ -31,7 +31,7 @@ Keep an unchanged baseline alongside the corrected copy. Retain real dates for f
 
 Add calendar rows for missing periods, keeping NULL distinct from zero. Filter observations before quarter/year grouping. Preserve existing measures and cohort weighting; explain necessary aggregation changes with independent numerical examples. Exercise both filter selection orders and clearing/reselecting on the same page.
 
-**Accept when:** labels, hover details, ordering, gaps and selected observations match the required results. Reloading is not a substitute for filter recovery.
+**Accept when:** labels, hover details, ordering, gaps and selected observations match the required results. Both date endpoints are visible with readable spacing at 1024, 1280 and 1600 pixels. The six stacked-bar legends sit above their plots to preserve date-axis space. Every opening panel contains useful content. Reloading is not a substitute for filter recovery.
 
 ## 4. Time Unit menus and transfer
 
@@ -51,7 +51,7 @@ Import into a destination with different numeric chart IDs. Verify layout, chart
 | February–March grouped by Quarter | January contributes no observations. |
 | Time Period and Time Unit in either order | Equivalent selections produce equivalent results and preserve both choices. |
 | Clear and reselect | Results recover on the same page, including populated and empty selections. |
-| Fresh opening | Saved Cohort, Last year and Month defaults apply. |
+| Fresh opening | The saved hospital, Last year and Month defaults apply; all twenty opening panels have useful content. |
 | Fresh import and changed update | Definitions, bindings, scopes and layout match the files; no duplicates. |
 | Main and snapshot menus | The global workaround and independently saved menus are shown accurately. |
 

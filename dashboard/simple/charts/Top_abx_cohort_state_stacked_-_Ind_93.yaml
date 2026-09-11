@@ -92,7 +92,7 @@ params:
   zoomable: false
   show_legend: true
   legendType: plain
-  legendOrientation: left
+  legendOrientation: top
   legendMargin: ''
   x_axis_time_format: csim_period
   xAxisLabelRotation: 0

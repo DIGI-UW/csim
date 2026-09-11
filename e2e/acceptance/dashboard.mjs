@@ -33,7 +33,10 @@ export async function openDashboard(page,profile='corrected') {
     proto.fillText=function(text,x,y,...rest){
       if(/^(?:\d{4}|Q[1-4] \d{4}|[A-Z][a-z]{2} \d{4})$/.test(String(text))){
         const point=new DOMPoint(x,y).matrixTransform(this.getTransform());
-        (this.canvas.__periodLabels ||= []).push({text:String(text),x:point.x,y:point.y});
+        const metrics=this.measureText(text),matrix=this.getTransform();
+        const left=new DOMPoint(x-metrics.actualBoundingBoxLeft,y).matrixTransform(matrix);
+        const right=new DOMPoint(x+metrics.actualBoundingBoxRight,y).matrixTransform(matrix);
+        (this.canvas.__periodLabels ||= []).push({text:String(text),x:point.x,y:point.y,left:left.x,right:right.x});
       }return fill.call(this,text,x,y,...rest);
     };
   });
@@ -52,6 +55,26 @@ export async function openDashboard(page,profile='corrected') {
   }
   const trends=dateAxes.filter(item=>trendNames.includes(item.name));
   return {trends,dateAxes,replies,failures,settle:()=>Promise.all([...jobs])};
+}
+
+// Canvas animations can continue after the data response and axis text arrive.
+// Wait for unchanged pixels before accepting or capturing the visible result.
+export async function waitForChartPaint(scope){
+  const canvases=scope.locator('canvas');
+  if(!await canvases.count())return;
+  let previous='';
+  await expect.poll(async()=>{
+    const current=await canvases.evaluateAll(items=>items.map(c=>c.toDataURL()).join('|'));
+    const stable=current===previous;previous=current;return stable;
+  },{message:'Chart pixels must settle before screenshot validation',intervals:[200,250,350]}).toBe(true);
+}
+
+export async function paintedPeriodBounds(plot){
+  return plot.locator('canvas').evaluateAll(canvases=>canvases.flatMap(canvas=>{
+    const scale=canvas.clientWidth/canvas.width;
+    const labels=[...new Map((canvas.__periodLabels||[]).map(label=>[label.text,label])).values()];
+    return labels.map(label=>({...label,x:label.x*scale,y:label.y*scale,left:label.left*scale,right:label.right*scale,canvasWidth:canvas.clientWidth}));
+  }).sort((a,b)=>a.x-b.x));
 }
 export async function timeUnit(page,name){
   const control=page.getByRole('combobox',{name:filters.grain,exact:true});
@@ -97,11 +120,13 @@ export async function hospital(page,name,id=filters.hospital){
   const remove=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]').locator('.ant-select-selection-item-remove');
   while(await remove.count())await remove.first().click();
   if(await control.getAttribute('aria-expanded') !== 'true')await control.press('ArrowDown');
+  await control.fill(name);
   const listId=await control.getAttribute('aria-controls');
   const menu=page.locator(`[id="${listId}"]`).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select-dropdown ")][1]');
   await menu.getByTitle(name,{exact:true}).click();
   await control.press('Escape');
-  await page.getByRole('button',{name:'Apply filters',exact:true}).click();
+  const apply=page.getByRole('button',{name:'Apply filters',exact:true});
+  if(await apply.isEnabled())await apply.click();
   await page.waitForLoadState('networkidle');
 }
 export async function allTrends(watch){
@@ -112,6 +137,7 @@ export async function allTrends(watch){
     await watch.settle();
     await expect.poll(()=>watch.replies.get(trend.id)?.result).toBeTruthy();
     await watch.settle();
+    await waitForChartPaint(trend.plot);
     rows[trend.name]=watch.replies.get(trend.id).result.data;
   }
   return rows;

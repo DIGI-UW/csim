@@ -4,7 +4,7 @@ The second snapshot dashboard keeps the full 20-chart Individual Data report and
 
 The month controls produce Superset's standard date range: February through March becomes February 1 up to, but excluding, April 1. Dataset SQL filters observations before grouping. Quarter therefore labels that result Q1 but includes no January observations. A message beside the controls names the partial quarter or year. These are reporting months from the supplied database, not arbitrary daily cutoffs.
 
-Incomplete or reversed ranges disable Apply. Clearing and reselecting must recover on the same page. The new dashboard opens with an explicit November 2025–April 2026 window; the original retains Cohort, Last year and Month defaults.
+Incomplete or reversed ranges disable Apply. Clearing and reselecting must recover on the same page. The new dashboard opens with an explicit November 2025–April 2026 window; the familiar-control dashboards retain Last year and Month. Both full versions start with hospital 53; the known-record examples start with hospital 91. The unchanged baseline retains Cohort.
 
 ## Reproduce
 

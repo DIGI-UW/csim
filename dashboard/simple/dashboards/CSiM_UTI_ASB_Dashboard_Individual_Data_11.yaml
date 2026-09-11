@@ -1558,7 +1558,8 @@ metadata:
   default_filters: "{}"
   native_filter_configuration:
   - chartsInScope: []
-    description: ''
+    description: For the complete dashboard, select an individual hospital. Cohort
+      and state views have no hospital-specific comparison or hospital total.
     id: NATIVE_FILTER_DIVIDER-6zEv6G16s53VZ725ZhoAw
     scope:
       excluded: []
@@ -1588,13 +1589,13 @@ metadata:
         - col: hosp_code
           op: IN
           val:
-          - Cohort
+          - '53'
       filterState:
         validateMessage: false
         validateStatus: false
-        label: Cohort
+        label: '53'
         value:
-        - Cohort
+        - '53'
         excludeFilterValues: true
     cascadeParentIds: []
     scope:
@@ -1610,8 +1611,9 @@ metadata:
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
-    description: Type in the box to search for and select your hospital and state.
-      For best readability, select no more than 5 hospitals/states at a time.
+    description: Choose an individual hospital for the complete dashboard. Cohort
+      and state selections show aggregate trends; the latest hospital comparisons
+      and your-hospital total need an individual hospital.
     chartsInScope:
     - 73
     - 74
@@ -1819,13 +1821,13 @@ metadata:
         - col: hosp_code
           op: IN
           val:
-          - Cohort
+          - '53'
       filterState:
         validateMessage: false
         validateStatus: false
-        label: Cohort
+        label: '53'
         value:
-        - Cohort
+        - '53'
         excludeFilterValues: true
     cascadeParentIds: []
     scope:

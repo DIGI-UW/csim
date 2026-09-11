@@ -11,6 +11,14 @@ Public links: [main dashboard](https://dashboard.csim.uwdigi.org/), [snapshot](h
 
 The snapshot also supports a [second dashboard with inclusive month controls](MONTH_CONTROLS.md). It retains the full report and original snapshot dashboard.
 
+The corrected full dashboards start with hospital 53, which supplies useful
+content in all twenty panels. Worked examples start with hospital 91. Cohort is
+still available, but hospital-specific comparisons and totals require an
+individual hospital. Saved filter links restore their saved selections.
+
+See [screenshot checks](https://design.csim.uwdigi.org/evidence/screenshots/) for
+opening panels, label spacing, grouping, filter recovery and numerical examples.
+
 ## Local commands
 
 Docker Compose, Ruby, Python 3, and Node.js are required.

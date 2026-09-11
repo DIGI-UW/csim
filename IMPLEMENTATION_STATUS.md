@@ -15,7 +15,7 @@ Main uses Superset 6.1.0 with the opt-in CSiM formatter. The snapshot is pinned 
 
 All four hostnames use HTTPS. `csim.uwdigi.org` redirects to main; the old Catalyst paths redirect to the corresponding new instances, preserving the checked dashboard and login return destinations. The preceding images, metadata/configuration backups and overview release remain available for rollback.
 
-The new version offers From month, Through month (inclusive) and Group by Month/Quarter/Year. It retains the full 20-chart layout and six shared dataset definitions. The initial range is November 2025–April 2026. The original dashboard retains Cohort, Last year and Month defaults.
+The new version offers From month, Through month (inclusive) and Group by Month/Quarter/Year. It retains the full 20-chart layout and six shared dataset definitions. The initial range is November 2025–April 2026. The familiar-control dashboards retain Last year and Month. Both full versions start with hospital 53; the known-record examples start with hospital 91. The unchanged baseline retains Cohort.
 
 ## Reproduction and definitions
 
@@ -54,3 +54,16 @@ Two transient checks are retained in local diagnostics: one fixture tooltip did 
 - The source table-of-contents permalinks and historical intermittent authoring/navigation reports are not fixed by the date-control work. Their disposition is in [REPORT-COVERAGE.md](REPORT-COVERAGE.md).
 - Main's Time Unit restriction remains instance-wide. Independent saved menus are demonstrated on the pinned development snapshot; the new month fields are a versioned customization.
 - Production changes and WordPress integration remain outside this deployment.
+
+## Presentation update acceptance
+
+The current source adds measured label spacing at three browser widths, top
+legends for the six stacked date charts, and an opening selection with useful
+content in every panel. Supplied-data dashboards start with hospital 53;
+known-record dashboards start with hospital 91. An unavailable comparison in a
+populated table is distinct from an empty panel.
+
+The formatter builds pass 63 main tests and 170 snapshot tests, plus 10 snapshot
+month-control/sidebar tests. Both import/update checks preserve all twenty
+charts and six datasets. The stricter screenshot suite and refreshed public
+recordings are undergoing validation before publication.

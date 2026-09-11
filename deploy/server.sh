@@ -13,9 +13,23 @@ main() {
       git merge-base --is-ancestor "$revision" origin/main
       ssh -o BatchMode=yes "$host" "mkdir -p '$release' /home/ubuntu/csim/shared"
       git archive "$revision" | ssh -o BatchMode=yes "$host" "tar -xf - -C '$release'"
-      # The server and tested local images are both ARM64. Stream the image
-      # layers directly; do not leave another large archive on the server.
-      docker save csim-superset:6.1.0-csim-1 csim-superset:e22ce197-csim-1 | gzip | ssh -o BatchMode=yes "$host" 'gunzip | docker load'
+      # Build the pinned source on the server; keep its running images intact.
+      ssh -o BatchMode=yes "$host" bash -s -- "$release" <<'REMOTE'
+set -euo pipefail
+cd "$1"
+revision="${1##*/}"
+for profile in corrected preview; do
+  dockerfile=Dockerfile.formatter; prefix=6.1.0-csim
+  if [[ "$profile" == preview ]]; then dockerfile=Dockerfile.month-controls; prefix=e22ce197-csim-months; fi
+  env_file="/home/ubuntu/csim/shared/.env.$profile"
+  if [[ ! -f "$env_file" ]]; then
+    bash csim.sh "$profile" config >/dev/null </dev/null
+    env_file=".env.$profile"
+  fi
+  CSIM_DOCKERFILE="$dockerfile" CSIM_BUILD_TAG="$prefix-${revision:0:12}" \
+    docker compose -p "csim-$profile" --env-file "$env_file" -f compose.yaml build superset </dev/null
+done
+REMOTE
       ;;
     init|update)
       ssh -o BatchMode=yes "$host" bash -s -- "$release" "$action" <<'REMOTE'
@@ -42,13 +56,30 @@ PY
   ln -sfn "$shared" ".env.$profile"
   if [[ "$action" == update ]]; then
     mkdir -p /home/ubuntu/csim/backups
+    stamp="$(date -u +%Y%m%dT%H%M%S)"
+    cp "$shared" "/home/ubuntu/csim/backups/$profile-$stamp.env"
     docker exec "csim-$profile-superset-1" python -c "import sqlite3; s=sqlite3.connect('/app/superset_home/csim.db'); d=sqlite3.connect('/app/superset_home/before-update.db'); s.backup(d)"
-    docker cp "csim-$profile-superset-1:/app/superset_home/before-update.db" "/home/ubuntu/csim/backups/$profile-$(date -u +%Y%m%dT%H%M%S).db"
+    docker cp "csim-$profile-superset-1:/app/superset_home/before-update.db" "/home/ubuntu/csim/backups/$profile-$stamp.db"
   fi
+  revision="${release##*/}"
+  prefix=6.1.0-csim; dockerfile=Dockerfile.formatter
+  if [[ "$profile" == preview ]]; then prefix=e22ce197-csim-months; dockerfile=Dockerfile.month-controls; fi
+  image_tag="$prefix-${revision:0:12}"
+  docker image inspect "csim-superset:$image_tag" >/dev/null
+  python3 - "$shared" "$image_tag" "$dockerfile" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); values=dict(line.split('=',1) for line in p.read_text().splitlines())
+values.update(CSIM_BUILD_TAG=sys.argv[2],CSIM_DOCKERFILE=sys.argv[3])
+p.write_text(''.join(k+'='+v+'\n' for k,v in values.items()))
+PY
   CSIM_SERVER=1 CSIM_SKIP_BUILD=1 bash csim.sh "$profile" "$action" </dev/null
   if [[ "$action" == init ]]; then example_action=examples-init; else example_action=examples-update; fi
   CSIM_SERVER=1 bash csim.sh "$profile" "$example_action" </dev/null
-  if [[ "$profile" == preview ]]; then CSIM_SERVER=1 bash csim.sh preview hourly </dev/null; fi
+  if [[ "$profile" == preview ]]; then
+    CSIM_SERVER=1 bash csim.sh preview hourly </dev/null
+    CSIM_SERVER=1 bash csim.sh preview simple </dev/null
+  fi
   CSIM_SERVER=1 bash csim.sh "$profile" viewer </dev/null
   CSIM_SERVER=1 bash csim.sh "$profile" verify-import </dev/null
   CSIM_SERVER=1 bash csim.sh "$profile" pack </dev/null
@@ -57,6 +88,7 @@ PY
   cp "output/$profile-viewer.json" "/home/ubuntu/csim/shared/$profile-viewer.json"
 done
 ln -sfn "$release" /home/ubuntu/csim/current
+ln -sfn "$release" /home/ubuntu/csim/preview-current
 REMOTE
       ;;
     hosts|redirects)
