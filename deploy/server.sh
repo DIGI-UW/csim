@@ -80,6 +80,7 @@ PY
     CSIM_SERVER=1 bash csim.sh preview hourly </dev/null
     CSIM_SERVER=1 bash csim.sh preview simple </dev/null
   fi
+  if [[ "$profile" == corrected ]]; then CSIM_SERVER=1 bash csim.sh corrected reconciled </dev/null; fi
   CSIM_SERVER=1 bash csim.sh "$profile" viewer </dev/null
   CSIM_SERVER=1 bash csim.sh "$profile" verify-import </dev/null
   CSIM_SERVER=1 bash csim.sh "$profile" pack </dev/null

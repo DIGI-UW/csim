@@ -45,5 +45,12 @@
     "label": "From month, Through month and Group by",
     "try": "Choose February through March, then compare Quarter and Year. Clear and reselect the months.",
     "expected": "Both endpoints are inclusive. Q1 contains February and March only; invalid ranges cannot be applied, and clearing recovers on the same page."
+  },
+  "08": {
+    "label": "Beth’s September additions with familiar controls",
+    "try": "Open the September version, inspect the latest-data card, keep your date selections when jumping to sections, and choose the lower comparison groups.",
+    "expected": "All 21 charts are present. The latest reporting month remains independent of the viewing window. Section links keep filters, and comparison selectors separate hospitals from named groups.",
+    "videoIntro": "The September version includes Beth’s latest-data card, explanations and layout. The established 20-chart dashboard remains available for comparison.",
+    "videoOutro": "The new version keeps the date and filter corrections with Beth’s additions. The established dashboard remains unchanged."
   }
 }

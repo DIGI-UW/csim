@@ -8,7 +8,7 @@ from pathlib import Path
 import yaml
 from superset.app import create_app
 
-ROOT = Path('/repro')
+ROOT = Path(os.environ.get('CSIM_PROJECT_ROOT', '/repro'))
 
 
 def read_yaml(path):
@@ -33,7 +33,9 @@ def verify(profile: str):
         dashboard = db.session.query(Dashboard).filter_by(uuid=definition['uuid']).one()
         charts = {str(chart.uuid): chart for chart in dashboard.slices}
         assert set(charts) == set(expected_nodes.values())
-        assert len(charts) == 20
+        inventory = json.loads((root / 'manifest.json').read_text()) if (root / 'manifest.json').exists() else {'charts': 20, 'datasets': 6}
+        assert len(charts) == inventory['charts']
+        assert len(list((root / 'datasets').glob('**/*.yaml'))) == inventory['datasets']
         remap = {source: charts[uuid].id for source, uuid in expected_nodes.items()}
         assert any(source != target for source, target in remap.items())
 
@@ -72,7 +74,7 @@ def verify(profile: str):
                 expected_params['annotation_layers'] = []
             if os.environ.get('CSIM_SNAPSHOT') == '1' and expected_params.get('viz_type') == 'table':
                 expected_params['viz_type'] = 'ag-grid-table'
-            if profile == 'corrected':
+            if profile in ('corrected', 'examples', 'reconciled', 'reconciled-examples') and os.environ.get('CSIM_SNAPSHOT') != '1':
                 expected_params['slice_id'] = actual.id
                 expected_params['dashboards'] = [dashboard.id]
             assert actual_params == expected_params, (expected['slice_name'], {key: {'expected': expected_params.get(key), 'actual': actual_params.get(key)} for key in set(expected_params) | set(actual_params) if expected_params.get(key) != actual_params.get(key)})
@@ -101,7 +103,7 @@ def verify(profile: str):
         for expected in expected_filters:
             actual = actual_filters[expected['id']]
             assert actual['defaultDataMask'] == expected['defaultDataMask'], expected['name']
-            for key in ('filterType', 'controlValues', 'cascadeParentIds', 'time_grains'):
+            for key in ('filterType', 'controlValues', 'cascadeParentIds', 'time_grains', 'adhoc_filters', 'description'):
                 assert actual.get(key) == expected.get(key), (expected['name'], key)
             for expected_target, actual_target in zip(expected.get('targets', []), actual.get('targets', []), strict=True):
                 assert actual_target.get('column') == expected_target.get('column')
@@ -124,7 +126,7 @@ def verify(profile: str):
         }
         actual_global = set(actual_metadata.get('global_chart_configuration', {}).get('chartsInScope', []))
         report = {
-            'profile': profile, 'charts': len(charts), 'datasets': 6, 'filters': 6,
+            'profile': profile, 'charts': len(charts), 'datasets': inventory['datasets'], 'filters': 6,
             'changed_chart_identifiers': sum(source != target for source, target in remap.items()),
             'cached_scope_references': {
                 'all_match': all(item['matches'] for item in caches) and actual_global == expected_global,
@@ -134,11 +136,11 @@ def verify(profile: str):
         }
         Path(f'/tmp/csim-{profile}-import-verification.json').write_text(json.dumps(report, indent=2))
         print(json.dumps(report))
-        if profile in ('corrected', 'preview', 'simple', 'simple-examples'):
+        if profile in ('corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples'):
             assert report['cached_scope_references']['all_match'], 'Imported filter scope caches must match the intended chart references'
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'simple', 'simple-examples'), default='corrected')
+    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples'), default='corrected')
     verify(parser.parse_args().profile)

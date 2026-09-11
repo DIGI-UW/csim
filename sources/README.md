@@ -1,5 +1,7 @@
 # CSiM dashboard versions
 
+The [September reconciliation](../RECONCILIATION.md) also preserves the live test export in `exports/test-current-20260911`. Its 21 chart definitions, six datasets, layout and text match the supplied September test export; the live copy requires selections for collection location and Your hospital.
+
 The April export is the selected technical baseline: 20 charts and six virtual
 datasets for the Individual Data dashboard. Its exact historical deployment
 still requires the team's confirmation. The three archives share dashboard UUID

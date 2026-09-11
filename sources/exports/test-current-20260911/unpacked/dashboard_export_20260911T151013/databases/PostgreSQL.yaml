@@ -1,0 +1,18 @@
+database_name: PostgreSQL
+sqlalchemy_uri: postgresql://postgres:XXXXXXXXXX@172.18.0.11:5432/data
+cache_timeout: null
+expose_in_sqllab: true
+allow_run_async: false
+allow_ctas: false
+allow_cvas: false
+allow_dml: false
+allow_file_upload: true
+extra:
+  metadata_params: {}
+  engine_params: {}
+  metadata_cache_timeout: {}
+  schemas_allowed_for_file_upload: []
+impersonate_user: false
+configuration_method: sqlalchemy_form
+uuid: 21edc228-aaaf-4fbf-8c28-b47844ae09e2
+version: 1.0.0
