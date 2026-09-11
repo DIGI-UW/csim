@@ -52,3 +52,8 @@ The test revision, deployed runtime revision and input-data checksum are recorde
 separately. These targets record dashboard behavior only. Official wording and
 date-editor differences are shown as differences, not accepted fixes. Inspect
 all generated contact sheets before publishing any film.
+
+After building the evidence artifact, run `node evidence-smoke.mjs` from this
+directory with `CSIM_EVIDENCE_URL` pointing to the generated or published page.
+It checks all six videos decode/play, desktop/mobile layout and the screenshot
+manifest without recording or publishing a website-navigation video.

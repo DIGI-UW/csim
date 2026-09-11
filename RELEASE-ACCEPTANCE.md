@@ -98,3 +98,10 @@ Update implemented, validated and deployed statuses separately after each iterat
 - Official fixture checks pass for missing/zero and partial-quarter results (10 submissions), plus both hospital series across the year boundary. The new official demonstration verifies its native date editor and actual year-first labels.
 - Evidence tooling now targets the full custom and official September dashboards, records runtime and test revisions separately, and supports each matching viewer account. Films require assertion success, encoded-frame validation and visual inspection before publication.
 - CI adds stable/development official comparison jobs. The preceding custom run has passed source, website and redirect checks and is building the runtimes. New job execution and final results remain pending.
+
+### Current evidence package prepared
+
+- All 99 public axis screenshots were inspected through 18 contact sheets, with individual images checked where needed. The narrow antibiotic-count title finding remains recorded; complete x-axis labels pass. Review hashes: `output/public-custom-screenshot-review/review.json`.
+- All nine public contents links pass with unchanged document, selections and chart results (`output/public-september-toc/results.json`).
+- Six public workflow films passed their assertions and encoded-image checks: custom labels/month controls/hospital totals; official missing-versus-zero/filter recovery/native-control comparison. All seven contact sheets and representative full-size frames were inspected. The films have 50 checked frames in total.
+- The generated evidence page passes six-video browser playback and desktop/mobile layout checks. Overview/comparison navigation still passes all six tests. The new artifact is ready for evidence-only publication; it does not change dashboard definitions or data.
