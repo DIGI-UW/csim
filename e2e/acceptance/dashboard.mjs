@@ -17,6 +17,10 @@ export async function revealFilter(page,control){
     // Its closing animation can otherwise leave a transient visible duplicate.
     await page.locator('[data-test="dashboard-header-container"]').click({position:{x:4,y:4}});
     await expect(page.locator('.ant-popover:visible')).toHaveCount(0);
+    // The native overflow menu closes on any document scroll. Return to
+    // the top before opening it, then let the visible charts finish loading.
+    await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+    await page.waitForLoadState('networkidle');
   }
   if(!await control.isVisible()){
     const more=page.getByRole('button',{name:/More filters/});
@@ -33,6 +37,21 @@ export async function revealFilter(page,control){
     }
   }
   await expect(control).toBeVisible();
+  // Ant's overflow popover is mounted while its scale animation is still at
+  // zero. Wait for the control's real, stationary position before clicking;
+  // an intermediate click can scroll the document and dismiss the popover.
+  // Measure the visible Select surface: its search input can be only a few
+  // pixels wide when a value is already selected.
+  const surface=await control.evaluate(el=>Boolean(el.closest('.ant-select')))
+    ?selectTrigger(control):control;
+  let previousBounds;
+  await expect.poll(async()=>{
+    const bounds=await surface.boundingBox();
+    if(!bounds||bounds.height<20||bounds.width<20)return false;
+    const position=[bounds.x,bounds.y,bounds.width,bounds.height].map(Math.round).join(',');
+    const stable=position===previousBounds;previousBounds=position;
+    return stable;
+  },{message:'Filter must finish opening before interaction',intervals:[100,100]}).toBe(true);
 }
 export async function openDashboard(page,profile='corrected') {
   const replies=new Map(),failures=[],jobs=new Set(),latest=new Map();
@@ -156,7 +175,12 @@ export async function hospital(page,name,id=filters.hospital){
   const control=page.getByRole('combobox',{name:id,exact:true});
   await revealFilter(page,control);
   const selection=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]');
-  const values=await selection.locator('.ant-select-selection-item').evaluateAll(items=>items.map(item=>item.getAttribute('title')));
+  const values=await selection.evaluate(el=>{
+    const items=[...el.querySelectorAll('.ant-select-selection-item')].map(item=>item.getAttribute('title'));
+    // Ant 6 single-select puts the saved value on the content element.
+    const single=el.querySelector('.ant-select-content-has-value')?.getAttribute('title');
+    return items.length?items:single?[single]:[];
+  });
   if(values.length===1&&values[0]===name)return;
   const remove=selection.locator('.ant-select-selection-item-remove');
   while(await remove.count())await remove.first().click();

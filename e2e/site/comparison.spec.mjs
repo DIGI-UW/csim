@@ -7,6 +7,8 @@ test('The build comparison exposes matching links, logins and actual screenshot 
  for(const [id,name,host] of [['custom','main','dashboard.csim.uwdigi.org'],['official','standard','standard.csim.uwdigi.org']]){
   const card=page.locator('#'+id);const url=new URL(await card.locator('a.button').getAttribute('href'));
   expect(url.hostname).toBe(host);expect(url.searchParams.get('next')).toContain('/superset/dashboard/csim-individual-');
+  await expect(card.getByRole('link',{name:'Download definitions',exact:true})).toHaveAttribute('href',
+    id==='custom'?'definitions/csim-individual-reconciled-months.zip':'definitions/csim-individual-standard-sortable.zip');
   const copy=card.getByRole('button',{name:`Copy ${name} password`});await copy.click();expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(`${name}-test`);
  }
  await expect(page.locator('#official')).toContainText('No CSiM application patches');

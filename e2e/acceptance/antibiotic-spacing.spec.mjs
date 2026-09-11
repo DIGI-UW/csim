@@ -28,7 +28,8 @@ for(const width of [1024,1280,1600])test(`Antibiotic axis titles stay below the 
   const report=[];
   const charts=watch.dateAxes.filter(item=>item.name.endsWith('(abx)'));
   for(const chart of charts){
-      await chart.holder.scrollIntoViewIfNeeded();await watch.settle();
+      await chart.holder.scrollIntoViewIfNeeded();
+      await page.waitForLoadState('networkidle');await watch.settle();
       await expect.poll(()=>watch.replies.get(chart.id)?.result?.data.length).toBeGreaterThan(0);
       await expect.poll(async()=>chart.plot.locator('canvas').evaluateAll(items=>items.every(canvas=>{
         const plot=canvas.closest('[data-test=dashboard-component-chart-holder]');
@@ -38,13 +39,18 @@ for(const width of [1024,1280,1600])test(`Antibiotic axis titles stay below the 
       await waitForChartPaint(chart.plot);
       const texts=await chart.plot.locator('canvas').evaluateAll(canvases=>canvases.flatMap(canvas=>{
         const scale=canvas.clientWidth/canvas.width;
+        const offset=canvas.getBoundingClientRect().top-canvas.closest('[data-test=dashboard-component-chart-holder]').getBoundingClientRect().top;
         return [...new Map((canvas.__spacingText||[]).map(item=>[item.text,item])).values()]
-          .map(item=>({...item,top:item.top*scale,bottom:item.bottom*scale}));
+          .map(item=>({...item,canvasTop:item.top*scale,top:item.top*scale+offset,bottom:item.bottom*scale+offset}));
       }));
       const axis=texts.find(item=>item.text===title);
-      // Legend labels are the horizontal text in the top row of this plot.
-      // Chart headers are outside the canvas; axis ticks are below this row.
-      const legend=texts.filter(item=>item.horizontal&&item.top<30&&!/^\d/.test(item.text));
+      // Development renders its legend in the DOM; 6.1 renders it on canvas.
+      // Measure both in holder coordinates so the same spacing rule applies.
+      const domLegend=chart.holder.locator('[data-test="timeseries-custom-legend"] button');
+      const legend=await domLegend.count()?await domLegend.evaluateAll(items=>items.map(el=>{
+        const r=el.getBoundingClientRect(),holder=el.closest('[data-test=dashboard-component-chart-holder]').getBoundingClientRect();
+        return {text:el.textContent,top:r.top-holder.top,bottom:r.bottom-holder.top};
+      })):texts.filter(item=>item.horizontal&&item.canvasTop<30&&!/^\d/.test(item.text));
       expect(axis,`${chart.name}: title rendered`).toBeTruthy();
       expect(legend.length,`${chart.name}: legend rendered`).toBeGreaterThan(0);
       const gap=axis.top-Math.max(...legend.map(item=>item.bottom));
