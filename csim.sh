@@ -39,10 +39,15 @@ compose() {
 }
 
 start() {
-  if [[ "${CSIM_SKIP_BUILD:-0}" == 1 ]]; then compose up -d --no-build; else compose up -d --build; fi
-  compose exec -T superset superset db upgrade
-  compose exec -T superset superset init
-  compose exec -T superset python /repro/bootstrap_bundle.py
+  if [[ "${CSIM_SKIP_BUILD:-0}" != 1 ]]; then compose build superset; fi
+  compose up -d db
+  # Initialize metadata before Gunicorn workers open the new SQLite database.
+  # The first public snapshot startup exposed a concurrent WAL setup lock.
+  compose stop superset
+  compose run -T --rm --no-deps superset superset db upgrade
+  compose run -T --rm --no-deps superset superset init
+  compose run -T --rm --no-deps superset python /repro/bootstrap_bundle.py
+  compose up -d --no-build --wait --wait-timeout 120 superset
 }
 
 restore() {
@@ -88,6 +93,11 @@ case "$action" in
     ;;
   examples-update)
     compose exec -T superset python /repro/scripts/dashboard_import.py import --profile examples
+    ;;
+  simple)
+    [[ "$profile" == preview* ]] || { echo "Month controls require the snapshot build." >&2; exit 2; }
+    compose exec -T superset python /repro/scripts/dashboard_import.py import --profile simple
+    compose exec -T superset python /repro/scripts/dashboard_import.py import --profile simple-examples
     ;;
   viewer)
     compose exec -T superset python /repro/demo_access.py

@@ -27,14 +27,14 @@ definitions=output/'definitions';definitions.mkdir(exist_ok=True)
 shutil.copy2(ROOT/'output/corrected-dashboard.zip',definitions/'csim-individual-corrected.zip')
 evidence=output/'evidence';evidence.mkdir(exist_ok=True)
 guide=json.loads((ROOT/'e2e/workflow-guide.json').read_text())
-anchors={'01':'native-import','02':'time-grouping','03':'missing-periods','04':'clear-filters','05':'dashboard-time-units','06':'multiple-series'}
+anchors={'01':'native-import','02':'time-grouping','03':'missing-periods','04':'clear-filters','05':'dashboard-time-units','06':'multiple-series','07':'inclusive-months'}
 nav=[];cards=[];published=[]
-for target in ['main','examples','preview']:
+for target in ['main','examples','preview','months']:
     run=ROOT/'output/recordings'/target
     provenance=json.loads((run/'provenance.json').read_text())
     # Documentation and deployment-test updates need not invalidate unchanged
     # dashboard footage. Verify the recorded runtime and browser contract exactly.
-    subprocess.run(['git','diff','--exit-code',provenance['revision'],revision,'--','dashboard','data','patches','Dockerfile','Dockerfile.formatter','superset_config.py','compose.yaml','e2e/acceptance','e2e/acceptance.config.mjs','e2e/workflow-guide.json','e2e/video'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
+    subprocess.run(['git','diff','--exit-code',provenance['revision'],revision,'--','dashboard','data','patches','Dockerfile','Dockerfile.formatter','Dockerfile.month-controls','superset_config.py','compose.yaml','e2e/acceptance','e2e/acceptance.config.mjs','e2e/workflow-guide.json','e2e/video'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
     manifest=json.loads((run/'films/manifest.json').read_text())
     reviewed=json.loads((run/'reviewed-frames.json').read_text())
     for number,item in manifest['workflows'].items():
@@ -48,7 +48,7 @@ for target in ['main','examples','preview']:
         for index,sheet in enumerate(item['contactSheets']):shutil.copy2(sheet,destination/f'frames-{index+1}.jpg')
         (destination/'validation.json').write_text(json.dumps({'framesChecked':item['framesChecked'],'maxPixelDifference':item['maxPixelDifference'],'durationSeconds':item['durationSeconds'],'visuallyReviewed':True,'revision':revision},indent=2))
         label=guide[number]['label']+(' — snapshot' if target=='preview' else ' — main' if number=='05' else '')
-        url='https://'+('preview' if target=='preview' else 'dashboard')+'.csim.uwdigi.org/superset/dashboard/'+('csim-filter-examples' if target=='examples' else 'csim-individual-preview' if target=='preview' else 'csim-individual-corrected')+'/'
+        url='https://'+('preview' if target in ('preview','months') else 'dashboard')+'.csim.uwdigi.org/superset/dashboard/'+('csim-month-examples' if target=='months' else 'csim-filter-examples' if target=='examples' else 'csim-individual-preview' if target=='preview' else 'csim-individual-corrected')+'/'
         nav.append(f'<a href="#{anchor}">{html.escape(label)}</a>')
         extra='<span id="date-range"></span>' if number=='03' else ''
         cards.append(f'''<article id="{anchor}">{extra}<p class="eyebrow">{target.capitalize()} · Dashboard workflow</p><h2>{html.escape(label)}</h2><p>{html.escape(guide[number]['try'])}</p><p><strong>Expected result:</strong> {html.escape(guide[number]['expected'])}</p><video controls preload="none" poster="{key}/screenshot.png"><source src="{key}/workflow.mp4" type="video/mp4"><track kind="captions" src="{key}/captions.vtt" srclang="en" label="English"></video><p class="actions"><a href="{url}">Try this dashboard ↗</a><a href="{key}/screenshot.png">Screenshot</a><a href="{key}/frames-1.jpg">Video frames</a><a href="{key}/validation.json">Validation details</a></p></article>''')

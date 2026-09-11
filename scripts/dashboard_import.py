@@ -202,7 +202,7 @@ def receipt(profile: str):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('action', choices=('import', 'receipt', 'pack'))
-    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'hourly', 'examples'), default='corrected')
+    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'hourly', 'examples', 'simple', 'simple-examples'), default='corrected')
     args = parser.parse_args()
     if args.action == 'import':
         import_dashboard(args.profile)

@@ -19,6 +19,8 @@ jobs:
     timeout-minutes: 60
     env:
       CI: 'true'
+      CSIM_DOCKERFILE: ${{ matrix.build == 'preview' && 'Dockerfile.month-controls' || 'Dockerfile.formatter' }}
+      CSIM_BUILD_TAG: ${{ matrix.build == 'preview' && 'e22ce197-csim-months-1' || '6.1.0-csim-1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -71,6 +73,15 @@ jobs:
           CSIM_PUBLIC_HTTPS=1 CSIM_SKIP_BUILD=1 bash csim.sh "$profile" update
           bash csim.sh "$profile" verify-import
           bash csim.sh "$profile" test-update
+      - name: Test inclusive month controls without video
+        if: matrix.build == 'preview'
+        run: |
+          bash csim.sh preview simple
+          docker exec csim-preview-superset-1 python /repro/scripts/verify_import.py --profile simple
+          docker exec csim-preview-superset-1 python /repro/scripts/verify_import.py --profile simple-examples
+          cd e2e
+          CSIM_PROFILE=preview CSIM_OUTPUT="$GITHUB_WORKSPACE/output/month-supplied" npx playwright test -c month-controls.config.mjs
+          CSIM_PROFILE=preview CSIM_DATA_PROFILE=edge-cases CSIM_DASHBOARD_SLUG=csim-month-examples CSIM_OUTPUT="$GITHUB_WORKSPACE/output/month-examples" npx playwright test -c month-controls.config.mjs
       - name: Save numerical results and screenshots
         if: always()
         uses: actions/upload-artifact@v4

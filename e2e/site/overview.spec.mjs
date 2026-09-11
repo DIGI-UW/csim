@@ -10,6 +10,8 @@ test('Overview links each issue to a solution, evidence, and the matching instan
     await expect(box).toContainText('Username:');
     await expect(box).toContainText('Password:');
   }
+  await expect(page.locator('#month-controls')).toContainText('Through month');
+  await expect(page.locator('#month-controls a').first()).toHaveAttribute('href','https://preview.csim.uwdigi.org/dashboard/csim-individual-simple/');
   await page.getByRole('link',{name:'3. Remaining issues',exact:true}).first().click();
   await expect(page.locator('#next-title')).toBeInViewport();
   const detail=page.locator('details').filter({has:page.locator('summary').filter({hasText:'How the source exports differ'})});

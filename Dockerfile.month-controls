@@ -1,0 +1,25 @@
+ARG SUPERSET_BASE=apache/superset:6.1.0@sha256:16b50bbef6648912a79e3293d418fefa743ce555d36c5af6b85d859119ed7f88
+ARG NODE_IMAGE=node:22.22.0-bookworm-slim
+FROM ${NODE_IMAGE} AS frontend
+RUN apt-get update && apt-get install -y --no-install-recommends git python3 build-essential ca-certificates && rm -rf /var/lib/apt/lists/*
+WORKDIR /source
+ARG SUPERSET_REF=c83fb2bb1dcfac41ac51bcebd82471f4a7180d18
+RUN git init && git remote add origin https://github.com/apache/superset.git && git fetch --depth 1 origin ${SUPERSET_REF} && git checkout --detach FETCH_HEAD
+ARG CSIM_PATCH=superset-6.1.0-csim-period.patch
+WORKDIR /source/superset-frontend
+ENV PUPPETEER_SKIP_DOWNLOAD=true PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+RUN npm ci
+COPY patches/${CSIM_PATCH} /tmp/csim-period.patch
+RUN git apply --check /tmp/csim-period.patch && git apply /tmp/csim-period.patch
+COPY patches/superset-snapshot-month-controls.patch /tmp/csim-month-controls.patch
+RUN git apply --check /tmp/csim-month-controls.patch && git apply /tmp/csim-month-controls.patch
+RUN NODE_ENV=test npx jest --runInBand src/filters/components/Time/CsimMonthRange.test.tsx
+RUN NODE_ENV=test npx jest --runInBand plugins/plugin-chart-echarts/test/utils/formatters.test.ts plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
+RUN apt-get update && apt-get install -y --no-install-recommends zstd && rm -rf /var/lib/apt/lists/*
+RUN npm run build
+
+FROM ${SUPERSET_BASE}
+USER root
+RUN uv pip install --python /app/.venv/bin/python psycopg2-binary==2.9.10
+COPY --from=frontend --chown=superset:superset /source/superset/static/assets /app/superset/static/assets
+USER superset

@@ -36,5 +36,7 @@ TIME_GRAIN_DENYLIST = ['PT1S', 'PT5S', 'PT30S', 'PT1M', 'PT5M', 'PT10M',
                        'PT15M', 'PT30M', 'PT1H', 'PT6H', 'P1D', 'P1W',
                        'P1W/1970-01-03T00:00:00Z', 'P1W/1970-01-04T00:00:00Z']
 if os.environ.get('CSIM_SNAPSHOT') == '1':
+    # The snapshot importer migrates table charts to this renderer.
+    FEATURE_FLAGS['AG_GRID_TABLE_ENABLED'] = True
     TIME_GRAIN_DENYLIST = []
     SESSION_COOKIE_NAME = 'csim_preview_session'

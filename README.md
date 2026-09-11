@@ -7,6 +7,10 @@ The selected baseline contains 20 charts and six datasets from the April 2026
 export. September test and production definitions are preserved alongside it.
 See [the source comparison](sources/README.md) and [implementation plan](PLAN.md).
 
+Public links: [main dashboard](https://dashboard.csim.uwdigi.org/), [snapshot](https://preview.csim.uwdigi.org/), and [overview and logins](https://design.csim.uwdigi.org/).
+
+The snapshot also supports a [second dashboard with inclusive month controls](MONTH_CONTROLS.md). It retains the full report and original snapshot dashboard.
+
 ## Local commands
 
 Docker Compose, Ruby, Python 3, and Node.js are required.

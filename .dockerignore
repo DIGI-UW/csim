@@ -1,5 +1,6 @@
 *
 !Dockerfile
 !Dockerfile.formatter
+!Dockerfile.month-controls
 !patches/
 !patches/**

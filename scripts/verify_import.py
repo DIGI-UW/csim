@@ -2,6 +2,7 @@
 import argparse
 import copy
 import json
+import os
 from pathlib import Path
 
 import yaml
@@ -69,7 +70,7 @@ def verify(profile: str):
             # list on import.  Both forms mean that the chart has no layers.
             if expected_params.get('annotation_layers') is None and actual_params.get('annotation_layers') == []:
                 expected_params['annotation_layers'] = []
-            if profile == 'preview' and expected_params.get('viz_type') == 'table':
+            if os.environ.get('CSIM_SNAPSHOT') == '1' and expected_params.get('viz_type') == 'table':
                 expected_params['viz_type'] = 'ag-grid-table'
             if profile == 'corrected':
                 expected_params['slice_id'] = actual.id
@@ -133,11 +134,11 @@ def verify(profile: str):
         }
         Path(f'/tmp/csim-{profile}-import-verification.json').write_text(json.dumps(report, indent=2))
         print(json.dumps(report))
-        if profile in ('corrected', 'preview'):
+        if profile in ('corrected', 'preview', 'simple', 'simple-examples'):
             assert report['cached_scope_references']['all_match'], 'Imported filter scope caches must match the intended chart references'
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview'), default='corrected')
+    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'simple', 'simple-examples'), default='corrected')
     verify(parser.parse_args().profile)
