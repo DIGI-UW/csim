@@ -21,6 +21,8 @@ The available workflows are linked from the [overview](https://design.csim.uwdig
 
 The five trend charts retain `month_date` as a real date. Formatting affects its displayed text, not ordering. `show_empty_columns` retains NULL periods through Superset's pivot step. A calendar supplies the selected months, quarters or years, and the reporting window is consumed inside the virtual dataset before grouping. The existing hospital and submission-weighted cohort measure definitions are retained.
 
+After Clear all, the vertical sidebar must forward both the clear request and the completion callback to its controls. Without that handoff, choosing the same hospital again can leave an empty query filter and show every hospital. The versioned main and snapshot builds include this repair. Regression compares the selected hospital and all five trend results before and after clearing; the fixture additionally requires exactly 4, 8, 12, missing, 10 and 5 submissions.
+
 Clearing Time Unit on the released instance exposed six saved Day settings, while the instance-wide restriction disabled Day. Those chart fallbacks now use Month, matching the monthly source dates. The same-page regression catches backend failures as well as checking the recovered results. This establishes a reproducible configuration interaction in this deployment; it does not establish the cause of every historical report.
 
 The fixture provides independent arithmetic: hospital 91 has 4, 8, 12, no, 10 and 5 submissions from November through April. March has a valid 0% inappropriate-diagnosis rate; April has no eligible denominator. Q4 is 4/12; Q1 is 9/22. Selecting February–March gives 0/10, excluding January. These are supporting checks for the requested date/filter behavior, not a proposal to change cohort weighting.
@@ -34,7 +36,7 @@ The fixture provides independent arithmetic: hospital 91 has 4, 8, 12, no, 10 an
 | Which selector controls the hospital submission card | Baseline retains its separate Your hospital selector. Aligning it with the main selector is a separate reporting decision. |
 | Entire-cohort submission total and date exceptions | Baseline definition and deliberate date exclusion retained and checked during import. |
 | Latest data indication | September test-only card excluded from this baseline. An observation date, import time and dashboard update time are different requirements. |
-| Table-of-contents links and embedded navigation | Source links require target-specific checks. New standalone hostname and return links are checked for this deployment; WordPress remains separate. |
+| Table-of-contents links and embedded navigation | The inherited table-of-contents links still target the original test server and saved filters. Use scrolling in this demo; local section anchors are the proposed correction. Standalone hostname and login-return links are checked; WordPress remains separate. |
 | Several dashboards / shared training charts | This project represents Individual Data only. The training dashboard shares source charts, which matters for a future source-server update. |
 | Historical records / hospital 57 provenance | The exports identify different historical source tables. Demo tests do not establish production data completeness. |
 | Titles, introductory text, equations and percent formatting | Existing team edits and baseline definitions retained. No unrelated editorial or measure redesign is included. |

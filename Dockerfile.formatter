@@ -11,7 +11,7 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN npm ci
 COPY patches/${CSIM_PATCH} /tmp/csim-period.patch
 RUN git apply --check /tmp/csim-period.patch && git apply /tmp/csim-period.patch
-RUN NODE_ENV=test npx jest --runInBand plugins/plugin-chart-echarts/test/utils/formatters.test.ts plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
+RUN NODE_ENV=test npx jest --runInBand plugins/plugin-chart-echarts/test/utils/formatters.test.ts plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
 RUN apt-get update && apt-get install -y --no-install-recommends zstd && rm -rf /var/lib/apt/lists/*
 RUN npm run build
 
