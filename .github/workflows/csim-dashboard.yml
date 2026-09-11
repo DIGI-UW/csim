@@ -67,6 +67,10 @@ jobs:
           bash csim.sh "$profile" verify-import
           cd e2e
           CSIM_PROFILE="$profile" npm test
+          cd ..
+          CSIM_PUBLIC_HTTPS=1 CSIM_SKIP_BUILD=1 bash csim.sh "$profile" update
+          bash csim.sh "$profile" verify-import
+          bash csim.sh "$profile" test-update
       - name: Save numerical results and screenshots
         if: always()
         uses: actions/upload-artifact@v4

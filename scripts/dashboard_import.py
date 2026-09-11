@@ -1,8 +1,7 @@
 """Import a saved CSiM dashboard package through Superset's native API.
 
 The package contains SQL and the database connection template, never a database
-password.  It can be imported repeatedly; only `csim.sh ... demo-restore`
-changes the reporting database.
+password. It can be imported repeatedly without restoring the reporting database.
 """
 import argparse
 import hashlib
@@ -39,6 +38,11 @@ def connection():
     csrf.raise_for_status()
     session.headers['X-CSRFToken'] = csrf.json()['result']
     session.headers['Referer'] = f'{base}/'
+    # This CLI connects only to the service's own loopback HTTP listener.
+    # Keep its CSRF session cookie on that connection when public browser
+    # cookies are HTTPS-only. The server's browser cookie policy is unchanged.
+    for cookie in session.cookies:
+        cookie.secure = False
     return base, session
 
 
@@ -78,8 +82,9 @@ def import_dashboard(profile: str):
         files={'bundle': ('csim-dashboard.zip', archive(directory), 'application/zip')},
         data={'passwords': json.dumps(passwords), 'overwrite': 'true'},
         timeout=120,
+        allow_redirects=False,
     )
-    if not response.ok:
+    if response.status_code != 200:
         raise ValueError(f'Native assets import failed ({response.status_code}): {response.text[:2000]}')
     if response.json().get('message') != 'OK':
         raise ValueError(f'Unexpected native import response: {response.text[:1000]}')

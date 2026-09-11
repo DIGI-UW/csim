@@ -23,6 +23,11 @@ release directories link those environment files. It also creates the viewer
 accounts, imports the hourly snapshot example, verifies definitions and runs a
 changed-definition update followed by restoration.
 
+The importer connects to Superset's loopback HTTP listener. It retains its
+session cookie on that internal connection even when browser cookies require
+HTTPS. CI checks this configuration with an import and changed-definition
+update; public browser cookies remain HTTPS-only.
+
 For subsequent releases:
 
 ```sh
