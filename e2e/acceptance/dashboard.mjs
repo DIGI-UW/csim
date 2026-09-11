@@ -1,3 +1,4 @@
+import {chartCount} from '../acceptance.config.mjs';
 import {expect} from '@playwright/test';
 export const trendNames=[
   'Inappropriate UTI diagnosis (time series)',
@@ -44,7 +45,7 @@ export async function openDashboard(page,profile='corrected') {
   await page.goto(`/superset/dashboard/${slug}/`);
   await expect(page.getByRole('button',{name:'Apply filters',exact:true})).toBeVisible();
   const links=page.locator('a[href*="slice_id="]');
-  await expect(links).toHaveCount(20);
+  await expect(links).toHaveCount(chartCount);
   await page.waitForLoadState('networkidle');
   const dateAxes=[];
   for(const name of [...trendNames,...additionalDateNames]){

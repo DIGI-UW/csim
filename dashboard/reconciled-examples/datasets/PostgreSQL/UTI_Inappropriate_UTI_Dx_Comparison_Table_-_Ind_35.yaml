@@ -1,0 +1,167 @@
+---
+table_name: September examples — UTI Inappropriate UTI Dx Comparison Table - Ind
+main_dttm_col:
+description:
+default_endpoint:
+offset: 0
+cache_timeout:
+catalog: csim_fixture
+schema: v1
+sql: "WITH raw_data AS (\r\n    SELECT\r\n        hosp_name, sign_symp, month, year,\r\n
+  \       ucx_positive, urinalysis, tx___1\r\n    FROM \"v1\".\"UTI Individual Current\"\r\n
+  \   WHERE hosp_name IS NOT NULL\r\n      AND qi_asb_complete = 2\r\n      AND month
+  IS NOT NULL\r\n      AND year IS NOT NULL\r\n\r\n    UNION ALL\r\n\r\n    SELECT\r\n
+  \       hosp_name, sign_symp, month, year,\r\n        ucx_positive, urinalysis,
+  tx___1\r\n    FROM \"v1\".\"UTI Individual Historical\"\r\n    WHERE hosp_name IS
+  NOT NULL\r\n      AND month IS NOT NULL\r\n      AND year IS NOT NULL\r\n),\r\n\r\nhospital_agg
+  AS (\r\n    SELECT \r\n        i.hosp_name AS hosp_num,\r\n        LPAD(i.hosp_name::TEXT,
+  2, '0') AS hosp_code,\r\n        TRIM(h.state) AS state,\r\n        TO_DATE(i.year::TEXT
+  || '-' || LPAD(i.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,\r\n
+  \       COUNT(*) AS ucsub,\r\n        SUM(CASE WHEN i.ucx_positive = 1 AND i.tx___1
+  = 0 THEN 1 ELSE 0 END) AS txpos,\r\n        SUM(CASE WHEN i.ucx_positive = 1 AND
+  i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END) AS asbtreated,\r\n        CASE
+  \r\n            WHEN SUM(CASE WHEN i.ucx_positive = 1 AND i.tx___1 = 0 THEN 1 ELSE
+  0 END) > 0 \r\n            THEN SUM(CASE WHEN i.ucx_positive = 1 AND i.sign_symp
+  = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END)::FLOAT / \r\n                 SUM(CASE WHEN
+  i.ucx_positive = 1 AND i.tx___1 = 0 THEN 1 ELSE 0 END)\r\n            ELSE NULL
+  \r\n        END AS inappdx\r\n    FROM raw_data i\r\n    LEFT JOIN \"v1\".\"CSiM
+  Hospitals and States\" h \r\n        ON i.hosp_name = h.hosp_code\r\n    WHERE h.hosp_code
+  IS NOT NULL\r\n    GROUP BY i.hosp_name, TRIM(h.state), i.month, i.year\r\n),\r\n\r\nhospital_latest
+  AS (\r\n    SELECT *\r\n    FROM hospital_agg a\r\n    WHERE month_date = (\r\n
+  \       SELECT MAX(month_date) \r\n        FROM hospital_agg \r\n        WHERE hosp_code
+  = a.hosp_code\r\n    )\r\n),\r\n\r\nstate_avg AS (\r\n    SELECT\r\n        state,\r\n
+  \       month_date,\r\n        SUM(inappdx * ucsub) / \r\n            NULLIF(SUM(CASE
+  WHEN inappdx IS NOT NULL THEN ucsub ELSE 0 END), 0) AS state_inappdx\r\n    FROM
+  hospital_agg\r\n    GROUP BY state, month_date\r\n),\r\n\r\ncohort_avg AS (\r\n
+  \   SELECT\r\n        month_date,\r\n        SUM(inappdx * ucsub) / \r\n            NULLIF(SUM(CASE
+  WHEN inappdx IS NOT NULL THEN ucsub ELSE 0 END), 0) AS cohort_inappdx\r\n    FROM
+  hospital_agg\r\n    GROUP BY month_date\r\n)\r\n\r\nSELECT\r\n    h.hosp_num,\r\n
+  \   h.hosp_code,\r\n    h.state AS \"State\",\r\n    TO_CHAR(h.month_date, 'Mon
+  YYYY') AS \"Month\",\r\n    h.inappdx AS \"Your Hospital\",\r\n    s.state_inappdx
+  AS \"Your State\",\r\n    c.cohort_inappdx AS \"Cohort\",\r\n    CASE \r\n        WHEN
+  h.inappdx IS NULL THEN 'No data'\r\n        WHEN h.inappdx < c.cohort_inappdx THEN
+  'Better than cohort ✓'\r\n        WHEN h.inappdx > c.cohort_inappdx THEN 'Worse
+  than cohort - <a href=\"https://uwcsim.org/course/asb-101-2023-2024/\" target=\"_blank\">Support
+  resources</a>'\r\n        ELSE 'Same as cohort'\r\n    END AS \"Comparison\"\r\nFROM
+  hospital_latest h\r\nLEFT JOIN state_avg s ON h.state = s.state AND h.month_date
+  = s.month_date\r\nLEFT JOIN cohort_avg c ON h.month_date = c.month_date\r\nORDER
+  BY h.hosp_code"
+params:
+template_params:
+filter_select_enabled: true
+fetch_values_predicate:
+extra:
+normalize_columns: false
+always_filter_main_dttm: false
+folders:
+uuid: e1e8007c-0bd4-56d3-87c7-83a3142d8a11
+metrics:
+- metric_name: count
+  verbose_name: COUNT(*)
+  metric_type: count
+  expression: COUNT(*)
+  description:
+  d3format:
+  currency:
+  extra:
+    warning_markdown: ''
+  warning_text:
+columns:
+- column_name: Your Hospital
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: Your State
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: Cohort
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: Comparison
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: hosp_num
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: Month
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: State
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: hosp_code
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+version: 1.0.0
+database_uuid: 0f6083ba-0edf-5f47-82ca-e1ce89bd58f4

@@ -1,5 +1,7 @@
 # CSiM reported issues and solution coverage
 
+The separately identified [September version](RECONCILIATION.md) incorporates Beth’s current test presentation and latest-data card while preserving the established 20-chart dashboard. It has 21 charts and six independent dataset definitions; the snapshot examples remain unchanged.
+
 The dashboard is based on the April Individual Data export: 20 charts and six datasets. The original source files and September comparisons are in [sources](sources/README.md). Automated results, deployed release identity and Beth's acceptance are separate records.
 
 ## Ian's three issues and Beth's priority

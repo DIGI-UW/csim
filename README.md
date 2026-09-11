@@ -1,5 +1,7 @@
 # CSiM Individual Data dashboard
 
+The separately identified [September version](RECONCILIATION.md) incorporates Beth’s current test presentation and latest-data card while preserving the established 20-chart dashboard. It has 21 charts and six independent dataset definitions; the snapshot examples remain unchanged.
+
 Versioned CSiM dashboard definitions, demo data, deployment tooling, and browser
 evidence for date labels and Time Period filtering.
 

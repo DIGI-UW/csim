@@ -216,5 +216,6 @@ write_yaml(preview_dashboard_path, preview_dashboard)
 require_relative 'prepare_hourly'
 require_relative 'prepare_examples'
 require_relative 'prepare_simple'
+require_relative 'prepare_reconciled'
 
 puts "Prepared #{baseline} and #{corrected} from the preserved April export."

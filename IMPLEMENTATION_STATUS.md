@@ -1,5 +1,7 @@
 # CSiM delivery and verification
 
+The separately identified [September version](RECONCILIATION.md) incorporates Beth’s current test presentation and latest-data card while preserving the established 20-chart dashboard. It has 21 charts and six independent dataset definitions; the snapshot examples remain unchanged.
+
 The acceptance contract is in [PLAN.md](PLAN.md). This records delivery status; the public explanation is [CSiM dashboard issues and solutions](https://design.csim.uwdigi.org/).
 
 ## Running versions

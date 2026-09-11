@@ -94,6 +94,11 @@ case "$action" in
   examples-update)
     compose exec -T superset python /repro/scripts/dashboard_import.py import --profile examples
     ;;
+  reconciled)
+    [[ "$profile" == corrected ]] || { echo 'The September version uses the main instance.' >&2; exit 2; }
+    compose exec -T superset python /repro/scripts/reconcile.py
+    compose exec -T superset python /repro/demo_access.py
+    ;;
   simple)
     [[ "$profile" == preview* ]] || { echo "Month controls require the snapshot build." >&2; exit 2; }
     compose exec -T superset python /repro/scripts/dashboard_import.py import --profile simple

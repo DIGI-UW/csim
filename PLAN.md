@@ -1,5 +1,7 @@
 # CSiM dashboard remediation and reproducible deployment
 
+The separately identified [September version](RECONCILIATION.md) incorporates Beth’s current test presentation and latest-data card while preserving the established 20-chart dashboard. It has 21 charts and six independent dataset definitions; the snapshot examples remain unchanged.
+
 ## Goal
 
 Deliver the full CSiM Individual Data dashboard from this repository and the supplied demo database, with clear Month/Quarter/Year labels and reliable Time Period filtering. Update the running dashboard, overview and workflow evidence together.

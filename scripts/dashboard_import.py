@@ -14,7 +14,7 @@ import zipfile
 import requests
 import yaml
 
-ROOT = Path('/repro')
+ROOT = Path(os.environ.get('CSIM_PROJECT_ROOT', '/repro'))
 
 
 def package(profile: str) -> Path:
@@ -88,7 +88,7 @@ def import_dashboard(profile: str):
         raise ValueError(f'Native assets import failed ({response.status_code}): {response.text[:2000]}')
     if response.json().get('message') != 'OK':
         raise ValueError(f'Unexpected native import response: {response.text[:1000]}')
-    if profile in ('corrected','examples') and os.environ.get('CSIM_SNAPSHOT') != '1':
+    if profile in ('corrected','examples','reconciled','reconciled-examples') and os.environ.get('CSIM_SNAPSHOT') != '1':
         repair_numeric_references(directory)
     return directory
 
@@ -202,7 +202,7 @@ def receipt(profile: str):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('action', choices=('import', 'receipt', 'pack'))
-    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'hourly', 'examples', 'simple', 'simple-examples'), default='corrected')
+    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'hourly', 'examples', 'simple', 'simple-examples', 'reconciled', 'reconciled-examples'), default='corrected')
     args = parser.parse_args()
     if args.action == 'import':
         import_dashboard(args.profile)
