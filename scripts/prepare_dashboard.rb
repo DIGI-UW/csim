@@ -223,5 +223,8 @@ require_relative 'prepare_month_range'
 MonthRangeDashboard.build_all
 require_relative 'prepare_standard'
 StandardDashboard.build_all
+require_relative 'prepare_native_months'
+NativeMonthDashboard.build
+NativeMonthDashboard.build(fixture: true)
 
 puts "Prepared #{baseline} and #{corrected} from the preserved April export."

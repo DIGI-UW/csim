@@ -4,6 +4,16 @@ This checklist implements the client-refined familiar-dashboard release: 21 char
 
 Follow the execution roadmap in `PLAN.md`: confirm target → complete both full-dashboard options → iterate on correctness and screenshots → publish and verify → close Beth's review loop. The sections below preserve detailed acceptance history; they do not define a separate sequence or require work to move to another task. The recommended release must meet the client criteria; a comparison option may demonstrate a named gap, but that gap is never counted as a fix. Record implementation, local validation, public verification and Beth's acceptance independently.
 
+## Native month option publication — current iteration
+
+- Deployed: saved definitions `623acb3c586103809c3b06b1a9013a28758ec402` on both public stable instances. Runtime images and reporting data unchanged. The official instance now also serves `csim-individual-standard-month-selectors` and its known-record copy. Main September identities are preserved.
+- Rollback metadata: `standard-assets-20260911T231729.db` and `corrected-assets-20260911T231856.db` under `/home/ubuntu/csim/backups`.
+- Validated locally: 786 source assertions, deterministic regeneration with no dashboard differences, six website checks including exact login destinations and password copy. Inspected all 99 native screenshots; year-first wording remains a gap.
+- Public custom validation: 13 checks pass, including all 99 date-axis cases and 21-panel opening; all 99 screenshots inspected. All nine contents links pass. Native fixture recovery and partial-quarter checks pass on an isolated rerun, and the new inclusive-month demonstration passes. Initial parallel native runs had chart-wait timeouts; their cause remains open.
+- Implemented next source correction: include both native-month packages in the top-level generator. CI had deleted them during regeneration because this call was omitted. No definitions changed in this repair.
+- Prepared: comparison links, new downloadable package and reviewed chart thumbnails. Website publication and native workflow film still pending.
+- Remaining: finish public checks and publish matching overview/evidence; complete CI including known narrow-label geometry failures; client editor rehearsal and Beth checklist. The historical checkpoints below remain evidence of earlier revisions.
+
 ## Public review checkpoint — September 11
 
 | Area | Implemented, validated and deployed | Remaining |

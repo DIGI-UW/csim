@@ -14,9 +14,11 @@ test('Every section link stays in this dashboard and preserves all filter select
     selection:input.closest('.ant-select')?.querySelector('.ant-select-selector')?.textContent,
   })));
   const before=await selections();
-  const readRange=()=>process.env.CSIM_SIMPLE_CONTROLS==='1'
-    ? Promise.all([page.getByLabel('From month',{exact:true}).inputValue(),page.getByLabel('Through month (inclusive)',{exact:true}).inputValue()])
-    : page.getByRole('button',{name:'Time Period',exact:true}).innerText();
+  const readRange=()=>process.env.CSIM_NATIVE_MONTHS==='1'
+    ? Promise.all(['from_month','through_month'].map(name=>page.getByRole('combobox',{name:`NATIVE_FILTER-csim-${name}`,exact:true}).evaluate(input=>input.closest('.ant-select').querySelector('.ant-select-selection-item')?.textContent)))
+    : process.env.CSIM_SIMPLE_CONTROLS==='1'
+      ? Promise.all([page.getByLabel('From month',{exact:true}).inputValue(),page.getByLabel('Through month (inclusive)',{exact:true}).inputValue()])
+      : page.getByRole('button',{name:'Time Period',exact:true}).innerText();
   const range=await readRange();
   const trendData=watch.trends.map(chart=>watch.replies.get(chart.id).result.data);
   const anchors=page.locator('a[href^="#HEADER-"]');

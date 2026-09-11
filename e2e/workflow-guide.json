@@ -15,8 +15,8 @@
   },
   "03": {
     "label": "Missing periods and selected dates",
-    "try": "Inspect hospital 91, then narrow the window to February\u2013March and group by Quarter.",
-    "expected": "February is missing, March is a valid zero, and February\u2013March has 10 submissions without January.",
+    "try": "Inspect hospital 91, then narrow the window to February–March and group by Quarter.",
+    "expected": "February is missing, March is a valid zero, and February–March has 10 submissions without January.",
     "videoIntro": "Known test records make these differences visible: no February submissions, a valid zero rate in March, and a partial-quarter window.",
     "videoOutro": "Calendar rows retain missing months. The date window filters observations before grouping, and an empty selection can return to a populated result on the same page."
   },
@@ -37,7 +37,7 @@
   "06": {
     "label": "Two series across a year boundary",
     "try": "Compare hospitals 91 and 92 in Month, Quarter and Year views.",
-    "expected": "Both series remain ordered across 2025\u20132026, with readable date labels.",
+    "expected": "Both series remain ordered across 2025–2026, with readable date labels.",
     "videoIntro": "Text dates can sort incorrectly when a chart compares multiple series. These charts retain real dates and format the labels separately.",
     "videoOutro": "The two series remain chronological. Labels keep the first and last period visible, with enough space at the graph edges."
   },
@@ -47,11 +47,11 @@
     "expected": "Both endpoints are inclusive. Q1 contains February and March only; invalid ranges cannot be applied, and clearing recovers on the same page."
   },
   "08": {
-    "label": "Beth\u2019s September additions with familiar controls",
+    "label": "Beth’s September additions with familiar controls",
     "try": "Open the September version, inspect the latest-data card, keep your date selections when jumping to sections, and choose the lower comparison groups.",
     "expected": "All 21 charts are present. The latest reporting month remains independent of the viewing window. Section links keep filters, and comparison selectors separate hospitals from named groups.",
-    "videoIntro": "The September version includes Beth\u2019s latest-data card, explanations and layout. The established 20-chart dashboard remains available for comparison.",
-    "videoOutro": "The new version keeps the date and filter corrections with Beth\u2019s additions. The established dashboard remains unchanged."
+    "videoIntro": "The September version includes Beth’s latest-data card, explanations and layout. The established 20-chart dashboard remains available for comparison.",
+    "videoOutro": "The new version keeps the date and filter corrections with Beth’s additions. The established dashboard remains unchanged."
   },
   "09": {
     "label": "Cohort opening and hospital totals",
@@ -66,5 +66,12 @@
     "expected": "The native candidate displays chronological year-first labels and filters before grouping. Its date editor uses an exclusive end date; dedicated inclusive month fields are not present.",
     "videoIntro": "This full September dashboard uses official Superset 6.1.0 without CSiM application patches. Review the native controls and the differences from the requested workflow.",
     "videoOutro": "Official Superset preserves the selected observations and chronological grouping. This candidate uses year-first labels and a date-range editor; those differences remain open acceptance choices."
+  },
+  "11": {
+    "label": "From and Through month in official Superset",
+    "try": "Select November through April, then narrow to February–March and change Month to Quarter and Year.",
+    "expected": "Both endpoints are included. February has no observations, March is a valid zero, and the partial quarter and year each contain 10 submissions without January.",
+    "videoIntro": "Ordinary Superset dropdowns select inclusive From and Through months. The separate Time Unit changes grouping; the dashboard uses year-first labels.",
+    "videoOutro": "Inclusive month filtering works without CSiM application patches. This option uses horizontal filters and fixed saved defaults; exact month and quarter wording remains different."
   }
 }

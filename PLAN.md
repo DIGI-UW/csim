@@ -4,6 +4,16 @@ This is the execution roadmap for one CSiM release goal. [RELEASE-ACCEPTANCE.md]
 
 Planning checkpoint: September 11, 2026. The owner has requested immediate publication of the tested custom release and official Superset comparison as review candidates, followed by further iterations. This does not mark remaining client acceptance complete. Publish exact committed revisions with rollback artifacts; CI and final production acceptance remain separately reported.
 
+## Native month option publication — current iteration
+
+- Deployed: saved definitions `623acb3c586103809c3b06b1a9013a28758ec402` on both public stable instances. Runtime images and reporting data unchanged. The official instance now also serves `csim-individual-standard-month-selectors` and its known-record copy. Main September identities are preserved.
+- Rollback metadata: `standard-assets-20260911T231729.db` and `corrected-assets-20260911T231856.db` under `/home/ubuntu/csim/backups`.
+- Validated locally: 786 source assertions, deterministic regeneration with no dashboard differences, six website checks including exact login destinations and password copy. Inspected all 99 native screenshots; year-first wording remains a gap.
+- Public custom validation: 13 checks pass, including all 99 date-axis cases and 21-panel opening; all 99 screenshots inspected. All nine contents links pass. Native fixture recovery and partial-quarter checks pass on an isolated rerun, and the new inclusive-month demonstration passes. Initial parallel native runs had chart-wait timeouts; their cause remains open.
+- Implemented next source correction: include both native-month packages in the top-level generator. CI had deleted them during regeneration because this call was omitted. No definitions changed in this repair.
+- Prepared: comparison links, new downloadable package and reviewed chart thumbnails. Website publication and native workflow film still pending.
+- Remaining: finish public checks and publish matching overview/evidence; complete CI including known narrow-label geometry failures; client editor rehearsal and Beth checklist. The historical checkpoints below remain evidence of earlier revisions.
+
 ## Goal and primary deliverable
 
 Implement, validate and publicly publish the full September CSiM Individual Data dashboard using the client's refined workflow, with reliable inclusive From month / Through month filtering, separate Month / Quarter / Year grouping, readable date labels and correct hospital results. Deliver demonstrable options with and without a custom Superset build, establish which custom changes are necessary, and recommend the option that meets the client acceptance criteria. Keep the overview, logins, screenshots and workflow recordings synchronized with the tested release. Follow the roadmap below through repeated implementation, validation, review and public-verification cycles until the technical completion criteria are met; record Beth's acceptance separately.

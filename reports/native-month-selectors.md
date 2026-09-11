@@ -44,7 +44,6 @@ The supplied-data candidate passes 14 local checks in
 `output/native-months-supplied/results.json`: all 21 panels, the independently
 verified hospital total of 980 and clear/reselect, saved defaults, both selection
 orders, all nine antibiotic legend cases, and capture of the 99-axis comparison.
-The comparison records year-first wording as a gap. Its 99 captures require visual
-review; passing the observation test does not accept their wording. Public
-verification is still separate. This candidate is not yet the published official
-dashboard.
+The comparison records year-first wording as a gap. All 99 captures were visually inspected through 18 contact sheets; complete ticks and legend controls are visible. Year-first wording remains an explicit gap. Review hashes are in `output/native-months-supplied/visual-review/review.json`.
+
+Definitions `623acb3` are deployed at [the native month dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/), with its own known-record copy. Runtime `9f7d15d` is unchanged; its application assets remain official 6.1.0. The public inclusive-month demonstration passes. Isolated recovery and partial-quarter checks also pass (`output/public-native-serial-623/results.json`). Earlier parallel runs timed out while charts waited for results; the cause remains under diagnosis. A passing rerun is not treated as a repair.

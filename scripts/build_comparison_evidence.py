@@ -9,6 +9,7 @@ import shutil
 p=argparse.ArgumentParser()
 p.add_argument('--custom',required=True,type=Path)
 p.add_argument('--official',required=True,type=Path)
+p.add_argument('--official-months',type=Path)
 p.add_argument('--screenshot-review',required=True,type=Path)
 p.add_argument('--output',required=True,type=Path)
 a=p.parse_args()
@@ -19,26 +20,31 @@ assert review['reviewed'] and review['chartScreenshots']==99
 report=Path(review['testReport'])
 assert hashlib.sha256(report.read_bytes()).hexdigest()==review['reportSha256']
 runs={}
-for name,path in [('custom',a.custom),('official',a.official)]:
+sources=[('custom',a.custom),('official',a.official)]
+if a.official_months:sources.insert(1,('official-months',a.official_months))
+for name,path in sources:
     provenance=json.loads((path/'provenance.json').read_text())
     films=json.loads((path/'films/manifest.json').read_text())['workflows']
     inspected=json.loads((path/'reviewed-frames.json').read_text())
     assert set(films)==set(inspected['workflowIds']) and inspected['reviewed']
     assert provenance['runtimeRevision']==review['runtimeRevision']
     assert provenance['runtimeImageId'], 'A public film requires the deployed image identity'
+    if name=='official-months':
+        assert provenance['assetsRevision']==review['assetsRevision']
     for number,film in films.items():
         assert film['maxPixelDifference']<=6 and film['framesChecked']>0
         assert inspected['filmSha256'][number]==hashlib.sha256(Path(film['file']).read_bytes()).hexdigest()
     runs[name]=(path,provenance,films)
 a.output.mkdir(parents=True)
 styles='body{max-width:1160px;margin:auto;padding:26px;background:#f4f7f5;color:#19332d;font:16px/1.55 system-ui}h1,h2{line-height:1.2}a{color:#09614d}section,article,details{background:white;border:1px solid #cddbd5;border-radius:8px;padding:22px;margin:20px 0}video,img{max-width:100%;height:auto}video{width:100%;background:#edf3ef}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.grid article{margin:0}summary{cursor:pointer}code{overflow-wrap:anywhere}@media(max-width:720px){.grid{grid-template-columns:1fr}body{padding:16px}}'
-content=['<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CSiM dashboard workflows</title><style>'+styles+'</style><a href="../../comparison.html">← Compare custom and official Superset</a><h1>CSiM dashboard workflows</h1><p>Try the date controls, change the grouping and check hospital results. Each recording shows a running full September dashboard. The official option retains its native date editor and year-first labels.</p>']
+content=['<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CSiM dashboard workflows</title><style>'+styles+'</style><a href="../../comparison.html">← Compare custom and official Superset</a><h1>CSiM dashboard workflows</h1><p>Try the date controls, change the grouping and check hospital results. Each recording shows a running full September dashboard. The official month option uses native dropdowns and year-first labels. Recordings of its separate date-editor option are labelled below.</p>']
 manifest={'assetsRevision':review.get('assetsRevision',review['runtimeRevision']),'runtimeRevision':review['runtimeRevision'],'xAxisScreenshots':99,'screenshotsReviewed':True,'presentationFindings':review['findings'],'options':{}}
 for name,(path,provenance,films) in runs.items():
     guide=json.loads((path/'workflow-guide.json').read_text())
-    heading='Client month controls and exact date wording' if name=='custom' else 'Official Superset controls and date labels'
+    heading={'custom':'Client month controls and exact date wording','official-months':'Official Superset: inclusive month dropdowns','official':'Official Superset: separate date-editor option'}[name]
+    login='custom' if name=='custom' else 'official'
     dashboard=provenance['baseURL']+'/superset/dashboard/'+provenance['dashboardSlug']+'/'
-    content.append('<section><h2>'+heading+'</h2><p><a href="'+html.escape(dashboard)+'">Open this dashboard</a> · <a href="../../comparison.html#'+name+'">Matching login</a></p><div class="grid">')
+    content.append('<section><h2>'+heading+'</h2><p><a href="'+html.escape(dashboard)+'">Open this dashboard</a> · <a href="../../comparison.html#'+login+'">Matching login</a></p><div class="grid">')
     published={}
     for number,film in sorted(films.items()):
         dest=a.output/name/number;dest.mkdir(parents=True)
