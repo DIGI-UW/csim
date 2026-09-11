@@ -17,6 +17,9 @@ ruby scripts/prepare_dashboard.rb
 bash csim.sh baseline init
 bash csim.sh corrected init
 bash csim.sh fixture init
+bash csim.sh preview init
+bash csim.sh preview hourly
+bash csim.sh preview-fixture init
 ```
 
 Initialization restores the supplied demo database, or creates the separate
@@ -29,11 +32,13 @@ bash csim.sh corrected verify-import
 cd e2e
 npm ci
 npx playwright test -c acceptance.config.mjs
-CSIM_PROFILE=fixture npx playwright test -c acceptance.config.mjs
+CSIM_PROFILE=fixture npm test
+CSIM_PROFILE=preview npm test
+CSIM_PROFILE=preview-fixture npm test
 ```
 
 The local baseline uses port 18190, corrected demo 18189, and edge-case fixture
-18191. Each has separate metadata, reporting data, and generated local credentials
+18191; the snapshot uses 18192 and its separate fixture 18193. Each has separate metadata, reporting data, and generated local credentials
 in its ignored `.env.PROFILE` file. The login is `demo`.
 
 The corrected build adds an opt-in `csim_period` formatter to Superset 6.1.0.
@@ -49,3 +54,28 @@ baseline omits that repair to preserve a comparison.
 The implementation is under active acceptance testing. Local test results,
 public deployment status, and Beth's review are distinct; no published release
 is established merely by creating this repository.
+
+## Linked worked examples
+
+The main dashboard uses the supplied demo dump. A second full dashboard can be
+created alongside it, using a separate `csim_fixture` database with known
+missing-period and zero-value cases:
+
+```sh
+bash csim.sh corrected examples-init
+bash csim.sh preview examples-init
+bash csim.sh corrected viewer
+bash csim.sh preview viewer
+```
+
+These explicit initialization commands refuse an existing fixture database.
+Use `examples-update` thereafter; it changes definitions only. Both instances
+serve `/superset/dashboard/csim-filter-examples/`. The main dashboard remains
+`csim-individual-corrected` and the snapshot remains `csim-individual-preview`.
+The viewer can read the supplied and example dashboards; its generated login
+is in ignored `output/PROFILE-viewer.json` for publication beside the instance.
+
+To validate a worked example through an existing instance, use
+`CSIM_DASHBOARD_SLUG=csim-filter-examples CSIM_DATA_PROFILE=edge-cases`
+with the corresponding `CSIM_PROFILE`. `CSIM_BASE_URL`, `CSIM_USERNAME` and
+`CSIM_PASSWORD` support the same checks against a deployed viewer session.

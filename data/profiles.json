@@ -1,0 +1,24 @@
+{
+  "supplied-demo": {
+    "file": "data/v1_schema_dump.sql",
+    "sha256": "6726a084cc7b3b2daa288423ae9f8123b5f865867795278043ce5d9f77f542f9",
+    "representativeHospital": "31",
+    "provenance": "Supplied CSiM demo database",
+    "expectedDashboardCharts": 20,
+    "expectedDashboardDatasets": 6
+  },
+  "edge-cases": {
+    "file": "data/edge-cases.sql",
+    "generator": "scripts/generate_fixture.py",
+    "representativeHospital": "91",
+    "secondHospital": "92",
+    "expectedDashboardCharts": 20,
+    "expectedDashboardDatasets": 6,
+    "window": ["2025-11-01", "2026-05-01"],
+    "currentRecords": 70,
+    "eligibleRecords": 69,
+    "missingHospitalMonth": ["91", "2026-02"],
+    "zeroRateHospitalMonth": ["91", "2026-03"],
+    "partialQuarter": {"window": ["2026-02-01", "2026-04-01"], "hospital": "91", "submissions": 10, "inappropriateDiagnoses": 0}
+  }
+}

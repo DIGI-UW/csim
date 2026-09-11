@@ -1,0 +1,24 @@
+---
+table_name: Hourly reporting example
+uuid: b6ae8d10-9832-4ac4-a5b5-239d7e358c1d
+database_uuid: 21edc228-aaaf-4fbf-8c28-b47844ae09e2
+schema: public
+catalog: csim_demo
+main_dttm_col: collected_at
+sql: SELECT TIMESTAMP '2026-01-05' + n * INTERVAL '1 hour' AS collected_at, CASE WHEN
+  n % 2 = 0 THEN 2 ELSE 4 END AS specimens FROM generate_series(0, 47) AS n
+columns:
+- column_name: collected_at
+  type: TIMESTAMP
+  is_dttm: true
+  groupby: true
+  filterable: true
+- column_name: specimens
+  type: INTEGER
+  is_dttm: false
+  groupby: true
+  filterable: true
+metrics:
+- metric_name: Specimens
+  expression: SUM(specimens)
+version: 1.0.0

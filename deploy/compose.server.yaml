@@ -1,0 +1,10 @@
+services:
+  superset:
+    networks:
+      local:
+      proxy:
+        aliases: ['${CSIM_PROXY_ALIAS:?Set a distinct main or preview alias}']
+networks:
+  proxy:
+    external: true
+    name: catalyst-demo_default

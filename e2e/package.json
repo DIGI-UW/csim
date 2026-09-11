@@ -1,0 +1,13 @@
+{
+  "name": "csim-dashboard-workflows",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test -c acceptance.config.mjs",
+    "test:fixture": "CSIM_PROFILE=fixture playwright test -c acceptance.config.mjs",
+    "test:preview": "CSIM_PROFILE=preview playwright test -c acceptance.config.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.57.0"
+  }
+}

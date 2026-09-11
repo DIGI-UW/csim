@@ -1,0 +1,13 @@
+{
+ admin off
+}
+:80 {
+	# Public guide:
+	handle /superset/* {
+		respond "old"
+	}
+	# Everything else is the SPA
+	handle {
+		respond "Catalyst"
+	}
+}

@@ -1,0 +1,204 @@
+table_name: UTI Top Abx - Ind
+main_dttm_col: month_date
+description: null
+default_endpoint: null
+offset: 0
+cache_timeout: null
+catalog: data
+schema: v1
+sql: "WITH raw_data AS (\r\n    SELECT\r\n        hosp_name, location, month, year,\
+  \ tx___1,\r\n        tx___2, tx___3, tx___4, tx___5, tx___6, tx___7,\r\n       \
+  \ other_tx___1, other_tx___2, other_tx___3, other_tx___4,\r\n        other_tx___5,\
+  \ other_tx___6, other_tx___7, other_tx___8,\r\n        other_tx___9, other_tx___10,\
+  \ other_tx___11, other_tx___12\r\n    FROM \"v1\".\"UTI Individual Current\"\r\n\
+  \    WHERE hosp_name IS NOT NULL\r\n      AND qi_asb_complete = 2\r\n      AND month\
+  \ IS NOT NULL\r\n      AND year IS NOT NULL\r\n\r\n    UNION ALL\r\n\r\n    SELECT\r\
+  \n        hosp_name, location, month, year, tx___1,\r\n        tx___2, tx___3, tx___4,\
+  \ tx___5, tx___6, tx___7,\r\n        other_tx___1, other_tx___2, other_tx___3, other_tx___4,\r\
+  \n        other_tx___5, other_tx___6, other_tx___7, other_tx___8,\r\n        other_tx___9,\
+  \ other_tx___10, other_tx___11, other_tx___12\r\n    FROM \"v1\".\"UTI Individual\
+  \ Historical\"\r\n    WHERE hosp_name IS NOT NULL\r\n      AND month IS NOT NULL\r\
+  \n      AND year IS NOT NULL\r\n),\r\n\r\nantibiotic_long AS (\r\n    SELECT\r\n\
+  \        i.hosp_name,\r\n        TRIM(h.state) AS state,\r\n        i.location,\r\
+  \n        i.month,\r\n        i.year,\r\n        antibiotic_name,\r\n        1 AS\
+  \ prescription_count\r\n    FROM raw_data i\r\n    LEFT JOIN \"v1\".\"CSiM Hospitals\
+  \ and States\" h\r\n        ON i.hosp_name = h.hosp_code\r\n    CROSS JOIN LATERAL\
+  \ (\r\n        VALUES\r\n            (CASE WHEN i.tx___2 = 1 THEN 'Ceftriaxone'\
+  \ END),\r\n            (CASE WHEN i.tx___3 = 1 THEN 'Cephalexin' END),\r\n     \
+  \       (CASE WHEN i.tx___4 = 1 THEN 'Fluoroquinolone' END),\r\n            (CASE\
+  \ WHEN i.tx___5 = 1 THEN 'Nitrofurantoin' END),\r\n            (CASE WHEN i.tx___6\
+  \ = 1 THEN 'TMP/SMX' END),\r\n            (CASE WHEN i.tx___7 = 1 AND (i.other_tx___1\
+  \ = 1 OR i.other_tx___2 = 1 OR i.other_tx___4 = 1)\r\n                  THEN 'Oral\
+  \ beta-lactam' END),\r\n            (CASE WHEN i.tx___7 = 1 AND (i.other_tx___3\
+  \ = 1 OR i.other_tx___5 = 1 OR i.other_tx___6 = 1\r\n                       OR i.other_tx___7\
+  \ = 1 OR i.other_tx___8 = 1 OR i.other_tx___9 = 1\r\n                       OR i.other_tx___10\
+  \ = 1 OR i.other_tx___11 = 1 OR i.other_tx___12 = 1)\r\n                  THEN 'Other'\
+  \ END)\r\n    ) AS abx(antibiotic_name)\r\n    WHERE i.tx___1 = 0\r\n      AND h.hosp_code\
+  \ IS NOT NULL\r\n      AND antibiotic_name IS NOT NULL\r\n),\r\n\r\n-- Location-specific\
+  \ aggregation\r\nhospital_abx AS (\r\n    SELECT\r\n        hosp_name AS hosp_num,\r\
+  \n        LPAD(hosp_name::TEXT, 2, '0') AS hosp_code,\r\n        state,\r\n    \
+  \    CASE location\r\n            WHEN 1 THEN 'Ambulatory care clinic'\r\n     \
+  \       WHEN 2 THEN 'Emergency Department'\r\n            WHEN 3 THEN 'Inpatient'\r\
+  \n            WHEN 4 THEN 'Rehab or long-term care'\r\n            WHEN 5 THEN 'Urgent\
+  \ or quick care'\r\n            WHEN 6 THEN 'Other'\r\n        END AS location_name,\r\
+  \n        location AS location_code,\r\n        TO_DATE(year::TEXT || '-' || LPAD(month::TEXT,\
+  \ 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,\r\n        antibiotic_name,\r\n\
+  \        SUM(prescription_count) AS prescription_count\r\n    FROM antibiotic_long\r\
+  \n    GROUP BY hosp_name, state, location, month, year, antibiotic_name\r\n),\r\n\
+  \r\n-- All locations combined per hospital\r\nhospital_abx_allloc AS (\r\n    SELECT\r\
+  \n        hosp_name AS hosp_num,\r\n        LPAD(hosp_name::TEXT, 2, '0') AS hosp_code,\r\
+  \n        state,\r\n        'All locations' AS location_name,\r\n        0 AS location_code,\r\
+  \n        TO_DATE(year::TEXT || '-' || LPAD(month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD')\
+  \ AS month_date,\r\n        antibiotic_name,\r\n        SUM(prescription_count)\
+  \ AS prescription_count\r\n    FROM antibiotic_long\r\n    GROUP BY hosp_name, state,\
+  \ month, year, antibiotic_name\r\n),\r\n\r\ncombined_hosp AS (\r\n    SELECT * FROM\
+  \ hospital_abx\r\n    UNION ALL\r\n    SELECT * FROM hospital_abx_allloc\r\n),\r\
+  \n\r\nstate_abx AS (\r\n    SELECT\r\n        NULL::BIGINT AS hosp_num,\r\n    \
+  \    state AS hosp_code,\r\n        state,\r\n        location_name, location_code,\
+  \ month_date,\r\n        antibiotic_name,\r\n        SUM(prescription_count) AS\
+  \ prescription_count\r\n    FROM combined_hosp\r\n    GROUP BY state, location_name,\
+  \ location_code, month_date, antibiotic_name\r\n),\r\n\r\ncohort_abx AS (\r\n  \
+  \  SELECT\r\n        NULL::BIGINT AS hosp_num,\r\n        'Cohort' AS hosp_code,\r\
+  \n        'ALL' AS state,\r\n        location_name, location_code, month_date,\r\
+  \n        antibiotic_name,\r\n        SUM(prescription_count) AS prescription_count\r\
+  \n    FROM combined_hosp\r\n    GROUP BY location_name, location_code, month_date,\
+  \ antibiotic_name\r\n),\r\n\r\nall_levels AS (\r\n    SELECT * FROM combined_hosp\r\
+  \n    UNION ALL\r\n    SELECT * FROM state_abx\r\n    UNION ALL\r\n    SELECT *\
+  \ FROM cohort_abx\r\n),\r\n\r\nranked AS (\r\n    SELECT\r\n        *,\r\n     \
+  \   ROW_NUMBER() OVER (\r\n            PARTITION BY hosp_code, location_code, month_date\r\
+  \n            ORDER BY prescription_count DESC, antibiotic_name\r\n        ) AS\
+  \ rnk\r\n    FROM all_levels\r\n)\r\n\r\nSELECT\r\n    hosp_num, hosp_code, state,\r\
+  \n    location_name, location_code, month_date,\r\n    antibiotic_name, prescription_count,\
+  \ rnk\r\nFROM ranked\r\nWHERE rnk <= 3\r\nORDER BY month_date, hosp_code, location_code,\
+  \ rnk"
+params: null
+template_params: null
+filter_select_enabled: true
+fetch_values_predicate: null
+extra: null
+normalize_columns: false
+always_filter_main_dttm: false
+folders: null
+uuid: c32703e0-f62f-46ee-b920-58363d6f95ba
+metrics:
+- metric_name: count
+  verbose_name: COUNT(*)
+  metric_type: count
+  expression: COUNT(*)
+  description: null
+  d3format: null
+  currency: null
+  extra:
+    warning_markdown: ''
+  warning_text: null
+columns:
+- column_name: prescription_count
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: month_date
+  verbose_name: null
+  is_dttm: true
+  is_active: true
+  type: DATE
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: location_code
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: hosp_num
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: rnk
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: antibiotic_name
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: location_name
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: hosp_code
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: state
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: ''
+  description: null
+  python_date_format: null
+  extra: null
+version: 1.0.0
+database_uuid: 21edc228-aaaf-4fbf-8c28-b47844ae09e2

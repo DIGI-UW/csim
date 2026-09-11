@@ -1,0 +1,65 @@
+diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
+index 5fe4dd19..17b2a2af 100644
+--- a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
++++ b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
+@@ -38,6 +38,21 @@ import { TIMESERIES_CONSTANTS } from '../constants';
+ export const getSmartDateDetailedFormatter = () =>
+   getTimeFormatter(SMART_DATE_DETAILED_ID);
+ 
++// Opt-in CSiM labels preserve typed dates while following the reporting grain.
++export const getCsimPeriodFormatter = (timeGrain?: string) =>
++  new TimeFormatter({
++    id: 'csim_period',
++    label: 'CSiM reporting period',
++    formatFunc: (date: Date) => {
++      const year = date.getUTCFullYear();
++      if (timeGrain === TimeGranularity.YEAR) return String(year);
++      if (timeGrain === TimeGranularity.QUARTER) {
++        return `Q${Math.floor(date.getUTCMonth() / 3) + 1} ${year}`;
++      }
++      return getTimeFormatter('%b %Y')(date);
++    },
++  });
++
+ export const getSmartDateFormatter = (timeGrain?: string) => {
+   const baseFormatter = getTimeFormatter(SMART_DATE_ID);
+ 
+@@ -187,6 +202,7 @@ export function getTooltipTimeFormatter(
+   format?: string,
+   timeGrain?: TimeGranularity,
+ ): TimeFormatter | StringConstructor {
++  if (format === 'csim_period') return getCsimPeriodFormatter(timeGrain);
+   // When a time grain is active and the user hasn't pinned an explicit format,
+   // honor the grain so tooltips read "Jan 2021", "2021 Q1", "2021", weekly
+   // ranges, etc. instead of a fixed timestamp. An explicit custom format is
+@@ -207,6 +223,7 @@ export function getXAxisFormatter(
+   format?: string,
+   timeGrain?: string,
+ ): TimeFormatter | StringConstructor | undefined {
++  if (format === 'csim_period') return getCsimPeriodFormatter(timeGrain);
+   if (format === SMART_DATE_ID || !format) {
+     return getSmartDateFormatter(timeGrain);
+   }
+diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
+index cf670f09..0997d637 100644
+--- a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
++++ b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
+@@ -32,6 +32,18 @@ import {
+   getXAxisFormatter,
+ } from '../../src/utils/formatters';
+ 
++test.each([
++  ['2025-01-01T00:00:00Z', 'P1M', 'Jan 2025'],
++  ['2025-12-01T00:00:00Z', 'P1M', 'Dec 2025'],
++  ['2025-10-01T00:00:00Z', 'P3M', 'Q4 2025'],
++  ['2026-01-01T00:00:00Z', 'P3M', 'Q1 2026'],
++  ['2025-01-01T00:00:00Z', 'P1Y', '2025'],
++])('CSiM axis and hover agree for %s at %s', (value, grain, expected) => {
++  const date = new Date(value);
++  expect(getXAxisFormatter('csim_period', grain)?.(date)).toBe(expected);
++  expect(getTooltipTimeFormatter('csim_period', grain as TimeGranularity)(date)).toBe(expected);
++});
++
+ // The app normally registers these via setupFormatters() at bootstrap.
+ // Register them here so tests that check actual formatted output (not just
+ // formatter identity) exercise the real smart-date formatting logic instead
