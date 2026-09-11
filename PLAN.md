@@ -49,41 +49,38 @@ The [Superset options review](reports/superset-options-review.md) records verifi
 | Upstream development | Pinned Apache source/assets with no CSiM patches. Merged upstream behavior is distinct from a released capability. |
 | CSiM custom | Named base plus an explicit patch list. Demonstrate the additional behavior and remaining gaps. |
 
-Both existing public installations contain patches. Create isolated unmodified comparisons with the same 21-chart presentation, measures, demo records and explicit windows. Adapt unsupported chart options to their native equivalents and record each difference. External import repair is a separately disclosed dependency, even on an unmodified server.
+The main and preview installations contain patches; the separate official stable comparison is published. Retain isolated unmodified comparisons with the same 21-chart presentation, measures, demo records and explicit windows. Adapt unsupported chart options to their native equivalents and record each difference. External import repair is a separately disclosed dependency, even on an unmodified server.
 
 Test native formatting, rotation and margins before extending the formatter; compare upstream tooltip/spacing changes; reproduce clear/reselect in both orientations; demonstrate per-control Time Unit lists and native import repairs where available. Compare native date entry with the custom month fields. Present native wording such as “2025 Q1” for owner review before justifying a patch solely for the “Q1 2025” order.
 
 **Accept when:** each original issue has a concise example, public solution references, and separate standard/development/custom results supported by actual screenshots and applicable numerical checks. A patch is recommended only for a remaining agreed requirement that supported alternatives do not satisfy. The overview gives each build a clear label, link and matching login. Current custom screenshots do not establish unmodified behavior.
 
-## Current state
+## Public review checkpoint — September 11
 
-| Item | Verified state at this checkpoint |
-| --- | --- |
-| Repository and sources | Private DIGI-UW/csim contains the standalone implementation, supplied demo database, separate edge-case fixture, versioned exports and source comparison. |
-| Main dashboard | September version is published with Beth's test-server presentation, latest-reporting-month card, separated comparison selectors and date/filter corrections. |
-| Main runtime | Superset 6.1.0 plus versioned CSiM rendering/import changes; source 34d426f5534ccdbe4c531a65239280040423bbfd. |
-| September definitions | Published revision e60bb6ed4dabe4a8228a52362197492f696d69f4. The established dashboard was preserved. |
-| Overview | Published revision c66ba15d39ceb8541a4afca38f1efe2da375b834, including matching logins and password copy icons. Runtime and older evidence are unchanged by that publication. |
-| Browser validation | 19 applicable public September checks passed for their existing assertions. They do not establish the newer cohort-first, every-month-label or upload-timestamp requirements. |
-| Table of Contents | September links use local fragments. All nine links pass the local scroll-margin regression, preserving filters, page identity and chart results; nine destination screenshots were inspected. The spacing update is not yet public. |
-| Clearer overview entry | Published. Five local/public website checks passed; desktop/mobile screenshots and password copy icons were inspected. |
-| New dashboard changes | Cohort/query guards, percentages, latest-month wording and section scroll margins are implemented locally. Three focused browser checks pass. The custom 99-case label matrix and 21-panel opening pass on both bases. The stable supplied-data suite passes 10 applicable checks and snapshot known-record suite passes 12. Publication is next. |
-| Standard comparisons | Local stable/development assets match the official images. Vertical-filter recovery fails; horizontal candidates pass recovery and known-record checks. Native wording still differs from the exact-format requirement. No native candidate is published. |
-| Acceptance | The remaining work below prevents claiming all of Beth's concerns are resolved. Report implementation, local/public validation, CI and Beth's acceptance separately. |
+| Area | Implemented, validated and deployed | Remaining |
+| --- | --- | --- |
+| Source and deployment | PR #13; runtime/definitions `9f7d15dbc736bd859a6a3308b81d263f162319ae`. Custom full September and official stable comparison are public, each with 21 charts and six datasets. | Review/merge and complete CI. |
+| Custom workflow | [Full month-controls dashboard](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled-months/). Three public checks passed: inclusive month boundaries/order/clear-reselect; cohort opening across 21 panels; all eleven Month/Quarter/Year axes and hover formats. | Public three-width matrix, fixture suite and nine-link rerun. |
+| Official comparison | [Official 6.1.0 dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-sortable/). Public all-21-chart, hospital guidance/980 total/clear-reselect and filter-order checks passed. Server assets match the pinned official image. | Native controls use the ordinary Time Period editor, horizontal layout and year-first labels. Dedicated month fields and exact client wording remain gaps. Unmodified development remains local. |
+| Overview and evidence | [Comparison and matching copyable logins](https://design.csim.uwdigi.org/comparison.html), overview revision `565f36ea2d957de2b2528ffdae233d3bba3342e2`. Six public website checks passed. Two current chart screenshots inspected. | Current workflow films and remaining screenshot inspection. Older films are explicitly previous-release evidence. |
+| Broader local validation | Custom 99-case matrices pass on both bases. Stable supplied suite: 10 applicable passes. Stable and snapshot fixtures: 12 applicable passes each. | Finish release-wide regression and public verification. |
+| CI | Initial review run failed at the comparison-image check: the published screenshots were absent from Git. This update includes those exact assets. | Run again; do not report CI as passing before it completes. |
+| Preservation | No existing database was reseeded. Previous image/environment/metadata and routes retained. Main rollback: `/home/ubuntu/csim/backups/corrected-20260911T202231`; Caddy backup: `/home/ubuntu/csim/backups/Caddyfile-before-review-565f36e`. | Validate the remaining legacy links and handover restoration. |
+| Client ownership | No-Git editing/export guidance is published. The supplied demo independently supports hospital 53's 980 total. | GUI edit/export/restore rehearsal; source of the requested 500 and approved transition schedule; Beth's separate acceptance. |
 
-The current-test export was captured September 11 at 15:10 UTC. Record later edits explicitly rather than assuming the source stays unchanged.
+Public results: `output/public-custom-release/results.json`, `output/public-official-release/results.json` and `output/site-public-review-release.log`. A first custom opening attempt encountered an asset-load failure during route publication. After publication, the exact chunks returned 200 and the three-check rerun passed. The month workflow separately proves clear/reselect on the same page.
 
 ## Issue register
 
 | Concern | Iteration | Required test and evidence | Status |
 | --- | --- | --- | --- |
 | Recommended dashboard and matching login are hard to find | 1 | Desktop/mobile opening screenshots and link assertions | Published; local/public website checks passed |
-| Table of Contents URLs can point to another instance or restore saved filters | 1 | Click all nine links; assert same origin, path, query, filters and chart result; inspect nine screenshots | Local scroll-margin check and nine screenshot inspections passed; spacing update awaits publication |
-| Cohort-first opening conflicts with preselected hospital 53 | 2 | Fresh-opening screenshot and assertions for Cohort, Last year, Month and All locations | Implemented and validated locally on custom stable; standard candidate pending |
-| Unset lower hospital can produce broad/misleading results | 2 | Empty-selection, selected-hospital and clear/reselect numerical checks | SQL guards and custom prompts pass locally; native empty-state guidance pending |
-| Monthly labels are omitted or squeezed at chart edges | 3 | Exact Month/Quarter/Year label lists and collision bounds on all 11 axes at 1024, 1280 and 1600 pixels | All 99 width/grouping/axis cases pass on both custom bases; representative screenshots inspected. Public verification pending |
-| Percentage table still shows decimal percentages | 3 | Screenshot and value checks for axes, table and hover details | Partly implemented |
-| Reporting month can be confused with upload time | 3 | Card-title/subtitle and overview-copy assertions | Reporting calculation works; wording needs completion |
+| Table of Contents URLs can point to another instance or restore saved filters | 1 | Click all nine links; assert same origin, path, query, filters and chart result; inspect nine screenshots | Local nine-link check passed; spacing update deployed; public nine-link rerun remains |
+| Cohort-first opening conflicts with preselected hospital 53 | 2 | Fresh-opening screenshot and assertions for Cohort, Last year, Month and All locations | Custom cohort opening passed publicly; official full-dashboard opening passed publicly |
+| Unset lower hospital can produce broad/misleading results | 2 | Empty-selection, selected-hospital and clear/reselect numerical checks | Custom guards and prompts pass; official guidance and hospital total/clear-reselect pass publicly |
+| Monthly labels are omitted or squeezed at chart edges | 3 | Exact Month/Quarter/Year label lists and collision bounds on all 11 axes at 1024, 1280 and 1600 pixels | All 99 cases pass on both custom bases locally; public all-eleven hover checks pass. Full public matrix and remaining screenshot review pending |
+| Percentage table still shows decimal percentages | 3 | Screenshot and value checks for axes, table and hover details | Whole-percentage presentation deployed; retain numerical and screenshot checks |
+| Reporting month can be confused with upload time | 3 | Card-title/subtitle and overview-copy assertions | Accurate latest-reporting-month wording deployed; this is not upload time |
 | Dashboard definitions can break during transfer | 4 | Fresh import and subsequent update with changed numeric IDs; no duplicates or lost SQL/scopes/layout | Existing deterministic repair passes; retain in release regression |
 | Time Unit list is global on the released build | 4 | Main/snapshot menu checks and accurate overview disposition | Main workaround and snapshot behavior already demonstrated; retain in release regression |
 | Client requests From month / Through month on the full dashboard | 0, 2 | Same 21-chart content and data in the with/without-custom-build options; inclusive boundaries, grouping and recovery verified | Full 21-chart candidates pass the local month workflow on both bases, including rolling last-12-complete-month defaults and clear/reselect. Native comparison retains ordinary date controls and explicit wording differences |
@@ -95,7 +92,7 @@ The current-test export was captured September 11 at 15:10 UTC. Record later edi
 
 | Destination | Role |
 | --- | --- |
-| [September dashboard](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled/) | Recommended first review |
+| [September month-controls dashboard](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled-months/) | Recommended full workflow for review |
 | [Overview](https://design.csim.uwdigi.org/) and [logins](https://design.csim.uwdigi.org/#demo-access) | Problems, solutions, matching access and evidence |
 | [September evidence](https://design.csim.uwdigi.org/evidence/september/) | Dashboard walkthrough and screenshots |
 | [Established dashboard](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-corrected/) | Preserved 20-chart comparison |
@@ -103,7 +100,7 @@ The current-test export was captured September 11 at 15:10 UTC. Record later edi
 
 The current Preview installation is a pinned development base with CSiM patches. Its independently saved Time Unit menus are upstream functionality; the formatter, reset repair and simpler month controls are custom. It must be labelled custom until a separate unmodified development comparison is available.
 
-Keep the current main and preview routes working while preparing clearly labelled destinations for both options. Select the recommended entry from the client-workflow results; do not presume that the unmodified or custom option wins before comparison. Preserve old dashboard paths and saved-filter destinations with tested redirects if a route changes. Any additional comparison hostnames are proposals until verified publicly.
+Keep the current main and preview routes working while preparing clearly labelled destinations for both options. Select the recommended entry from the client-workflow results; do not presume that the unmodified or custom option wins before comparison. Preserve old dashboard paths and saved-filter destinations with tested redirects if a route changes. The official stable hostname is verified publicly; additional hostnames remain proposals until verified.
 
 ## 1. Finish the review entry and section-navigation package
 
