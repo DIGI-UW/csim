@@ -1,8 +1,23 @@
 # September dashboard release acceptance
 
+## Workspace and evidence retention correction
+
+The permanent checkout is `/Users/pmanko/code/csim`. Use `PLAN.md` and `RELEASE-ACCEPTANCE.md` in that checkout directly; the old `/private/tmp/csim` path is only a compatibility symlink.
+
+Committed source through `e502d89` was restored from GitHub. The former temporary checkout disappeared, including unpublished screenshots, recordings and uncommitted changes. Earlier validation observations below remain historical observations, but their missing local output files are not currently available evidence. Regenerate missing acceptance artifacts before publishing or claiming an updated evidence package. Existing public deployments and previously published evidence were unaffected by the local loss.
+
+Keep ongoing work and generated evidence in this permanent checkout. Preserve accepted evidence in durable release storage or GitHub artifacts with its source revision and checksums; temporary directories must never be the sole copy of work needed for delivery.
+
 This checklist implements the client-refined familiar-dashboard release: 21 charts, six datasets, supplied demo data and From month / Through month controls. Providing and validating options with and without a custom Superset build is equally required. The comparison determines where customization is necessary; neither deliverable is secondary. Preserve existing custom deep links during promotion. Upload automation remains separate; adapting the refined month controls to the full 21-chart dashboard is now in scope.
 
 Follow the execution roadmap in `PLAN.md`: confirm target → complete both full-dashboard options → iterate on correctness and screenshots → publish and verify → close Beth's review loop. The sections below preserve detailed acceptance history; they do not define a separate sequence or require work to move to another task. The recommended release must meet the client criteria; a comparison option may demonstrate a named gap, but that gap is never counted as a fix. Record implementation, local validation, public verification and Beth's acceptance independently.
+
+## Selection-test correction and evidence regeneration
+
+- The public official 6.1.0 selector was reproduced showing `+ 1 ...` while its menu marked hospital 31 selected. Closing with Escape and Tab reveals the saved `31` chip. The test now completes that ordinary interaction before retaining the exact single-value assertion. No dashboard behavior or numerical expectation is changed.
+- The existing public preview (runtime `34d426f`) still loses the staged hospital after clearing and reselecting in workflow 04. Its screenshot is retained in `output/selection-fix-preview`; this is a separate observed failure, not a pass or a reason to weaken the assertion. The main September release and newer CI images are checked separately.
+- Evidence assembly now verifies the custom screenshots against the custom recording's runtime and definitions while preserving each official recording's own runtime and definitions. It no longer assumes the two applications have the same revision.
+- Validated: the public official recovery and date-label workflows pass (2 tests, `output/selection-fix-standard/results.json`); the full September custom month dashboard passes same-page recovery (`output/selection-fix-main/results.json`). Source checks pass: 790 assertions. All six overview tests pass. Full CI and regeneration/inspection of missing screenshots and films remain open. Public dashboard/runtime revisions are unchanged by this test/documentation correction.
 
 ## Public release 913fd8f — verified dashboard; evidence refresh pending
 

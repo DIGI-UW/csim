@@ -27,10 +27,10 @@ for name,path in sources:
     films=json.loads((path/'films/manifest.json').read_text())['workflows']
     inspected=json.loads((path/'reviewed-frames.json').read_text())
     assert set(films)==set(inspected['workflowIds']) and inspected['reviewed']
-    assert provenance['runtimeRevision']==review['runtimeRevision']
-    assert provenance['runtimeImageId'], 'A public film requires the deployed image identity'
-    if name=='official-months':
+    if name=='custom':
+        assert provenance['runtimeRevision']==review['runtimeRevision']
         assert provenance['assetsRevision']==review['assetsRevision']
+    assert provenance['runtimeImageId'], 'A public film requires the deployed image identity'
     for number,film in films.items():
         assert film['maxPixelDifference']<=6 and film['framesChecked']>0
         assert inspected['filmSha256'][number]==hashlib.sha256(Path(film['file']).read_bytes()).hexdigest()
@@ -64,7 +64,7 @@ for item in review['sheets']:
     source=Path(item['sheet']);assert hashlib.sha256(source.read_bytes()).hexdigest()==item['sha256']
     shutil.copy2(source,shots/source.name)
     content.append('<details><summary>'+html.escape(source.stem)+'</summary><a href="screenshots/'+source.name+'"><img loading="lazy" src="screenshots/'+source.name+'" alt="'+html.escape(source.stem)+' date-axis screenshots"></a></details>')
-content.append('</section><details><summary>Build and evidence details</summary><p>Runtime: <code>'+review['runtimeRevision']+'</code>. Current dashboard definitions and date-axis screenshots: <code>'+review.get('assetsRevision',review['runtimeRevision'])+'</code>. Workflow recordings identify their capture revision in the manifest; the later layout adjustment adds room for the two antibiotic-count titles and leaves the demonstrated controls and calculations unchanged. These checks establish the shown workflows; CI completion, editor handover and Beth’s acceptance are recorded separately.</p><p><a href="validation.json">Validation manifest</a></p></details></html>')
+content.append('</section><details><summary>Build and evidence details</summary><p>Runtime: <code>'+review['runtimeRevision']+'</code>. Current dashboard definitions and date-axis screenshots: <code>'+review.get('assetsRevision',review['runtimeRevision'])+'</code>. Each option identifies its own application image, dashboard definitions and test revision in the manifest. Custom and official Superset use different application builds. These checks establish the shown workflows; CI completion, editor handover and Beth’s acceptance are recorded separately.</p><p><a href="validation.json">Validation manifest</a></p></details></html>')
 (a.output/'index.html').write_text(''.join(content))
 (a.output/'validation.json').write_text(json.dumps(manifest,indent=2)+'\n')
 (a.output/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+str(f.relative_to(a.output))+'\n' for f in sorted(a.output.rglob('*')) if f.is_file()))

@@ -216,14 +216,18 @@ export async function selectValue(page,name,id,{apply:applySelection=true}={}){
     const r=await option.boundingBox();
     await page.mouse.click(r.x+r.width/2,r.y+r.height/2);
   }
-  // Selecting clears the search and can virtualize the chosen option out of
-  // the menu. Check the saved selection itself, not an offscreen menu row.
+  // Finish the interaction before reading saved values. While searching,
+  // Superset can collapse the selected chip to "+ 1 ..."; Escape and Tab
+  // reveal its actual value without changing the selection or reloading.
+  await control.press('Escape');
+  await control.press('Tab');
+  // The chosen menu row can be virtualized away. Verify the saved chip(s)
+  // exactly, so an extra selection or the wrong hospital still fails.
   await expect.poll(()=>selection.evaluate(el=>{
     const items=[...el.querySelectorAll('.ant-select-selection-item')].map(item=>item.getAttribute('title'));
     const single=el.querySelector('.ant-select-content-has-value')?.getAttribute('title');
     return items.length?items:single?[single]:[];
   }),{message:'The filter must retain exactly the requested selection'}).toEqual([name]);
-  await control.press('Escape');
   if(!applySelection)return;
   const apply=dashboardApply(page);
   // A changed selection must reach pending filter state before Apply.
