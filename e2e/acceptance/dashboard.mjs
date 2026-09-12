@@ -216,11 +216,14 @@ export async function selectValue(page,name,id,{apply:applySelection=true}={}){
     const r=await option.boundingBox();
     await page.mouse.click(r.x+r.width/2,r.y+r.height/2);
   }
-  // Finish the interaction before reading saved values. While searching,
-  // Superset can collapse the selected chip to "+ 1 ..."; Escape and Tab
-  // reveal its actual value without changing the selection or reloading.
-  await control.press('Escape');
-  await control.press('Tab');
+  // Leave search mode before inspecting the saved value. A horizontal
+  // overflow panel can close after a selection; reveal it again using the
+  // normal More filters control. This never changes or reapplies a value.
+  if(await page.getByRole('button',{name:/More filters/}).count()){
+    await revealFilter(page,control);
+  }else{
+    await control.locator('xpath=ancestor::*[.//h4][1]').locator('h4').click();
+  }
   // The chosen menu row can be virtualized away. Verify the saved chip(s)
   // exactly, so an extra selection or the wrong hospital still fails.
   await expect.poll(()=>selection.evaluate(el=>{
@@ -257,8 +260,5 @@ export async function allTrends(watch){
 }
 
 export async function location(page,name){
-  const control=page.getByRole('combobox',{name:'NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8',exact:true});
-  await revealFilter(page,control);
-  await selectTrigger(control).click();
-  await page.getByRole('option',{name,exact:true}).click();
+  return selectValue(page,name,'NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8',{apply:false});
 }

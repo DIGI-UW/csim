@@ -1,5 +1,22 @@
 # CSiM dashboard: current delivery plan
 
+## Definition restore and selection validation — current increment
+
+- **Implemented locally:** PostgreSQL reporting records have a separate lifecycle. Superset dataset exports contain query/field definitions. Normal dashboard updates and rollbacks must not restore or reseed reporting data. The editor guide documents separate dataset, chart and dashboard imports on official 6.1.0.
+- **Validated locally:** an Alpha editor changed an isolated dashboard title, chart title and SQL comment through the interface. Dashboard-only import retained the chart and SQL changes; separate dataset, chart and dashboard imports restored the originals. All 30 exported definition files, including 21 charts and six datasets, match the initial export byte for byte. Object counts and unrelated definitions are unchanged. Evidence: `output/editor-handover-a3ee083/review.json`. Client-account and client-server acceptance remain separate.
+- **Test interaction correction:** close/reveal native selectors with ordinary pointer controls before checking exact saved values, instead of rapid Escape/Tab. The unchanged selection and numerical checks pass on official development (11 tests) and the public official/custom September month dashboards (one recovery workflow each). Development definitions were synchronized after detecting an older legend setting. Four source suites pass 790 assertions; all six overview tests pass without video.
+- **Deployed:** public runtime, saved definitions and overview remain at the published revisions below. This increment has not been published. No reporting data was restored or reseeded.
+- **Remaining:** review/publish this increment and finish CI (run `34671469376` has one running and three failed jobs at this checkpoint). Diagnose the remaining opening timeout. Intermittent rapid-keyboard selection loss remains an open observation, not a runtime fix. Client-role transfer, reporting-rule inputs and Beth's acceptance remain separate.
+
+The checkpoints below record earlier increments.
+
+## Published evidence update — a3ee083
+
+- **Implemented and published:** source `a3ee0831e9d65c4d23aaf33eac9d05984d8f93fa` is pushed to PR #13. The overview/comparison, exact deployed definition downloads and seven regenerated workflow films are public at `design.csim.uwdigi.org`. Runtime and reporting data are unchanged.
+- **Validated publicly:** 58 newly published file hashes match; seven videos decode, play and seek; all six website checks pass. The desktop and phone evidence pages were inspected. The custom presentation run passes 11 tests: nine title/legend checks, the 99-chart matrix and the 21-panel opening. All 99 charts were inspected through 18 sheets. Seven films have 58 inspected encoded checkpoints. Main same-page recovery passes; the official supplied-data recovery/label workflows and known-record recordings pass.
+- **Preserved:** complete evidence is in `/Users/pmanko/code/csim/output` and `/home/ubuntu/csim/evidence/a3ee0831e9d65c4d23aaf33eac9d05984d8f93fa`. All seven film hashes match the server backup. The old overview `7c27875` remains intact for rollback. The publication receipt is `/home/ubuntu/csim/shared/overview-publication-a3ee0831e9d65c4d23aaf33eac9d05984d8f93fa.json`.
+- **Remaining:** CI run `34671469376`, PR review, the older public preview's clear/reselect failure, the full client editor dependency-restore rehearsal, reporting-rule questions and Beth's acceptance. Additional public checks now pass: the custom known-record workflows (missing/zero and two-series chronology, two tests) and every official section link at 1024/1280/1600 pixels (three tests). Their screenshots are retained; the new contents screenshots still require visual review. The previous e502 run failed official selection assertions and its remaining jobs were superseded by the corrected test commit; it is not counted as a completed pass.
+
 ## Workspace and evidence retention correction
 
 The permanent checkout is `/Users/pmanko/code/csim`. Use `PLAN.md` and `RELEASE-ACCEPTANCE.md` in that checkout directly; the old `/private/tmp/csim` path is only a compatibility symlink.
