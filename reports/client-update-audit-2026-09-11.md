@@ -1,6 +1,6 @@
 # CSiM client update: scope and release readiness
 
-Checkpoint: September 11, 2026. This is a release-planning audit, not a public acceptance statement.
+Checkpoint: September 12, 2026. This is a release-readiness audit, not a client acceptance statement.
 
 ## Joint delivery requirements
 
@@ -19,13 +19,16 @@ The linked wording document, upload manual, master data dictionary, original agg
 
 ## Readiness
 
-The public September dashboard and overview are available. The overview has matching logins and copy icons. Both public Superset installations currently contain custom code; the unmodified comparisons are local only.
+The [public overview and logins](https://design.csim.uwdigi.org/) now lead with the full September dashboard and link two directly comparable options:
 
-Local unmodified stable and development candidates retain 21 charts and six datasets. Official frontend asset checks pass. Horizontal controls with sortable labels pass the recorded date-window, grouping, missing-versus-zero and same-page recovery cases. Their month/quarter wording differs from the requested wording. The vertical-control recovery cases failed. These findings show useful alternatives, not that every patch is necessary or that the refined month controls already work without one. See [local comparison evidence](../NATIVE-VALIDATION.md).
+- [Customized Superset 6.1.0](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled-months/), the recommended client candidate. It uses inclusive From month / Through month controls, separate grouping, the requested date wording and the familiar vertical filter area.
+- [Official Superset 6.1.0](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/), with no CSiM application patches. It uses inclusive native month selectors and the same 21 charts, six datasets and demo records. It retains year-first labels, saved fixed-month defaults, horizontal controls and no warning for a reversed month range.
 
-The latest runtime changes remain uncommitted and unpublished at this checkpoint. [Documentation PR 12](https://github.com/DIGI-UW/csim/pull/12) is open. Its [test run](https://github.com/DIGI-UW/csim/actions/runs/34629142954) is not green: the preview job failed at “Test inclusive month controls without video”; the corrected job was cancelled at “Add and test the separate September versions without video”. This audit identifies the failing steps, not their root causes. The run does not validate the uncommitted candidates.
+The custom month-input code is therefore not required merely to select inclusive months. The date-label formatter is required for the exact `Jan 2025`, `Q1 2025` and `2025` wording. The vertical-filter reset repair is required for the familiar sidebar workflow; the official horizontal layout passes the same-page recovery case without it. These are maintenance choices, not claims that the official application cannot display the dashboard.
 
-Public release metadata identifies overview `c66ba15d39ceb8541a4afca38f1efe2da375b834`, September definitions `e60bb6ed4dabe4a8228a52362197492f696d69f4`, and runtime `34d426f5534ccdbe4c531a65239280040423bbfd`. No runtime deployment occurred during this audit.
+Public validation covers all 11 date axes at 1024, 1280 and 1600 pixels, the 21-panel opening, all nine contents links, missing versus zero, partial-quarter boundaries, both selection orders and same-page clear/reselect. The overview, matching passwords, dashboard-only recordings and screenshots are public. An isolated official 6.1.0 editor rehearsal restored the complete dataset, chart and dashboard definition set after interface edits while leaving reporting records untouched.
+
+[PR 13](https://github.com/DIGI-UW/csim/pull/13) contains the reproducible source. The development-preview job in run 34675787469 exposed a global page-idle timeout after its dashboard workflows passed. The readiness correction retains the result assertions and passes against the public preview and recommended dashboard. A complete replacement CI pass is not claimed until the new run finishes. GitHub review and Beth's acceptance remain separate.
 
 ## Client-note dispositions
 
@@ -33,19 +36,19 @@ Row numbers below are table positions; only rows 1–13 are numbered in the sour
 
 | Row | Concern | Disposition and acceptance |
 | --- | --- | --- |
-| 1 | Which dashboard to show; release timing | Recommend the full September content using the refined controls after validation. Describe current alternatives plainly. Do not invent a 6.2 release date. |
-| 2 | Stable versus unreleased software | Compare release status separately from customization. Record exact versions, patch lists and workflow results before recommending. |
-| 3 | Preserve client wording | Reconcile the linked wording document and latest test export. Inspect all 21 panels, instructions and headings. |
-| 4 | Whole percentages | Local presentation changes exist. Verify axes, tables and hover details while proving numerical measures are unchanged. |
-| 5 | Numeric hospital menu; cohort/state menu; 8.44k | Preserve separate filter groups and verify their target charts. Selection guards address broad totals; the historical 8.44k result is not yet independently explained. |
-| 6 | Cohort-first opening; blank hospital total until selection | Use unset numeric hospital selection with clear guidance and query guards. Local opening/selection/recovery checks pass; verify the final full-dashboard variant and public release. |
-| 7 | All months labelled; vertical labels and spacing | Native sortable candidates show every monthly bucket at 1024/1280/1600; 66 monthly screenshots inspected. Exact wording and custom narrow-width spacing remain open. |
-| 8 | Logo proportions | Preserve width-only sizing. Include in full-dashboard screenshots rather than assume import preserves appearance. |
-| 9 | Contents links stay local and retain filters | All nine local link checks and destination screenshots pass. Latest spacing changes are not published. Verify the final public variant. |
-| 10 | time_aggregate experiment and original SQL | Explain archived source versus corrected definitions. Compare intentional SQL changes and bindings; do not infer that the team damaged the source SQL. |
-| 11 | Actual upload timestamp | Latest reporting month is not upload time. Keep wording accurate. Upload completion tracking remains a separate deliverable and is not claimed fixed. |
+| 1 | Which dashboard to show; release timing | Recommend the customized full September dashboard for the client review because it meets the agreed label and interaction criteria. The official option is available beside it for the maintenance comparison. Do not invent a 6.2 release date. |
+| 2 | Stable versus unreleased software | Both public candidates use stable 6.1.0. One is explicitly customized and one uses the official application unchanged. The pinned development installation remains a separate upstream-capability demonstration and is not the recommended client build. |
+| 3 | Preserve client wording | The full September copy, 21 panels, instructions, headings and logo are retained. The 21-panel browser opening and current public screenshots pass. |
+| 4 | Whole percentages | Every percentage axis and comparison-table format in the recommended dashboard uses whole percentages. Numerical assertions independently retain the underlying calculation precision. |
+| 5 | Numeric hospital menu; cohort/state menu; 8.44k | The September definitions keep numeric hospitals and cohort/state values in their respective menus and guard hospital-only totals until a numeric hospital is selected. The historical 8.44k result is not independently explained and is not used as acceptance evidence. |
+| 6 | Cohort-first opening; blank hospital total until selection | The public dashboard opens with Cohort, All locations, a rolling reporting window and Month. Your hospital is unset; Cohort/State is Cohort. Hospital-only panels give selection guidance instead of presenting an all-hospital total. Clearing and reselecting succeeds without reload. |
+| 7 | All months labelled; vertical labels and spacing | The custom dashboard uses the requested wording and retains every month. All 11 axes pass at 1024, 1280 and 1600 pixels; 99 screenshots were inspected. The official comparison retains every month with year-first wording. |
+| 8 | Logo proportions | The logo uses width-only sizing and appears in the inspected full-dashboard opening. |
+| 9 | Contents links stay local and retain filters | All nine links are same-page anchors. They preserve selections and leave the linked headings visible at all three tested widths. |
+| 10 | time_aggregate experiment and original SQL | `time_aggregate` is absent from the recommended and official full-dashboard definitions. The retained SQL uses real dates plus the intentional calendar and date-window corrections; the archived test experiment remains only in the preserved source export. |
+| 11 | Actual upload timestamp | The card is accurately described as the latest reporting month, not an upload timestamp. Automatic upload completion tracking remains the next deliverable and is not claimed fixed here. |
 | 12 | Future-upload instructions | The manual specifies replacing the existing current/historical tables under their existing names and updating the hospital lookup for new hospitals. Validate this workflow and dashboard continuity against the packaged deployment. The manual has been read; operational acceptance and upload automation are not complete. |
-| 13 | Missing dates in lower charts | Include all eleven date axes, not only the five trends. Shared calendar corrections and native screenshots exist; final custom/public validation remains. |
+| 13 | Missing dates in lower charts | All 11 date axes are included in the public matrix. Calendar rows preserve missing periods as gaps, while known-record checks distinguish a missing result from a valid zero. |
 | 14 | Missing processed rows and quality checks | Establish expected inclusion/exclusion rules and compare processed rows, not only counts. Provide a tested download path with the intended user role. |
 | 15 | Ambiguous current-data deletion note | User will check with Beth. No identified source, deletion, or change to the supplied demo-data classification. |
 | 16 | Client chooses month-range controls | Required on the full 21-chart dashboard. Compare supported native interaction with the explicit custom fields; preserve inclusive month boundaries and independent grouping. |
@@ -82,12 +85,12 @@ The historical-data folder was inspected for file metadata only; it contains his
 
 ## Next execution checkpoints
 
-1. Finish full-September month-control candidates and compare them with supported unmodified configurations. Use the same records and tests; disclose any native gap rather than changing acceptance silently.
-2. Complete final rendering/filter regressions and screenshot inspection, resolve the failing automation, and reconcile the total/transition rules needed for client acceptance.
-3. Publish reviewed dashboard revisions and both labelled options with matching evidence and access details. Preserve current links and rollback artifacts.
-4. Review the client checklist with Beth for Tuesday. Herbert/Winter separately verify embedding and the retained filter-reference repair before Friday's production signoff. Production changes are outside this deployment authorization.
+1. Finish exact-head CI and correct any concrete regression without weakening the acceptance cases.
+2. Complete GitHub review and have a client editor follow the published export/restore handover. Keep reporting records separate.
+3. Review the public checklist with Beth. Record her acceptance or specific feedback separately from automated validation.
+4. Reconcile the requested 500 total and hospital transition dates when the source owners provide the expected records and schedule. Herbert/Winter separately verify embedding before production signoff.
 
-The Tuesday target is not yet accepted: full month controls on all 21 charts, the complete release checks, and the new reporting-rule questions are still open.
+The public Tuesday review candidate is available and technically validated. It is not yet client-accepted, and no production or WordPress change is included.
 
 ## Overview alignment
 

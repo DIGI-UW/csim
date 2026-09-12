@@ -100,7 +100,10 @@ export async function openDashboard(page,profile='corrected') {
   await expect(dashboardApply(page)).toBeVisible();
   const links=page.locator('a[href*="slice_id="]');
   await expect(links).toHaveCount(chartCount);
-  await page.waitForLoadState('networkidle');
+  // Superset can keep unrelated background requests active after the dashboard
+  // is usable. The controls and complete chart inventory establish page
+  // readiness here; each workflow separately awaits its chart responses and
+  // settled pixels before asserting results or taking evidence screenshots.
   const dateAxes=[];
   for(const name of [...trendNames,...additionalDateNames]){
     const link=page.getByRole('link',{name,exact:true});
