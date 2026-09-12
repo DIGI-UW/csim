@@ -15,6 +15,13 @@ test('The build comparison exposes matching links, logins and actual screenshot 
  const images=page.locator('#screenshots img');await expect(images).toHaveCount(2);
  await expect.poll(()=>images.evaluateAll(nodes=>nodes.every(n=>n.complete&&n.naturalWidth>0))).toBe(true);
  await expect(page.locator('#handover')).toContainText('without GitHub');
+ await expect(page.locator('#handover')).toContainText('Reporting records are managed separately');
+ const handover=await page.request.get('/client-handover.md');
+ expect(handover.ok()).toBe(true);
+ const handoverText=await handover.text();
+ expect(handoverText).toContain('Superset dataset definition');
+ expect(handoverText).toContain('It contains no reporting records.');
+ expect(handoverText).toContain('These imports restore Superset definitions, not database records.');
  for(const width of [1280,390]){
   await page.setViewportSize({width,height:1000});await page.evaluate(()=>scrollTo(0,0));
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

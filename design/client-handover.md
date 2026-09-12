@@ -2,7 +2,7 @@
 
 Dashboard editors can use Superset directly and keep release files in a shared Drive folder. They do not need a GitHub checkout for ordinary edits. The server administrator remains responsible for the installed Superset version, backups, database connections and any CSiM software changes.
 
-This is the proposed handover procedure. Export, edit, restore and transfer must still be rehearsed with the client's editor account on a disposable copy before handover is accepted. It does not claim that this rehearsal or client production deployment has happened.
+Export, editing and restoration have been exercised through the official Superset 6.1.0 interface using an Alpha editor and an independent 21-chart copy. The restored export matches the original dashboard, charts and dataset definitions. Client-account acceptance and transfer to the client installation remain separate checks.
 
 ## What the client can maintain
 
@@ -16,7 +16,17 @@ This is the proposed handover procedure. Export, edit, restore and transfer must
 | Software upgrades, custom month fields, automatic date formatter and reset repair | Installed Superset application | Server administrator |
 | WordPress identity and access rules | Embedding integration | Integration owner |
 
-A dashboard ZIP carries definitions, including its saved dataset queries. It does not carry the reporting database rows or install the custom application code. Saving a dashboard copy also does not guarantee that its underlying charts and datasets are independent.
+## Reporting data and dashboard definitions are separate
+
+| Item | What it contains | How it is maintained |
+| --- | --- | --- |
+| Reporting database | Actual submitted records and reporting tables in PostgreSQL | The data owner manages uploads, access, backups and restoration separately. |
+| Superset dataset definition | Saved SQL or a table reference, calculated columns, measures and connection reference | Export and version it with the charts that depend on it. It contains no reporting records. |
+| Dashboard and chart definitions | Layout, wording, filters, bindings and chart settings | Export and version them as the dashboard release. |
+
+A normal dashboard update or rollback changes definitions only. It must not restore, replace or reseed the reporting database. The saved SQL must remain compatible with the destination database's tables and columns. Initial environment setup and any later reporting-data restore are separate administrator operations.
+
+A dashboard ZIP carries definitions, including its saved dataset queries. It does not carry the reporting database rows or install the custom application code. A Superset metadata backup also belongs to application recovery, separately from the PostgreSQL reporting-data backup. Saving a dashboard copy does not guarantee that its underlying charts and datasets are independent.
 
 ## A release folder instead of Git
 
@@ -44,8 +54,18 @@ Import/export behavior depends on the actual Superset build. Do not treat a succ
 
 | Build | Practical consequence |
 | --- | --- |
-| Tested Superset 6.1.0 base | Its dashboard importer passes `overwrite=False` for related databases, datasets and charts. An existing dashboard can therefore receive a new layout while related definitions stay old. Our deployment command uses the full assets importer to update dependencies, followed by a helper that repairs filter references. A UI-only alternative must import the changed datasets and charts separately before the dashboard, then check all filter scopes; that complete manual procedure is still awaiting rehearsal. |
+| Tested Superset 6.1.0 base | Its dashboard importer passes `overwrite=False` for related databases, datasets and charts. An existing dashboard can therefore receive a new layout while related definitions stay old. Our deployment command uses the full assets importer to update dependencies, followed by a helper that repairs filter references. Through the interface, import the saved dataset definitions and charts separately before importing the dashboard. This sequence restores the edited SQL, chart title and dashboard title in the isolated editor test; its final export matches all 21 original charts and six dataset definitions. Check filter scopes and results again on a different destination. |
 | Pinned development build | Includes upstream import repairs. Fresh imports and updates still require verification using this exact build and export, rather than assuming every development revision behaves alike. |
+
+For an existing dashboard on the tested official 6.1.0 installation:
+
+1. Retain an export of the current dashboard and any chart or dataset definition you will change.
+2. In **Datasets**, import the saved dataset-definition ZIP and confirm overwrite for the intended objects.
+3. In **Charts**, import the saved chart ZIP and confirm overwrite.
+4. In **Dashboards**, import the saved dashboard ZIP and confirm overwrite.
+5. Verify the definitions and repeat the dashboard review checklist. Export again to compare with the intended release.
+
+These imports restore Superset definitions, not database records. In the editor test, importing only the dashboard restored its title but retained the newer chart title and SQL; the separate imports restored those too.
 
 The receiving server must have the correct database connection, reporting data, compatible software and the required CSiM customizations. An administrator should retain a metadata backup before promotion. Import the chosen release, then run the same review checklist on the destination. If restoring an earlier release, restore its dependent chart and dataset definitions too.
 
