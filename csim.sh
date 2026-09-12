@@ -24,9 +24,9 @@ with open(path, 'x', encoding='utf-8') as output:
     output.write('CSIM_APP_ROOT=/\n')
     output.write('CSIM_PUBLIC_URL=http://127.0.0.1:'+port+'\n')
     if profile in ('corrected', 'fixture'):
-        output.write('CSIM_DOCKERFILE=Dockerfile.month-controls\nCSIM_BUILD_TAG=6.1.0-csim-september4\n')
+        output.write('CSIM_DOCKERFILE=Dockerfile.month-controls\nCSIM_BUILD_TAG=6.1.0-csim-september5\n')
     if profile in ('preview','preview-fixture'):
-        output.write('CSIM_DOCKERFILE=Dockerfile.month-controls\nCSIM_BUILD_TAG=e22ce197-csim-september6\nCSIM_MONTH_PATCH=superset-snapshot-month-controls.patch\nCSIM_SNAPSHOT=1\n')
+        output.write('CSIM_DOCKERFILE=Dockerfile.month-controls\nCSIM_BUILD_TAG=e22ce197-csim-september7\nCSIM_MONTH_PATCH=superset-snapshot-month-controls.patch\nCSIM_SNAPSHOT=1\n')
         output.write('CSIM_SUPERSET_IMAGE=apache/superset:e22ce197866ded732e4990063ae74697d89d383a-dev@sha256:4abe143d471d0e2b3985b6903a3c2595e0ac94bb9f0c68f5e09934a9ec2a3adb\n')
         output.write('CSIM_SUPERSET_REF=e22ce197866ded732e4990063ae74697d89d383a\nCSIM_PATCH=superset-snapshot-csim-period.patch\nCSIM_NODE_IMAGE=node:24.16.0-bookworm-slim\n')
     if profile == 'standard':

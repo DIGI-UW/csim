@@ -87,7 +87,7 @@ index 8bf09094..40edbe6a 100644
 +  };
 +
 +  if (xAxisTimeFormat === 'csim_period' && !isHorizontal) {
-+    padding.right = Math.max(padding.right || 0, csimVerticalLabels ? 16 : 44);
++    padding.right = csimVerticalLabels && legendOrientation !== LegendOrientation.Right ? Math.max(seriesType === EchartsTimeseriesSeriesType.Bar ? 8 : 16, padding.right - TIMESERIES_CONSTANTS.gridOffsetRight) : Math.max(padding.right || 0, 44);
 +    if (csimVerticalLabels) padding.left = Math.max(8, padding.left - TIMESERIES_CONSTANTS.gridOffsetLeft);
 +  }
 +  if (csimVerticalLabels) {

@@ -127,14 +127,7 @@ export async function paintedPeriodBounds(plot){
   }).sort((a,b)=>a.x-b.x));
 }
 export async function timeUnit(page,name){
-  const control=page.getByRole('combobox',{name:filters.grain,exact:true});
-  await revealFilter(page,control);
-  const current=await control.evaluate(el=>el.closest('[title]')?.getAttribute('title') || el.closest('.ant-select').querySelector('.ant-select-selection-item')?.getAttribute('title'));
-  if(current===name)return;
-  await selectTrigger(control).click();
-  await page.getByRole('option',{name,exact:true}).click();
-  await dashboardApply(page).click();
-  await page.waitForLoadState('networkidle');
+  return selectValue(page,name,filters.grain);
 }
 export async function timePeriod(page,from,until){
   if(process.env.CSIM_NATIVE_MONTHS==='1'){
@@ -202,10 +195,17 @@ export async function selectValue(page,name,id,{apply:applySelection=true}={}){
   // Use a pointer at the visible option, without Playwright's automatic
   // scroll that dismisses Superset's overflow popover. Hit-testing still
   // requires an unobstructed option; this is not a forced DOM click.
-  await expect.poll(()=>option.evaluate(el=>{
-    const r=el.getBoundingClientRect();
-    return r.width>0&&r.height>0&&el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));
-  }),{message:'Filter option must be visible and unobstructed'}).toBe(true);
+  let previousOptionBounds;
+  await expect.poll(async()=>{
+    const bounds=await option.evaluate(el=>{
+      const r=el.getBoundingClientRect();
+      if(r.width<20||r.height<20||!el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)))return null;
+      return [r.x,r.y,r.width,r.height].map(value=>Math.round(value*10)/10).join(',');
+    });
+    const stable=bounds!==null&&bounds===previousOptionBounds;
+    previousOptionBounds=bounds;
+    return stable;
+  },{message:'Filter option must be stationary, visible and unobstructed',intervals:[100,100]}).toBe(true);
   const changed=!/ant-select-item-option-selected/.test(await option.getAttribute('class'));
   if(changed){
     const r=await option.boundingBox();

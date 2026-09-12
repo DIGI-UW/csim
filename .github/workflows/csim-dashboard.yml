@@ -92,7 +92,7 @@ jobs:
     env:
       CI: 'true'
       CSIM_DOCKERFILE: Dockerfile.month-controls
-      CSIM_BUILD_TAG: ${{ matrix.build == 'preview' && 'e22ce197-csim-september6' || '6.1.0-csim-september4' }}
+      CSIM_BUILD_TAG: ${{ matrix.build == 'preview' && 'e22ce197-csim-september7' || '6.1.0-csim-september5' }}
       CSIM_MONTH_PATCH: ${{ matrix.build == 'preview' && 'superset-snapshot-month-controls.patch' || 'superset-6.1.0-month-controls.patch' }}
     steps:
       - uses: actions/checkout@v4
