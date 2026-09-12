@@ -19,7 +19,7 @@ test('06 Two hospital series stay chronological across the year boundary',async(
   for(const name of ['Month','Quarter','Year']){
     await timeUnit(page,name);
     const rows=await allTrends(watch);
-    const native=process.env.CSIM_DASHBOARD_SLUG?.includes('sortable');
+    const native=['standard','development'].includes(profile);
     const periodKey=native?'period_label':'month_date';
     const periods={Month:['2025-11','2025-12','2026-01','2026-02','2026-03','2026-04'],Quarter:['2025 Q4','2026 Q1','2026 Q2'],Year:['2025','2026']};
     for(const trend of watch.trends){

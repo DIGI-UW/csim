@@ -216,9 +216,13 @@ export async function selectValue(page,name,id,{apply:applySelection=true}={}){
     const r=await option.boundingBox();
     await page.mouse.click(r.x+r.width/2,r.y+r.height/2);
   }
-  // Compact filters may show +1 instead of the selected text. The option's
-  // selected state remains the direct signal for the value just chosen.
-  await expect(option).toHaveClass(/ant-select-item-option-selected/);
+  // Selecting clears the search and can virtualize the chosen option out of
+  // the menu. Check the saved selection itself, not an offscreen menu row.
+  await expect.poll(()=>selection.evaluate(el=>{
+    const items=[...el.querySelectorAll('.ant-select-selection-item')].map(item=>item.getAttribute('title'));
+    const single=el.querySelector('.ant-select-content-has-value')?.getAttribute('title');
+    return items.length?items:single?[single]:[];
+  }),{message:'The filter must retain exactly the requested selection'}).toEqual([name]);
   await control.press('Escape');
   if(!applySelection)return;
   const apply=dashboardApply(page);

@@ -4,6 +4,17 @@ This is the execution roadmap for one CSiM release goal. [RELEASE-ACCEPTANCE.md]
 
 Planning checkpoint: September 11, 2026. The owner has requested immediate publication of the tested custom release and official Superset comparison as review candidates, followed by further iterations. This does not mark remaining client acceptance complete. Publish exact committed revisions with rollback artifacts; CI and final production acceptance remain separately reported.
 
+## Public release 913fd8f — verified dashboard; evidence refresh pending
+
+- **Deployed:** main runtime `2775e48`, saved definitions `913fd8f`, image `sha256:2affd443284760e7e9397603cf4842e2b208633edb02e6b12a550670ca8ca757`. Official definitions remain `818478a` on runtime `9f7d15d`. Original and incremental rollback copies are retained. No reseed.
+- **Validated publicly:** 19 applicable supplied-data checks pass; six other-profile cases are skipped, not counted as passes (`output/public-custom-913/results.json`). All 99 chart screenshots are inspected and hashes verified, including all eleven axes at 1024/1280/1600 (`visual-review/review.json`). All nine contents links pass at three widths, with their 27 screenshots inspected. Alternating September imports preserve all six established dashboards.
+- **Known records:** missing/zero, filter recovery and inclusive partial quarters pass. The two-hospital comparison passes in `output/public-custom-fixture-913-connected/results.json`. Prior captures retain a browser internet disconnect and failed script download; they are not successful runs.
+- **CI correction:** run `34662886276` completed official development successfully. Official stable used the wrong expected date column for the new native month dashboard; custom stable checked a virtualized menu row despite hospital 53 being selected. Corrected tests retain chronological, exact-selection and numerical assertions; both affected public workflows pass. The snapshot job exhausted its 60-minute job allowance; the next run allows 90 minutes without changing individual assertion timeouts.
+- **Official comparison:** inclusive native month dropdowns work; exact wording, rolling defaults, reversed-range validation and familiar vertical reset remain differences from custom. A captured two-session slow response completed after 34.028 seconds. Local two-worker configuration passes both concurrent workflows; public configuration remains unchanged pending validation.
+- **Remaining:** refreshed public recordings/overview, complete CI and review, client editor export/restore, reporting-rule evidence and Beth's separate acceptance. Published overview is still `7c27875`; this checkpoint does not claim its evidence refresh is already public.
+
+Earlier checkpoints below are historical.
+
 ## Dataset isolation and current deployment check
 
 - **Implemented:** month-control virtual datasets now have separate names as well as UUIDs. Superset matches both; the previous shared names allowed one copy's import to replace the other's dataset UUIDs. No SQL, calculations or reporting records changed.

@@ -88,7 +88,8 @@ jobs:
       matrix:
         build: [corrected, preview]
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    # The complete stable/snapshot suites exceeded 60 minutes in run 34662886276.
+    timeout-minutes: 90
     env:
       CI: 'true'
       CSIM_DOCKERFILE: Dockerfile.month-controls
