@@ -10,8 +10,8 @@ css: "/* Comparison table - cell text */\r\n.table td, .table th {\r\n  font-siz
   {\r\n  font-size: 15px !important;\r\n}\r\n\r\n/* Chart/table container header title
   */\r\n.header-title {\r\n  font-size: 16px !important;\r\n}\r\n\r\n/* Table cell
   text stays at 14px */\r\n.table td, .table th {\r\n  font-size: 14px !important;\r\n}\n/*
-  Keep section headings below the fixed dashboard toolbar. */\n[id^=\"HEADER-\"] {
-  scroll-margin-top: 90px; }\n"
+  The anchor follows the title text; allow room for two title lines below the fixed
+  toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 140px; }\n"
 slug: csim-individual-development
 certified_by: ''
 certification_details: ''

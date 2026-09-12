@@ -12,7 +12,15 @@ Source review: September 11, 2026.
 
 “Standard” permits a PostgreSQL driver, documented configuration, SQL datasets and saved chart settings. It does not permit patched frontend assets or an unmerged source change. External import automation is a separate dependency and must be disclosed even when Superset itself is unmodified.
 
-The public [release metadata](https://design.csim.uwdigi.org/release.json) identifies both existing public installations as custom: main is 6.1.0 plus the formatter and vertical-filter reset patch; preview is development source plus those patches and the month controls. Neither current installation proves unmodified behavior.
+The public [comparison and matching logins](https://design.csim.uwdigi.org/comparison.html) link two full September dashboards: [custom month controls](https://dashboard.csim.uwdigi.org/superset/dashboard/csim-individual-reconciled-months/) and [official native month selectors](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/). Both contain 21 charts and six datasets. The separate preview hostname remains a patched development comparison. The official stable server has unmodified Apache frontend assets; its PostgreSQL driver, configuration and external import helper are disclosed separately.
+
+## Current decision
+
+Whole-month From/Through selection **does not itself require custom Superset code**. The official option uses two native Select filters and prepared SQL to apply inclusive month boundaries before grouping. Its public known-record workflow verifies February–March grouped as Quarter produces 10 submissions, excluding January.
+
+The custom option remains the candidate for the exact client presentation: `Jan 2025`, `Q1 2025`, `2025`; the familiar vertical controls; rolling default months; validation of reversed dates; and partial-period guidance. The tested official alternative uses `2025-01 (Jan)`, `2025 Q1`, `2025`, horizontal controls and fixed saved default months. These are observable differences, not a conclusion that every possible native configuration has been exhausted.
+
+Recommend the custom option for those exact requirements only after its remaining acceptance checks pass. Accepting the official option requires an explicit decision on the label and interaction differences. Native concurrent-run chart waits remain unresolved; isolated passing reruns do not prove a repair. [Release acceptance](../RELEASE-ACCEPTANCE.md) is authoritative for current validation and deployment, while the source findings below explain each feature.
 
 The official released version is **6.1.0**, not 6.10. The [release page](https://github.com/apache/superset/releases/tag/6.1.0) identifies source c83fb2bb1dcfac41ac51bcebd82471f4a7180d18. The existing development pin is e22ce197866ded732e4990063ae74697d89d383a.
 
@@ -30,7 +38,7 @@ Development adds [grain-aware tooltips, #41350](https://github.com/apache/supers
 
 Fixed monthly/quarterly/annual chart views are another standard-settings option. They add maintenance work and require a deliberate user workflow. A text-label approach must still prove chronological order across multiple series and preserve calendar gaps.
 
-**Custom necessity:** distinguish the formatter from the spacing changes. The inspected native temporal-axis formatter has no quarter-label branch: it normalizes dates and selects calendar-based formats. It does not supply the agreed Jan 2025 / Q1 2025 / 2025 wording on a single switchable chart. The CSiM formatter addresses that concrete gap. Whether a supported alternative can meet the requirement without a source patch still needs the visual comparison above. Custom spacing has not been established as necessary; the current patch also omits intermediate labels at narrow widths, so it does not yet meet the every-month requirement. Development's native tooltip improvement should be assessed separately from the axis.
+**Custom necessity:** distinguish the formatter from the spacing changes. The inspected native temporal-axis formatter has no quarter-label branch: it normalizes dates and selects calendar-based formats. It does not supply the agreed Jan 2025 / Q1 2025 / 2025 wording on a single switchable chart. The CSiM formatter addresses that concrete gap. Whether a supported alternative can meet the requirement without a source patch still needs the visual comparison above. Both the custom and native sortable candidates retain all 13 monthly labels across the eleven date axes at the three review widths. Custom public screenshots have been inspected, and native local screenshots have been inspected. Linux reproduction identifies a remaining custom spacing failure: some gaps are 7.82 pixels against the unchanged 8-pixel criterion. A scoped spacing correction is under validation. Completeness and spacing are separate checks; development's native tooltip improvement is also distinct from its axis.
 
 ### Time Period and grouping
 
@@ -64,7 +72,7 @@ These changes are present in later upstream development, not the inspected 6.1.0
 
 **Existing regression evidence.** In the recorded main-build test before the reset repair, clearing and reselecting the same hospital returned extra hospital/cohort series. Expected monthly submission values were 4, 8, 12, missing, 10 and 5 for the selected hospital; additional series appeared in the response. The same workflow passed after the repair. The test also checks that the page was not reloaded. The [repair and strengthened regression](https://github.com/DIGI-UW/csim/commit/34d426f5534ccdbe4c531a65239280040423bbfd) isolate this change from the existing formatter. Local run records are `output/clear-proof-corrected.log` and `output/clear-fixed-corrected.log`; these are recorded runs, not a new unmodified-build comparison.
 
-**Custom necessity:** a repair is justified for the demonstrated vertical-sidebar workflow on the main build. Calling that necessity wholly unresolved would discard the before/after evidence. What remains unproven is whether a supported configuration or an unmodified upstream build can replace this patch while preserving the required workflow. A related merged bug fix alone does not close this case.
+**Custom necessity:** a repair is justified for the demonstrated vertical-sidebar workflow on the main build. Calling that necessity wholly unresolved would discard the before/after evidence. The official horizontal configuration passes isolated same-page recovery with the full September content. It is a demonstrated alternative to the patched vertical sidebar, with a different layout. Concurrent public runs still sometimes leave chart requests without an observed result; their cause is open. A related upstream change or an isolated rerun alone does not close that reliability question.
 
 ### Independent Time Unit menus
 
@@ -94,11 +102,15 @@ An automatic successful-upload timestamp needs a record of successful data loadi
 
 The hospital-total guard and cohort-first empty-state guidance remain dashboard work to apply consistently across all builds.
 
-### Simpler From/To controls
+### Inclusive From month / Through month controls
 
-The current preview’s inclusive month controls are CSiM code. They must appear under Custom, not under upstream development.
+The full custom dashboard provides dedicated month fields, validates that From is not after Through, explains partial quarters/years, and computes rolling defaults. Those controls are CSiM application code.
 
-**Recommendation.** First compare Superset’s native Custom/Advanced date-range editor and saved ranges, with clearer labels/instructions. The desired whole-month interpretation can be explained without changing the renderer. Whether the native editor meets Beth’s usability requirement is a user review question. Only keep the new month fields if their benefit justifies the additional code maintenance.
+The full official dashboard now demonstrates **native From month and Through month dropdowns** with a separate Time Unit. Its two calculated columns supply month choices; supported virtual-dataset SQL consumes those selections and converts the inclusive ending month to an exclusive first day of the following month. Filtering occurs before grouping. Clearing either endpoint removes that date bound. The saved opening window is explicit; it does not automatically advance each month.
+
+The public native workflow checks missing periods, valid zero and February–March grouped into Q1 using known records. Its reviewed video is on the [current evidence page](https://design.csim.uwdigi.org/evidence/current/). Friendly handling of a reversed native range remains unverified. The older native Custom/Advanced date editor is retained as a separate comparison, not the only official option.
+
+**Custom necessity:** no application patch is needed merely to offer inclusive whole-month choices. The custom controls add validated date ordering, rolling defaults and partial-period guidance in the vertical layout. Those specific benefits, along with the exact date wording, are the remaining build-selection tradeoffs.
 
 ## Upstream direction
 
@@ -117,4 +129,4 @@ Prefer standard settings and dataset preparation; then an official release conta
 7. An unmodified build must serve unmodified upstream frontend assets. Use isolated metadata stores and explicit image/source pins.
 8. Existing custom-build screenshots cannot stand in for standard or unmodified-development acceptance.
 
-This review establishes source capabilities and comparison requirements. The unmodified three-way browser demonstration is not yet complete.
+This review combines source findings with the two published stable options. The complete cross-build acceptance suite, public concurrency diagnosis and client editor handover rehearsal remain open; the comparison is not production signoff.

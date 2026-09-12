@@ -78,7 +78,7 @@ module ReconciledDashboard
     dashboard['dashboard_title'] = fixture ? 'CSiM September version — known test records' : 'CSiM Individual Data — September version'
     dashboard['slug'] = fixture ? 'csim-reconciled-examples' : 'csim-individual-reconciled'
     dashboard['description'] = 'Beth’s September test layout and explanations, with date and filter corrections. The established twenty-chart version remains available separately.'
-    dashboard['css'] = dashboard.fetch('css', '') + "\n/* Keep section headings below the fixed dashboard toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 90px; }\n"
+    dashboard['css'] = dashboard.fetch('css', '') + "\n/* The anchor follows the title text; allow room for two title lines below the fixed toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 140px; }\n"
 
     # Keep the lower comparison controls familiar while making their initial
     # state explicit. The chart queries below guard against an unset hospital.

@@ -31,21 +31,24 @@ for(const width of [1024,1280,1600])test(`Every section link stays in this dashb
     expect(link.href).toMatch(/^#HEADER-/);
     const anchor=page.locator(`a[href="${link.href}"]`);
     await anchor.scrollIntoViewIfNeeded();await anchor.click();
-    const heading=page.locator(`[id="${link.href.slice(1)}"]`);
+    const heading=page.locator(`[id="${link.href.slice(1)}"]`).locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," dashboard-component-header ")][1]');
     await expect(heading).toBeInViewport();
-    expect((await heading.boundingBox()).y,`${link.text}: heading clears the fixed toolbar`).toBeGreaterThanOrEqual(65);
-    // Being inside the viewport is insufficient: a fixed horizontal filter bar
-    // can cover the heading. Check the actual painted surface at both edges.
-    await expect.poll(()=>heading.evaluate(el=>{
-      const r=el.getBoundingClientRect();
-      return [r.top+4,r.bottom-4].map(y=>el.contains(document.elementFromPoint(r.left+8,y)));
-    }),{message:`${link.text}: the fixed controls must not cover the heading`}).toEqual([true,true]);
     const current=new URL(page.url());
     expect([current.origin,current.pathname,current.search]).toEqual([original.origin,original.pathname,original.search]);
     expect(await page.evaluate(()=>window.__tocDocument)).toBe(token);
     expect(await selections()).toEqual(before);
     expect(await readRange()).toEqual(range);
     await page.waitForLoadState('networkidle');await watch.settle();await waitForChartPaint(page);
+    // Loading charts above this section can shift its final position. Verify
+    // the settled view that the screenshot will capture, not the initial jump.
+    expect((await heading.boundingBox()).y,`${link.text}: heading clears the fixed toolbar`).toBeGreaterThanOrEqual(65);
+    // Inspect the heading container, not its invisible inline anchor at the
+    // end of the text. A fixed horizontal filter bar
+    // can cover the heading. Check the actual painted surface at both edges.
+    await expect.poll(()=>heading.evaluate(el=>{
+      const r=el.getBoundingClientRect();
+      return [r.top+4,r.bottom-4].map(y=>el.contains(document.elementFromPoint(r.left+8,y)));
+    }),{message:`${link.text}: the fixed controls must not cover the heading`}).toEqual([true,true]);
     const screenshot=info.outputPath(`section-${i+1}.png`);
     await page.screenshot({path:screenshot});
     await info.attach(link.text,{path:screenshot,contentType:'image/png'});
