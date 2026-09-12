@@ -1,3 +1,4 @@
+import {randomUUID} from 'node:crypto';
 import {test,expect} from '@playwright/test';
 import {profile} from '../acceptance.config.mjs';
 import {openDashboard,timePeriod,timeUnit,allTrends,waitForChartPaint} from '../acceptance/dashboard.mjs';
@@ -9,7 +10,7 @@ for(const width of [1024,1280,1600])test(`Every section link stays in this dashb
   await timeUnit(page,'Quarter');
   await allTrends(watch);
   const original=new URL(page.url());
-  const token=await page.evaluate(()=>window.__tocDocument=crypto.randomUUID());
+  const token=await page.evaluate(value=>window.__tocDocument=value,randomUUID());
   const selections=()=>page.getByRole('combobox').evaluateAll(inputs=>inputs.map(input=>({
     name:input.getAttribute('aria-label'),
     selection:input.closest('.ant-select')?.querySelector('.ant-select-selector')?.textContent,

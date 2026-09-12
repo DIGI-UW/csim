@@ -54,11 +54,15 @@ export async function revealFilter(page,control){
   },{message:'Filter must finish opening before interaction',intervals:[100,100]}).toBe(true);
 }
 export async function openDashboard(page,profile='corrected') {
-  const replies=new Map(),failures=[],jobs=new Set(),latest=new Map();
+  const replies=new Map(),failures=[],jobs=new Set(),latest=new Map(),network=[];
   page.on('request',request=>{
     if(!request.url().includes('/api/v1/chart/data') || request.method()!=='POST')return;
     const id=request.postDataJSON()?.form_data?.slice_id;
-    if(id){latest.set(id,request);replies.delete(id);}
+    if(id){latest.set(id,request);replies.delete(id);network.push({id,event:"request",at:Date.now()});}
+  });
+  page.on('requestfailed',request=>{
+    if(!request.url().includes('/api/v1/chart/data') || request.method()!=='POST')return;
+    network.push({id:request.postDataJSON()?.form_data?.slice_id,event:'failed',reason:request.failure()?.errorText,at:Date.now()});
   });
   page.on('response',response=>{
     if(!response.url().includes('/api/v1/chart/data'))return;
@@ -66,6 +70,7 @@ export async function openDashboard(page,profile='corrected') {
       try{
         const request=response.request().postDataJSON();
         const id=request?.form_data?.slice_id;
+        network.push({id,event:"response",status:response.status(),at:Date.now()});
         const body=await response.json();
         if(!response.ok()||body.result?.some(r=>r.error))failures.push({id,status:response.status(),body});
         if(id && latest.get(id)===response.request())replies.set(id,{request,result:body.result?.[0]});
@@ -104,7 +109,7 @@ export async function openDashboard(page,profile='corrected') {
     dateAxes.push({name,id,plot:page.locator(`#chart-id-${id}`),holder:page.locator('[data-test=dashboard-component-chart-holder]').filter({has:link})});
   }
   const trends=dateAxes.filter(item=>trendNames.includes(item.name));
-  return {trends,dateAxes,replies,failures,settle:()=>Promise.all([...jobs])};
+  return {trends,dateAxes,replies,failures,network,settle:()=>Promise.all([...jobs])};
 }
 
 // Canvas animations can continue after the data response and axis text arrive.
@@ -230,7 +235,12 @@ export async function allTrends(watch){
     await trend.holder.scrollIntoViewIfNeeded();
     await trend.holder.page().waitForLoadState('networkidle');
     await watch.settle();
-    await expect.poll(()=>watch.replies.get(trend.id)?.result).toBeTruthy();
+    try {
+      await expect.poll(()=>watch.replies.get(trend.id)?.result).toBeTruthy();
+    } catch(error) {
+      console.error('Chart request diagnostics',JSON.stringify({chart:trend.name,id:trend.id,events:watch.network.filter(event=>event.id===trend.id)}));
+      throw error;
+    }
     await watch.settle();
     await waitForChartPaint(trend.plot);
     rows[trend.name]=watch.replies.get(trend.id).result.data;

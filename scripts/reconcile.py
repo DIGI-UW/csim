@@ -8,14 +8,14 @@ import verify_import as verifier
 from superset.app import create_app
 
 
-def established_definitions():
+def established_definitions(exclude_slugs=('csim-individual-reconciled', 'csim-reconciled-examples')):
     from superset import db
     from superset.models.dashboard import Dashboard
     from superset.connectors.sqla.models import SqlaTable
 
     result = {}
     for dashboard in db.session.query(Dashboard).all():
-        if dashboard.slug in ('csim-individual-reconciled', 'csim-reconciled-examples'):
+        if dashboard.slug in exclude_slugs:
             continue
         charts = []
         datasets = {}

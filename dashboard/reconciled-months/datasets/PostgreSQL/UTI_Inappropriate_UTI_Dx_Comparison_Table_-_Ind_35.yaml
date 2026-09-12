@@ -1,5 +1,6 @@
 ---
-table_name: September — UTI Inappropriate UTI Dx Comparison Table - Ind
+table_name: Month controls — September — UTI Inappropriate UTI Dx Comparison Table
+  - Ind
 main_dttm_col:
 description:
 default_endpoint:

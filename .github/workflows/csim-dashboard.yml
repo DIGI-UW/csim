@@ -182,6 +182,7 @@ jobs:
           bash csim.sh corrected reconciled
           docker exec csim-corrected-superset-1 python /repro/scripts/test_update.py --profile reconciled
           bash csim.sh corrected reconciled
+          docker exec csim-corrected-superset-1 python /repro/scripts/test_dataset_isolation.py
           cd e2e
           CSIM_DASHBOARD_SLUG=csim-individual-reconciled CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-supplied" npm test
           CSIM_DATA_PROFILE=edge-cases CSIM_DASHBOARD_SLUG=csim-reconciled-examples CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-known" npm test

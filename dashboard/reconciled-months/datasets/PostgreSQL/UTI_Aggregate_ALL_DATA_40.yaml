@@ -1,5 +1,5 @@
 ---
-table_name: September — UTI Aggregate ALL DATA
+table_name: Month controls — September — UTI Aggregate ALL DATA
 main_dttm_col: month_date
 description:
 default_endpoint:

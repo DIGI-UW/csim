@@ -36,6 +36,10 @@ module MonthRangeDashboard
         period['description'] = 'Both endpoints include the entire month. The default is the last 12 complete months; Group by does not add observations outside it.'
         period['controlValues'] = {'enableEmptyFilter'=>true, 'csimMonthRange'=>true, 'csimGrainFilterId'=>grain.fetch('id')}
         period['defaultDataMask'] = {'extraFormData'=>{'time_range'=>window}, 'filterState'=>{'value'=>window}}
+      elsif path.include?('/datasets/')
+        # Superset also matches imports by database/schema/table_name. Separate
+        # UUIDs alone do not isolate these virtual datasets from their source.
+        item['table_name'] = 'Month controls — ' + item['table_name']
       elsif path.include?('/charts/')
         item['query_context'] = nil
       end

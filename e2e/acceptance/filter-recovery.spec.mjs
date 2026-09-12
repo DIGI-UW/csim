@@ -1,3 +1,4 @@
+import {randomUUID} from 'node:crypto';
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
 import {profile,dataProfile,openingHospital,fixture,reconciled} from '../acceptance.config.mjs';
@@ -39,7 +40,7 @@ test('04 Time Period and Time Unit work in either selection order and recover wi
   await info.attach('selection-order-results',{body:Buffer.from(JSON.stringify({periodFirst,unitFirst})),contentType:'application/json'});
   await watch.trends[0].holder.scrollIntoViewIfNeeded();
   await scene(page,info,'unit-first','Unit then period','The same final selections produce equivalent chart results.');
-  const marker=await page.evaluate(()=>window.__csimDocumentMarker=crypto.randomUUID());
+  const marker=await page.evaluate(value=>window.__csimDocumentMarker=value,randomUUID());
   await page.getByRole('button',{name:'Clear all',exact:true}).click();
   const apply=dashboardApply(page);
   if(await apply.isEnabled())await apply.click();

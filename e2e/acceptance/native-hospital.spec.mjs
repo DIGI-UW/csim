@@ -1,3 +1,4 @@
+import {randomUUID} from 'node:crypto';
 import {test,expect} from '@playwright/test';
 import {profile,fixture} from '../acceptance.config.mjs';
 import {openDashboard,hospital,revealFilter,dashboardApply,waitForChartPaint} from './dashboard.mjs';
@@ -5,7 +6,7 @@ import {openDashboard,hospital,revealFilter,dashboardApply,waitForChartPaint} fr
 test('Native hospital panels retain selection guidance and never combine unset hospitals',async({page},info)=>{
   test.skip(!['standard','development'].includes(profile)||fixture);
   const watch=await openDashboard(page,profile);
-  const marker=await page.evaluate(()=>window.__nativeHospitalDocument=crypto.randomUUID());
+  const marker=await page.evaluate(value=>window.__nativeHospitalDocument=value,randomUUID());
   const control=page.getByRole('combobox',{name:'NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI',exact:true});
   const selection=control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]');
   const charts=[];

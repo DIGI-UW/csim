@@ -99,8 +99,10 @@ PY
 export CSIM_SERVER=1 CSIM_SKIP_BUILD=1
 if [[ "$profile" == corrected ]]; then
   bash csim.sh corrected update </dev/null
-  bash csim.sh corrected reconciled </dev/null
+  # Isolate virtual dataset names before importing the original September copy.
   bash csim.sh corrected september-months </dev/null
+  bash csim.sh corrected reconciled </dev/null
+  docker exec csim-corrected-superset-1 python /repro/scripts/test_dataset_isolation.py </dev/null
 else
   # Compose names volumes from the project, including its hyphen.
   existing="$(docker volume ls -q --filter "name=^csim-${profile}_warehouse$")"

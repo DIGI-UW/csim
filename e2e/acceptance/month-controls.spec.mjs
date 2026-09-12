@@ -1,3 +1,4 @@
+import {randomUUID} from 'node:crypto';
 import {scene,enableRecording} from './recording.mjs';
 import {test,expect} from '@playwright/test';
 import {profile,fixture,reconciled} from '../acceptance.config.mjs';
@@ -7,7 +8,7 @@ enableRecording(test);
 test('07 Inclusive month controls recover on the same page and never widen a partial quarter',async({page},info)=>{
  test.skip(process.env.CSIM_SIMPLE_CONTROLS!=='1','This dashboard is available only in the month-controls build.');
  const watch=await openDashboard(page,profile);
- const marker=await page.evaluate(()=>window.__monthDocument=crypto.randomUUID());
+ const marker=await page.evaluate(value=>window.__monthDocument=value,randomUUID());
  const from=page.getByLabel('From month',{exact:true}),through=page.getByLabel('Through month (inclusive)',{exact:true});
  const apply=page.getByRole('button',{name:'Apply filters',exact:true});
  const now=new Date(),start=new Date(Date.UTC(now.getUTCFullYear()-1,now.getUTCMonth(),1)),end=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()-1,1));

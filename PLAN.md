@@ -4,14 +4,24 @@ This is the execution roadmap for one CSiM release goal. [RELEASE-ACCEPTANCE.md]
 
 Planning checkpoint: September 11, 2026. The owner has requested immediate publication of the tested custom release and official Superset comparison as review candidates, followed by further iterations. This does not mark remaining client acceptance complete. Publish exact committed revisions with rollback artifacts; CI and final production acceptance remain separately reported.
 
+## Dataset isolation and current deployment check
+
+- **Implemented:** month-control virtual datasets now have separate names as well as UUIDs. Superset matches both; the previous shared names allowed one copy's import to replace the other's dataset UUIDs. No SQL, calculations or reporting records changed.
+- **Validated:** local alternating imports of all four September packages preserve every persisted definition across all six existing dashboards. The before/after fingerprints match (`output/month-isolation-regression.log`). Source isolation checks also enforce distinct names. The current snapshot's nine antibiotic-title checks and 99-axis matrix pass; all 99 screenshots and 18 contact sheets are inspected and their hashes verified (`output/linux-snapshot-current-v3/visual-review/review.json`).
+- **Deployment:** main runtime `2775e48` is running and healthy, but activation stopped at the dataset-preservation check before updating the month copies or writing its final receipt. Do not treat the old activation receipt as current runtime evidence. The original rollback is `corrected-20260912T003802` under `/home/ubuntu/csim/backups`. The corrected import increment is being validated before completion.
+- **Native loading:** two simultaneous public workflows reproduce missing results and browser `net::ERR_ABORTED` events. A longer observation is running to distinguish delayed completion from permanently stuck charts. This is not yet a proven native defect or a closed acceptance case.
+- **Remaining:** complete publication of the import correction, public regression and screenshot review, CI, synchronized overview/recordings and client-editor rehearsal. Reporting-rule evidence and Beth's acceptance remain open.
+
+Earlier checkpoints below are historical.
+
 ## Linux renderer validation — current increment
 
 - **Implemented:** the opt-in date formatter removes the inherited right gutter for vertical labels, while retaining 8 pixels for bars, 16 pixels for lines, and space for a right-side legend. Definitions, measures and data are unchanged by this renderer correction. Browser selectors now wait for their visible option to stop moving before using a normal pointer click.
 - **Validated locally:** stable and snapshot each pass all 99 date-axis cases in Linux Chromium. All 198 screenshots were inspected through 36 contact sheets; complete Month/Quarter/Year x-axis labels pass at 1024/1280/1600. Minimum adjacent-label gaps are 8.7565 and 8.3551 pixels respectively. Stable build component tests: 94 passed; snapshot: 205 passed. The official native month-selector matrix also completes on Linux after the interaction synchronization correction.
-- **Separate visual finding:** the snapshot's two antibiotic y-axis titles are truncated in Month. This does not fail x-axis acceptance, but whole-chart presentation remains incomplete and is under correction. The stable screenshots retain the complete titles.
+- **Snapshot reconciliation:** screenshot inspection exposed truncated antibiotic titles. Import verification then found stale snapshot chart settings (`legendType: plain` instead of `scroll`), so its first 99-case result is renderer evidence against older saved definitions. The versioned September definitions have now been imported and verified at 21 charts/six datasets/six filters. The title and full date-axis checks are being repeated against the matching content; this is a deployment mismatch, not evidence that a new title patch is needed.
 - **Native comparison gap:** From March 2026 / Through February 2026 can be applied and returns empty charts without a range-order warning. Reviewed screenshot and observation: `design/evidence/native-reversed-range.png` and `.json`. The diagnostic records required validation as false; it is not counted as a fix.
 - **Deployed:** unchanged by these local validations. Main definitions remain `623acb3`, official definitions `818478a`, both runtimes `9f7d15d`, overview `7c27875`. The committed custom section-heading correction and the renderer update await publication and public verification.
-- **Remaining:** complete functional checks and CI, publish the stable correction and refreshed evidence, correct the snapshot title finding, diagnose concurrent native chart waits and the CI opening timeout, and complete the client-editor rehearsal. Reporting-rule inputs and Beth's acceptance remain separate.
+- **Remaining:** complete functional checks and CI, publish the stable correction and refreshed evidence, finish snapshot validation after synchronizing its definitions, diagnose concurrent native chart waits and the CI opening timeout, and complete the client-editor rehearsal. Reporting-rule inputs and Beth's acceptance remain separate.
 
 The checkpoints below record earlier iterations.
 

@@ -17,7 +17,8 @@ class MonthRangeTest < Minitest::Test
       source_datasets = before.select { |o| o['table_name'] }.to_h { |o| [o['table_name'], o['sql']] }
       target_datasets = after.select { |o| o['table_name'] }.to_h { |o| [o['table_name'], o['sql']] }
       assert_equal 6, target_datasets.length
-      assert_equal source_datasets, target_datasets
+      assert_empty source_datasets.keys & target_datasets.keys, 'Superset name matching must not merge the two dataset sets'
+      assert_equal source_datasets, target_datasets.transform_keys { |name| name.delete_prefix('Month controls — ') }
       assert_equal before.select { |o| o['slice_name'] }.map { |o| o['slice_name'] }.sort,
                    after.select { |o| o['slice_name'] }.map { |o| o['slice_name'] }.sort
       dashboard = after.find { |o| o['dashboard_title'] }

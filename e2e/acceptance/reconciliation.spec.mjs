@@ -1,3 +1,4 @@
+import {randomUUID} from 'node:crypto';
 import {test,expect} from '@playwright/test';
 import {profile,reconciled,fixture} from '../acceptance.config.mjs';
 import {openDashboard,timePeriod,timeUnit,hospital,waitForChartPaint} from './dashboard.mjs';
@@ -25,7 +26,7 @@ test('08 Beth’s September additions preserve context and comparison selections
   await timePeriod(page,'2025-11-01','2026-05-01');
   await timeUnit(page,'Quarter');
   // Native anchors move within the same document; saved-filter permalinks do not.
-  const token=await page.evaluate(()=>window.__reconciliationDocument=crypto.randomUUID());
+  const token=await page.evaluate(value=>window.__reconciliationDocument=value,randomUUID());
   const destination=page.locator('a[href="#HEADER-eVOJ7CLoDLTv7Uc8Ct2eU"]');
   await destination.scrollIntoViewIfNeeded();await destination.click();
   await expect(page.locator('[id="HEADER-eVOJ7CLoDLTv7Uc8Ct2eU"]')).toBeInViewport();
