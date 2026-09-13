@@ -1,0 +1,64 @@
+{
+  "checkedAt": "2026-09-12T05:05:03.705783+00:00",
+  "sourceRevision": "a3ee0831e9d65c4d23aaf33eac9d05984d8f93fa",
+  "application": "official Superset 6.1.0",
+  "environment": "isolated local editor copy",
+  "role": "Alpha",
+  "counts": {
+    "dashboardCharts": 21,
+    "datasetDefinitions": 6
+  },
+  "sequence": [
+    "export original dashboard, chart and dataset definitions in UI",
+    "edit dashboard title, chart title and SQL comment in UI",
+    "dashboard-only import retains changed chart and SQL",
+    "import original dataset, chart, then dashboard through UI",
+    "export restored dashboard through UI"
+  ],
+  "checks": {
+    "all30ExportDefinitionFilesByteIdentical": true,
+    "noNewObjects": true,
+    "unrelatedDashboardChartDatasetDefinitionsUnchanged": true,
+    "originalTitleChartAndSQLRestored": true
+  },
+  "changedBetweenEditedStateAndFinalRestore": [
+    {
+      "table": "dashboards",
+      "id": 7,
+      "fields": [
+        "dashboard_title",
+        "position_json",
+        "json_metadata"
+      ]
+    },
+    {
+      "table": "slices",
+      "id": 147,
+      "fields": [
+        "slice_name"
+      ]
+    },
+    {
+      "table": "tables",
+      "id": 26,
+      "fields": [
+        "sql"
+      ]
+    }
+  ],
+  "reportingDatabaseOperation": "none; only Superset metadata definitions were restored",
+  "visualReview": {
+    "file": "dashboard-restored.png",
+    "inspected": true,
+    "scope": "restored title, visible controls and opening layout; not full chart acceptance"
+  },
+  "clientAcceptance": "pending; client account and destination not exercised",
+  "sha256": {
+    "chart-release-a.zip": "90d5b9f05aee9d70944596807e8465c4009180db3895ddfda382638933dfd3be",
+    "dashboard-release-a.zip": "8145acd33984e44019e479b943a88ecbf22a82ed196973651fb24d9061901959",
+    "dashboard-release-b.png": "8695bb87f9586ddc4eeaca03bff6c066e4ea21d6f56ad53aaca124217a685d48",
+    "dashboard-restored.png": "814c7e53a86c99e0b1a74587f3eb663fafd233247382ab9d99427dafaad7dbe1",
+    "dashboard-restored.zip": "8145acd33984e44019e479b943a88ecbf22a82ed196973651fb24d9061901959",
+    "dataset-release-a.zip": "f0995aaec42bafe8ab2f07c99b614e3a0135426858f5a596c5bef100a2c03131"
+  }
+}

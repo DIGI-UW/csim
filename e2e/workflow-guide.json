@@ -52,5 +52,26 @@
     "expected": "All 21 charts are present. The latest reporting month remains independent of the viewing window. Section links keep filters, and comparison selectors separate hospitals from named groups.",
     "videoIntro": "The September version includes Beth’s latest-data card, explanations and layout. The established 20-chart dashboard remains available for comparison.",
     "videoOutro": "The new version keeps the date and filter corrections with Beth’s additions. The established dashboard remains unchanged."
+  },
+  "09": {
+    "label": "Cohort opening and hospital totals",
+    "try": "Open the full September dashboard, select Your hospital, then clear and reselect it.",
+    "expected": "Cohort results open immediately. Hospital-only panels give selection guidance until a hospital is chosen. Clearing never substitutes an all-hospital total.",
+    "videoIntro": "The main charts start with Cohort. Use the separate Your hospital selection for the lower comparison charts and all-time submission card.",
+    "videoOutro": "Hospital 53 has 980 eligible all-time submissions in this supplied demo. Clearing restores the selection prompt; reselecting restores its total on the same page."
+  },
+  "10": {
+    "label": "Official Superset: controls and date labels",
+    "try": "Compare Month, Quarter and Year, then select February and March using the native Time Period editor.",
+    "expected": "The native candidate displays chronological year-first labels and filters before grouping. Its date editor uses an exclusive end date; dedicated inclusive month fields are not present.",
+    "videoIntro": "This full September dashboard uses official Superset 6.1.0 without CSiM application patches. Review the native controls and the differences from the requested workflow.",
+    "videoOutro": "Official Superset preserves the selected observations and chronological grouping. This candidate uses year-first labels and a date-range editor; those differences remain open acceptance choices."
+  },
+  "11": {
+    "label": "From and Through month in official Superset",
+    "try": "Select November through April, then narrow to February–March and change Month to Quarter and Year.",
+    "expected": "Both endpoints are included. February has no observations, March is a valid zero, and the partial quarter and year each contain 10 submissions without January.",
+    "videoIntro": "Ordinary Superset dropdowns select inclusive From and Through months. The separate Time Unit changes grouping; the dashboard uses year-first labels.",
+    "videoOutro": "Inclusive month filtering works without CSiM application patches. This option uses horizontal filters and fixed saved defaults; exact month and quarter wording remains different."
   }
 }

@@ -1,8 +1,8 @@
 ---
-slice_name: Date of most recent data
-description: Latest month with urine culture submissions for the selected hospital/state
-  and collection location. Independent of Time Period, Time Unit and the lower comparison
-  selectors.
+slice_name: Latest reporting month
+description: Latest reporting month with urine culture submissions for the selected
+  hospital/state and collection location. Independent of Time Period, Time Unit and
+  the lower comparison selectors.
 certified_by:
 certification_details:
 viz_type: big_number_total
@@ -45,7 +45,7 @@ params:
     operator: TEMPORAL_RANGE
     subject: month_date
   header_font_size: 0.7
-  subtitle: Latest month with submissions
+  subtitle: Latest reporting month with submissions
   subtitle_font_size: 0.2
   show_metric_name: false
   metric_name_font_size: 0.15

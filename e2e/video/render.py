@@ -10,16 +10,18 @@ import math
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 
 from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageStat
-import imageio_ffmpeg
-
 RUN = Path(sys.argv[1]).resolve()
 OUT = RUN / 'films'
 OUT.mkdir(exist_ok=True)
-FFMPEG = os.environ.get('CSIM_FFMPEG') or imageio_ffmpeg.get_ffmpeg_exe()
+FFMPEG = os.environ.get('CSIM_FFMPEG') or shutil.which('ffmpeg')
+if not FFMPEG:
+    import imageio_ffmpeg
+    FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 WIDTH, CONTENT, HEIGHT, FPS = 1440, 1000, 1080, 24
 FONT_PATHS = [os.environ.get('CSIM_VIDEO_FONT',''), '/System/Library/Fonts/Supplemental/Arial.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf']
 FONT = next((p for p in FONT_PATHS if p and Path(p).is_file()), None)

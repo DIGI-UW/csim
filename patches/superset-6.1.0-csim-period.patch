@@ -1,8 +1,16 @@
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-index 8bf09094..10456e27 100644
+index 8bf09094..40edbe6a 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts
-@@ -119,6 +119,7 @@ import {
+@@ -40,6 +40,7 @@ import {
+   resolveAutoCurrency,
+   TimeseriesChartDataResponseResult,
+   TimeseriesDataRecord,
++  TimeGranularity,
+   NumberFormats,
+ } from '@superset-ui/core';
+ import { GenericDataType } from '@apache-superset/core/common';
+@@ -119,6 +120,7 @@ import {
    getPercentFormatter,
    getTooltipTimeFormatter,
    getXAxisFormatter,
@@ -10,7 +18,7 @@ index 8bf09094..10456e27 100644
    getYAxisFormatter,
  } from '../utils/formatters';
  import { safeParseEChartOptions } from '../utils/safeEChartOptionsParser';
-@@ -715,13 +716,17 @@ export default function transformProps(
+@@ -715,13 +717,17 @@ export default function transformProps(
      }
    }
  
@@ -30,13 +38,42 @@ index 8bf09094..10456e27 100644
        : xAxisDataType === GenericDataType.Numeric
          ? getNumberFormatter(xAxisNumberFormat)
          : String;
-@@ -883,6 +888,26 @@ export default function transformProps(
+@@ -861,7 +867,25 @@ export default function transformProps(
+   // boundary that formats identically to the last data-point tick (e.g.
+   // "2005" appears twice with Year grain). Wrap the formatter to suppress
+   // consecutive duplicate labels.
+-  const showMaxLabel = xAxisType === AxisType.Time && xAxisLabelRotation === 0;
++  const csimMonthlyLabels =
++    xAxisTimeFormat === 'csim_period' &&
++    resolvedTimeGrain === TimeGranularity.MONTH &&
++    !isHorizontal;
++  // Keep quarter labels horizontal when they fit; narrow comparison cards
++  // rotate them instead of dropping alternate reporting periods.
++  const csimPeriodCount = new Set(
++    data.map(row => Number(row[xAxisLabel] ?? row[xAxisOrig])),
++  ).size;
++  const csimVerticalLabels = csimMonthlyLabels || (
++    xAxisTimeFormat === 'csim_period' &&
++    resolvedTimeGrain === TimeGranularity.QUARTER && !isHorizontal &&
++    csimPeriodCount * 64 > width - padding.left - padding.right - 32
++  );
++  const effectiveXAxisLabelRotation = csimVerticalLabels
++    ? 90
++    : xAxisLabelRotation;
++  const showMaxLabel =
++    xAxisType === AxisType.Time && effectiveXAxisLabelRotation === 0;
+   const deduplicatedFormatter = showMaxLabel
+     ? (() => {
+         let lastLabel: string | undefined;
+@@ -883,10 +907,38 @@ export default function transformProps(
        })()
      : xAxisFormatter;
  
 +  const csimDates =
 +    xAxisTimeFormat === 'csim_period'
-+      ? data.map(row => Number(row[xAxisLabel] ?? row[xAxisOrig])).filter(Number.isFinite)
++      ? data
++          .map(row => Number(row[xAxisLabel] ?? row[xAxisOrig]))
++          .filter(Number.isFinite)
 +      : [];
 +  const csimMin = Math.min(...csimDates);
 +  const csimMax = Math.max(...csimDates);
@@ -50,37 +87,61 @@ index 8bf09094..10456e27 100644
 +  };
 +
 +  if (xAxisTimeFormat === 'csim_period' && !isHorizontal) {
-+    padding.right = Math.max(padding.right || 0, 44);
++    padding.right = csimVerticalLabels && legendOrientation !== LegendOrientation.Right ? Math.max(seriesType === EchartsTimeseriesSeriesType.Bar ? 8 : 16, padding.right - TIMESERIES_CONSTANTS.gridOffsetRight) : Math.max(padding.right || 0, 44);
++    if (csimVerticalLabels) padding.left = Math.max(8, padding.left - TIMESERIES_CONSTANTS.gridOffsetLeft);
 +  }
-+  const csimTicks = getCsimTickValues(csimDates, csimAxisFormatter, Math.max(width - Number(padding.left || 0) - Number(padding.right || 0) - 72, 1));
++  if (csimVerticalLabels) {
++    padding.bottom = Math.max(padding.bottom || 0, 96);
++  }
++  const csimTicks = getCsimTickValues(csimDates);
 +
    let xAxis: any = {
      type: xAxisType,
      name: xAxisTitle,
-@@ -896,7 +921,13 @@ export default function transformProps(
+-    nameGap: convertInteger(xAxisTitleMargin),
++    nameGap: csimVerticalLabels
++      ? Math.max(convertInteger(xAxisTitleMargin), 76)
++      : convertInteger(xAxisTitleMargin),
+     nameLocation: 'middle',
+     axisLabel: {
+       // When rotation is applied on time axes, hideOverlap can
+@@ -895,29 +947,45 @@ export default function transformProps(
+       // At 0° rotation, keep hideOverlap to prevent long labels
        // from overlapping each other, with showMaxLabel to ensure
        // the last data point label stays visible (#37181).
-       hideOverlap: !(xAxisType === AxisType.Time && xAxisLabelRotation !== 0),
+-      hideOverlap: !(xAxisType === AxisType.Time && xAxisLabelRotation !== 0),
 -      formatter: deduplicatedFormatter,
+-      rotate: xAxisLabelRotation,
++      hideOverlap: !(
++        xAxisType === AxisType.Time && effectiveXAxisLabelRotation !== 0
++      ),
 +      formatter:
-+        xAxisTimeFormat === 'csim_period' ? csimAxisFormatter : deduplicatedFormatter,
++        xAxisTimeFormat === 'csim_period'
++          ? csimAxisFormatter
++          : deduplicatedFormatter,
 +      ...(xAxisTimeFormat === 'csim_period' && {
 +        showMinLabel: true,
-+        alignMinLabel: 'center',
++        alignMinLabel: csimVerticalLabels ? 'right' : 'center',
 +        customValues: csimTicks,
 +      }),
-       rotate: xAxisLabelRotation,
++      rotate: effectiveXAxisLabelRotation,
        interval: xAxisLabelInterval,
        // Force last label on non-rotated time axes to prevent
-@@ -904,20 +935,21 @@ export default function transformProps(
+       // hideOverlap from hiding it. Skipped when rotated to
        // avoid phantom labels at the axis boundary.
-       ...(showMaxLabel && {
+-      ...(showMaxLabel && {
++      ...((showMaxLabel || csimVerticalLabels) && {
          showMaxLabel: true,
 -        alignMaxLabel: 'right',
-+        alignMaxLabel: xAxisTimeFormat === 'csim_period' ? 'center' : 'right',
++        alignMaxLabel:
++          xAxisTimeFormat === 'csim_period' && !csimVerticalLabels
++            ? 'center'
++            : 'right',
        }),
      },
-+    ...(xAxisTimeFormat === 'csim_period' && { axisTick: { customValues: csimTicks } }),
++    ...(xAxisTimeFormat === 'csim_period' && {
++      axisTick: { customValues: csimTicks },
++    }),
      minorTick: { show: minorTicks },
      minInterval:
 -      xAxisType === AxisType.Time && timeGrainSqla && !forceMaxInterval
@@ -99,11 +160,30 @@ index 8bf09094..10456e27 100644
            ]
          : undefined,
      ...getMinAndMaxFromBounds(
+@@ -977,14 +1045,16 @@ export default function transformProps(
+   // the last label from being clipped at the chart boundary.
+   if (
+     xAxisType === AxisType.Time &&
+-    xAxisLabelRotation !== 0 &&
++    effectiveXAxisLabelRotation !== 0 &&
++    !csimVerticalLabels &&
+     !isHorizontal
+   ) {
+     padding.right = Math.max(
+       padding.right || 0,
+       TIMESERIES_CONSTANTS.gridOffsetRight +
+         Math.ceil(
+-          Math.abs(Math.sin((xAxisLabelRotation * Math.PI) / 180)) * 80,
++          Math.abs(Math.sin((effectiveXAxisLabelRotation * Math.PI) / 180)) *
++            80,
+         ),
+     );
+   }
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
-index 4582253a..ff8da34f 100644
+index 4582253a..176469e9 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
-@@ -36,6 +36,43 @@ import {
+@@ -36,6 +36,28 @@ import {
  export const getSmartDateDetailedFormatter = () =>
    getTimeFormatter(SMART_DATE_DETAILED_ID);
  
@@ -111,23 +191,8 @@ index 4582253a..ff8da34f 100644
 +// while axis labels and hover titles follow the selected grouping.
 +// Select real reporting buckets before formatting. Layout must not depend on
 +// how often ECharts calls a formatter while measuring and painting labels.
-+export function getCsimTickValues(
-+  values: number[],
-+  formatter: (value: number) => string,
-+  availableWidth: number,
-+): number[] {
-+  const dates = [...new Set(values.filter(Number.isFinite))].sort((a, b) => a - b);
-+  if (dates.length < 3) return dates;
-+  const first = dates[0];
-+  const span = dates[dates.length - 1] - first;
-+  // Twelve-pixel chart text plus a readable gap; browser checks measure the
-+  // actual painted glyphs at several dashboard widths.
-+  const separation = Math.max(...dates.map(date => formatter(date).length * 7)) + 12;
-+  for (let count = Math.min(dates.length, Math.floor(availableWidth / separation) + 1); count > 2; count -= 1) {
-+    const selected = Array.from({ length: count }, (_, i) => dates[Math.round(i * (dates.length - 1) / (count - 1))]);
-+    if (selected.every((date, i) => i === 0 || (date - selected[i - 1]) / span * availableWidth >= separation)) return selected;
-+  }
-+  return [first, dates[dates.length - 1]];
++export function getCsimTickValues(values: number[]): number[] {
++  return [...new Set(values.filter(Number.isFinite))].sort((a, b) => a - b);
 +}
 +
 +export const getCsimPeriodFormatter = (timeGrain?: string) =>
@@ -147,7 +212,7 @@ index 4582253a..ff8da34f 100644
  export const getSmartDateFormatter = (timeGrain?: string) => {
    const baseFormatter = getTimeFormatter(SMART_DATE_ID);
  
-@@ -162,7 +199,9 @@ export const getYAxisFormatter = (
+@@ -162,7 +184,9 @@ export const getYAxisFormatter = (
  
  export function getTooltipTimeFormatter(
    format?: string,
@@ -157,7 +222,7 @@ index 4582253a..ff8da34f 100644
    if (format === SMART_DATE_ID) {
      return getSmartDateVerboseFormatter();
    }
-@@ -176,6 +215,7 @@ export function getXAxisFormatter(
+@@ -176,6 +200,7 @@ export function getXAxisFormatter(
    format?: string,
    timeGrain?: string,
  ): TimeFormatter | StringConstructor | undefined {
@@ -166,14 +231,13 @@ index 4582253a..ff8da34f 100644
      return getSmartDateFormatter(timeGrain);
    }
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
-index 373cf6a0..408cabbe 100644
+index 373cf6a0..3b230405 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
-@@ -1520,3 +1520,34 @@ test('should assign distinct dash patterns for multiple time offsets consistentl
+@@ -1520,3 +1520,42 @@ test('should assign distinct dash patterns for multiple time offsets consistentl
    // must be different patterns
    expect(symbol1).not.toEqual(symbol2);
  });
-+
 +
 +test.each([
 +  [TimeGranularity.MONTH, 'Jan 2025'],
@@ -189,10 +253,12 @@ index 373cf6a0..408cabbe 100644
 +      xAxisTimeFormat: 'csim_period',
 +      tooltipTimeFormat: 'csim_period',
 +    },
-+    queriesData: [createTestQueryData([{ __timestamp: stamp, sales: 100 }], {
-+      colnames: ['__timestamp', 'sales'],
-+      coltypes: [GenericDataType.Temporal, GenericDataType.Numeric],
-+    })],
++    queriesData: [
++      createTestQueryData([{ __timestamp: stamp, sales: 100 }], {
++        colnames: ['__timestamp', 'sales'],
++        coltypes: [GenericDataType.Temporal, GenericDataType.Numeric],
++      }),
++    ],
 +  });
 +  const result = transformProps(props);
 +  const axis = result.echartOptions.xAxis as any;
@@ -201,14 +267,21 @@ index 373cf6a0..408cabbe 100644
 +  // ECharts measures and then draws a tick, calling its formatter repeatedly.
 +  expect(axis.axisLabel.formatter(stamp)).toBe(label);
 +  expect(axis.axisLabel.showMinLabel).toBe(true);
++  expect(axis.axisLabel.rotate).toBe(grain === TimeGranularity.MONTH ? 90 : 0);
++  if (grain === TimeGranularity.MONTH) {
++    expect((result.echartOptions.grid as any).bottom).toBeGreaterThanOrEqual(
++      96,
++    );
++    expect(axis.nameGap).toBeGreaterThanOrEqual(76);
++  }
 +  expect(axis.axisLabel.formatter(Date.UTC(2023, 0, 1))).toBe('');
 +  expect(axis.axisLabel.formatter(Date.UTC(2027, 0, 1))).toBe('');
 +});
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
-index a4e4dea5..103ef72f 100644
+index a4e4dea5..21beebbd 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
-@@ -25,8 +25,35 @@ import {
+@@ -25,8 +25,31 @@ import {
  import {
    getPercentFormatter,
    getXAxisFormatter,
@@ -216,17 +289,13 @@ index a4e4dea5..103ef72f 100644
 +  getTooltipTimeFormatter,
  } from '../../src/utils/formatters';
  
-+test('CSiM ticks keep both ends, all short-range months, and readable long-range spacing', () => {
++test('CSiM ticks include every reporting period', () => {
 +  const months = Array.from({ length: 13 }, (_, i) => Date.UTC(2025, 8 + i, 1));
-+  const format = (value: number) => String(getXAxisFormatter('csim_period', 'P1M')?.(value));
-+  expect(getCsimTickValues(months.slice(0, 6), format, 400)).toEqual(months.slice(0, 6));
-+  const narrow = getCsimTickValues(months, format, 400);
-+  expect(narrow[0]).toBe(Date.UTC(2025, 8, 1));
-+  expect(narrow[narrow.length - 1]).toBe(Date.UTC(2026, 8, 1));
-+  expect(narrow.length).toBeLessThan(months.length);
-+  narrow.slice(1).forEach((date, i) => expect((date - narrow[i]) / (months[12] - months[0]) * 400).toBeGreaterThanOrEqual(68));
-+  expect(getCsimTickValues([months[0], months[0]], format, 400)).toEqual([months[0]]);
-+  expect(getCsimTickValues([], format, 400)).toEqual([]);
++  expect(getCsimTickValues(months)).toEqual(months);
++  expect(getCsimTickValues([months[1], months[0], months[0]])).toEqual(
++    months.slice(0, 2),
++  );
++  expect(getCsimTickValues([])).toEqual([]);
 +});
 +
 +test.each([
@@ -244,6 +313,164 @@ index a4e4dea5..103ef72f 100644
  test('getPercentFormatter should format as percent if no format is specified', () => {
    const value = 0.6;
    expect(getPercentFormatter().format(value)).toEqual('60%');
+diff --git a/superset-frontend/src/components/Chart/ChartRenderer.test.tsx b/superset-frontend/src/components/Chart/ChartRenderer.test.tsx
+index 5d5022b0..0c844212 100644
+--- a/superset-frontend/src/components/Chart/ChartRenderer.test.tsx
++++ b/superset-frontend/src/components/Chart/ChartRenderer.test.tsx
+@@ -119,6 +119,60 @@ test('should render SuperChart', () => {
+   expect(getByTestId('mock-super-chart')).toBeInTheDocument();
+ });
+ 
++test.each([[[]], [['Cohort']], [['53', '54']]])(
++  'hospital-only charts guide an invalid selection %j',
++  values => {
++    const { getByText, queryByTestId } = render(
++      <ChartRenderer
++        {...(requiredProps as ChartRendererProps)}
++        chartIsStale={false}
++        chartStatus="success"
++        formData={{
++          viz_type: VizType.Table,
++          csim_hospital_selector: 'Your hospital',
++          extra_form_data: {
++            filters: [{ col: 'hosp_code', op: 'IN', val: values }],
++          },
++        }}
++      />,
++    );
++    expect(
++      getByText('Choose a hospital in “Your hospital”'),
++    ).toBeInTheDocument();
++    expect(queryByTestId('mock-super-chart')).not.toBeInTheDocument();
++  },
++);
++
++test('hospital-only charts render a selected hospital and recover after clearing', () => {
++  const props = {
++    ...requiredProps,
++    chartIsStale: false,
++    chartStatus: 'success',
++    queriesResponse: [],
++    formData: {
++      viz_type: VizType.Table,
++      csim_hospital_selector: 'Your hospital',
++      extra_form_data: {
++        filters: [{ col: 'hosp_code', op: 'IN', val: ['53'] }],
++      },
++    },
++  } as ChartRendererProps;
++  const { getByTestId, getByText, rerender } = render(
++    <ChartRenderer {...props} />,
++  );
++  expect(getByTestId('mock-super-chart')).toBeInTheDocument();
++  rerender(
++    <ChartRenderer
++      {...props}
++      triggerRender
++      formData={{ ...props.formData, extra_form_data: {} }}
++    />,
++  );
++  expect(getByText('Choose a hospital in “Your hospital”')).toBeInTheDocument();
++  rerender(<ChartRenderer {...props} triggerRender />);
++  expect(getByTestId('mock-super-chart')).toBeInTheDocument();
++});
++
+ test('should use latestQueryFormData instead of formData when chartIsStale is true', () => {
+   const { getByTestId } = render(
+     <ChartRenderer {...(requiredProps as ChartRendererProps)} chartIsStale />,
+diff --git a/superset-frontend/src/components/Chart/ChartRenderer.tsx b/superset-frontend/src/components/Chart/ChartRenderer.tsx
+index b5fa33c0..661a103d 100644
+--- a/superset-frontend/src/components/Chart/ChartRenderer.tsx
++++ b/superset-frontend/src/components/Chart/ChartRenderer.tsx
+@@ -17,7 +17,14 @@
+  * under the License.
+  */
+ import { snakeCase, isEqual, cloneDeep } from 'lodash';
+-import { createRef, Component, RefObject, MouseEvent, ReactNode } from 'react';
++import {
++  createRef,
++  Component,
++  RefObject,
++  MouseEvent,
++  ReactNode,
++  useEffect,
++} from 'react';
+ import {
+   SuperChart,
+   Behavior,
+@@ -49,6 +56,23 @@ import ChartContextMenu, {
+ // Types for filter values
+ type FilterValue = string | number | boolean | null | undefined;
+ 
++function CsimHospitalPrompt({
++  selector,
++  onRender,
++}: {
++  selector: string;
++  onRender: () => void;
++}) {
++  useEffect(onRender, [onRender]);
++  return (
++    <EmptyState
++      size="small"
++      image="chart.svg"
++      title={t('Choose a hospital in “%s”', selector)}
++    />
++  );
++}
++
+ // LegendState type based on ECharts
+ interface LegendState {
+   [name: string]: boolean;
+@@ -447,6 +471,26 @@ class ChartRenderer extends Component<ChartRendererProps, ChartRendererState> {
+ 
+     const currentFormData =
+       chartIsStale && latestQueryFormData ? latestQueryFormData : formData;
++    const hospitalSelector = currentFormData.csim_hospital_selector;
++    if (typeof hospitalSelector === 'string') {
++      const selections = (currentFormData.extra_form_data?.filters || [])
++        .filter(
++          (filter: { col: string; op: string }) =>
++            filter.col === 'hosp_code' && filter.op === 'IN',
++        )
++        .flatMap((filter: { val: FilterValue[] }) => filter.val);
++      const hasHospital =
++        selections.length === 1 &&
++        /^[0-9]+([.][0-9]+)?$/.test(String(selections[0]));
++      if (!hasHospital) {
++        return (
++          <CsimHospitalPrompt
++            selector={hospitalSelector}
++            onRender={this.handleRenderSuccess}
++          />
++        );
++      }
++    }
+     const vizType = currentFormData.viz_type || this.props.vizType;
+ 
+     // It's bad practice to use unprefixed `vizType` as classnames for chart
+diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
+index 864db364..48ea1240 100644
+--- a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
++++ b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
+@@ -227,6 +227,8 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
+             onPendingCustomizationDataMaskChange
+           }
+           chartCustomizationValues={chartCustomizationValues}
++          clearAllTriggers={clearAllTriggers}
++          onClearAllComplete={onClearAllComplete}
+           hideHeader={hasOnlyOneSectionType}
+         />
+       </FilterControlsWrapper>
+@@ -252,6 +254,8 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
+     onSelectionChange,
+     onPendingCustomizationDataMaskChange,
+     chartCustomizationValues,
++    clearAllTriggers,
++    onClearAllComplete,
+     hasOnlyOneSectionType,
+   ]);
+ 
 diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
 new file mode 100644
 index 00000000..5a36387b
@@ -311,24 +538,3 @@ index 00000000..5a36387b
 +    expect(screen.getByRole('button', { name: 'Ready' })).toBeInTheDocument();
 +  }
 +});
-diff --git a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
-index 864db364..48ea1240 100644
---- a/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
-+++ b/superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx
-@@ -227,6 +227,8 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
-             onPendingCustomizationDataMaskChange
-           }
-           chartCustomizationValues={chartCustomizationValues}
-+          clearAllTriggers={clearAllTriggers}
-+          onClearAllComplete={onClearAllComplete}
-           hideHeader={hasOnlyOneSectionType}
-         />
-       </FilterControlsWrapper>
-@@ -252,5 +254,7 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
-     onSelectionChange,
-     onPendingCustomizationDataMaskChange,
-     chartCustomizationValues,
-+    clearAllTriggers,
-+    onClearAllComplete,
-     hasOnlyOneSectionType,
-   ]);

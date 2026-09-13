@@ -7,6 +7,7 @@ from pathlib import Path
 
 import yaml
 from superset.app import create_app
+from dashboard_import import STANDARD_PROFILES, MONTH_PROFILES
 
 ROOT = Path(os.environ.get('CSIM_PROJECT_ROOT', '/repro'))
 
@@ -74,7 +75,7 @@ def verify(profile: str):
                 expected_params['annotation_layers'] = []
             if os.environ.get('CSIM_SNAPSHOT') == '1' and expected_params.get('viz_type') == 'table':
                 expected_params['viz_type'] = 'ag-grid-table'
-            if profile in ('corrected', 'examples', 'reconciled', 'reconciled-examples') and os.environ.get('CSIM_SNAPSHOT') != '1':
+            if profile in ('corrected', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES) and os.environ.get('CSIM_SNAPSHOT') != '1':
                 expected_params['slice_id'] = actual.id
                 expected_params['dashboards'] = [dashboard.id]
             assert actual_params == expected_params, (expected['slice_name'], {key: {'expected': expected_params.get(key), 'actual': actual_params.get(key)} for key in set(expected_params) | set(actual_params) if expected_params.get(key) != actual_params.get(key)})
@@ -98,11 +99,11 @@ def verify(profile: str):
             item for item in definition['metadata']['native_filter_configuration']
             if item.get('type') == 'NATIVE_FILTER'
         ]
-        assert len(actual_filters) == len(expected_filters) == 6
+        assert len(actual_filters) == len(expected_filters) == inventory.get('filters', 6)
         caches = []
         for expected in expected_filters:
             actual = actual_filters[expected['id']]
-            assert actual['defaultDataMask'] == expected['defaultDataMask'], expected['name']
+            assert actual.get('defaultDataMask') == expected.get('defaultDataMask'), expected['name']
             for key in ('filterType', 'controlValues', 'cascadeParentIds', 'time_grains', 'adhoc_filters', 'description'):
                 assert actual.get(key) == expected.get(key), (expected['name'], key)
             for expected_target, actual_target in zip(expected.get('targets', []), actual.get('targets', []), strict=True):
@@ -126,7 +127,7 @@ def verify(profile: str):
         }
         actual_global = set(actual_metadata.get('global_chart_configuration', {}).get('chartsInScope', []))
         report = {
-            'profile': profile, 'charts': len(charts), 'datasets': inventory['datasets'], 'filters': 6,
+            'profile': profile, 'charts': len(charts), 'datasets': inventory['datasets'], 'filters': len(actual_filters),
             'changed_chart_identifiers': sum(source != target for source, target in remap.items()),
             'cached_scope_references': {
                 'all_match': all(item['matches'] for item in caches) and actual_global == expected_global,
@@ -136,11 +137,11 @@ def verify(profile: str):
         }
         Path(f'/tmp/csim-{profile}-import-verification.json').write_text(json.dumps(report, indent=2))
         print(json.dumps(report))
-        if profile in ('corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples'):
+        if profile in ('corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES):
             assert report['cached_scope_references']['all_match'], 'Imported filter scope caches must match the intended chart references'
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples'), default='corrected')
+    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES), default='corrected')
     verify(parser.parse_args().profile)

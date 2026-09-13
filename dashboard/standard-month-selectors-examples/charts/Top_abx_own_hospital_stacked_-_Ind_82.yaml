@@ -1,0 +1,125 @@
+---
+slice_name: Top abx (own hospital stacked) - Ind
+description: Choose one numeric hospital in Your hospital. Until then this panel has
+  no hospital result.
+certified_by:
+certification_details:
+viz_type: echarts_timeseries_bar
+params:
+  datasource: 37__table
+  viz_type: echarts_timeseries_bar
+  slice_id: 82
+  x_axis: period_label
+  time_grain_sqla: P1M
+  x_axis_sort_asc: true
+  metrics:
+  - aggregate: SUM
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-17T21:38:24.742162'
+      column_name: prescription_count
+      created_on: '2026-03-17T21:38:24.742158'
+      description:
+      expression:
+      extra:
+      filterable: true
+      groupby: true
+      id: 443
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: DECIMAL
+      type_generic: 0
+      uuid: d5a8e533-c248-450c-8a86-f3ececa132ac
+      verbose_name:
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    label: SUM(prescription_count)
+    optionName: metric_yc5paz6gegq_0co8t3qr2wa
+    sqlExpression:
+  groupby:
+  - antibiotic_name
+  adhoc_filters:
+  - clause: WHERE
+    comparator:
+    datasourceWarning: false
+    expressionType: SQL
+    filterOptionName: filter_uzy7dlp54pb_ivn01kvt4d
+    isExtra: false
+    isNew: false
+    operator:
+    operatorId:
+    sqlExpression: hosp_code ~ '^[0-9]+([.][0-9]+)?$'
+    subject:
+  - clause: WHERE
+    comparator: No filter
+    datasourceWarning: false
+    expressionType: SIMPLE
+    filterOptionName: filter_hqam1ijiw1u_0tcxdxx3z0jd
+    isExtra: false
+    isNew: false
+    operator: TEMPORAL_RANGE
+    sqlExpression:
+    subject: month_date
+  - expressionType: SQL
+    sqlExpression: "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~
+      '^[0-9]+([.][0-9]+)?$'"
+    clause: WHERE
+    isExtra: false
+    filterOptionName: filter_csim_selected_hospital
+  order_desc: false
+  row_limit: 1000
+  truncate_metric: true
+  show_empty_columns: true
+  comparison_type: values
+  annotation_layers: []
+  forecastEnabled: false
+  forecastPeriods: 10
+  forecastInterval: 0.8
+  orientation: vertical
+  x_axis_title: Time
+  x_axis_title_margin: 60
+  y_axis_title: Number of antibiotic prescriptions
+  y_axis_title_margin: 30
+  y_axis_title_position: Left
+  sort_series_type: sum
+  sort_series_ascending: false
+  color_scheme: googleCategory20c
+  time_shift_color: true
+  show_value: false
+  stack: Stack
+  only_total: true
+  percentage_threshold: 0
+  minorTicks: false
+  zoomable: false
+  show_legend: true
+  legendType: scroll
+  legendOrientation: top
+  legendMargin: ''
+  x_axis_time_format: smart_date
+  xAxisLabelRotation: 90
+  xAxisLabelInterval: 0
+  y_axis_format: SMART_NUMBER
+  logAxis: false
+  minorSplitLine: false
+  truncateYAxis: false
+  y_axis_bounds:
+  -
+  -
+  truncateXAxis: false
+  rich_tooltip: true
+  showTooltipTotal: true
+  showTooltipPercentage: true
+  tooltipSortByMetric: false
+  extra_form_data: {}
+  dashboards:
+  - 11
+  granularity_sqla: month_date
+  xAxisForceCategorical: true
+  x_axis_sort: name
+query_context:
+cache_timeout:
+uuid: 1af03182-cbed-50fd-8ffc-91d851134bc2
+version: 1.0.0
+dataset_uuid: c77d5995-4462-5d55-86be-544e243c0e67

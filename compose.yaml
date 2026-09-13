@@ -21,6 +21,7 @@ services:
         SUPERSET_BASE: ${CSIM_SUPERSET_IMAGE:-apache/superset:6.1.0@sha256:16b50bbef6648912a79e3293d418fefa743ce555d36c5af6b85d859119ed7f88}
         SUPERSET_REF: ${CSIM_SUPERSET_REF:-c83fb2bb1dcfac41ac51bcebd82471f4a7180d18}
         CSIM_PATCH: ${CSIM_PATCH:-superset-6.1.0-csim-period.patch}
+        CSIM_MONTH_PATCH: ${CSIM_MONTH_PATCH:-superset-6.1.0-month-controls.patch}
         NODE_IMAGE: ${CSIM_NODE_IMAGE:-node:22.22.0-bookworm-slim}
     image: csim-superset:${CSIM_BUILD_TAG:-6.1.0}
     restart: unless-stopped

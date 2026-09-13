@@ -1,5 +1,5 @@
 dashboard.csim.uwdigi.org {
-    redir / /superset/dashboard/csim-individual-corrected/ 302
+    redir / /superset/dashboard/csim-individual-reconciled-months/ 302
     reverse_proxy csim-main-v2:8088 {
         transport http {
             keepalive 1s
@@ -21,4 +21,9 @@ design.csim.uwdigi.org {
     root * /srv/media/csim-design-v2
     header Cache-Control "no-cache"
     file_server
+}
+
+standard.csim.uwdigi.org {
+    redir / /superset/dashboard/csim-individual-standard-sortable/ 302
+    reverse_proxy csim-standard:8088
 }

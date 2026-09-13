@@ -1,0 +1,248 @@
+---
+table_name: Native month selectors — September examples — UTI Location - Ind
+main_dttm_col: month_date
+description:
+default_endpoint:
+offset: 0
+cache_timeout:
+catalog: csim_fixture
+schema: v1
+sql: "{% if columns == ['from_month'] or columns == ['through_month'] %}\nWITH reporting_extent
+  AS (\n{% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S')
+  %}\n{% set start_at = from_dttm if from_dttm is defined else applied_time.from_expr
+  %}\n{% set end_at = to_dttm if to_dttm is defined else applied_time.to_expr %}\nWITH
+  csim_source AS (\nWITH raw_data AS (\n    SELECT\n        hosp_name, location, month,
+  year\n    FROM \"v1\".\"UTI Individual Current\"\n    WHERE hosp_name IS NOT NULL\n
+  \     AND qi_asb_complete = 2\n      AND month IS NOT NULL\n      AND year IS NOT
+  NULL\n\n    UNION ALL\n\n    SELECT\n        hosp_name, location, month, year\n
+  \   FROM \"v1\".\"UTI Individual Historical\"\n    WHERE hosp_name IS NOT NULL\n
+  \     AND month IS NOT NULL\n      AND year IS NOT NULL\n),\n\nhospital_loc AS (\n
+  \   SELECT \n        i.hosp_name AS hosp_num,\n        LPAD(i.hosp_name::TEXT, 2,
+  '0') AS hosp_code,\n        TRIM(h.state) AS state,\n        CASE i.location\n            WHEN
+  1 THEN 'Ambulatory care clinic'\n            WHEN 2 THEN 'Emergency Department'\n
+  \           WHEN 3 THEN 'Inpatient'\n            WHEN 4 THEN 'Rehab or long-term
+  care'\n            WHEN 5 THEN 'Urgent or quick care'\n            WHEN 6 THEN 'Other'\n
+  \       END AS location_name,\n        i.location AS location_code,\n        TO_DATE(i.year::TEXT
+  || '-' || LPAD(i.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,\n        COUNT(*)
+  AS n_submissions\n    FROM raw_data i\n    LEFT JOIN \"v1\".\"CSiM Hospitals and
+  States\" h \n        ON i.hosp_name = h.hosp_code\n    WHERE h.hosp_code IS NOT
+  NULL\n    GROUP BY i.hosp_name, TRIM(h.state), i.location, i.month, i.year\n),\n\n--
+  All locations combined per hospital per month\nhospital_loc_allloc AS (\n    SELECT
+  \n        i.hosp_name AS hosp_num,\n        LPAD(i.hosp_name::TEXT, 2, '0') AS hosp_code,\n
+  \       TRIM(h.state) AS state,\n        'All locations' AS location_name,\n        0
+  AS location_code,\n        TO_DATE(i.year::TEXT || '-' || LPAD(i.month::TEXT, 2,
+  '0') || '-01', 'YYYY-MM-DD') AS month_date,\n        COUNT(*) AS n_submissions\n
+  \   FROM raw_data i\n    LEFT JOIN \"v1\".\"CSiM Hospitals and States\" h \n        ON
+  i.hosp_name = h.hosp_code\n    WHERE h.hosp_code IS NOT NULL\n    GROUP BY i.hosp_name,
+  TRIM(h.state), i.month, i.year\n),\n\ncombined AS (\n    SELECT * FROM hospital_loc\n
+  \   UNION ALL\n    SELECT * FROM hospital_loc_allloc\n),\n\nstate_loc AS (\n    SELECT
+  \n        NULL::BIGINT AS hosp_num,\n        state AS hosp_code,\n        state,\n
+  \       location_name,\n        location_code,\n        month_date,\n        SUM(n_submissions)
+  AS n_submissions\n    FROM combined\n    GROUP BY state, location_name, location_code,
+  month_date\n),\n\ncohort_loc AS (\n    SELECT \n        NULL::BIGINT AS hosp_num,\n
+  \       'Cohort' AS hosp_code,\n        'ALL' AS state,\n        location_name,\n
+  \       location_code,\n        month_date,\n        SUM(n_submissions) AS n_submissions\n
+  \   FROM combined\n    GROUP BY location_name, location_code, month_date\n)\n\nSELECT
+  * FROM combined\nUNION ALL\nSELECT * FROM state_loc\nUNION ALL\nSELECT * FROM cohort_loc\nORDER
+  BY month_date, hosp_code, location_code\n), observed AS (\n  SELECT * FROM csim_source
+  WHERE TRUE\n  {% if start_at %} AND month_date >= TIMESTAMP '{{ start_at }}' {%
+  endif %}\n  {% if end_at %} AND month_date < TIMESTAMP '{{ end_at }}' {% endif %}\n),
+  bounds AS (\n  SELECT {% if start_at %} TIMESTAMP '{{ start_at }}' {% else %} first_month
+  {% endif %} AS start_at,\n         {% if end_at %} TIMESTAMP '{{ end_at }}' {% else
+  %} last_month + INTERVAL '1 month' {% endif %} AS end_at\n  FROM (SELECT MIN(month_date)
+  AS first_month, MAX(month_date) AS last_month FROM observed) observed_bounds\n),
+  calendar AS (\n  SELECT value::date AS month_date FROM bounds,\n    LATERAL generate_series(date_trunc('month',
+  start_at),\n      date_trunc('month', end_at - INTERVAL '1 microsecond'), INTERVAL
+  '1 month') AS value\n), dimensions AS (\n  SELECT DISTINCT hosp_num, hosp_code,
+  state, location_name, location_code\n  FROM observed\n)\nSELECT d.hosp_num, d.hosp_code,
+  d.state, d.location_name, d.location_code,\n       c.month_date, o.n_submissions\nFROM
+  dimensions d CROSS JOIN calendar c\nLEFT JOIN observed o ON o.hosp_code = d.hosp_code\n
+  \ AND o.location_code IS NOT DISTINCT FROM d.location_code\n  AND o.month_date =
+  c.month_date \nORDER BY c.month_date, d.hosp_code, d.location_code\n\n)\nSELECT
+  generate_series(date_trunc('year', MIN(month_date)),\n  date_trunc('year', MAX(month_date))
+  + INTERVAL '11 months',\n  INTERVAL '1 month')::date AS month_date\nFROM reporting_extent\n{%
+  else %}\n{% set from_values = filter_values('from_month', remove_filter=True) %}\n{%
+  set through_values = filter_values('through_month', remove_filter=True) %}\n{% set
+  from_dttm = (from_values[0] | to_datetime('%Y-%m')).strftime('%Y-%m-%d 00:00:00')
+  if from_values else none %}\n{% if through_values %}\n  {% set through = through_values[0]
+  | to_datetime('%Y-%m') %}\n  {% set to_dttm = through.replace(year=through.year
+  + (1 if through.month == 12 else 0), month=through.month % 12 + 1).strftime('%Y-%m-%d
+  00:00:00') %}\n{% else %}{% set to_dttm = none %}{% endif %}\n{% set applied_time
+  = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S') %}\n{% set start_at
+  = from_dttm if from_dttm is defined else applied_time.from_expr %}\n{% set end_at
+  = to_dttm if to_dttm is defined else applied_time.to_expr %}\nWITH csim_source AS
+  (\nWITH raw_data AS (\n    SELECT\n        hosp_name, location, month, year\n    FROM
+  \"v1\".\"UTI Individual Current\"\n    WHERE hosp_name IS NOT NULL\n      AND qi_asb_complete
+  = 2\n      AND month IS NOT NULL\n      AND year IS NOT NULL\n\n    UNION ALL\n\n
+  \   SELECT\n        hosp_name, location, month, year\n    FROM \"v1\".\"UTI Individual
+  Historical\"\n    WHERE hosp_name IS NOT NULL\n      AND month IS NOT NULL\n      AND
+  year IS NOT NULL\n),\n\nhospital_loc AS (\n    SELECT \n        i.hosp_name AS hosp_num,\n
+  \       LPAD(i.hosp_name::TEXT, 2, '0') AS hosp_code,\n        TRIM(h.state) AS
+  state,\n        CASE i.location\n            WHEN 1 THEN 'Ambulatory care clinic'\n
+  \           WHEN 2 THEN 'Emergency Department'\n            WHEN 3 THEN 'Inpatient'\n
+  \           WHEN 4 THEN 'Rehab or long-term care'\n            WHEN 5 THEN 'Urgent
+  or quick care'\n            WHEN 6 THEN 'Other'\n        END AS location_name,\n
+  \       i.location AS location_code,\n        TO_DATE(i.year::TEXT || '-' || LPAD(i.month::TEXT,
+  2, '0') || '-01', 'YYYY-MM-DD') AS month_date,\n        COUNT(*) AS n_submissions\n
+  \   FROM raw_data i\n    LEFT JOIN \"v1\".\"CSiM Hospitals and States\" h \n        ON
+  i.hosp_name = h.hosp_code\n    WHERE h.hosp_code IS NOT NULL\n    GROUP BY i.hosp_name,
+  TRIM(h.state), i.location, i.month, i.year\n),\n\n-- All locations combined per
+  hospital per month\nhospital_loc_allloc AS (\n    SELECT \n        i.hosp_name AS
+  hosp_num,\n        LPAD(i.hosp_name::TEXT, 2, '0') AS hosp_code,\n        TRIM(h.state)
+  AS state,\n        'All locations' AS location_name,\n        0 AS location_code,\n
+  \       TO_DATE(i.year::TEXT || '-' || LPAD(i.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD')
+  AS month_date,\n        COUNT(*) AS n_submissions\n    FROM raw_data i\n    LEFT
+  JOIN \"v1\".\"CSiM Hospitals and States\" h \n        ON i.hosp_name = h.hosp_code\n
+  \   WHERE h.hosp_code IS NOT NULL\n    GROUP BY i.hosp_name, TRIM(h.state), i.month,
+  i.year\n),\n\ncombined AS (\n    SELECT * FROM hospital_loc\n    UNION ALL\n    SELECT
+  * FROM hospital_loc_allloc\n),\n\nstate_loc AS (\n    SELECT \n        NULL::BIGINT
+  AS hosp_num,\n        state AS hosp_code,\n        state,\n        location_name,\n
+  \       location_code,\n        month_date,\n        SUM(n_submissions) AS n_submissions\n
+  \   FROM combined\n    GROUP BY state, location_name, location_code, month_date\n),\n\ncohort_loc
+  AS (\n    SELECT \n        NULL::BIGINT AS hosp_num,\n        'Cohort' AS hosp_code,\n
+  \       'ALL' AS state,\n        location_name,\n        location_code,\n        month_date,\n
+  \       SUM(n_submissions) AS n_submissions\n    FROM combined\n    GROUP BY location_name,
+  location_code, month_date\n)\n\nSELECT * FROM combined\nUNION ALL\nSELECT * FROM
+  state_loc\nUNION ALL\nSELECT * FROM cohort_loc\nORDER BY month_date, hosp_code,
+  location_code\n), observed AS (\n  SELECT * FROM csim_source WHERE TRUE\n  {% if
+  start_at %} AND month_date >= TIMESTAMP '{{ start_at }}' {% endif %}\n  {% if end_at
+  %} AND month_date < TIMESTAMP '{{ end_at }}' {% endif %}\n), bounds AS (\n  SELECT
+  {% if start_at %} TIMESTAMP '{{ start_at }}' {% else %} first_month {% endif %}
+  AS start_at,\n         {% if end_at %} TIMESTAMP '{{ end_at }}' {% else %} last_month
+  + INTERVAL '1 month' {% endif %} AS end_at\n  FROM (SELECT MIN(month_date) AS first_month,
+  MAX(month_date) AS last_month FROM observed) observed_bounds\n), calendar AS (\n
+  \ SELECT value::date AS month_date FROM bounds,\n    LATERAL generate_series(date_trunc('month',
+  start_at),\n      date_trunc('month', end_at - INTERVAL '1 microsecond'), INTERVAL
+  '1 month') AS value\n), dimensions AS (\n  SELECT DISTINCT hosp_num, hosp_code,
+  state, location_name, location_code\n  FROM observed\n)\nSELECT d.hosp_num, d.hosp_code,
+  d.state, d.location_name, d.location_code,\n       c.month_date, o.n_submissions\nFROM
+  dimensions d CROSS JOIN calendar c\nLEFT JOIN observed o ON o.hosp_code = d.hosp_code\n
+  \ AND o.location_code IS NOT DISTINCT FROM d.location_code\n  AND o.month_date =
+  c.month_date \nORDER BY c.month_date, d.hosp_code, d.location_code\n\n{% endif %}\n"
+params:
+template_params:
+filter_select_enabled: true
+fetch_values_predicate:
+extra:
+normalize_columns: false
+always_filter_main_dttm: false
+folders:
+uuid: c17b5d9a-de47-592e-8b6c-28314da06a72
+metrics:
+- metric_name: count
+  verbose_name: COUNT(*)
+  metric_type: count
+  expression: COUNT(*)
+  description:
+  d3format:
+  currency:
+  extra:
+  warning_text:
+columns:
+- column_name: n_submissions
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: month_date
+  verbose_name:
+  is_dttm: true
+  is_active: true
+  type: DATE
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: location_code
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: hosp_num
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: location_name
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: hosp_code
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: state
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: period_label
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+  expression: 'to_char(month_date, ''{{ {''P1M'': ''YYYY-MM'', ''P3M'': ''YYYY "Q"Q'',
+    ''P1Y'': ''YYYY''}.get(time_grain, ''YYYY-MM'') }}'')'
+  description: Chronologically sortable reporting label; month_date remains the date
+    filter.
+- column_name: from_month
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+  expression: to_char(month_date, 'YYYY-MM')
+- column_name: through_month
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+  expression: to_char(month_date, 'YYYY-MM')
+version: 1.0.0
+database_uuid: 0f6083ba-0edf-5f47-82ca-e1ce89bd58f4

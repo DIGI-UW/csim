@@ -1,6 +1,7 @@
 ---
 slice_name: Abx duration (own hospital stacked) - Ind
-description:
+description: Choose Your hospital in Filters and controls. No hospital data is combined
+  while the selection is empty.
 certified_by:
 certification_details:
 viz_type: echarts_timeseries_bar
@@ -135,10 +136,16 @@ params:
     operatorId:
     sqlExpression: hosp_code ~ '^[0-9]+([.][0-9]+)?$'
     subject:
+  - expressionType: SQL
+    sqlExpression: "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~
+      '^[0-9]+([.][0-9]+)?$'"
+    clause: WHERE
+    isExtra: false
+    filterOptionName: filter_csim_selected_hospital
   order_desc: false
   row_limit: 1000
   truncate_metric: true
-  show_empty_columns: false
+  show_empty_columns: true
   comparison_type: values
   annotation_layers: []
   forecastEnabled: false
@@ -184,6 +191,7 @@ params:
   - 11
   granularity_sqla: month_date
   xAxisForceCategorical: false
+  csim_hospital_selector: Your hospital
 query_context: '{"datasource":{"id":40,"type":"table"},"force":false,"queries":[{"filters":[{"col":"month_date","op":"TEMPORAL_RANGE","val":"No
   filter"},{"col":"hosp_code","op":"NOT IN","val":["Cohort","MT","OR","WA"]}],"extras":{"time_grain_sqla":"P1D","having":"","where":""},"applied_time_extras":{},"columns":[{"timeGrain":"P1D","columnType":"BASE_AXIS","sqlExpression":"month_date","label":"month_date","expressionType":"SQL","isColumnReference":true}],"metrics":[{"aggregate":"SUM","column":{"advanced_data_type":null,"changed_on":"2026-03-17T18:08:24.135563","column_name":"dur_cat_1","created_on":"2026-03-17T18:08:24.018584","description":null,"expression":"","extra":null,"filterable":true,"groupby":true,"id":425,"is_active":true,"is_dttm":false,"python_date_format":null,"type":"DECIMAL","type_generic":0,"uuid":"90a2fcea-950e-4332-a919-f2d4f6caf159","verbose_name":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":true,"label":"<=3
   days","optionName":"metric_2fx4sysd7py_mwapt5qjyt","sqlExpression":null},{"aggregate":"SUM","column":{"advanced_data_type":null,"changed_on":"2026-03-17T18:08:24.135571","column_name":"dur_cat_2","created_on":"2026-03-17T18:08:24.018604","description":null,"expression":"","extra":null,"filterable":true,"groupby":true,"id":426,"is_active":true,"is_dttm":false,"python_date_format":null,"type":"DECIMAL","type_generic":0,"uuid":"69af81c4-a7e7-4fa2-9caf-ca5f7d91ac40","verbose_name":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":true,"label":">3

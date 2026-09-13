@@ -10,6 +10,13 @@ module ReconciledDashboard
   LATEST = '33866218-9d48-480a-94c9-75860633d428'
   NUMERIC = "hosp_code ~ '^[0-9]+([.][0-9]+)?$'"
   NAMED = "hosp_code !~ '^[0-9]+([.][0-9]+)?$'"
+  OWN_HOSPITAL_STACKED = [
+    'Top abx (own hospital stacked) - Ind',
+    'UC location (own hospital stacked) - Ind',
+    'Abx duration (own hospital stacked) - Ind'
+  ].freeze
+  HOSPITAL_PROMPT = '**Choose Your hospital in Filters and controls to display the hospital charts below.** ' \
+                    'Then choose Cohort/State for the comparison charts.'
   def self.read(path)
     YAML.safe_load(File.read(path))
   end
@@ -21,6 +28,43 @@ module ReconciledDashboard
     hex = Digest::SHA256.hexdigest("https://csim.uwdigi.org/#{namespace}/#{source}")[0,32]
     hex[12] = '5'; hex[16] = '8'
     [hex[0,8], hex[8,4], hex[12,4], hex[16,4], hex[20,12]].join('-')
+  end
+  def self.calendar_breakdown(sql, antibiotic: false)
+    source = sql.gsub("\r\n", "\n").strip.sub(/;\s*\z/, '')
+    series = antibiotic ? ', antibiotic_name' : ''
+    selected_series = antibiotic ? ', d.antibiotic_name' : ''
+    measure = antibiotic ? 'o.prescription_count, o.rnk' : 'o.n_submissions'
+    series_join = antibiotic ? 'AND o.antibiotic_name = d.antibiotic_name' : ''
+    <<~SQL
+      {% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S') %}
+      {% set start_at = from_dttm if from_dttm is defined else applied_time.from_expr %}
+      {% set end_at = to_dttm if to_dttm is defined else applied_time.to_expr %}
+      WITH csim_source AS (
+      #{source}
+      ), observed AS (
+        SELECT * FROM csim_source WHERE TRUE
+        {% if start_at %} AND month_date >= TIMESTAMP '{{ start_at }}' {% endif %}
+        {% if end_at %} AND month_date < TIMESTAMP '{{ end_at }}' {% endif %}
+      ), bounds AS (
+        SELECT {% if start_at %} TIMESTAMP '{{ start_at }}' {% else %} first_month {% endif %} AS start_at,
+               {% if end_at %} TIMESTAMP '{{ end_at }}' {% else %} last_month + INTERVAL '1 month' {% endif %} AS end_at
+        FROM (SELECT MIN(month_date) AS first_month, MAX(month_date) AS last_month FROM observed) observed_bounds
+      ), calendar AS (
+        SELECT value::date AS month_date FROM bounds,
+          LATERAL generate_series(date_trunc('month', start_at),
+            date_trunc('month', end_at - INTERVAL '1 microsecond'), INTERVAL '1 month') AS value
+      ), dimensions AS (
+        SELECT DISTINCT hosp_num, hosp_code, state, location_name, location_code#{series}
+        FROM observed
+      )
+      SELECT d.hosp_num, d.hosp_code, d.state, d.location_name, d.location_code,
+             c.month_date#{selected_series}, #{measure}
+      FROM dimensions d CROSS JOIN calendar c
+      LEFT JOIN observed o ON o.hosp_code = d.hosp_code
+        AND o.location_code IS NOT DISTINCT FROM d.location_code
+        AND o.month_date = c.month_date #{series_join}
+      ORDER BY c.month_date, d.hosp_code, d.location_code#{selected_series}
+    SQL
   end
   def self.build(profile, fixture: false)
     source = Dir[File.join(ROOT, 'sources/exports/test-current-20260911/unpacked/*')].fetch(0)
@@ -34,6 +78,21 @@ module ReconciledDashboard
     dashboard['dashboard_title'] = fixture ? 'CSiM September version — known test records' : 'CSiM Individual Data — September version'
     dashboard['slug'] = fixture ? 'csim-reconciled-examples' : 'csim-individual-reconciled'
     dashboard['description'] = 'Beth’s September test layout and explanations, with date and filter corrections. The established twenty-chart version remains available separately.'
+    dashboard['css'] = dashboard.fetch('css', '') + "\n/* The anchor follows the title text; allow room for two title lines below the fixed toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 140px; }\n"
+
+    # Keep the lower comparison controls familiar while making their initial
+    # state explicit. The chart queries below guard against an unset hospital.
+    %w[MARKDOWN-4LE_6MIsEUYEjgMUcvAyM MARKDOWN-WIofdf7GkSmIbs0pSuT-6].each do |id|
+      dashboard['position'].fetch(id).fetch('meta')['code'] = HOSPITAL_PROMPT
+      dashboard['position'].fetch(id).fetch('meta')['height'] = 12
+    end
+    # The long antibiotic-count title needs space between the legend and
+    # rotated monthly ticks. Keep both comparison panels the same height.
+    %w[CHART-explore-82-1 CHART-explore-93-1].each do |id|
+      dashboard['position'].fetch(id).fetch('meta')['height'] = 61
+    end
+    dashboard['position']['MARKDOWN-8qLF0rtVZnycDfi3XPowe']['meta']['code'] =
+      '*Manual upload note from the source dashboard:* March 30, 2026. This is separate from the latest reporting month shown beside it.'
 
     # Section links stay on this dashboard and do not restore a saved filter state.
     headers = dashboard['position'].values.select { |node| node.is_a?(Hash) && node['type'] == 'HEADER' && node['meta']['text'].match?(/^\d+[.]/) }.sort_by { |node| node['meta']['text'].split(' ').first.split('.').map(&:to_i) }
@@ -42,13 +101,21 @@ module ReconciledDashboard
       "- [#{text}](##{node.fetch('id')})"
     end
     dashboard['position']['MARKDOWN-kbpKudPZL01ntlPcgzEYI']['meta']['code'] = "### **Table of Contents**\n" + toc.join("\n")
-    dashboard['position']['MARKDOWN-WIofdf7GkSmIbs0pSuT-6']['meta']['height'] = 7
 
     test_charts = Dir[File.join(source, 'charts/*.yaml')].to_h { |path| item = read(path); [item.fetch('uuid'), [path, item]] }
     Dir[File.join(target, 'charts/*.yaml')].each do |path|
       chart = read(path)
       original = test_charts.fetch(chart.fetch('uuid')).last
+      # Native scrolling keeps long antibiotic legends and their All/Inv
+      # controls inside the panel at each supported dashboard width.
+      chart['params']['legendType'] = 'scroll' if chart['slice_name'].start_with?('Top abx ')
+      chart['params']['show_empty_columns'] = true if chart['params']['x_axis']=='month_date'
       chart['params']['y_axis_format'] = original['params']['y_axis_format'] if original['params']['y_axis_format'] == ',.0%'
+      if chart['slice_name'] == 'Inappropriate UTI diagnosis (latest month comparison) - Ind'
+        ['Cohort', 'Your Hospital', 'Your State'].each do |column|
+          chart['params'].fetch('column_config').fetch(column)['d3NumberFormat'] = ',.0%'
+        end
+      end
       if chart['slice_name'].include?('stacked')
         chart['params']['adhoc_filters'].each do |filter|
           next unless filter['subject']=='hosp_code' && ['IN','NOT IN'].include?(filter['operator'])
@@ -57,20 +124,65 @@ module ReconciledDashboard
                         'operator'=>nil, 'operatorId'=>nil, 'comparator'=>nil)
         end
       end
+      if OWN_HOSPITAL_STACKED.include?(chart['slice_name'])
+        chart['description'] = 'Choose Your hospital in Filters and controls. No hospital data is combined while the selection is empty.'
+        chart['params']['csim_hospital_selector'] = 'Your hospital'
+      end
+      if chart['slice_name'] == 'Volume of UC submissions (own hospital)'
+        chart['description'] = 'All-time total for the selected hospital. Choose Your hospital in Filters and controls.'
+        chart['params']['adhoc_filters'].reject! { |filter| filter['subject']=='hosp_code' }
+        chart['params']['adhoc_filters'] << {
+          'expressionType'=>'SQL', 'sqlExpression'=>NUMERIC, 'clause'=>'WHERE',
+          'subject'=>nil, 'operator'=>nil, 'operatorId'=>nil, 'comparator'=>nil,
+          'isExtra'=>false, 'isNew'=>false, 'datasourceWarning'=>false,
+          'filterOptionName'=>'filter_csim_numeric_hospital'
+        }
+        chart['params']['metric'] = {
+          'expressionType'=>'SQL',
+          'sqlExpression'=>'SUM(ucsub)',
+          'label'=>'All-time hospital submissions',
+          'hasCustomLabel'=>true
+        }
+        chart['params']['subtitle'] = 'Choose Your hospital above'
+        chart['params']['csim_hospital_selector'] = 'Your hospital'
+      end
+      if ['Inappropriate UTI diagnosis (latest month comparison) - Ind', 'Abx duration (latest comparison) - Ind'].include?(chart['slice_name'])
+        chart['params']['csim_hospital_selector'] = 'Hospital and state'
+      end
+      if chart['params']['csim_hospital_selector']
+        # Require one explicit hospital even when the chart is opened outside
+        # the dashboard. Keep the original measures and dataset SQL intact.
+        chart['params']['adhoc_filters'] << {
+          'expressionType'=>'SQL',
+          'sqlExpression'=>"{{ filter_values('hosp_code') | length }} = 1 AND #{NUMERIC}",
+          'clause'=>'WHERE', 'isExtra'=>false,
+          'filterOptionName'=>'filter_csim_selected_hospital'
+        }
+      end
       write(path, chart)
     end
     latest_path, latest = test_charts.fetch(LATEST)
     latest['query_context'] = nil
-    latest['description'] = 'Latest month with urine culture submissions for the selected hospital/state and collection location. Independent of Time Period, Time Unit and the lower comparison selectors.'
+    latest['slice_name'] = 'Latest reporting month'
+    dashboard['position'].each_value do |node|
+      next unless node['type']=='CHART'
+      meta = node['meta']
+      meta['sliceName'] = latest['slice_name'] if meta['chartId']==107
+      meta['sliceNameOverride'] = 'All-time UC submissions by your hospital' if meta['chartId']==106
+      meta['sliceNameOverride'] = 'All-time UC submissions by the cohort' if meta['chartId']==100
+    end
+    latest['description'] = 'Latest reporting month with urine culture submissions for the selected hospital/state and collection location. Independent of Time Period, Time Unit and the lower comparison selectors.'
     latest['params'].merge!(
       'metric' => {'expressionType'=>'SQL', 'sqlExpression'=>'MAX(CASE WHEN ucsub > 0 THEN month_date END)', 'label'=>'Latest reporting month', 'hasCustomLabel'=>true},
       'time_grain_sqla'=>'P1M', 'time_format'=>'%b %Y', 'force_timestamp_formatting'=>true,
-      'subtitle'=>'Latest month with submissions', 'header_font_size'=>0.7
+      'subtitle'=>'Latest reporting month with submissions', 'header_font_size'=>0.7
     )
     write(File.join(target, 'charts', File.basename(latest_path)), latest)
 
     chart_ids = dashboard['position'].values.map { |node| node['meta']['chartId'] if node.is_a?(Hash) && node['type']=='CHART' }.compact
     metadata = dashboard.fetch('metadata')
+    guidance = metadata['native_filter_configuration'].find { |filter| filter['id']=='NATIVE_FILTER_DIVIDER-6zEv6G16s53VZ725ZhoAw' }
+    guidance['description'] = 'Start with Cohort, or choose a hospital for the main charts and latest-month comparisons. For the lower hospital charts and all-time total, use Your hospital below.'
     metadata['chart_configuration'] = test['metadata']['chart_configuration']
     metadata['global_chart_configuration']['chartsInScope'] = chart_ids.sort
     test_filters = test['metadata']['native_filter_configuration'].to_h { |filter| [filter['id'], filter] }
@@ -82,6 +194,18 @@ module ReconciledDashboard
         filter['adhoc_filters'].first['sqlExpression'] = filter['name']=='Your hospital' ? NUMERIC : NAMED
         filter['time_range'] = 'No filter'
         filter['controlValues']['enableEmptyFilter'] = upstream['controlValues']['enableEmptyFilter']
+      end
+      if filter['name']=='Hospital and state' && !fixture
+        filter['description'] = 'Start with the cohort view, then choose an individual hospital to review its results.'
+        filter['defaultDataMask']['extraFormData']['filters'].first['val'] = ['Cohort']
+        filter['defaultDataMask']['filterState'].merge!('value'=>['Cohort'], 'label'=>'Cohort')
+      end
+      if filter['name']=='Your hospital' && !fixture
+        filter['description'] = 'Choose one hospital to display the hospital-only comparison charts and all-time submission total.'
+        # Superset treats enableEmptyFilter as required and disables the whole
+        # Apply button while empty. The chart query guard enforces selection.
+        filter['controlValues']['enableEmptyFilter'] = false
+        filter.delete('defaultDataMask')
       end
       if filter['name']=='Location of Urine Culture Collection'
         filter['controlValues']['enableEmptyFilter'] = upstream['controlValues']['enableEmptyFilter']
@@ -97,6 +221,17 @@ module ReconciledDashboard
       end
     end
     write(dashboard_path, dashboard)
+
+    # The two breakdown datasets need calendar rows too. Their original count
+    # and top-three definitions remain intact inside csim_source; absent values
+    # are NULL, never an invented zero.
+    Dir[File.join(target, 'datasets/**/*.yaml')].each do |path|
+      dataset = read(path)
+      if File.basename(path).start_with?('UTI_Top_Abx_', 'UTI_Location_')
+        dataset['sql'] = calendar_breakdown(dataset['sql'], antibiotic: File.basename(path).start_with?('UTI_Top_Abx_'))
+        write(path, dataset)
+      end
+    end
 
     # Chart and dataset identities are independent of all previously delivered versions.
     files = Dir[File.join(target, '**/*.yaml')].sort
@@ -126,5 +261,7 @@ module ReconciledDashboard
   end
 end
 
-ReconciledDashboard.build('reconciled')
-ReconciledDashboard.build('reconciled-examples', fixture: true)
+if $PROGRAM_NAME == __FILE__
+  ReconciledDashboard.build('reconciled')
+  ReconciledDashboard.build('reconciled-examples', fixture: true)
+end

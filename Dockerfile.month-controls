@@ -11,9 +11,10 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN npm ci
 COPY patches/${CSIM_PATCH} /tmp/csim-period.patch
 RUN git apply --check /tmp/csim-period.patch && git apply /tmp/csim-period.patch
-COPY patches/superset-snapshot-month-controls.patch /tmp/csim-month-controls.patch
+ARG CSIM_MONTH_PATCH=superset-6.1.0-month-controls.patch
+COPY patches/${CSIM_MONTH_PATCH} /tmp/csim-month-controls.patch
 RUN git apply --check /tmp/csim-month-controls.patch && git apply /tmp/csim-month-controls.patch
-RUN NODE_ENV=test npx jest --runInBand src/filters/components/Time/CsimMonthRange.test.tsx src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx
+RUN NODE_ENV=test npx jest --runInBand src/filters/components/Time/CsimMonthRange.test.tsx src/dashboard/components/nativeFilters/FilterBar/Vertical.test.tsx src/components/Chart/ChartRenderer.test.tsx
 RUN NODE_ENV=test npx jest --runInBand plugins/plugin-chart-echarts/test/utils/formatters.test.ts plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts
 RUN apt-get update && apt-get install -y --no-install-recommends zstd && rm -rf /var/lib/apt/lists/*
 RUN npm run build
