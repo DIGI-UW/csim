@@ -62,6 +62,7 @@ jobs:
         run: |
           ruby scripts/test_native_months.rb
           bash csim.sh standard native-months
+          docker exec csim-standard-superset-1 python /repro/scripts/test_native_month_queries.py
           cd e2e
           CSIM_NATIVE_MONTHS=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
             CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-months-supplied" \
@@ -69,7 +70,7 @@ jobs:
           CSIM_NATIVE_MONTHS=1 CSIM_DATA_PROFILE=edge-cases \
             CSIM_DASHBOARD_SLUG=csim-standard-month-selectors-examples \
             CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-months-known" \
-            npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|Opening afresh'
+            npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|Opening afresh|Native|11 Native'
       - name: Preserve evidence and explicit native gaps
         if: always()
         uses: actions/upload-artifact@v4

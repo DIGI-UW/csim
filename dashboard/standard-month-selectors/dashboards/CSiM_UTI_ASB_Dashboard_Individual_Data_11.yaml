@@ -1,7 +1,8 @@
 ---
 dashboard_title: CSiM Individual Data — September / native month selectors
-description: Official Superset with native From/Through month dropdowns. The saved
-  window is explicit, not a rolling default. Clearing an endpoint removes that bound.
+description: Official Superset with native From/Through month dropdowns. The opening
+  window follows the last 12 complete months. Choose named months for a fixed window.
+  Clearing an endpoint removes that bound.
 css: "/* Comparison table - cell text */\r\n.table td, .table th {\r\n  font-size:
   14px !important;\r\n}\r\n\r\n/* Filter panel labels */\r\n.ant-select-selection-item,\r\n.filter-title,\r\n[data-test=\"filter-title\"]
   {\r\n  font-size: 14px !important;\r\n}\r\n\r\n/* Text boxes / markdown components
@@ -428,6 +429,7 @@ position:
     type: DIVIDER
   GRID_ID:
     children:
+    - ROW-csim-native-period
     - ROW-5RI0Rt1SvKbXRf-OhEmkV
     - ROW-6p6C4N9oaGpvR7_YhLdkS
     - ROW-7Ofrh4DMN-RBbmcQ4V1f4
@@ -1061,6 +1063,30 @@ position:
     - ROOT_ID
     - GRID_ID
     type: ROW
+  ROW-csim-native-period:
+    id: ROW-csim-native-period
+    type: ROW
+    children:
+    - CHART-csim-native-period
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  CHART-csim-native-period:
+    id: CHART-csim-native-period
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-csim-native-period
+    meta:
+      chartId: 108
+      sliceName: Reporting period
+      uuid: 3d5f5431-f71d-5006-87f5-96bedbd8ed5b
+      width: 12
+      height: 16
 metadata:
   label_colors:
     '10': "#006E2D"
@@ -1650,6 +1676,7 @@ metadata:
     - 104
     - 106
     - 107
+    - 108
   color_scheme: ''
   refresh_frequency: 0
   expanded_slices: {}
@@ -1678,11 +1705,11 @@ metadata:
         - col: from_month
           op: IN
           val:
-          - 2025-09
+          - 12 months ago
       filterState:
-        label: 2025-09
+        label: 12 months ago
         value:
-        - 2025-09
+        - 12 months ago
     cascadeParentIds: []
     scope:
       excluded:
@@ -1692,7 +1719,8 @@ metadata:
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
-    description: Includes the whole selected month. Clear to remove this date boundary.
+    description: Includes the whole starting month. 12 months ago moves forward each
+      month. Clear for no start boundary.
     chartsInScope:
     - 73
     - 74
@@ -1712,6 +1740,7 @@ metadata:
     - 102
     - 103
     - 104
+    - 108
     tabsInScope: []
   - id: NATIVE_FILTER-csim-through_month
     controlValues:
@@ -1734,12 +1763,13 @@ metadata:
         - col: through_month
           op: IN
           val:
-          - 2026-08
+          - Last complete month
       filterState:
-        label: 2026-08
+        label: Last complete month
         value:
-        - 2026-08
-    cascadeParentIds: []
+        - Last complete month
+    cascadeParentIds:
+    - NATIVE_FILTER-csim-from_month
     scope:
       excluded:
       - 100
@@ -1748,7 +1778,8 @@ metadata:
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
-    description: Includes the whole selected month. Clear to remove this date boundary.
+    description: Includes the whole ending month. Last complete month moves forward
+      each month. Choices follow From month. Clear for no end boundary.
     chartsInScope:
     - 73
     - 74
@@ -1768,6 +1799,7 @@ metadata:
     - 102
     - 103
     - 104
+    - 108
     tabsInScope: []
   - id: NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_
     controlValues:
@@ -1813,6 +1845,7 @@ metadata:
     - 102
     - 103
     - 104
+    - 108
     tabsInScope: []
   - id: NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE
     controlValues:
@@ -1854,6 +1887,7 @@ metadata:
       - 95
       - 97
       - 106
+      - 108
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
@@ -1912,6 +1946,7 @@ metadata:
       - 81
       - 85
       - 94
+      - 108
     type: NATIVE_FILTER
     description: If you want to view the whole dashboard through a single location
       of UC submission, choose a specific location. Otherwise choose "All locations"
@@ -1977,6 +2012,7 @@ metadata:
       - 97
       - 99
       - 107
+      - 108
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
@@ -2058,6 +2094,7 @@ metadata:
       - 99
       - 106
       - 107
+      - 108
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER

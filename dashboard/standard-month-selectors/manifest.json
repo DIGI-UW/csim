@@ -1,7 +1,7 @@
 {
   "profile": "standard-month-selectors",
-  "charts": 21,
-  "datasets": 6,
+  "charts": 22,
+  "datasets": 7,
   "dateAxes": 11,
   "source": "test-current-20260911",
   "sourceSha256": "4121a72a9ec7976b4d0990258089fbb4b73a0f7dfb6cc9180108e9d69b3837fb",
@@ -12,5 +12,8 @@
   "nativeAxis": "sortable-period-label",
   "filterOrientation": "HORIZONTAL",
   "filters": 7,
+  "reportingCharts": 21,
+  "reportingDatasets": 6,
+  "controlSummaryCharts": 1,
   "controls": "native-month-selectors"
 }

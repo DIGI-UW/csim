@@ -72,6 +72,13 @@
     "try": "Select November through April, then narrow to February–March and change Month to Quarter and Year.",
     "expected": "Both endpoints are included. February has no observations, March is a valid zero, and the partial quarter and year each contain 10 submissions without January.",
     "videoIntro": "Ordinary Superset dropdowns select inclusive From and Through months. The separate Time Unit changes grouping; the dashboard uses year-first labels.",
-    "videoOutro": "Inclusive month filtering works without CSiM application patches. This option uses horizontal filters and fixed saved defaults; exact month and quarter wording remains different."
+    "videoOutro": "Inclusive month filtering works without CSiM application patches. The full dashboard offers rolling opening dates; this known-record example keeps fixed dates. Year-first labels and horizontal controls differ from the custom alternative."
+  },
+  "12": {
+    "label": "Recognize and correct a reversed month range",
+    "try": "Move From later than the selected Through month, apply, then correct Through.",
+    "expected": "The summary explains the reversed range. Correcting the ending month restores a valid range without reloading.",
+    "videoIntro": "The end-month menu follows the starting month. A previously selected end can still become too early when the start changes. The reporting-period summary explains what to correct.",
+    "videoOutro": "The native controls recover on the same page. The warning appears after Apply; preventing Apply itself remains a difference in the custom alternative."
   }
 }

@@ -7,40 +7,54 @@ offset: 0
 cache_timeout:
 catalog: csim_demo
 schema: v1
-sql: "{% if columns == ['from_month'] or columns == ['through_month'] %}\nWITH reporting_extent
-  AS (\n{% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S')
-  %}\n{% set start_at = from_dttm if from_dttm is defined else applied_time.from_expr
-  %}\n{% set end_at = to_dttm if to_dttm is defined else applied_time.to_expr %}\nWITH
-  csim_source AS (\nWITH raw_data AS (\n    SELECT\n        hosp_name, location, month,
-  year\n    FROM \"v1\".\"UTI Individual Current\"\n    WHERE hosp_name IS NOT NULL\n
-  \     AND qi_asb_complete = 2\n      AND month IS NOT NULL\n      AND year IS NOT
-  NULL\n\n    UNION ALL\n\n    SELECT\n        hosp_name, location, month, year\n
-  \   FROM \"v1\".\"UTI Individual Historical\"\n    WHERE hosp_name IS NOT NULL\n
-  \     AND month IS NOT NULL\n      AND year IS NOT NULL\n),\n\nhospital_loc AS (\n
-  \   SELECT \n        i.hosp_name AS hosp_num,\n        LPAD(i.hosp_name::TEXT, 2,
-  '0') AS hosp_code,\n        TRIM(h.state) AS state,\n        CASE i.location\n            WHEN
-  1 THEN 'Ambulatory care clinic'\n            WHEN 2 THEN 'Emergency Department'\n
-  \           WHEN 3 THEN 'Inpatient'\n            WHEN 4 THEN 'Rehab or long-term
-  care'\n            WHEN 5 THEN 'Urgent or quick care'\n            WHEN 6 THEN 'Other'\n
-  \       END AS location_name,\n        i.location AS location_code,\n        TO_DATE(i.year::TEXT
-  || '-' || LPAD(i.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,\n        COUNT(*)
+sql: "{% set from_values = filter_values('from_month', remove_filter=True) %}\n{%
+  set through_values = filter_values('through_month', remove_filter=True) %}\n{% set
+  last_month = get_time_filter(default='Last month', strftime='%Y-%m-%d', remove_filter=True)
+  %}\n{% set current_month = (last_month.to_expr | to_datetime('%Y-%m-%d')).replace(day=1)
+  %}\n{% set rolling_start = current_month.replace(year=current_month.year - 1).strftime('%Y-%m-%d
+  00:00:00') %}\n{% set rolling_end = current_month.strftime('%Y-%m-%d 00:00:00')
+  %}\n{% set month_cache_key = cache_key_wrapper(rolling_end) %}\n{% set native_from
+  = rolling_start if from_values and from_values[0] == '12 months ago' else (from_values[0]
+  | to_datetime('%Y-%m')).strftime('%Y-%m-%d 00:00:00') if from_values else none %}\n{%
+  if through_values and through_values[0] == 'Last complete month' %}\n  {% set native_to
+  = rolling_end %}\n{% elif through_values %}\n  {% set through = through_values[0]
+  | to_datetime('%Y-%m') %}\n  {% set native_to = through.replace(year=through.year
+  + (1 if through.month == 12 else 0), month=through.month % 12 + 1).strftime('%Y-%m-%d
+  00:00:00') %}\n{% else %}{% set native_to = none %}{% endif %}\n\n{% if columns
+  == ['from_month'] or columns == ['through_month'] %}\n{% set from_dttm = none %}{%
+  set to_dttm = none %}\nWITH reporting_extent AS (\n{% set applied_time = get_time_filter('month_date',
+  strftime='%Y-%m-%d %H:%M:%S') %}\n{% set start_at = from_dttm if from_dttm is defined
+  else applied_time.from_expr %}\n{% set end_at = to_dttm if to_dttm is defined else
+  applied_time.to_expr %}\nWITH csim_source AS (\nWITH raw_data AS (\n    SELECT\n
+  \       hosp_name, location, month, year\n    FROM \"v1\".\"UTI Individual Current\"\n
+  \   WHERE hosp_name IS NOT NULL\n      AND qi_asb_complete = 2\n      AND month
+  IS NOT NULL\n      AND year IS NOT NULL\n\n    UNION ALL\n\n    SELECT\n        hosp_name,
+  location, month, year\n    FROM \"v1\".\"UTI Individual Historical\"\n    WHERE
+  hosp_name IS NOT NULL\n      AND month IS NOT NULL\n      AND year IS NOT NULL\n),\n\nhospital_loc
+  AS (\n    SELECT \n        i.hosp_name AS hosp_num,\n        LPAD(i.hosp_name::TEXT,
+  2, '0') AS hosp_code,\n        TRIM(h.state) AS state,\n        CASE i.location\n
+  \           WHEN 1 THEN 'Ambulatory care clinic'\n            WHEN 2 THEN 'Emergency
+  Department'\n            WHEN 3 THEN 'Inpatient'\n            WHEN 4 THEN 'Rehab
+  or long-term care'\n            WHEN 5 THEN 'Urgent or quick care'\n            WHEN
+  6 THEN 'Other'\n        END AS location_name,\n        i.location AS location_code,\n
+  \       TO_DATE(i.year::TEXT || '-' || LPAD(i.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD')
+  AS month_date,\n        COUNT(*) AS n_submissions\n    FROM raw_data i\n    LEFT
+  JOIN \"v1\".\"CSiM Hospitals and States\" h \n        ON i.hosp_name = h.hosp_code\n
+  \   WHERE h.hosp_code IS NOT NULL\n    GROUP BY i.hosp_name, TRIM(h.state), i.location,
+  i.month, i.year\n),\n\n-- All locations combined per hospital per month\nhospital_loc_allloc
+  AS (\n    SELECT \n        i.hosp_name AS hosp_num,\n        LPAD(i.hosp_name::TEXT,
+  2, '0') AS hosp_code,\n        TRIM(h.state) AS state,\n        'All locations'
+  AS location_name,\n        0 AS location_code,\n        TO_DATE(i.year::TEXT ||
+  '-' || LPAD(i.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,\n        COUNT(*)
   AS n_submissions\n    FROM raw_data i\n    LEFT JOIN \"v1\".\"CSiM Hospitals and
   States\" h \n        ON i.hosp_name = h.hosp_code\n    WHERE h.hosp_code IS NOT
-  NULL\n    GROUP BY i.hosp_name, TRIM(h.state), i.location, i.month, i.year\n),\n\n--
-  All locations combined per hospital per month\nhospital_loc_allloc AS (\n    SELECT
-  \n        i.hosp_name AS hosp_num,\n        LPAD(i.hosp_name::TEXT, 2, '0') AS hosp_code,\n
-  \       TRIM(h.state) AS state,\n        'All locations' AS location_name,\n        0
-  AS location_code,\n        TO_DATE(i.year::TEXT || '-' || LPAD(i.month::TEXT, 2,
-  '0') || '-01', 'YYYY-MM-DD') AS month_date,\n        COUNT(*) AS n_submissions\n
-  \   FROM raw_data i\n    LEFT JOIN \"v1\".\"CSiM Hospitals and States\" h \n        ON
-  i.hosp_name = h.hosp_code\n    WHERE h.hosp_code IS NOT NULL\n    GROUP BY i.hosp_name,
-  TRIM(h.state), i.month, i.year\n),\n\ncombined AS (\n    SELECT * FROM hospital_loc\n
-  \   UNION ALL\n    SELECT * FROM hospital_loc_allloc\n),\n\nstate_loc AS (\n    SELECT
-  \n        NULL::BIGINT AS hosp_num,\n        state AS hosp_code,\n        state,\n
-  \       location_name,\n        location_code,\n        month_date,\n        SUM(n_submissions)
-  AS n_submissions\n    FROM combined\n    GROUP BY state, location_name, location_code,
-  month_date\n),\n\ncohort_loc AS (\n    SELECT \n        NULL::BIGINT AS hosp_num,\n
-  \       'Cohort' AS hosp_code,\n        'ALL' AS state,\n        location_name,\n
+  NULL\n    GROUP BY i.hosp_name, TRIM(h.state), i.month, i.year\n),\n\ncombined AS
+  (\n    SELECT * FROM hospital_loc\n    UNION ALL\n    SELECT * FROM hospital_loc_allloc\n),\n\nstate_loc
+  AS (\n    SELECT \n        NULL::BIGINT AS hosp_num,\n        state AS hosp_code,\n
+  \       state,\n        location_name,\n        location_code,\n        month_date,\n
+  \       SUM(n_submissions) AS n_submissions\n    FROM combined\n    GROUP BY state,
+  location_name, location_code, month_date\n),\n\ncohort_loc AS (\n    SELECT \n        NULL::BIGINT
+  AS hosp_num,\n        'Cohort' AS hosp_code,\n        'ALL' AS state,\n        location_name,\n
   \       location_code,\n        month_date,\n        SUM(n_submissions) AS n_submissions\n
   \   FROM combined\n    GROUP BY location_name, location_code, month_date\n)\n\nSELECT
   * FROM combined\nUNION ALL\nSELECT * FROM state_loc\nUNION ALL\nSELECT * FROM cohort_loc\nORDER
@@ -58,60 +72,59 @@ sql: "{% if columns == ['from_month'] or columns == ['through_month'] %}\nWITH r
   d.state, d.location_name, d.location_code,\n       c.month_date, o.n_submissions\nFROM
   dimensions d CROSS JOIN calendar c\nLEFT JOIN observed o ON o.hosp_code = d.hosp_code\n
   \ AND o.location_code IS NOT DISTINCT FROM d.location_code\n  AND o.month_date =
-  c.month_date \nORDER BY c.month_date, d.hosp_code, d.location_code\n\n)\nSELECT
-  generate_series(date_trunc('year', MIN(month_date)),\n  date_trunc('year', MAX(month_date))
-  + INTERVAL '11 months',\n  INTERVAL '1 month')::date AS month_date\nFROM reporting_extent\n{%
-  else %}\n{% set from_values = filter_values('from_month', remove_filter=True) %}\n{%
-  set through_values = filter_values('through_month', remove_filter=True) %}\n{% set
-  from_dttm = (from_values[0] | to_datetime('%Y-%m')).strftime('%Y-%m-%d 00:00:00')
-  if from_values else none %}\n{% if through_values %}\n  {% set through = through_values[0]
-  | to_datetime('%Y-%m') %}\n  {% set to_dttm = through.replace(year=through.year
-  + (1 if through.month == 12 else 0), month=through.month % 12 + 1).strftime('%Y-%m-%d
-  00:00:00') %}\n{% else %}{% set to_dttm = none %}{% endif %}\n{% set applied_time
-  = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S') %}\n{% set start_at
-  = from_dttm if from_dttm is defined else applied_time.from_expr %}\n{% set end_at
-  = to_dttm if to_dttm is defined else applied_time.to_expr %}\nWITH csim_source AS
-  (\nWITH raw_data AS (\n    SELECT\n        hosp_name, location, month, year\n    FROM
-  \"v1\".\"UTI Individual Current\"\n    WHERE hosp_name IS NOT NULL\n      AND qi_asb_complete
-  = 2\n      AND month IS NOT NULL\n      AND year IS NOT NULL\n\n    UNION ALL\n\n
-  \   SELECT\n        hosp_name, location, month, year\n    FROM \"v1\".\"UTI Individual
-  Historical\"\n    WHERE hosp_name IS NOT NULL\n      AND month IS NOT NULL\n      AND
-  year IS NOT NULL\n),\n\nhospital_loc AS (\n    SELECT \n        i.hosp_name AS hosp_num,\n
-  \       LPAD(i.hosp_name::TEXT, 2, '0') AS hosp_code,\n        TRIM(h.state) AS
-  state,\n        CASE i.location\n            WHEN 1 THEN 'Ambulatory care clinic'\n
-  \           WHEN 2 THEN 'Emergency Department'\n            WHEN 3 THEN 'Inpatient'\n
-  \           WHEN 4 THEN 'Rehab or long-term care'\n            WHEN 5 THEN 'Urgent
-  or quick care'\n            WHEN 6 THEN 'Other'\n        END AS location_name,\n
-  \       i.location AS location_code,\n        TO_DATE(i.year::TEXT || '-' || LPAD(i.month::TEXT,
-  2, '0') || '-01', 'YYYY-MM-DD') AS month_date,\n        COUNT(*) AS n_submissions\n
-  \   FROM raw_data i\n    LEFT JOIN \"v1\".\"CSiM Hospitals and States\" h \n        ON
-  i.hosp_name = h.hosp_code\n    WHERE h.hosp_code IS NOT NULL\n    GROUP BY i.hosp_name,
-  TRIM(h.state), i.location, i.month, i.year\n),\n\n-- All locations combined per
-  hospital per month\nhospital_loc_allloc AS (\n    SELECT \n        i.hosp_name AS
-  hosp_num,\n        LPAD(i.hosp_name::TEXT, 2, '0') AS hosp_code,\n        TRIM(h.state)
-  AS state,\n        'All locations' AS location_name,\n        0 AS location_code,\n
+  c.month_date \nORDER BY c.month_date, d.hosp_code, d.location_code\n\n), available_months
+  AS (\n  SELECT generate_series(\n    LEAST(date_trunc('year', MIN(month_date)),
+  TIMESTAMP '{{ rolling_start }}'),\n    GREATEST(date_trunc('year', MAX(month_date))
+  + INTERVAL '11 months', TIMESTAMP '{{ rolling_end }}'),\n    INTERVAL '1 month')::date
+  AS month_date\n  FROM reporting_extent\n)\nSELECT month_date FROM available_months\n{%
+  if columns == ['through_month'] and native_from %}\n  WHERE month_date >= TIMESTAMP
+  '{{ native_from }}'\n{% endif %}\nUNION ALL SELECT NULL::date AS month_date\n{%
+  if columns == ['through_month'] and native_from %}\n  WHERE TIMESTAMP '{{ rolling_end
+  }}' > TIMESTAMP '{{ native_from }}'\n{% endif %}\n{% else %}\n{% set from_dttm =
+  native_from %}{% set to_dttm = native_to %}\n{% set applied_time = get_time_filter('month_date',
+  strftime='%Y-%m-%d %H:%M:%S') %}\n{% set start_at = from_dttm if from_dttm is defined
+  else applied_time.from_expr %}\n{% set end_at = to_dttm if to_dttm is defined else
+  applied_time.to_expr %}\nWITH csim_source AS (\nWITH raw_data AS (\n    SELECT\n
+  \       hosp_name, location, month, year\n    FROM \"v1\".\"UTI Individual Current\"\n
+  \   WHERE hosp_name IS NOT NULL\n      AND qi_asb_complete = 2\n      AND month
+  IS NOT NULL\n      AND year IS NOT NULL\n\n    UNION ALL\n\n    SELECT\n        hosp_name,
+  location, month, year\n    FROM \"v1\".\"UTI Individual Historical\"\n    WHERE
+  hosp_name IS NOT NULL\n      AND month IS NOT NULL\n      AND year IS NOT NULL\n),\n\nhospital_loc
+  AS (\n    SELECT \n        i.hosp_name AS hosp_num,\n        LPAD(i.hosp_name::TEXT,
+  2, '0') AS hosp_code,\n        TRIM(h.state) AS state,\n        CASE i.location\n
+  \           WHEN 1 THEN 'Ambulatory care clinic'\n            WHEN 2 THEN 'Emergency
+  Department'\n            WHEN 3 THEN 'Inpatient'\n            WHEN 4 THEN 'Rehab
+  or long-term care'\n            WHEN 5 THEN 'Urgent or quick care'\n            WHEN
+  6 THEN 'Other'\n        END AS location_name,\n        i.location AS location_code,\n
   \       TO_DATE(i.year::TEXT || '-' || LPAD(i.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD')
   AS month_date,\n        COUNT(*) AS n_submissions\n    FROM raw_data i\n    LEFT
   JOIN \"v1\".\"CSiM Hospitals and States\" h \n        ON i.hosp_name = h.hosp_code\n
-  \   WHERE h.hosp_code IS NOT NULL\n    GROUP BY i.hosp_name, TRIM(h.state), i.month,
-  i.year\n),\n\ncombined AS (\n    SELECT * FROM hospital_loc\n    UNION ALL\n    SELECT
-  * FROM hospital_loc_allloc\n),\n\nstate_loc AS (\n    SELECT \n        NULL::BIGINT
-  AS hosp_num,\n        state AS hosp_code,\n        state,\n        location_name,\n
+  \   WHERE h.hosp_code IS NOT NULL\n    GROUP BY i.hosp_name, TRIM(h.state), i.location,
+  i.month, i.year\n),\n\n-- All locations combined per hospital per month\nhospital_loc_allloc
+  AS (\n    SELECT \n        i.hosp_name AS hosp_num,\n        LPAD(i.hosp_name::TEXT,
+  2, '0') AS hosp_code,\n        TRIM(h.state) AS state,\n        'All locations'
+  AS location_name,\n        0 AS location_code,\n        TO_DATE(i.year::TEXT ||
+  '-' || LPAD(i.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,\n        COUNT(*)
+  AS n_submissions\n    FROM raw_data i\n    LEFT JOIN \"v1\".\"CSiM Hospitals and
+  States\" h \n        ON i.hosp_name = h.hosp_code\n    WHERE h.hosp_code IS NOT
+  NULL\n    GROUP BY i.hosp_name, TRIM(h.state), i.month, i.year\n),\n\ncombined AS
+  (\n    SELECT * FROM hospital_loc\n    UNION ALL\n    SELECT * FROM hospital_loc_allloc\n),\n\nstate_loc
+  AS (\n    SELECT \n        NULL::BIGINT AS hosp_num,\n        state AS hosp_code,\n
+  \       state,\n        location_name,\n        location_code,\n        month_date,\n
+  \       SUM(n_submissions) AS n_submissions\n    FROM combined\n    GROUP BY state,
+  location_name, location_code, month_date\n),\n\ncohort_loc AS (\n    SELECT \n        NULL::BIGINT
+  AS hosp_num,\n        'Cohort' AS hosp_code,\n        'ALL' AS state,\n        location_name,\n
   \       location_code,\n        month_date,\n        SUM(n_submissions) AS n_submissions\n
-  \   FROM combined\n    GROUP BY state, location_name, location_code, month_date\n),\n\ncohort_loc
-  AS (\n    SELECT \n        NULL::BIGINT AS hosp_num,\n        'Cohort' AS hosp_code,\n
-  \       'ALL' AS state,\n        location_name,\n        location_code,\n        month_date,\n
-  \       SUM(n_submissions) AS n_submissions\n    FROM combined\n    GROUP BY location_name,
-  location_code, month_date\n)\n\nSELECT * FROM combined\nUNION ALL\nSELECT * FROM
-  state_loc\nUNION ALL\nSELECT * FROM cohort_loc\nORDER BY month_date, hosp_code,
-  location_code\n), observed AS (\n  SELECT * FROM csim_source WHERE TRUE\n  {% if
-  start_at %} AND month_date >= TIMESTAMP '{{ start_at }}' {% endif %}\n  {% if end_at
-  %} AND month_date < TIMESTAMP '{{ end_at }}' {% endif %}\n), bounds AS (\n  SELECT
-  {% if start_at %} TIMESTAMP '{{ start_at }}' {% else %} first_month {% endif %}
-  AS start_at,\n         {% if end_at %} TIMESTAMP '{{ end_at }}' {% else %} last_month
-  + INTERVAL '1 month' {% endif %} AS end_at\n  FROM (SELECT MIN(month_date) AS first_month,
-  MAX(month_date) AS last_month FROM observed) observed_bounds\n), calendar AS (\n
-  \ SELECT value::date AS month_date FROM bounds,\n    LATERAL generate_series(date_trunc('month',
+  \   FROM combined\n    GROUP BY location_name, location_code, month_date\n)\n\nSELECT
+  * FROM combined\nUNION ALL\nSELECT * FROM state_loc\nUNION ALL\nSELECT * FROM cohort_loc\nORDER
+  BY month_date, hosp_code, location_code\n), observed AS (\n  SELECT * FROM csim_source
+  WHERE TRUE\n  {% if start_at %} AND month_date >= TIMESTAMP '{{ start_at }}' {%
+  endif %}\n  {% if end_at %} AND month_date < TIMESTAMP '{{ end_at }}' {% endif %}\n),
+  bounds AS (\n  SELECT {% if start_at %} TIMESTAMP '{{ start_at }}' {% else %} first_month
+  {% endif %} AS start_at,\n         {% if end_at %} TIMESTAMP '{{ end_at }}' {% else
+  %} last_month + INTERVAL '1 month' {% endif %} AS end_at\n  FROM (SELECT MIN(month_date)
+  AS first_month, MAX(month_date) AS last_month FROM observed) observed_bounds\n),
+  calendar AS (\n  SELECT value::date AS month_date FROM bounds,\n    LATERAL generate_series(date_trunc('month',
   start_at),\n      date_trunc('month', end_at - INTERVAL '1 microsecond'), INTERVAL
   '1 month') AS value\n), dimensions AS (\n  SELECT DISTINCT hosp_num, hosp_code,
   state, location_name, location_code\n  FROM observed\n)\nSELECT d.hosp_num, d.hosp_code,
@@ -237,12 +250,14 @@ columns:
   type: VARCHAR
   groupby: true
   filterable: true
-  expression: to_char(month_date, 'YYYY-MM')
+  expression: CASE WHEN month_date IS NULL THEN '12 months ago' ELSE to_char(month_date,
+    'YYYY-MM') END
 - column_name: through_month
   is_dttm: false
   type: VARCHAR
   groupby: true
   filterable: true
-  expression: to_char(month_date, 'YYYY-MM')
+  expression: CASE WHEN month_date IS NULL THEN 'Last complete month' ELSE to_char(month_date,
+    'YYYY-MM') END
 version: 1.0.0
 database_uuid: 21edc228-aaaf-4fbf-8c28-b47844ae09e2

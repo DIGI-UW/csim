@@ -8,7 +8,23 @@ cache_timeout:
 catalog: csim_fixture
 schema: v1
 sql: |
+  {% set from_values = filter_values('from_month', remove_filter=True) %}
+  {% set through_values = filter_values('through_month', remove_filter=True) %}
+  {% set last_month = get_time_filter(default='Last month', strftime='%Y-%m-%d', remove_filter=True) %}
+  {% set current_month = (last_month.to_expr | to_datetime('%Y-%m-%d')).replace(day=1) %}
+  {% set rolling_start = current_month.replace(year=current_month.year - 1).strftime('%Y-%m-%d 00:00:00') %}
+  {% set rolling_end = current_month.strftime('%Y-%m-%d 00:00:00') %}
+  {% set month_cache_key = cache_key_wrapper(rolling_end) %}
+  {% set native_from = rolling_start if from_values and from_values[0] == '12 months ago' else (from_values[0] | to_datetime('%Y-%m')).strftime('%Y-%m-%d 00:00:00') if from_values else none %}
+  {% if through_values and through_values[0] == 'Last complete month' %}
+    {% set native_to = rolling_end %}
+  {% elif through_values %}
+    {% set through = through_values[0] | to_datetime('%Y-%m') %}
+    {% set native_to = through.replace(year=through.year + (1 if through.month == 12 else 0), month=through.month % 12 + 1).strftime('%Y-%m-%d 00:00:00') %}
+  {% else %}{% set native_to = none %}{% endif %}
+
   {% if columns == ['from_month'] or columns == ['through_month'] %}
+  {% set from_dttm = none %}{% set to_dttm = none %}
   WITH reporting_extent AS (
   {% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S', remove_filter=True) %}
   {% if from_dttm is not defined %}{% set from_dttm = applied_time.from_expr %}{% endif %}
@@ -224,19 +240,23 @@ sql: |
     AND o.location_code = d.location_code AND o.month_date = c.month_date
   ORDER BY c.month_date, d.hosp_code, d.location_code
 
+  ), available_months AS (
+    SELECT generate_series(
+      LEAST(date_trunc('year', MIN(month_date)), TIMESTAMP '{{ rolling_start }}'),
+      GREATEST(date_trunc('year', MAX(month_date)) + INTERVAL '11 months', TIMESTAMP '{{ rolling_end }}'),
+      INTERVAL '1 month')::date AS month_date
+    FROM reporting_extent
   )
-  SELECT generate_series(date_trunc('year', MIN(month_date)),
-    date_trunc('year', MAX(month_date)) + INTERVAL '11 months',
-    INTERVAL '1 month')::date AS month_date
-  FROM reporting_extent
+  SELECT month_date FROM available_months
+  {% if columns == ['through_month'] and native_from %}
+    WHERE month_date >= TIMESTAMP '{{ native_from }}'
+  {% endif %}
+  UNION ALL SELECT NULL::date AS month_date
+  {% if columns == ['through_month'] and native_from %}
+    WHERE TIMESTAMP '{{ rolling_end }}' > TIMESTAMP '{{ native_from }}'
+  {% endif %}
   {% else %}
-  {% set from_values = filter_values('from_month', remove_filter=True) %}
-  {% set through_values = filter_values('through_month', remove_filter=True) %}
-  {% set from_dttm = (from_values[0] | to_datetime('%Y-%m')).strftime('%Y-%m-%d 00:00:00') if from_values else none %}
-  {% if through_values %}
-    {% set through = through_values[0] | to_datetime('%Y-%m') %}
-    {% set to_dttm = through.replace(year=through.year + (1 if through.month == 12 else 0), month=through.month % 12 + 1).strftime('%Y-%m-%d 00:00:00') %}
-  {% else %}{% set to_dttm = none %}{% endif %}
+  {% set from_dttm = native_from %}{% set to_dttm = native_to %}
   {% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S', remove_filter=True) %}
   {% if from_dttm is not defined %}{% set from_dttm = applied_time.from_expr %}{% endif %}
   {% if to_dttm is not defined %}{% set to_dttm = applied_time.to_expr %}{% endif %}
@@ -775,12 +795,14 @@ columns:
   type: VARCHAR
   groupby: true
   filterable: true
-  expression: to_char(month_date, 'YYYY-MM')
+  expression: CASE WHEN month_date IS NULL THEN '12 months ago' ELSE to_char(month_date,
+    'YYYY-MM') END
 - column_name: through_month
   is_dttm: false
   type: VARCHAR
   groupby: true
   filterable: true
-  expression: to_char(month_date, 'YYYY-MM')
+  expression: CASE WHEN month_date IS NULL THEN 'Last complete month' ELSE to_char(month_date,
+    'YYYY-MM') END
 version: 1.0.0
 database_uuid: 0f6083ba-0edf-5f47-82ca-e1ce89bd58f4

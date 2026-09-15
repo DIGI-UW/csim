@@ -5,7 +5,7 @@ export const profile=process.env.CSIM_PROFILE || 'corrected';
 export const root=path.resolve('..');
 export const fixture=process.env.CSIM_DATA_PROFILE==='edge-cases'||profile.includes('fixture');
 export const reconciled=process.env.CSIM_DASHBOARD_SLUG?.startsWith('csim-reconciled') || process.env.CSIM_DASHBOARD_SLUG?.startsWith('csim-individual-reconciled') || ['standard','development'].includes(profile);
-export const chartCount=reconciled?21:20;
+export const chartCount=process.env.CSIM_NATIVE_MONTHS==='1'?22:reconciled?21:20;
 export const recording=process.env.CSIM_RECORD==='1';
 const profiles=JSON.parse(fs.readFileSync(path.join(root,'data/profiles.json'),'utf8'));
 export const dataProfile=profiles[fixture?'edge-cases':'supplied-demo'];

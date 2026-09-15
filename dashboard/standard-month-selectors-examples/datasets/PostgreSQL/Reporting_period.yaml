@@ -1,0 +1,87 @@
+---
+table_name: Reporting period — standard-month-selectors-examples
+main_dttm_col: month_date
+description: Selected month boundaries and validation only; no reporting records or
+  measures.
+default_endpoint:
+offset: 0
+cache_timeout:
+catalog: csim_fixture
+schema: v1
+sql: |
+  {% set from_values = filter_values('from_month', remove_filter=True) %}
+  {% set through_values = filter_values('through_month', remove_filter=True) %}
+  {% set last_month = get_time_filter(default='Last month', strftime='%Y-%m-%d', remove_filter=True) %}
+  {% set current_month = (last_month.to_expr | to_datetime('%Y-%m-%d')).replace(day=1) %}
+  {% set rolling_start = current_month.replace(year=current_month.year - 1).strftime('%Y-%m-%d 00:00:00') %}
+  {% set rolling_end = current_month.strftime('%Y-%m-%d 00:00:00') %}
+  {% set month_cache_key = cache_key_wrapper(rolling_end) %}
+  {% set native_from = rolling_start if from_values and from_values[0] == '12 months ago' else (from_values[0] | to_datetime('%Y-%m')).strftime('%Y-%m-%d 00:00:00') if from_values else none %}
+  {% if through_values and through_values[0] == 'Last complete month' %}
+    {% set native_to = rolling_end %}
+  {% elif through_values %}
+    {% set through = through_values[0] | to_datetime('%Y-%m') %}
+    {% set native_to = through.replace(year=through.year + (1 if through.month == 12 else 0), month=through.month % 12 + 1).strftime('%Y-%m-%d 00:00:00') %}
+  {% else %}{% set native_to = none %}{% endif %}
+  WITH bounds AS (
+    SELECT {% if native_from %}TIMESTAMP '{{ native_from }}'{% else %}NULL::timestamp{% endif %} AS first_month,
+           {% if native_to %}TIMESTAMP '{{ native_to }}'{% else %}NULL::timestamp{% endif %} AS after_last_month
+  )
+  SELECT COALESCE(to_char(first_month, 'Mon YYYY'), 'No start limit') AS "From",
+         COALESCE(to_char(after_last_month - INTERVAL '1 month', 'Mon YYYY'), 'No end limit') AS "Through",
+         '{{ {'P1M':'Month', 'P3M':'Quarter', 'P1Y':'Year'}.get(time_grain, 'Month') }}'::text AS "Group by",
+         CASE WHEN first_month >= after_last_month THEN
+           'Choose a Through month on or after ' || to_char(first_month, 'Mon YYYY') || '. The selected range is reversed.'
+         WHEN '{{ time_grain }}' IN ('P3M', 'P1Y') THEN
+           'Only the selected months contribute to each ' || '{{ {'P3M':'quarter', 'P1Y':'year'}.get(time_grain, 'period') }}' || '. Changing Group by keeps these dates.'
+         ELSE 'Both endpoint months are included. All-time totals and latest-month comparisons keep their own coverage.' END AS "Status",
+         NULL::text AS from_month, NULL::text AS through_month, CURRENT_DATE AS month_date
+  FROM bounds
+params:
+template_params:
+filter_select_enabled: true
+fetch_values_predicate:
+extra:
+normalize_columns: false
+always_filter_main_dttm: false
+folders:
+uuid: 677451e8-25e7-5e28-8ea1-0b7e3062735e
+metrics: []
+columns:
+- column_name: From
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: Through
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: Status
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: from_month
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: through_month
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: Group by
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: month_date
+  is_dttm: true
+  type: DATE
+  groupby: true
+  filterable: true
+version: 1.0.0
+database_uuid: 0f6083ba-0edf-5f47-82ca-e1ce89bd58f4

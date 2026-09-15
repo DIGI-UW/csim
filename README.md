@@ -9,14 +9,16 @@ The selected baseline contains 20 charts and six datasets from the April 2026
 export. September test and production definitions are preserved alongside it.
 See [the source comparison](sources/README.md) and [implementation plan](PLAN.md).
 
-Public links: [main dashboard](https://dashboard.csim.uwdigi.org/), [snapshot](https://preview.csim.uwdigi.org/), and [overview and logins](https://design.csim.uwdigi.org/).
+Public links: [recommended official Superset dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/), [custom alternative](https://dashboard.csim.uwdigi.org/), [custom snapshot alternative](https://preview.csim.uwdigi.org/), and [overview and matching logins](https://design.csim.uwdigi.org/).
 
-The public applications currently contain CSiM source patches. The next release
-must deliver the client's full September month-range workflow and demonstrable
-options with and without custom Superset code. The evidence determines which
-option to recommend; neither requirement is secondary. See
-[current acceptance](RELEASE-ACCEPTANCE.md) for implemented, tested and deployed
-behavior.
+The main recommendation uses the official Superset 6.1.0 application, native
+horizontal month selectors and saved dataset queries. The 21 September reporting
+charts remain intact; one ordinary table chart summarizes the selected range.
+The opening dates follow the last twelve complete months. A reversed range shows
+an explanation after Apply and can be corrected on the same page. Year-first date
+wording remains a visible difference from the custom alternative.
+See [native month controls](NATIVE_CONTROLS.md) and
+[current acceptance](RELEASE-ACCEPTANCE.md) for tested and deployed behavior.
 
 The snapshot also supports a [second dashboard with inclusive month controls](MONTH_CONTROLS.md). It retains the full report and original snapshot dashboard.
 
@@ -76,8 +78,8 @@ in its ignored `.env.PROFILE` file. The login is `demo`.
 
 `standard` uses official Superset 6.1.0 on port 18194; `development` uses the pinned
 Apache development image on port 18195. Both add only the PostgreSQL driver and
-supported configuration. Each has its own metadata and demo database. These are
-local candidates; their existence does not establish a public release.
+supported configuration. Each has its own metadata and demo database. The official application is also deployed at `standard.csim.uwdigi.org`.
+The separate unmodified development comparison remains local.
 
 ```sh
 ruby scripts/prepare_dashboard.rb
