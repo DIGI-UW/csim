@@ -49,6 +49,20 @@ Exports preserve these SQL and chart definitions. Restore dependencies as well
 as the dashboard; the existing 6.1.0 import-reference repair helper still applies.
 It runs outside Superset and is a deployment workaround, not an importer fix.
 
+## Web-server capacity
+
+The dedicated public CSiM instance uses four Gunicorn web workers. One worker
+became saturated during concurrent dashboard requests while PostgreSQL queries
+remained short; the public runs captured loading delays and cancelled requests.
+Four workers passed the repeated date/filter checks. This uses Superset's normal
+`SERVER_WORKER_AMOUNT` setting, with no image or application-source change.
+
+`CSIM_WEB_WORKERS=4` is saved for new standard installations. On an existing
+installation, `CSIM_SERVER=1 bash csim.sh standard workers 4` recreates only the
+web application with the selected worker count, its existing image and volumes.
+It does not restore data, bootstrap metadata or import dashboard definitions.
+Keep the previous environment file and image identity when applying this change.
+
 ## Reproduce and verify
 
 With the separate standard demo and example databases already initialized:

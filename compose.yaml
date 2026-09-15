@@ -37,6 +37,7 @@ services:
       CSIM_PUBLIC_HTTPS: ${CSIM_PUBLIC_HTTPS:-0}
       CSIM_SNAPSHOT: ${CSIM_SNAPSHOT:-0}
       FLASK_APP: superset.app:create_app()
+      SERVER_WORKER_AMOUNT: ${CSIM_WEB_WORKERS:-1}
     volumes:
       - .:/repro:ro
       - metadata:/app/superset_home
