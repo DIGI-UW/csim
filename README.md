@@ -117,8 +117,9 @@ automatically by these commands.
 
 ### Native From / Through month comparison
 
-The local `standard-month-selectors` packages retain all 21 charts and six datasets
-on official Superset 6.1.0. Two native dropdowns supply inclusive month bounds to
+The `standard-month-selectors` packages retain all 21 reporting charts and six
+reporting datasets on official Superset 6.1.0. They add one native summary chart
+and its dataset, for 22 charts/seven datasets in the complete package. Two native dropdowns supply inclusive month bounds to
 the existing dataset queries, before aggregation. The option lists include whole
 calendar years covering the reporting data, including months without observations.
 No reporting tables or Superset application files are changed.
@@ -135,7 +136,8 @@ CSIM_PROFILE=standard CSIM_NATIVE_MONTHS=1 CSIM_DATA_PROFILE=edge-cases \
 
 This imports definitions into the already initialized instance; it does not reseed.
 The supplied-data dashboard is `/superset/dashboard/csim-individual-standard-month-selectors/`.
-Its saved window is September 2025–August 2026, rather than a rolling default.
+Its saved presets resolve to the last twelve complete months; named months fix
+the window. The reporting summary displays the actual dates and range guidance.
 The known-record version saves November 2025–April 2026. Clearing an endpoint removes
 that bound. The horizontal bar avoids the reproduced native vertical-sidebar reset
 defect. Year-first chart labels remain an explicit wording tradeoff. These packages

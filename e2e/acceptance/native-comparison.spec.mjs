@@ -58,4 +58,20 @@ test('Native comparison records all eleven axes and explicit remaining gaps',asy
   const report={application:'unmodified',profile,acceptance:cases.some(c=>c.issues.length)?'GAPS':'PASS',cases};
   fs.writeFileSync(info.outputPath('native-label-comparison.json'),JSON.stringify(report,null,2));
   await info.attach('native-label-comparison',{body:Buffer.from(JSON.stringify(report)),contentType:'application/json'});
+  if(process.env.CSIM_NATIVE_MONTHS==='1'){
+    // Enforce the official option's documented wording and geometry separately
+    // from the original month-name-first acceptance comparison above.
+    for(const item of cases){
+      const supported=item.expected.map(label=>{
+        if(item.grain==='Year')return label;
+        if(item.grain==='Quarter'){const [quarter,year]=label.split(' ');return `${year} ${quarter}`;}
+        const [month,year]=label.split(' ');
+        const number=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(month)+1;
+        return `${year}-${String(number).padStart(2,'0')}`;
+      });
+      expect(item.actual,`${item.chart}, ${item.grain}, ${item.width}px: every supported period label`).toEqual(supported);
+      expect(item.issues.filter(issue=>issue!=='Exact period wording or complete tick list differs'),
+        `${item.chart}, ${item.grain}, ${item.width}px: label geometry`).toEqual([]);
+    }
+  }
 });
