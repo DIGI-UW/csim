@@ -6,7 +6,7 @@ class NativeDateTest < Minitest::Test
     %w[standard-month-selectors standard-month-selectors-examples].each do |profile|
       root = File.join(ReconciledDashboard::ROOT, 'dashboard', profile)
       source = File.join(ReconciledDashboard::ROOT, 'dashboard', profile.end_with?('-examples') ? 'standard-sortable-examples' : 'standard-sortable')
-      assert_equal 22, Dir[File.join(root, 'charts/*.yaml')].length
+      assert_equal 23, Dir[File.join(root, 'charts/*.yaml')].length
       assert_equal 7, Dir[File.join(root, 'datasets/**/*.yaml')].length
       Dir[File.join(source, 'charts/*.yaml')].each do |path|
         old = ReconciledDashboard.read(path)
@@ -23,6 +23,18 @@ class NativeDateTest < Minitest::Test
       assert_equal 'VERTICAL', dashboard['metadata']['filter_bar_orientation']
       filters = dashboard['metadata']['native_filter_configuration']
       assert_equal 6, filters.length
+      download = ReconciledDashboard.read(File.join(root,'charts/Aggregate_ALL_DATA_Download.yaml'))
+      dataset = ReconciledDashboard.read(File.join(root,'datasets/PostgreSQL/UTI_Aggregate_ALL_DATA_40.yaml'))
+      assert_equal dataset['uuid'], download['dataset_uuid']
+      assert_equal 'raw', download['params']['query_mode']
+      assert_equal dataset['columns'].map { |c| c['column_name'] }.sort, download['params']['all_columns'].sort
+      assert_equal 'No filter', download['params']['time_range']
+      assert_empty download['params']['adhoc_filters']
+      assert_empty download['params']['metrics']
+      assert_empty download['params']['groupby']
+      assert_empty download['params']['dashboards']
+      assert_equal 100000, download['params']['row_limit']
+      refute dashboard['position'].values.any? { |node| node.dig('meta','uuid') == download['uuid'] if node.is_a?(Hash) }
       assert_equal ['Hospital and state', 'Location of Urine Culture Collection', 'Time Period', 'Time Unit', 'Your hospital', 'Cohort/State'], filters.map { |f| f['name'] }
       period = filters.find { |f| f['name']=='Time Period' }
       expected = profile.end_with?('-examples') ? '2025-11-01T00:00:00 : 2026-05-01T00:00:00' : '2025-09-01T00:00:00 : 2026-09-01T00:00:00'

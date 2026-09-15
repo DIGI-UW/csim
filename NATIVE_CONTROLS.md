@@ -44,3 +44,5 @@ not acceptance evidence for the new sidebar layout.
 
 The dedicated server keeps its four web workers and existing data. Normal asset
 updates import definitions only; they do not reseed databases or rebuild Superset.
+
+The dashboard also links to **Aggregate ALL DATA — Download**, a standalone raw-record Table chart. See [the download workflow](AGGREGATE_DOWNLOAD.md). It is packaged with the dashboard but is not one of the 22 panels and receives no dashboard filters.

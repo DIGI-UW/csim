@@ -16,5 +16,12 @@
   "reportingDatasets": 6,
   "controlSummaryCharts": 1,
   "controls": "native-specific-dates",
-  "defaultTimeRange": "2025-11-01T00:00:00 : 2026-05-01T00:00:00"
+  "defaultTimeRange": "2025-11-01T00:00:00 : 2026-05-01T00:00:00",
+  "standaloneCharts": [
+    {
+      "uuid": "b7c67297-f336-5a76-86f8-b82b8929d80d",
+      "sourceId": 109,
+      "name": "Aggregate ALL DATA — Download"
+    }
+  ]
 }

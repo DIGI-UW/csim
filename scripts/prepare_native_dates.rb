@@ -2,6 +2,7 @@
 # Keep existing dashboard identities and URLs while replacing month dropdowns
 # with Superset's built-in date editor. No Superset application changes.
 require_relative 'prepare_native_months'
+require_relative 'prepare_download'
 
 module NativeDateDashboard
   def self.build(fixture: false)
@@ -71,6 +72,7 @@ module NativeDateDashboard
     manifest = JSON.parse(File.read(manifest_path))
     manifest.merge!('filters'=>6, 'controls'=>'native-specific-dates', 'filterOrientation'=>'VERTICAL', 'defaultTimeRange'=>time_range)
     File.write(manifest_path, JSON.pretty_generate(manifest)+"\n")
+    AggregateDownload.add(target, profile)
   end
 end
 

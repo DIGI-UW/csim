@@ -7,7 +7,7 @@ enableRecording(test);
 test(`01 All ${chartCount} charts load or report legitimate empty results`,async({page},info)=>{
   const watch=await openDashboard(page,profile);
   await timePeriod(page,'2025-11-01','2026-05-01');
-  const links=page.locator('a[href*="slice_id="]');
+  const links=page.locator('[data-test=dashboard-component-chart-holder] a[href*="slice_id="]');
   const report=[];
   for(let i=0;i<chartCount;i++){
     const link=links.nth(i),title=await link.innerText();

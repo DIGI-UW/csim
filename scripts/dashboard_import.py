@@ -96,6 +96,24 @@ def import_dashboard(profile: str):
     return directory
 
 
+def linked_chart_definitions(directory):
+    manifest = directory / 'manifest.json'
+    return json.loads(manifest.read_text()).get('standaloneCharts', []) if manifest.exists() else []
+
+
+def resolve_chart_links(position, mapping):
+    # The source package uses its own chart ids. Resolve only explicit linked
+    # chart URLs, once, so replacement ids cannot cascade into other links.
+    import re
+    for node in position.values():
+        code = node.get('meta', {}).get('code') if isinstance(node, dict) else None
+        if isinstance(code, str):
+            node['meta']['code'] = re.sub(
+                r'/explore/\?slice_id=(\d+)(?=[)#&\s]|$)',
+                lambda match: '/explore/?slice_id=' + str(mapping.get(int(match[1]), int(match[1]))), code)
+    return position
+
+
 def repair_numeric_references(directory: Path):
     """Repair numeric references that Superset 6.1 leaves behind on import.
 
@@ -118,6 +136,7 @@ def repair_numeric_references(directory: Path):
     with app.app_context():
         from superset import db
         from superset.models.dashboard import Dashboard
+        from superset.models.slice import Slice
 
         dashboard = db.session.query(Dashboard).filter_by(uuid=definition['uuid']).one()
         actual_by_uuid = {str(chart.uuid): chart for chart in dashboard.slices}
@@ -152,6 +171,24 @@ def repair_numeric_references(directory: Path):
                 global_config['chartsInScope'] = destination_cache
                 repaired_caches += 1
         dashboard.json_metadata = json.dumps(metadata)
+        linked_map = {}
+        for linked in linked_chart_definitions(directory):
+            chart = db.session.query(Slice).filter_by(uuid=linked['uuid']).one()
+            if chart.dashboards:
+                raise ValueError('The download chart must remain outside dashboard filter scopes')
+            params = json.loads(chart.params)
+            params['slice_id'] = chart.id
+            params['dashboards'] = []
+            chart.params = json.dumps(params)
+            linked_map[linked['sourceId']] = chart.id
+        if linked_map:
+            # Use the package's unresolved markdown, not the previously saved
+            # destination, to keep updates independent of local identifier values.
+            position = json.loads(dashboard.position_json)
+            for key, node in definition['position'].items():
+                if isinstance(node, dict) and 'code' in node.get('meta', {}):
+                    position[key]['meta']['code'] = node['meta']['code']
+            dashboard.position_json = json.dumps(resolve_chart_links(position, linked_map))
 
         for chart in actual_by_uuid.values():
             params = json.loads(chart.params)
