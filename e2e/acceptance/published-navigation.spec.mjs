@@ -6,6 +6,9 @@ async function currentDashboard(page){
   await expect(page).toHaveURL(new RegExp(path));
   const period=page.getByRole('button',{name:'Time Period',exact:true});
   await expect(period).toBeVisible();
+  await expect(page.getByText('Loading filter values',{exact:true})).toHaveCount(0);
+  const summary=page.locator('[data-test=dashboard-component-chart-holder]').filter({has:page.getByRole('link',{name:'Reporting period',exact:true})});
+  await expect(summary).toContainText('Start included; end excluded.');
   const title=page.getByRole('textbox',{name:'Dashboard title',exact:true});
   const p=await period.boundingBox(),t=await title.boundingBox();
   expect(p.x+p.width).toBeLessThanOrEqual(t.x+20);
@@ -45,5 +48,7 @@ test('Public dashboard gallery contains only the current dashboard and known-rec
   expect((await dashboards.evaluateAll(links=>links.map(a=>a.getAttribute('href')))).sort()).toEqual([
     path,'/superset/dashboard/csim-standard-month-selectors-examples/'
   ].sort());
-  await page.screenshot({path:info.outputPath('current-dashboard-gallery.png')});
+  await expect(page.getByRole('status',{name:'Loading',exact:true})).toHaveCount(0);
+  await expect.poll(()=>page.locator('table').evaluate(el=>{for(let p=el;p;p=p.parentElement)if(Number(getComputedStyle(p).opacity)<1)return false;return true;})).toBe(true);
+  await page.screenshot({path:info.outputPath('current-dashboard-gallery.png'),animations:'disabled'});
 });
