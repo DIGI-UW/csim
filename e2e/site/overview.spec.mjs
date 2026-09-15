@@ -27,7 +27,9 @@ test('Readers can open the September dashboard and find each matching login',asy
   await expect(primary).toBeInViewport();
   const recommended=new URL(await primary.getAttribute('href'));
   expect(recommended.hostname).toBe('standard.csim.uwdigi.org');
-  expect(recommended.searchParams.get('next')).toBe('/superset/dashboard/csim-individual-standard-month-selectors/');
+  expect(recommended.pathname).toBe('/superset/dashboard/csim-individual-standard-month-selectors/');
+  expect(recommended.search).toBe('');
+  await expect(page.locator('#standard-instance a.instance-open')).toHaveAttribute('href',recommended.href);
   await page.locator('#start-here').getByRole('link',{name:'Login details',exact:true}).click();
   await expect(page.locator('#standard-instance a.instance-open')).toBeInViewport();
   for(const [id,host] of [['demo-instance','dashboard.csim.uwdigi.org'],['snapshot-instance','preview.csim.uwdigi.org']]){

@@ -6,7 +6,9 @@ test('The build comparison exposes matching links, logins and actual screenshot 
  await expect(page.getByRole('heading',{level:1})).toHaveText('Does CSiM need custom Superset?');
  for(const [id,name,host] of [['custom','main','dashboard.csim.uwdigi.org'],['official','standard','standard.csim.uwdigi.org']]){
   const card=page.locator('#'+id);const url=new URL(await card.locator('a.button').getAttribute('href'));
-  expect(url.hostname).toBe(host);expect(url.searchParams.get('next')).toBe(id==='custom'?'/superset/dashboard/csim-individual-reconciled-months/':'/superset/dashboard/csim-individual-standard-month-selectors/');
+  expect(url.hostname).toBe(host);
+  if(id==='custom')expect(url.searchParams.get('next')).toBe('/superset/dashboard/csim-individual-reconciled-months/');
+  else {expect(url.pathname).toBe('/superset/dashboard/csim-individual-standard-month-selectors/');expect(url.search).toBe('');}
   await expect(card.getByRole('link',{name:'Download definitions',exact:true})).toHaveAttribute('href',
     id==='custom'?'definitions/csim-individual-reconciled-months.zip':'definitions/csim-individual-standard-month-selectors.zip');
   const copy=card.getByRole('button',{name:`Copy ${name} password`});await copy.click();expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(`${name}-test`);

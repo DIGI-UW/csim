@@ -46,3 +46,20 @@ The dedicated server keeps its four web workers and existing data. Normal asset
 updates import definitions only; they do not reseed databases or rebuild Superset.
 
 The dashboard also links to **Aggregate ALL DATA — Download**, a standalone raw-record Table chart. See [the download workflow](AGGREGATE_DOWNLOAD.md). It is packaged with the dashboard but is not one of the 22 panels and receives no dashboard filters.
+
+## Current entry links and retired comparisons
+
+Link directly to the dashboard, including beside the login details. Superset's
+login page sends an already authenticated user to the site root instead of
+honoring `next`; the standard host root must therefore point at the same current
+dashboard. Direct dashboard links still request login when needed.
+
+The four earlier official comparison dashboards can be removed with
+`scripts/retire_standard_dashboards.py --apply` inside the standard container.
+It first saves a native dashboard export and a metadata backup, then verifies
+that the two current dashboards, all charts and all dataset definitions remain.
+Reporting records are untouched. Run without `--apply` for the inventory.
+Old comparison slugs redirect to the current main or known-record dashboard.
+Their old saved-filter keys are discarded because they belong to retired controls.
+Keep the old source packages for historical comparison; do not run the earlier
+`candidates` import on the public instance unless intentionally restoring them.
