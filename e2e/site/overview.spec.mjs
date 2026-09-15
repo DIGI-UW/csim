@@ -52,8 +52,11 @@ test('Version comparison does not pass custom installations off as standard Supe
   await expect(rows.nth(2)).toContainText('CSiM custom');
   await expect(rows.nth(2).locator('a')).toHaveCount(2);
   await expect(page.locator('#solution-labels')).toContainText('retain every monthly label');
-  await expect(page.locator('#solution-filters')).toContainText('expected hospital-only results returned without reloading');
-  await expect(page.locator('#solution-calculation')).toContainText('Accurate filtering does not depend on using the custom fields');
+  await expect(page.locator('#solution-filters .status')).toHaveText('Known gap in official Superset 6.1.0');
+  await expect(page.locator('#solution-filters')).toContainText('Moving the controls left does not repair that defect');
+  await expect(page.locator('#solution-calculation .status')).toContainText('No Superset code change needed');
+  await expect(page.locator('#solution-calculation')).toContainText('It opens in Custom with Specific Date/Time for both endpoints');
+  await expect(page.locator('#solution-calculation')).toContainText('the end is excluded');
   await expect(page.locator('#solution-time-menu')).toContainText('needs no CSiM code');
   await page.screenshot({path:test.info().outputPath('version-comparison.png')});
 });
