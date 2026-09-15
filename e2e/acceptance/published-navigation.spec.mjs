@@ -36,3 +36,14 @@ test('Signed-out overview entry preserves the intended dashboard through login',
     await page.screenshot({path:info.outputPath('login-to-current.png')});
   }finally{await context.close();}
 });
+test('Public dashboard gallery contains only the current dashboard and known-record example',async({page},info)=>{
+  test.skip(!overview,'Public cleanup is checked after deployment');
+  await page.goto(baseURL+path);
+  await page.getByRole('button',{name:'Dashboards',exact:true}).click();
+  const dashboards=page.locator('table a[href^="/superset/dashboard/"]');
+  await expect(dashboards).toHaveCount(2);
+  expect((await dashboards.evaluateAll(links=>links.map(a=>a.getAttribute('href')))).sort()).toEqual([
+    path,'/superset/dashboard/csim-standard-month-selectors-examples/'
+  ].sort());
+  await page.screenshot({path:info.outputPath('current-dashboard-gallery.png')});
+});

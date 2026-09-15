@@ -34,6 +34,8 @@ def main():
             stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
             backup=Path(db.engine.url.database).parent/'backups'/('retired-standard-'+stamp)
             backup.mkdir(parents=True,exist_ok=False)
+            # Release the inventory transaction before another web worker writes metadata.
+            db.session.remove()
             with sqlite3.connect(db.engine.url.database) as source,sqlite3.connect(backup/'metadata.db') as target:
                 source.backup(target)
             base,session=connection()
@@ -48,6 +50,7 @@ def main():
             (backup/'inventory.json').write_text(json.dumps(report,indent=2)+'\n')
             response=session.delete(base+'/api/v1/dashboard/',params={'q':json.dumps(ids)},timeout=60)
             response.raise_for_status()
+            assert response.json().get('message') == f'Deleted {len(ids)} dashboards'
             db.session.remove()
             after={d.slug:d for d in db.session.query(Dashboard).all()}
             assert not (RETIRED & after.keys())
