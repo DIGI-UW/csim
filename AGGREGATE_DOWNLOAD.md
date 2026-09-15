@@ -4,7 +4,8 @@ Open **Aggregate ALL DATA — Download** from the dashboard. It is a standalone
 Table chart using the existing UTI Aggregate ALL DATA virtual dataset. It is not
 another database table, and dashboard selections are not carried into it.
 
-After uploading Current, open this table, refresh its results, then download CSV.
+After uploading Current, open this table and click **Update chart** to refresh its results.
+Open **⋯ → Data Export Options → Export All Data → Export to .CSV**.
 No SQL Lab query is needed. Raw records means the rows produced by the aggregate
 dataset's saved SQL, including its existing cohort, state and hospital rows. The
 chart adds no new aggregation, date restriction, hospital restriction or location

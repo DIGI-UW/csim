@@ -65,11 +65,11 @@ jobs:
           cd e2e
           CSIM_NATIVE_DATES=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
             CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-supplied" \
-            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs
+            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs aggregate-download.spec.mjs
           CSIM_NATIVE_DATES=1 CSIM_DATA_PROFILE=edge-cases \
             CSIM_DASHBOARD_SLUG=csim-standard-month-selectors-examples \
             CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-known" \
-            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs
+            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs aggregate-download.spec.mjs
       - name: Preserve evidence and explicit native gaps
         if: always()
         uses: actions/upload-artifact@v4

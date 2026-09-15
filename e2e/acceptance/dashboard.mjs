@@ -98,7 +98,7 @@ export async function openDashboard(page,profile='corrected') {
   const slug=process.env.CSIM_DASHBOARD_SLUG || `csim-individual-${profile.startsWith('preview')?'preview':profile==='baseline'?'baseline':'corrected'}`;
   await page.goto(`/superset/dashboard/${slug}/`);
   await expect(dashboardApply(page)).toBeVisible();
-  const links=page.locator('[data-test=dashboard-component-chart-holder] a[href*="slice_id="]');
+  const links=page.locator('[data-test=slice-header] a[href*="slice_id="]');
   await expect(links).toHaveCount(chartCount);
   // Superset can keep unrelated background requests active after the dashboard
   // is usable. The controls and complete chart inventory establish page
