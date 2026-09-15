@@ -126,8 +126,8 @@ PYWORKERS
       compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"
     done
     ;;
-  native-months)
-    [[ "$profile" == standard ]] || { echo 'Native month selectors currently target official stable Superset.' >&2; exit 2; }
+  native-months|native-dates)
+    [[ "$profile" == standard ]] || { echo 'Native date controls target official stable Superset.' >&2; exit 2; }
     for candidate in standard-month-selectors standard-month-selectors-examples; do
       compose exec -T superset python /repro/scripts/dashboard_import.py import --profile "$candidate"
       compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"

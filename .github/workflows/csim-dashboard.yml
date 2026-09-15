@@ -57,20 +57,19 @@ jobs:
           CSIM_DASHBOARD_SLUG: csim-${{ matrix.build }}-sortable-examples
           CSIM_OUTPUT: ${{ github.workspace }}/output/native-known
         run: npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|10 Official'
-      - name: Test native From and Through month selectors without video
+      - name: Test native specific dates and left sidebar without video
         if: ${{ !cancelled() && matrix.build == 'standard' && steps.prepare.conclusion == 'success' }}
         run: |
-          ruby scripts/test_native_months.rb
-          bash csim.sh standard native-months
-          docker exec csim-standard-superset-1 python /repro/scripts/test_native_month_queries.py
+          ruby scripts/test_native_dates.rb
+          bash csim.sh standard native-dates
           cd e2e
-          CSIM_NATIVE_MONTHS=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
-            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-months-supplied" \
-            npx playwright test -c acceptance.config.mjs --grep 'Native|01 All|04 Time Period|Opening afresh|Antibiotic axis'
-          CSIM_NATIVE_MONTHS=1 CSIM_DATA_PROFILE=edge-cases \
+          CSIM_NATIVE_DATES=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
+            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-supplied" \
+            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs
+          CSIM_NATIVE_DATES=1 CSIM_DATA_PROFILE=edge-cases \
             CSIM_DASHBOARD_SLUG=csim-standard-month-selectors-examples \
-            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-months-known" \
-            npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|Opening afresh|Native|11 Native'
+            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-known" \
+            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs
       - name: Preserve evidence and explicit native gaps
         if: always()
         uses: actions/upload-artifact@v4

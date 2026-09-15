@@ -10,10 +10,11 @@
   "sourceProfile": "standard-sortable",
   "application": "unmodified",
   "nativeAxis": "sortable-period-label",
-  "filterOrientation": "HORIZONTAL",
-  "filters": 7,
+  "filterOrientation": "VERTICAL",
+  "filters": 6,
   "reportingCharts": 21,
   "reportingDatasets": 6,
   "controlSummaryCharts": 1,
-  "controls": "native-month-selectors"
+  "controls": "native-specific-dates",
+  "defaultTimeRange": "2025-09-01T00:00:00 : 2026-09-01T00:00:00"
 }

@@ -1,6 +1,6 @@
 ---
 slice_name: Reporting period
-description: Resolved dates and guidance for the applied month selection.
+description: Applied start and exclusive end, with the selected grouping.
 viz_type: table
 uuid: 3d5f5431-f71d-5006-87f5-96bedbd8ed5b
 version: 1.0.0
@@ -12,8 +12,8 @@ params:
   viz_type: table
   query_mode: raw
   all_columns:
-  - From
-  - Through
+  - Start
+  - End (exclusive)
   - Group by
   - Status
   groupby: []
@@ -27,10 +27,10 @@ params:
   show_cell_bars: false
   time_grain_sqla: P1M
   column_config:
-    From:
-      columnWidth: 110
-    Through:
-      columnWidth: 110
+    Start:
+      columnWidth: 150
+    End (exclusive):
+      columnWidth: 150
     Group by:
       columnWidth: 90
     Status:

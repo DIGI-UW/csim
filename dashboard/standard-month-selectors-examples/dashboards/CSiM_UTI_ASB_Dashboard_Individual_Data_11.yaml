@@ -1,9 +1,8 @@
 ---
-dashboard_title: CSiM Individual Data — September / native month selectors / known
-  records
-description: Official Superset with native From/Through month dropdowns. The opening
-  window follows the last 12 complete months. Choose named months for a fixed window.
-  Clearing an endpoint removes that bound.
+dashboard_title: CSiM Individual Data — September / Superset 6.1.0 / known records
+description: Full September dashboard on official Superset 6.1.0. Left-hand filters;
+  Time Period opens in Custom with specific start/end dates. End is exclusive. The
+  saved opening range is fixed.
 css: "/* Comparison table - cell text */\r\n.table td, .table th {\r\n  font-size:
   14px !important;\r\n}\r\n\r\n/* Filter panel labels */\r\n.ant-select-selection-item,\r\n.filter-title,\r\n[data-test=\"filter-title\"]
   {\r\n  font-size: 14px !important;\r\n}\r\n\r\n/* Text boxes / markdown components
@@ -13,8 +12,7 @@ css: "/* Comparison table - cell text */\r\n.table td, .table th {\r\n  font-siz
   */\r\n.header-title {\r\n  font-size: 16px !important;\r\n}\r\n\r\n/* Table cell
   text stays at 14px */\r\n.table td, .table th {\r\n  font-size: 14px !important;\r\n}\n/*
   The anchor follows the title text; allow room for two title lines below the fixed
-  toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 140px; }\n\n[id^=\"HEADER-\"]
-  { scroll-margin-top: 160px; }\n"
+  toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 140px; }\n\n"
 slug: csim-standard-month-selectors-examples
 certified_by: ''
 certification_details: ''
@@ -584,9 +582,8 @@ position:
     children: []
     id: MARKDOWN-4LE_6MIsEUYEjgMUcvAyM
     meta:
-      code: "**Choose Your hospital in the filter bar to display the hospital comparison
-        panels.** Open More filters if the selector is hidden. Then choose Cohort/State
-        for the comparison."
+      code: "**Choose Your hospital in the left filter panel to display the hospital
+        comparison panels.** Then choose Cohort/State for the comparison."
       height: 12
       width: 12
     parents:
@@ -682,9 +679,8 @@ position:
     children: []
     id: MARKDOWN-WIofdf7GkSmIbs0pSuT-6
     meta:
-      code: "**Choose Your hospital in the filter bar to display the hospital comparison
-        panels.** Open More filters if the selector is hidden. Then choose Cohort/State
-        for the comparison."
+      code: "**Choose Your hospital in the left filter panel to display the hospital
+        comparison panels.** Then choose Cohort/State for the comparison."
       height: 12
       width: 12
     parents:
@@ -1685,169 +1681,6 @@ metadata:
   cross_filters_enabled: false
   default_filters: "{}"
   native_filter_configuration:
-  - id: NATIVE_FILTER-csim-from_month
-    controlValues:
-      sortAscending: true
-      enableEmptyFilter: false
-      defaultToFirstItem: false
-      creatable: false
-      multiSelect: false
-      searchAllOptions: false
-      inverseSelection: false
-    name: From month
-    filterType: filter_select
-    targets:
-    - datasetUuid: f2d4d836-1154-56bd-8458-1d339de5d5a0
-      column:
-        name: from_month
-    defaultDataMask:
-      extraFormData:
-        filters:
-        - col: from_month
-          op: IN
-          val:
-          - 2025-11
-      filterState:
-        label: 2025-11
-        value:
-        - 2025-11
-    cascadeParentIds: []
-    scope:
-      excluded:
-      - 100
-      - 106
-      - 107
-      rootPath:
-      - ROOT_ID
-    type: NATIVE_FILTER
-    description: Includes the whole starting month. 12 months ago moves forward each
-      month. Clear for no start boundary.
-    chartsInScope:
-    - 73
-    - 74
-    - 75
-    - 77
-    - 79
-    - 80
-    - 81
-    - 82
-    - 85
-    - 93
-    - 94
-    - 95
-    - 97
-    - 99
-    - 101
-    - 102
-    - 103
-    - 104
-    - 108
-    tabsInScope: []
-  - id: NATIVE_FILTER-csim-through_month
-    controlValues:
-      sortAscending: true
-      enableEmptyFilter: false
-      defaultToFirstItem: false
-      creatable: false
-      multiSelect: false
-      searchAllOptions: false
-      inverseSelection: false
-    name: Through month
-    filterType: filter_select
-    targets:
-    - datasetUuid: f2d4d836-1154-56bd-8458-1d339de5d5a0
-      column:
-        name: through_month
-    defaultDataMask:
-      extraFormData:
-        filters:
-        - col: through_month
-          op: IN
-          val:
-          - 2026-04
-      filterState:
-        label: 2026-04
-        value:
-        - 2026-04
-    cascadeParentIds:
-    - NATIVE_FILTER-csim-from_month
-    scope:
-      excluded:
-      - 100
-      - 106
-      - 107
-      rootPath:
-      - ROOT_ID
-    type: NATIVE_FILTER
-    description: Includes the whole ending month. Last complete month moves forward
-      each month. Choices follow From month. Clear for no end boundary.
-    chartsInScope:
-    - 73
-    - 74
-    - 75
-    - 77
-    - 79
-    - 80
-    - 81
-    - 82
-    - 85
-    - 93
-    - 94
-    - 95
-    - 97
-    - 99
-    - 101
-    - 102
-    - 103
-    - 104
-    - 108
-    tabsInScope: []
-  - id: NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_
-    controlValues:
-      sortAscending: false
-      enableEmptyFilter: false
-    name: Time Unit
-    filterType: filter_timegrain
-    targets:
-    - datasetUuid: f2d4d836-1154-56bd-8458-1d339de5d5a0
-    defaultDataMask:
-      extraFormData:
-        time_grain_sqla: P1M
-      filterState:
-        label: Month
-        value:
-        - P1M
-    cascadeParentIds: []
-    scope:
-      excluded:
-      - 100
-      - 106
-      - 107
-      rootPath:
-      - ROOT_ID
-    type: NATIVE_FILTER
-    description: Group the selected observations by Month, Quarter, or Year.
-    chartsInScope:
-    - 73
-    - 74
-    - 75
-    - 77
-    - 79
-    - 80
-    - 81
-    - 82
-    - 85
-    - 93
-    - 94
-    - 95
-    - 97
-    - 99
-    - 101
-    - 102
-    - 103
-    - 104
-    - 108
-    tabsInScope: []
   - id: NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE
     controlValues:
       sortAscending: true
@@ -1970,6 +1803,97 @@ metadata:
     - 104
     - 106
     - 107
+    tabsInScope: []
+  - id: NATIVE_FILTER-_ZDg__D4KUKCpsVyVa992
+    controlValues:
+      enableEmptyFilter: false
+    name: Time Period
+    filterType: filter_time
+    targets:
+    - {}
+    defaultDataMask:
+      extraFormData:
+        time_range: '2025-11-01T00:00:00 : 2026-05-01T00:00:00'
+      filterState:
+        value: '2025-11-01T00:00:00 : 2026-05-01T00:00:00'
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 106
+      - 107
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Choose a specific start and end in Custom. The start is included;
+      the end is excluded. For February through March, use February 1 to April 1.
+      Reporting records are monthly.
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 82
+    - 85
+    - 93
+    - 94
+    - 95
+    - 97
+    - 99
+    - 101
+    - 102
+    - 103
+    - 104
+    - 108
+    tabsInScope: []
+  - id: NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_
+    controlValues:
+      sortAscending: false
+      enableEmptyFilter: false
+    name: Time Unit
+    filterType: filter_timegrain
+    targets:
+    - datasetUuid: f2d4d836-1154-56bd-8458-1d339de5d5a0
+    defaultDataMask:
+      extraFormData:
+        time_grain_sqla: P1M
+      filterState:
+        label: Month
+        value:
+        - P1M
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 106
+      - 107
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Group the selected observations by Month, Quarter, or Year.
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 82
+    - 85
+    - 93
+    - 94
+    - 95
+    - 97
+    - 99
+    - 101
+    - 102
+    - 103
+    - 104
+    - 108
     tabsInScope: []
   - id: NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI
     controlValues:
@@ -2131,7 +2055,7 @@ metadata:
       datasourceWarning: false
       filterOptionName: filter_rekrwkno8wf_ylwqvzay7u
     time_range: No filter
-  filter_bar_orientation: HORIZONTAL
+  filter_bar_orientation: VERTICAL
   color_scheme_domain: []
   shared_label_colors:
   - '12'
