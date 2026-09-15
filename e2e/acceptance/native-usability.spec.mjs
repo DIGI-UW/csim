@@ -40,25 +40,28 @@ test('12 Native ending choices follow the starting month and preserve a valid en
   await expect(page.locator('.ant-select-dropdown:visible').getByTitle('2026-02',{exact:true})).toHaveCount(0);
   await page.screenshot({path:info.outputPath('native-ending-choices.png')});
   await control.press('Escape');
-  await selectValue(page,'2026-05',fromId,{apply:false});
+  await selectValue(page,'2026-01',fromId);
+  await selectValue(page,'2026-02',throughId);
+  await selectValue(page,'2026-03',fromId,{apply:false});
   await expect(selection(page,throughId)).not.toHaveClass(/ant-select-loading/);
   await page.locator('[data-test=dashboard-header-container]').click({position:{x:4,y:4}});
   await dashboardApply(page).click();
   const summary=page.locator('[data-test=dashboard-component-chart-holder]').filter({has:page.getByRole('link',{name:'Reporting period',exact:true})});
-  await expect(summary.getByText('Choose a Through month on or after May 2026. The selected range is reversed.',{exact:true})).toBeVisible();
+  await expect(summary.getByText('Choose a Through month on or after Mar 2026. The selected range is reversed.',{exact:true})).toBeVisible();
   const invalid=await allTrends(watch);expect(Object.values(invalid).every(rows=>rows.length===0)).toBe(true);
   await summary.scrollIntoViewIfNeeded();
   await waitForChartPaint(summary);
   await scene(page,info,'native-start-after-end','A reversed range',
-    'From is later than Through. The summary asks for May 2026 or later; the empty charts do not represent zero.',
+    'Move the start past the selected end. After Apply, the summary asks for March 2026 or later.',
     'Recognize and correct a reversed range');
-  await selectValue(page,'2026-06',throughId);
+  await selectValue(page,'2026-04',throughId);
   await expect(summary.getByText('Both endpoint months are included.',{exact:false})).toBeVisible();
   const recovered=await allTrends(watch);
-  for(const rows of Object.values(recovered))expect(rows.map(row=>row.period_label)).toEqual(['2026-05','2026-06']);
+  for(const rows of Object.values(recovered))expect(rows.map(row=>row.period_label)).toEqual(['2026-03','2026-04']);
+  if(fixture)expect(recovered[watch.trends[4].name].map(row=>row['91'])).toEqual([10,5]);
   expect(await page.evaluate(()=>window.__csimRangeRecoveryMarker)).toBe('same-page');
   await scene(page,info,'native-range-recovered','A valid range',
-    'Through June now includes May and June. The dates and charts recover on this page, without reloading.');
+    'Set Through to April. March and April return on this page, without reloading.');
   await watch.settle();expect(watch.failures).toEqual([]);
 });
 
