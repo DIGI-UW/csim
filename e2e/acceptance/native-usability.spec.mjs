@@ -91,6 +91,14 @@ test('Native reporting period explains partial buckets and shows a readable warn
       return [...range.getClientRects()].every(r=>r.left>=clip.left&&r.right<=clip.right&&r.top>=clip.top&&r.bottom<=clip.bottom);
     });
     expect(readable,'The entire warning must fit inside the chart, without horizontal scrolling').toBe(true);
+    const instruction=page.getByText('Cohort remains available for the main charts.',{exact:false});
+    const instructionVisible=await instruction.evaluate(el=>{
+      const markdown=el.closest('.dashboard-markdown');
+      if(!markdown)return false;
+      const clip=markdown.getBoundingClientRect(),range=document.createRange();range.selectNodeContents(el);
+      return [...range.getClientRects()].every(r=>r.left>=clip.left&&r.right<=clip.right&&r.top>=clip.top&&r.bottom<=clip.bottom);
+    });
+    expect(instructionVisible,'The complete hospital-selection instruction must fit at this width').toBe(true);
     await page.screenshot({path:info.outputPath(`native-warning-${width}.png`)});
   }
   await watch.settle();expect(watch.failures).toEqual([]);

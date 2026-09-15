@@ -615,7 +615,7 @@ position:
         *Manual upload note from the source dashboard:* March 30, 2026. This is separate from the latest reporting month shown beside it.
 
         **Choose an individual hospital in Hospital and state to populate the latest-month comparison tables.** Cohort remains available for the main charts.
-      height: 14
+      height: 22
       width: 6
     parents:
     - ROOT_ID

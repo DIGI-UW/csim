@@ -10,6 +10,9 @@ p=argparse.ArgumentParser()
 for arg in ['recording','supplied-review','range-review']:p.add_argument('--'+arg,required=True,type=Path)
 p.add_argument('--output',type=Path,default=root/'design/evidence/native-controls')
 a=p.parse_args();dest=a.output;dest.mkdir(parents=True,exist_ok=True)
+for directory in [a.recording,a.supplied_review,a.range_review]:
+ result=json.loads((directory/'results.json').read_text())
+ assert result['stats']['expected']>0 and result['stats']['unexpected']==0 and result['stats']['flaky']==0 and not result.get('errors'), f'Passing checks required: {directory}'
 film=json.loads((a.recording/'films/manifest.json').read_text())
 reviewed=json.loads((a.recording/'reviewed-frames.json').read_text())
 assert {'11','12'} <= set(reviewed['workflowIds']), 'Inspect both films before publishing'

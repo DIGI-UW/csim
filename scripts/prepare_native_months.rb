@@ -155,6 +155,12 @@ module NativeMonthDashboard
         # The horizontal native bar forwards them; preserve the reproduced
         # vertical failure as a comparison gap, not a passing recovery claim.
         item['metadata']['filter_bar_orientation'] = 'HORIZONTAL'
+        # The inherited upload/hospital note wraps to more lines at 1024px.
+        item['position'].values.grep(Hash).each do |node|
+          if node.dig('meta', 'code').to_s.include?('Choose an individual hospital in Hospital and state')
+            node['meta']['height'] = [node['meta']['height'], 22].max
+          end
+        end
       elsif path.include?('/charts/')
         item['query_context'] = nil
       end
