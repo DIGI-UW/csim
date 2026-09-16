@@ -1,0 +1,2429 @@
+[
+  {
+    "chart": "Inappropriate UTI diagnosis (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 707
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI+ASPN diagnosis (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 564
+      }
+    ]
+  },
+  {
+    "chart": "Positive UA (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 644
+      }
+    ]
+  },
+  {
+    "chart": "Therapy duration (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 927
+      }
+    ]
+  },
+  {
+    "chart": "UC submissions (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 684
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (abx)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "53, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "53, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "53, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "53, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "53, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "53, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 17392
+      },
+      {
+        "series": "53, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 4308
+      },
+      {
+        "series": "53, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 6656
+      },
+      {
+        "series": "53, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 5235
+      },
+      {
+        "series": "53, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 1421
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (abx)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "Cohort, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "Cohort, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "Cohort, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "Cohort, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "Cohort, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 13158
+      },
+      {
+        "series": "Cohort, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 3930
+      },
+      {
+        "series": "Cohort, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 5178
+      },
+      {
+        "series": "Cohort, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 2871
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc",
+        "pixels": 116
+      },
+      {
+        "series": "Cohort, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 1247
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (UC location)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "53, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "53, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "53, Other",
+        "color": "#8a78fc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "53, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 1726
+      },
+      {
+        "series": "53, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 19619
+      },
+      {
+        "series": "53, Other",
+        "color": "#8a78fc",
+        "pixels": 768
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (UC location)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "Cohort, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "Cohort, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "Cohort, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "Cohort, Rehab or long-term care",
+        "color": "#00a800"
+      },
+      {
+        "series": "Cohort, Urgent or quick care",
+        "color": "#548afc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 1471
+      },
+      {
+        "series": "Cohort, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 16690
+      },
+      {
+        "series": "Cohort, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 654
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc",
+        "pixels": 435
+      },
+      {
+        "series": "Cohort, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 261
+      },
+      {
+        "series": "Cohort, Urgent or quick care",
+        "color": "#548afc",
+        "pixels": 87
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (duration)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "<=3 days, 53",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, 53",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, 53",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, 53",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, 53",
+        "color": "#1e8449",
+        "pixels": 4423
+      },
+      {
+        "series": ">3 to 5 days, 53",
+        "color": "#1f5f8b",
+        "pixels": 4220
+      },
+      {
+        "series": ">5 to 7 days, 53",
+        "color": "#b47e00",
+        "pixels": 4944
+      },
+      {
+        "series": ">7 days, 53",
+        "color": "#990000",
+        "pixels": 7438
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (duration)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "<=3 days, Cohort",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, Cohort",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, Cohort",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, Cohort",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, Cohort",
+        "color": "#1e8449",
+        "pixels": 3762
+      },
+      {
+        "series": ">3 to 5 days, Cohort",
+        "color": "#1f5f8b",
+        "pixels": 3988
+      },
+      {
+        "series": ">5 to 7 days, Cohort",
+        "color": "#b47e00",
+        "pixels": 5032
+      },
+      {
+        "series": ">7 days, Cohort",
+        "color": "#990000",
+        "pixels": 7735
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI diagnosis (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 563
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI+ASPN diagnosis (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 572
+      }
+    ]
+  },
+  {
+    "chart": "Positive UA (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 567
+      }
+    ]
+  },
+  {
+    "chart": "Therapy duration (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 1058
+      }
+    ]
+  },
+  {
+    "chart": "UC submissions (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 654
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (abx)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "53, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "53, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "53, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "53, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "53, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "53, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 21114
+      },
+      {
+        "series": "53, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 5134
+      },
+      {
+        "series": "53, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 7973
+      },
+      {
+        "series": "53, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 6269
+      },
+      {
+        "series": "53, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 1633
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (abx)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "Cohort, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "Cohort, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "Cohort, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "Cohort, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "Cohort, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 22889
+      },
+      {
+        "series": "Cohort, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 6766
+      },
+      {
+        "series": "Cohort, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 8826
+      },
+      {
+        "series": "Cohort, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 5112
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc",
+        "pixels": 213
+      },
+      {
+        "series": "Cohort, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 2201
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (UC location)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "53, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "53, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "53, Other",
+        "color": "#8a78fc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "53, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 1845
+      },
+      {
+        "series": "53, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 18645
+      },
+      {
+        "series": "53, Other",
+        "color": "#8a78fc",
+        "pixels": 794
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (UC location)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "Cohort, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "Cohort, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "Cohort, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "Cohort, Rehab or long-term care",
+        "color": "#00a800"
+      },
+      {
+        "series": "Cohort, Urgent or quick care",
+        "color": "#548afc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 1991
+      },
+      {
+        "series": "Cohort, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 21306
+      },
+      {
+        "series": "Cohort, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 726
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc",
+        "pixels": 700
+      },
+      {
+        "series": "Cohort, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 210
+      },
+      {
+        "series": "Cohort, Urgent or quick care",
+        "color": "#548afc",
+        "pixels": 70
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (duration)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "<=3 days, 53",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, 53",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, 53",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, 53",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, 53",
+        "color": "#1e8449",
+        "pixels": 5488
+      },
+      {
+        "series": ">3 to 5 days, 53",
+        "color": "#1f5f8b",
+        "pixels": 5062
+      },
+      {
+        "series": ">5 to 7 days, 53",
+        "color": "#b47e00",
+        "pixels": 6055
+      },
+      {
+        "series": ">7 days, 53",
+        "color": "#990000",
+        "pixels": 8966
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (duration)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "<=3 days, Cohort",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, Cohort",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, Cohort",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, Cohort",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, Cohort",
+        "color": "#1e8449",
+        "pixels": 4651
+      },
+      {
+        "series": ">3 to 5 days, Cohort",
+        "color": "#1f5f8b",
+        "pixels": 4786
+      },
+      {
+        "series": ">5 to 7 days, Cohort",
+        "color": "#b47e00",
+        "pixels": 6185
+      },
+      {
+        "series": ">7 days, Cohort",
+        "color": "#990000",
+        "pixels": 9409
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI diagnosis (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 360
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI+ASPN diagnosis (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 368
+      }
+    ]
+  },
+  {
+    "chart": "Positive UA (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 354
+      }
+    ]
+  },
+  {
+    "chart": "Therapy duration (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 688
+      }
+    ]
+  },
+  {
+    "chart": "UC submissions (time series)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "Cohort",
+        "color": "#d93025"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort",
+        "color": "#d93025",
+        "pixels": 411
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (abx)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "53, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "53, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "53, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "53, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "53, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "53, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 33835
+      },
+      {
+        "series": "53, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 7937
+      },
+      {
+        "series": "53, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 12716
+      },
+      {
+        "series": "53, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 9896
+      },
+      {
+        "series": "53, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 2655
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (abx)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "Cohort, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "Cohort, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "Cohort, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "Cohort, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "Cohort, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 35604
+      },
+      {
+        "series": "Cohort, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 10774
+      },
+      {
+        "series": "Cohort, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 13788
+      },
+      {
+        "series": "Cohort, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 7995
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc",
+        "pixels": 356
+      },
+      {
+        "series": "Cohort, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 3012
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (UC location)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "53, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "53, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "53, Other",
+        "color": "#8a78fc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "53, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 3504
+      },
+      {
+        "series": "53, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 39314
+      },
+      {
+        "series": "53, Other",
+        "color": "#8a78fc",
+        "pixels": 1190
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (UC location)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "Cohort, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "Cohort, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "Cohort, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "Cohort, Rehab or long-term care",
+        "color": "#00a800"
+      },
+      {
+        "series": "Cohort, Urgent or quick care",
+        "color": "#548afc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "Cohort, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 3155
+      },
+      {
+        "series": "Cohort, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 36118
+      },
+      {
+        "series": "Cohort, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 1196
+      },
+      {
+        "series": "Cohort, Other",
+        "color": "#8a78fc",
+        "pixels": 888
+      },
+      {
+        "series": "Cohort, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 712
+      },
+      {
+        "series": "Cohort, Urgent or quick care",
+        "color": "#548afc",
+        "pixels": 356
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (duration)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "<=3 days, 53",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, 53",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, 53",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, 53",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, 53",
+        "color": "#1e8449",
+        "pixels": 9878
+      },
+      {
+        "series": ">3 to 5 days, 53",
+        "color": "#1f5f8b",
+        "pixels": 9362
+      },
+      {
+        "series": ">5 to 7 days, 53",
+        "color": "#b47e00",
+        "pixels": 10766
+      },
+      {
+        "series": ">7 days, 53",
+        "color": "#990000",
+        "pixels": 16441
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (duration)",
+    "hospital": "53",
+    "comparison": "Cohort",
+    "mainPopulation": "Cohort",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "<=3 days, Cohort",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, Cohort",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, Cohort",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, Cohort",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, Cohort",
+        "color": "#1e8449",
+        "pixels": 8290
+      },
+      {
+        "series": ">3 to 5 days, Cohort",
+        "color": "#1f5f8b",
+        "pixels": 9004
+      },
+      {
+        "series": ">5 to 7 days, Cohort",
+        "color": "#b47e00",
+        "pixels": 11476
+      },
+      {
+        "series": ">7 days, Cohort",
+        "color": "#990000",
+        "pixels": 17729
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI diagnosis (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 150
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI+ASPN diagnosis (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 150
+      }
+    ]
+  },
+  {
+    "chart": "Positive UA (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 117
+      }
+    ]
+  },
+  {
+    "chart": "Therapy duration (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 158
+      }
+    ]
+  },
+  {
+    "chart": "UC submissions (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 117
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (abx)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "31, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "31, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "31, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "31, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 3872
+      },
+      {
+        "series": "31, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 3749
+      },
+      {
+        "series": "31, Other",
+        "color": "#8a78fc",
+        "pixels": 3871
+      },
+      {
+        "series": "31, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 3748
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (abx)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "OR, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "OR, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "OR, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "OR, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "OR, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "OR, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 3878
+      },
+      {
+        "series": "OR, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 2074
+      },
+      {
+        "series": "OR, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 3873
+      },
+      {
+        "series": "OR, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 2136
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc",
+        "pixels": 1769
+      },
+      {
+        "series": "OR, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 1769
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (UC location)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "31, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "31, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "31, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "31, Rehab or long-term care",
+        "color": "#00a800"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 3530
+      },
+      {
+        "series": "31, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 1901
+      },
+      {
+        "series": "31, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 1900
+      },
+      {
+        "series": "31, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 1595
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (UC location)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "OR, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "OR, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "OR, Rehab or long-term care",
+        "color": "#00a800"
+      },
+      {
+        "series": "OR, Urgent or quick care",
+        "color": "#548afc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "OR, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 1500
+      },
+      {
+        "series": "OR, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 5131
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc",
+        "pixels": 2712
+      },
+      {
+        "series": "OR, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 1495
+      },
+      {
+        "series": "OR, Urgent or quick care",
+        "color": "#548afc",
+        "pixels": 1189
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (duration)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": ">5 to 7 days, 31",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, 31",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": ">5 to 7 days, 31",
+        "color": "#b47e00",
+        "pixels": 5036
+      },
+      {
+        "series": ">7 days, 31",
+        "color": "#990000",
+        "pixels": 5036
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (duration)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Month",
+    "expected": [
+      {
+        "series": "<=3 days, OR",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, OR",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, OR",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, OR",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, OR",
+        "color": "#1e8449",
+        "pixels": 1900
+      },
+      {
+        "series": ">3 to 5 days, OR",
+        "color": "#1f5f8b",
+        "pixels": 1900
+      },
+      {
+        "series": ">5 to 7 days, OR",
+        "color": "#b47e00",
+        "pixels": 1899
+      },
+      {
+        "series": ">7 days, OR",
+        "color": "#990000",
+        "pixels": 6769
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI diagnosis (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 51
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI+ASPN diagnosis (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 51
+      }
+    ]
+  },
+  {
+    "chart": "Positive UA (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 51
+      }
+    ]
+  },
+  {
+    "chart": "Therapy duration (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 54
+      }
+    ]
+  },
+  {
+    "chart": "UC submissions (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 51
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (abx)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "31, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "31, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "31, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "31, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 4697
+      },
+      {
+        "series": "31, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 4625
+      },
+      {
+        "series": "31, Other",
+        "color": "#8a78fc",
+        "pixels": 4624
+      },
+      {
+        "series": "31, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 4696
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (abx)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "OR, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "OR, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "OR, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "OR, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "OR, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "OR, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 9095
+      },
+      {
+        "series": "OR, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 4625
+      },
+      {
+        "series": "OR, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 9090
+      },
+      {
+        "series": "OR, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 4698
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc",
+        "pixels": 4392
+      },
+      {
+        "series": "OR, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 4320
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (UC location)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "31, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "31, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "31, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "31, Rehab or long-term care",
+        "color": "#00a800"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 5063
+      },
+      {
+        "series": "31, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 2682
+      },
+      {
+        "series": "31, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 2681
+      },
+      {
+        "series": "31, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 2376
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (UC location)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "OR, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "OR, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "OR, Rehab or long-term care",
+        "color": "#00a800"
+      },
+      {
+        "series": "OR, Urgent or quick care",
+        "color": "#548afc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "OR, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 3263
+      },
+      {
+        "series": "OR, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 12041
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc",
+        "pixels": 6209
+      },
+      {
+        "series": "OR, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 3186
+      },
+      {
+        "series": "OR, Urgent or quick care",
+        "color": "#548afc",
+        "pixels": 2952
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (duration)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": ">5 to 7 days, 31",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, 31",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": ">5 to 7 days, 31",
+        "color": "#b47e00",
+        "pixels": 6209
+      },
+      {
+        "series": ">7 days, 31",
+        "color": "#990000",
+        "pixels": 6209
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (duration)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Quarter",
+    "expected": [
+      {
+        "series": "<=3 days, OR",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, OR",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, OR",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, OR",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, OR",
+        "color": "#1e8449",
+        "pixels": 4265
+      },
+      {
+        "series": ">3 to 5 days, OR",
+        "color": "#1f5f8b",
+        "pixels": 4265
+      },
+      {
+        "series": ">5 to 7 days, OR",
+        "color": "#b47e00",
+        "pixels": 4264
+      },
+      {
+        "series": ">7 days, OR",
+        "color": "#990000",
+        "pixels": 16145
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI diagnosis (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 37
+      }
+    ]
+  },
+  {
+    "chart": "Inappropriate UTI+ASPN diagnosis (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 52
+      }
+    ]
+  },
+  {
+    "chart": "Positive UA (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 52
+      }
+    ]
+  },
+  {
+    "chart": "Therapy duration (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 52
+      }
+    ]
+  },
+  {
+    "chart": "UC submissions (time series)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "31",
+        "color": "#002d00"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31",
+        "color": "#002d00",
+        "pixels": 51
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (abx)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "31, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "31, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "31, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "31, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 12070
+      },
+      {
+        "series": "31, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 12070
+      },
+      {
+        "series": "31, Other",
+        "color": "#8a78fc",
+        "pixels": 12250
+      },
+      {
+        "series": "31, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 12250
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (abx)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "OR, Ceftriaxone",
+        "color": "#1a5276"
+      },
+      {
+        "series": "OR, Cephalexin",
+        "color": "#fc0000"
+      },
+      {
+        "series": "OR, Fluoroquinolone",
+        "color": "#0000fc"
+      },
+      {
+        "series": "OR, Nitrofurantoin",
+        "color": "#00a824"
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "OR, TMP/SMX",
+        "color": "#fc00ae"
+      }
+    ],
+    "actual": [
+      {
+        "series": "OR, Ceftriaxone",
+        "color": "#1a5276",
+        "pixels": 12076
+      },
+      {
+        "series": "OR, Cephalexin",
+        "color": "#fc0000",
+        "pixels": 6278
+      },
+      {
+        "series": "OR, Fluoroquinolone",
+        "color": "#0000fc",
+        "pixels": 12071
+      },
+      {
+        "series": "OR, Nitrofurantoin",
+        "color": "#00a824",
+        "pixels": 6279
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc",
+        "pixels": 5973
+      },
+      {
+        "series": "OR, TMP/SMX",
+        "color": "#fc00ae",
+        "pixels": 5973
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (UC location)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "31, Ambulatory care clinic",
+        "color": "#00001e"
+      },
+      {
+        "series": "31, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "31, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "31, Rehab or long-term care",
+        "color": "#00a800"
+      }
+    ],
+    "actual": [
+      {
+        "series": "31, Ambulatory care clinic",
+        "color": "#00001e",
+        "pixels": 13524
+      },
+      {
+        "series": "31, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 6822
+      },
+      {
+        "series": "31, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 6821
+      },
+      {
+        "series": "31, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 6516
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (UC location)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "OR, Emergency Department",
+        "color": "#ba0000"
+      },
+      {
+        "series": "OR, Inpatient",
+        "color": "#fc24fc"
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc"
+      },
+      {
+        "series": "OR, Rehab or long-term care",
+        "color": "#00a800"
+      },
+      {
+        "series": "OR, Urgent or quick care",
+        "color": "#548afc"
+      }
+    ],
+    "actual": [
+      {
+        "series": "OR, Emergency Department",
+        "color": "#ba0000",
+        "pixels": 3533
+      },
+      {
+        "series": "OR, Inpatient",
+        "color": "#fc24fc",
+        "pixels": 13193
+      },
+      {
+        "series": "OR, Other",
+        "color": "#8a78fc",
+        "pixels": 6749
+      },
+      {
+        "series": "OR, Rehab or long-term care",
+        "color": "#00a800",
+        "pixels": 3528
+      },
+      {
+        "series": "OR, Urgent or quick care",
+        "color": "#548afc",
+        "pixels": 3043
+      }
+    ]
+  },
+  {
+    "chart": "Your hospital (duration)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": ">5 to 7 days, 31",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, 31",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": ">5 to 7 days, 31",
+        "color": "#b47e00",
+        "pixels": 16776
+      },
+      {
+        "series": ">7 days, 31",
+        "color": "#990000",
+        "pixels": 16957
+      }
+    ]
+  },
+  {
+    "chart": "Cohort/State (duration)",
+    "hospital": "31",
+    "comparison": "OR",
+    "mainPopulation": "31",
+    "grain": "Year",
+    "expected": [
+      {
+        "series": "<=3 days, OR",
+        "color": "#1e8449"
+      },
+      {
+        "series": ">3 to 5 days, OR",
+        "color": "#1f5f8b"
+      },
+      {
+        "series": ">5 to 7 days, OR",
+        "color": "#b47e00"
+      },
+      {
+        "series": ">7 days, OR",
+        "color": "#990000"
+      }
+    ],
+    "actual": [
+      {
+        "series": "<=3 days, OR",
+        "color": "#1e8449",
+        "pixels": 4287
+      },
+      {
+        "series": ">3 to 5 days, OR",
+        "color": "#1f5f8b",
+        "pixels": 4287
+      },
+      {
+        "series": ">5 to 7 days, OR",
+        "color": "#b47e00",
+        "pixels": 4286
+      },
+      {
+        "series": ">7 days, OR",
+        "color": "#990000",
+        "pixels": 16957
+      }
+    ]
+  }
+]

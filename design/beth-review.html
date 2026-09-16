@@ -19,6 +19,7 @@
 <tr><th>Month, quarter or year</th><td>Time Unit changes how the selected observations are grouped. It does not change the date range.</td></tr>
 <tr><th>Latest reporting month</th><td>The card shows the last observation month inside the chosen Time Period. It is labelled as an observation month, not an upload date.</td></tr>
 <tr><th>Comparison context</th><td>The lower comparison charts carry the selected hospital or comparison group in their legend so a screenshot remains understandable.</td></tr>
+<tr><th>Chart colors</th><td>Yao's color assignments are preserved. A category keeps the same color when the legend includes a hospital code or comparison group.</td></tr>
 <tr><th>Section links</th><td>Table of Contents links point back to this dashboard and keep the active filter state.</td></tr>
 <tr><th>Dashboard content</th><td>The September explanations, latest-month card and all 21 reporting charts are retained. Dataset names remain familiar to editors.</td></tr>
 </table>
@@ -31,6 +32,7 @@
 <li>Switch Time Unit from Month to Quarter to Year. Confirm that the values, order and labels remain understandable.</li>
 <li>Check the latest-reporting-month card and one main trend.</li>
 <li>Choose <strong>Your hospital</strong> and <strong>Cohort/State</strong>, then inspect the lower comparison legends.</li>
+<li>Compare the antibiotic, duration and collection-location colors across the hospital and cohort/state panels. The same category should have the same color.</li>
 <li>Use one Table of Contents link and confirm the same choices remain selected.</li>
 </ol>
 </section>
@@ -55,11 +57,12 @@
 <div class="evidence">
 <figure><a href="evidence/beth-review/date-editor.png"><img src="evidence/beth-review/date-editor.png" alt="Official dashboard with the left filter panel and Custom start and end dates"></a><figcaption>Custom start and exclusive end dates open in the left sidebar.</figcaption></figure>
 <figure><a href="evidence/beth-review/latest-month.png"><img src="evidence/beth-review/latest-month.png" alt="Latest reporting month in selected period showing August 2026"></a><figcaption>The saved range ends before September 2026, so the card reports Aug 2026 instead of a future month.</figcaption></figure>
-<figure><a href="evidence/beth-review/comparison-context.png"><img src="evidence/beth-review/comparison-context.png" alt="Hospital antibiotic comparison with hospital 53 shown in every legend item"></a><figcaption>The comparison legend identifies hospital 53.</figcaption></figure>
+<figure><a href="evidence/beth-review/comparison-context.png"><img src="evidence/beth-review/comparison-context.png" alt="Hospital antibiotic comparison with hospital 53 in the legend and Yao's original category colors"></a><figcaption>The legend identifies hospital 53 while preserving Yao's category colors.</figcaption></figure>
 <figure><a href="evidence/beth-review/month.png"><img src="evidence/beth-review/month.png" alt="Monthly submissions chart with spaced year-first month labels"></a><figcaption>Month: chronological <code>YYYY-MM</code> labels.</figcaption></figure>
 <figure><a href="evidence/beth-review/quarter.png"><img src="evidence/beth-review/quarter.png" alt="Quarterly submissions chart with spaced year and quarter labels"></a><figcaption>Quarter: chronological <code>YYYY Qn</code> labels.</figcaption></figure>
 <figure><a href="evidence/beth-review/year.png"><img src="evidence/beth-review/year.png" alt="Annual submissions chart with two year labels"></a><figcaption>Year: simple year labels.</figcaption></figure>
 </div>
+<details><summary>Keeping the colors consistent</summary><p>Superset matches a saved color to the complete legend name. Adding a hospital code changes that name: <code>Ceftriaxone</code> becomes <code>53, Ceftriaxone</code>. The saved dashboard assigns both names Yao's original color. New hospital codes or renamed categories need matching entries in the dashboard's color settings.</p><p>The palette check covers 66 chart views: all eleven date axes, Month/Quarter/Year, and two hospital/comparison selections. It compares the rendered colors with the April export. The supplied color settings match that export exactly.</p><p><a href="https://uwdigi.atlassian.net/wiki/spaces/CSiM/pages/929890354/CSiM+Dashboard+Requirements">CSiM dashboard requirements</a> include accessibility and black-and-white printing. Preserving the palette does not replace reviewing those broader requirements.</p></details>
 </section>
 
 <section>

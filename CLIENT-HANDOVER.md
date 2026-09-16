@@ -42,6 +42,30 @@ Use a new folder and filename for each release. Downloaded chart CSV files and s
 
 ## Edit and review
 
+### Preserve Yao's colors
+
+The April dashboard and the supplied September settings contain the same 109
+explicit color assignments. Keep these when editing. Superset matches colors
+to the complete legend text: `Ceftriaxone` and `53, Ceftriaxone` are different
+names to the color system. The current main dashboard also assigns Yao's
+category colors to the hospital/state comparison labels.
+
+In the dashboard's **JSON metadata**, `label_colors`
+stores these assignments. If adding a hospital code or renaming a category,
+add the corresponding full legend names with the existing category colors.
+Duration legends use the metric first, such as `>7 days, 53`; antibiotic and
+location legends use the hospital first, such as `53, Ceftriaxone`. Export the
+dashboard after saving. Check both hospital and cohort/state charts after
+changing selections; changing dates or grouping should not change category
+colors. Do not replace this mapping by choosing a generic palette.
+
+The generator carries the mappings into the saved dashboard files. The browser
+regression compares painted chart colors against the unchanged April source.
+Preserving these assignments is separate from a complete accessibility or
+black-and-white print review.
+
+### Review a change
+
 1. Open the designated test installation. Export the current dashboard before editing.
 2. Make a small, named change. If changing a chart or dataset, check where else that object is used. Use a separate test installation for isolated trials; renaming a dashboard alone is insufficient isolation.
 3. Save each changed chart or dataset, then save the dashboard. Keep Table of Contents links local to the same dashboard.

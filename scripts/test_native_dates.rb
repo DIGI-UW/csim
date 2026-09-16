@@ -2,6 +2,23 @@ require 'minitest/autorun'
 require_relative 'prepare_native_dates'
 
 class NativeDateTest < Minitest::Test
+  def test_yao_palette_is_preserved_with_hospital_legend_context
+    april = ReconciledDashboard.read(Dir[File.join(ReconciledDashboard::ROOT, 'sources/exports/april-2026/unpacked/*/dashboards/*.yaml')].fetch(0))
+    original = april.fetch('metadata').fetch('label_colors')
+    %w[standard-month-selectors standard-month-selectors-examples].each do |profile|
+      dashboard = ReconciledDashboard.read(Dir[File.join(ReconciledDashboard::ROOT, 'dashboard', profile, 'dashboards/*.yaml')].fetch(0))
+      colors = dashboard.fetch('metadata').fetch('label_colors')
+      assert_equal original, colors.select { |label, _| original.key?(label) }
+      assert_equal '#1A5276', colors['53, Ceftriaxone']
+      assert_equal '#1A5276', colors['Cohort, Ceftriaxone']
+      assert_equal '#0000FC', colors['OR, Fluoroquinolone']
+      assert_equal '#FC24FC', colors['31, Inpatient']
+      assert_equal '#990000', colors['>7 days, 53']
+      assert_equal '#1E8449', colors['<=3 days, Cohort']
+      assert_equal '#1A5276', colors['91, Ceftriaxone'] if profile.end_with?('-examples')
+    end
+  end
+
   def test_preserves_reporting_content_and_uses_native_dates
     %w[standard-month-selectors standard-month-selectors-examples].each do |profile|
       root = File.join(ReconciledDashboard::ROOT, 'dashboard', profile)

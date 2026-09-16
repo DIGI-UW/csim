@@ -5,6 +5,23 @@ require_relative 'prepare_native_months'
 require_relative 'prepare_download'
 
 module NativeDateDashboard
+  def self.preserve_comparison_colors!(dashboard, fixture:)
+    colors = dashboard.fetch('metadata').fetch('label_colors')
+    # Superset keys saved colors by the complete series label. Adding hospital
+    # context to a legend must not replace Yao's category colors with defaults.
+    populations = colors.keys.grep(/\A(?:\d+|[A-Z]{2,}|Cohort)\z/)
+    categories = colors.keys - populations
+    populations |= %w[91 92] if fixture
+    populations.each do |population|
+      categories.each do |category|
+        # Multiple duration metrics precede the group-by value; the single
+        # antibiotic/location metric uses the two group-by values in order.
+        label = category.end_with?(' days') ? "#{category}, #{population}" : "#{population}, #{category}"
+        colors[label] = colors.fetch(category)
+      end
+    end
+  end
+
   def self.build(fixture: false)
     NativeMonthDashboard.build(fixture: fixture)
     profile = fixture ? 'standard-month-selectors-examples' : 'standard-month-selectors'
@@ -47,6 +64,7 @@ module NativeDateDashboard
     %w[MARKDOWN-4LE_6MIsEUYEjgMUcvAyM MARKDOWN-WIofdf7GkSmIbs0pSuT-6].each do |id|
       dashboard['position'].fetch(id).fetch('meta')['code'] = '**Choose Your hospital in the left filter panel to display the hospital comparison panels.** Then choose Cohort/State for the comparison.'
     end
+    preserve_comparison_colors!(dashboard, fixture: fixture)
     ReconciledDashboard.write(path, dashboard)
 
     summary_path = File.join(target, 'datasets/PostgreSQL/Reporting_period.yaml')
