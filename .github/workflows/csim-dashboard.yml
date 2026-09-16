@@ -65,7 +65,7 @@ jobs:
           cd e2e
           CSIM_NATIVE_DATES=1 CSIM_BETH_REVIEW=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
             CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-supplied" \
-            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs aggregate-download.spec.mjs beth-review.spec.mjs sidebar-gap.spec.mjs native-comparison.spec.mjs palette.spec.mjs
+            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs aggregate-download.spec.mjs beth-review.spec.mjs sidebar-gap.spec.mjs native-comparison.spec.mjs palette.spec.mjs submission-totals.spec.mjs
           CSIM_NATIVE_DATES=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
             CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-toc" \
             npx playwright test -c toc.config.mjs navigation/toc.spec.mjs
