@@ -1,6 +1,8 @@
 # Maintaining the CSiM dashboard in Superset
 
-Dashboard editors can use Superset directly and keep release files in a shared Drive folder. They do not need a GitHub checkout for ordinary edits. The server administrator remains responsible for the installed Superset version, backups, database connections and any CSiM software changes.
+For the current package contents, ongoing editor review and remaining release checks, see [Client delivery](https://github.com/DIGI-UW/csim/blob/codex/csim-native-usability/CLIENT-DELIVERY.md). This guide describes maintenance; it is not acceptance of the final client update.
+
+Dashboard editors can use Superset directly and keep release files in a shared Drive folder. They do not need a GitHub checkout for ordinary edits. The server administrator remains responsible for the installed Superset version, backups, database connections and the required instance configuration.
 
 Export, editing and restoration have been exercised through the official Superset 6.1.0 interface using an Alpha editor and an independent 21-chart copy. The restored export matches the original dashboard, charts and dataset definitions. Client-account acceptance and transfer to the client installation remain separate checks.
 
@@ -13,7 +15,7 @@ Export, editing and restoration have been exercised through the official Superse
 | Filter labels, defaults and which charts they control | Dashboard filter configuration | Dashboard editor |
 | Saved dataset SQL, calculated columns and metrics | Dataset editor / SQL Lab | A designated SQL-capable editor; changes can affect several charts |
 | Reporting data and new-hospital lookup entries | Existing upload procedure and database connection | Data owner; verify processed results after each upload |
-| Software upgrades, custom month fields, automatic date formatter and reset repair | Installed Superset application | Server administrator |
+| Official Superset upgrades, PostgreSQL driver, SQL template processing and the instance-wide Time Unit list | Server configuration | Server administrator |
 | WordPress identity and access rules | Embedding integration | Integration owner |
 
 ## Reporting data and dashboard definitions are separate
@@ -91,7 +93,7 @@ For an existing dashboard on the tested official 6.1.0 installation:
 
 These imports restore Superset definitions, not database records. In the editor test, importing only the dashboard restored its title but retained the newer chart title and SQL; the separate imports restored those too.
 
-The receiving server must have the correct database connection, reporting data, compatible software and the required CSiM customizations. An administrator should retain a metadata backup before promotion. Import the chosen release, then run the same review checklist on the destination. If restoring an earlier release, restore its dependent chart and dataset definitions too.
+The receiving server must have the correct database connection, reporting data, compatible software and the required instance configuration. The official dashboard does not require CSiM application patches. An administrator should retain a metadata backup before promotion. Import the chosen release, then run the same review checklist on the destination. If restoring an earlier release, restore its dependent chart and dataset definitions too.
 
 After client handover, the accepted test dashboard and exported release folder can become the client team's editing source. Repository deployment must not silently overwrite subsequent client edits. Before any later scripted update, export and reconcile those changes or agree that the target is still managed from the repository.
 
@@ -110,10 +112,10 @@ Use the same hospital, location and dates before and after the change or import.
 - Opening shows Cohort and clear instructions for hospital-only panels. The lower hospital total does not sum all hospitals when unset.
 - Month, Quarter and Year show the intended grouping and date labels on all eleven date charts. Check narrow and wide screens.
 - February through March grouped into Quarter excludes January. Missing periods remain gaps; a measured zero remains zero.
-- Changing the dates and grouping in either order gives the same results. Clear and reselect on the same page, without a reload.
+- Changing the dates and grouping in either order gives the same results. Test Clear all and reselect on the same page, without a reload. This remains a known failure on the official review build; keep it identified as a limitation until that exact workflow passes.
 - All nine contents links stay on this dashboard and retain selections.
 - Hospital and cohort/state menus contain the intended choices and control the intended charts.
-- All 21 panels show results or specific selection guidance. Number formatting changes do not change calculations.
+- All reporting panels show results or specific selection guidance; the separate period summary reflects the chosen range. Number formatting changes do not change calculations.
 - Dataset SQL, chart bindings, saved defaults, wording and layout match the accepted release.
 
 Hospital 53's disputed 500-versus-980 total, hospital-specific transition dates, complete processed-data downloads and hospital onboarding each need their own agreed examples. Do not use these open questions as pass/fail expectations until the relevant source or rule is established.
