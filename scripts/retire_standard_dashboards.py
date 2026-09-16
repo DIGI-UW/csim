@@ -48,8 +48,13 @@ def main():
                 assert archive.testzip() is None
             (backup/'dashboards.zip').write_bytes(response.content)
             (backup/'inventory.json').write_text(json.dumps(report,indent=2)+'\n')
-            response=session.delete(base+'/api/v1/dashboard/',params={'q':json.dumps(ids)},timeout=60)
+            # Export refreshes the HTTPS-only session cookie. This administrator
+            # helper uses only loopback HTTP, as connection() does above.
+            for cookie in session.cookies:
+                cookie.secure=False
+            response=session.delete(base+'/api/v1/dashboard/',params={'q':json.dumps(ids)},timeout=60,allow_redirects=False)
             response.raise_for_status()
+            assert response.status_code == 200, f'Unexpected delete response: {response.status_code}'
             assert response.json().get('message') == f'Deleted {len(ids)} dashboards'
             db.session.remove()
             after={d.slug:d for d in db.session.query(Dashboard).all()}
