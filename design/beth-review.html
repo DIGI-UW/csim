@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CSiM — review with Beth</title>
+<style>
+:root{--ink:#203444;--muted:#53646f;--teal:#066b7b;--pale:#e8f3f1;--line:#d9e1e5;--paper:#f5f8fa;--amber:#8a5a00}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 system-ui,sans-serif}main{max-width:1080px;margin:auto;padding:32px 24px 64px}a{color:var(--teal);text-underline-offset:3px}h1,h2{line-height:1.2}h1{margin:.35em 0}.lead{font-size:1.12rem;color:var(--muted);max-width:76ch}.actions{display:flex;gap:14px 22px;flex-wrap:wrap;align-items:center;margin:24px 0}.button{display:inline-block;background:var(--teal);color:white;text-decoration:none;font-weight:700;padding:11px 17px;border-radius:6px}section{background:white;border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:22px 0}table{border-collapse:collapse;width:100%}th,td{padding:13px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{width:27%}.limit{border-left:4px solid var(--amber)}li{margin:.55em 0}.question{background:var(--pale);padding:14px 18px;border-radius:6px;margin:12px 0}.small{font-size:.92rem;color:var(--muted)}.evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.evidence figure{margin:0}.evidence img,.gap-evidence img{display:block;width:100%;height:auto;border:1px solid var(--line)}.evidence figcaption,.gap-evidence figcaption{font-size:.86rem;color:var(--muted);margin-top:7px}.gap-evidence{margin:18px 0 0;max-width:760px}code{font-size:.95em}@media(max-width:650px){main{padding:22px 16px}section{padding:21px 18px}th,td{display:block;width:auto}th{border-bottom:0;padding-bottom:2px}.evidence{grid-template-columns:1fr}}
+</style>
+<main>
+<a href="./">← CSiM dashboard overview</a>
+<h1>Review the CSiM dashboard with Beth</h1>
+<p class="lead">Start with the full September dashboard on official Superset 6.1.0. This page separates what is ready to review, what Superset still does poorly, and the source-data decisions that the dashboard cannot make for the team.</p>
+<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard →</a><a href="./#standard-instance">Login details</a><a href="native-dates.html">Date-entry guide</a></div>
+
+<section>
+<h2>What to review</h2>
+<table>
+<tr><th>Date range</th><td>Time Period opens in Custom. Enter a start date and an exclusive end date in the left sidebar.</td></tr>
+<tr><th>Month, quarter or year</th><td>Time Unit changes how the selected observations are grouped. It does not change the date range.</td></tr>
+<tr><th>Latest reporting month</th><td>The card shows the last observation month inside the chosen Time Period. It is labelled as an observation month, not an upload date.</td></tr>
+<tr><th>Comparison context</th><td>The lower comparison charts carry the selected hospital or comparison group in their legend so a screenshot remains understandable.</td></tr>
+<tr><th>Section links</th><td>Table of Contents links point back to this dashboard and keep the active filter state.</td></tr>
+<tr><th>Dashboard content</th><td>The September explanations, latest-month card and all 21 reporting charts are retained. Dataset names remain familiar to editors.</td></tr>
+</table>
+</section>
+
+<section>
+<h2>Five-minute review</h2>
+<ol>
+<li>Choose a hospital and a date range in the left sidebar.</li>
+<li>Switch Time Unit from Month to Quarter to Year. Confirm that the values, order and labels remain understandable.</li>
+<li>Check the latest-reporting-month card and one main trend.</li>
+<li>Choose <strong>Your hospital</strong> and <strong>Cohort/State</strong>, then inspect the lower comparison legends.</li>
+<li>Use one Table of Contents link and confirm the same choices remain selected.</li>
+</ol>
+</section>
+
+<section class="limit">
+<h2>Known official 6.1.0 limitation</h2>
+<p><strong>Clear all, then reselect in the left sidebar can leave a stale result.</strong> Moving filters to the left does not repair that Superset behavior. For this review, change individual selections or reload the dashboard after Clear all.</p>
+<p class="small">Reproduction: choose a hospital, use Clear all, then choose the same hospital again without reloading. The browser check below reselected hospital 31, but Superset combined it with the stale Cohort value and left the date range empty, exposing February 2030. The custom Superset comparison contains a source-level repair; the recommended dashboard intentionally stays on the official build.</p>
+<figure class="gap-evidence"><a href="evidence/beth-review/clear-all-gap.png"><img src="evidence/beth-review/clear-all-gap.png" alt="After Clear all, the official sidebar shows stale Cohort together with hospital 31 and no date range"></a><figcaption>Known gap reproduced on official 6.1.0: Cohort and hospital 31 are both selected after Clear all, while Time Period is empty.</figcaption></figure>
+</section>
+
+<section>
+<h2>Two decisions needed from the team</h2>
+<div class="question"><strong>1. Hospital 53:</strong> What source rows or calculation produce the expected all-time total of 500? The supplied demonstration database contains 980 distinct historical records for hospital 53 and no current records, so changing the dashboard to 500 without that source would invent a rule.</div>
+<div class="question"><strong>2. Historical-to-individual transition:</strong> For each hospital, what is the first month that should come from the individual dataset? The proposed rule is historical data before that month and individual data from that month onward. The dashboard needs the approved per-hospital schedule and the rule for hospitals with no transition date.</div>
+<p><strong>Roster correction:</strong> hospital 58 has demonstration records but no entry in the supplied hospital/state lookup, so the current query excludes it. Add the approved hospital name, state and cohort mapping rather than guessing those values in the dashboard.</p>
+</section>
+
+<section>
+<h2>Browser-checked evidence</h2>
+<p>These captures come from the official 6.1.0 dashboard and the supplied demonstration database. The complete check covered all 11 date axes at 1024, 1280 and 1600 pixels for Month, Quarter and Year: 99 chart views, with no clipped, overlapping or missing supported labels.</p>
+<div class="evidence">
+<figure><a href="evidence/beth-review/date-editor.png"><img src="evidence/beth-review/date-editor.png" alt="Official dashboard with the left filter panel and Custom start and end dates"></a><figcaption>Custom start and exclusive end dates open in the left sidebar.</figcaption></figure>
+<figure><a href="evidence/beth-review/latest-month.png"><img src="evidence/beth-review/latest-month.png" alt="Latest reporting month in selected period showing August 2026"></a><figcaption>The saved range ends before September 2026, so the card reports Aug 2026 instead of a future month.</figcaption></figure>
+<figure><a href="evidence/beth-review/comparison-context.png"><img src="evidence/beth-review/comparison-context.png" alt="Hospital antibiotic comparison with hospital 53 shown in every legend item"></a><figcaption>The comparison legend identifies hospital 53.</figcaption></figure>
+<figure><a href="evidence/beth-review/month.png"><img src="evidence/beth-review/month.png" alt="Monthly submissions chart with spaced year-first month labels"></a><figcaption>Month: chronological <code>YYYY-MM</code> labels.</figcaption></figure>
+<figure><a href="evidence/beth-review/quarter.png"><img src="evidence/beth-review/quarter.png" alt="Quarterly submissions chart with spaced year and quarter labels"></a><figcaption>Quarter: chronological <code>YYYY Qn</code> labels.</figcaption></figure>
+<figure><a href="evidence/beth-review/year.png"><img src="evidence/beth-review/year.png" alt="Annual submissions chart with two year labels"></a><figcaption>Year: simple year labels.</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>What is part of this delivery</h2>
+<p>The recommended result is a versioned dashboard, datasets and ordinary Superset configuration that run on official Superset 6.1.0. No Superset application code change is required for the dashboard improvements above. The standalone aggregate download remains available to administrators, but it is not linked from the hospital-facing dashboard.</p>
+<p class="small">The separate custom and development installations remain comparisons for control and importer improvements. They are not dependencies of this dashboard.</p>
+</section>
+</main>
+</html>

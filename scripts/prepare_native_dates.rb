@@ -18,7 +18,14 @@ module NativeDateDashboard
       # comparison. Remove only the retired month-menu query and columns.
       dataset['sql'] = original['sql']
       dataset['columns'] = original['columns']
-      dataset['table_name'] = 'Native date entry — ' + original['table_name']
+      # Keep the names used by the team's upload and maintenance guides. The
+      # dashboard title and manifest distinguish this package; dataset names
+      # should not acquire implementation prefixes after every iteration.
+      dataset['table_name'] = if fixture
+        original['table_name'].sub(/^September examples — /, 'Known-record example — ')
+      else
+        original['table_name'].sub(/^September — /, '')
+      end
       ReconciledDashboard.write(destination, dataset)
     end
     path = Dir[File.join(target, 'dashboards/*.yaml')].fetch(0)

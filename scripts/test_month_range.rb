@@ -32,7 +32,7 @@ class MonthRangeTest < Minitest::Test
       assert_equal true, period.dig('controlValues', 'csimMonthRange')
       assert_equal grain['id'], period.dig('controlValues', 'csimGrainFilterId')
       assert_equal original['metadata']['native_filter_configuration'].find { |f| f['filterType']=='filter_time' }['chartsInScope'], period['chartsInScope']
-      refute_includes period['chartsInScope'], 107, 'Latest reporting month must remain independent of the selected reporting window'
+      assert_includes period['chartsInScope'], 107, 'Latest reporting month must stay inside the selected reporting window'
       assert_equal %w[P1M P3M P1Y], grain['time_grains']
       assert_equal JSON.parse(File.read(File.join(ROOT, profile, 'manifest.json')))['defaultTimeRange'], period.dig('defaultDataMask','extraFormData','time_range')
     end

@@ -1,7 +1,7 @@
 ---
 slice_name: Abx duration (own hospital stacked) - Ind
-description: Choose Your hospital in Filters and controls. No hospital data is combined
-  while the selection is empty.
+description: Choose Your hospital in Filters and controls. The legend identifies that
+  hospital. No hospital data is combined while the selection is empty.
 certified_by:
 certification_details:
 viz_type: echarts_timeseries_bar
@@ -113,7 +113,8 @@ params:
     label: ">7 days"
     optionName: metric_5nxy3olipf7_p0gigzdb35
     sqlExpression:
-  groupby: []
+  groupby:
+  - hosp_code
   adhoc_filters:
   - clause: WHERE
     comparator: No filter

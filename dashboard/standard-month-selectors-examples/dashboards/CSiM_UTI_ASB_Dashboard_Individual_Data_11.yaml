@@ -25,7 +25,7 @@ position:
     meta:
       chartId: 107
       height: 14
-      sliceName: Latest reporting month
+      sliceName: Latest reporting month in selected period
       uuid: 2fcd1e21-41ca-5c0e-89b5-956fb68babe2
       width: 6
     parents:
@@ -613,9 +613,7 @@ position:
         *Manual upload note from the source dashboard:* March 30, 2026. This is separate from the latest reporting month shown beside it.
 
         **Choose an individual hospital in Hospital and state to populate the latest-month comparison tables.** Cohort remains available for the main charts.
-
-        **Download aggregate results:** [Aggregate ALL DATA — Download](/explore/?slice_id=109). After uploading Current, open this separate table, refresh its results, then download CSV. Dashboard selections do not restrict this table.
-      height: 30
+      height: 22
       width: 6
     parents:
     - ROOT_ID
@@ -1823,7 +1821,6 @@ metadata:
       excluded:
       - 100
       - 106
-      - 107
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
@@ -1849,6 +1846,7 @@ metadata:
     - 102
     - 103
     - 104
+    - 107
     - 108
     tabsInScope: []
   - id: NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_

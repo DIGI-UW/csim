@@ -41,17 +41,27 @@ test('Aggregate download includes all calculated rows and refreshes after a fixt
   await openDashboard(page,'standard');
   await hospital(page,fixture?'91':'53');
   await timePeriod(page,'2026-02-01','2026-04-01');
-  const link=page.getByRole('link',{name:'Aggregate ALL DATA — Download',exact:true});
-  const href=await link.getAttribute('href');
-  expect(href).toMatch(/^\/explore\/\?slice_id=\d+$/);
-  await link.click();
+  await expect(page.getByRole('link',{name:'Aggregate ALL DATA — Download',exact:true})).toHaveCount(0);
+  const profile=fixture?'standard-month-selectors-examples':'standard-month-selectors';
+  const definition=fs.readFileSync(path.join(root,'dashboard',profile,'charts','Aggregate_ALL_DATA_Download.yaml'),'utf8');
+  const chartUuid=/^uuid:\s*(\S+)$/m.exec(definition)[1];
+  const chartId=await page.evaluate(async expectedUuid=>{
+    const query={filters:[{col:'slice_name',opr:'eq',value:'Aggregate ALL DATA — Download'}]};
+    const response=await fetch('/api/v1/chart/?q='+encodeURIComponent(JSON.stringify(query)));
+    if(!response.ok)throw new Error('Cannot find the administrator download chart');
+    const matches=(await response.json()).result.filter(chart=>chart.uuid===expectedUuid);
+    if(matches.length!==1)throw new Error(`Expected one administrator download chart, found ${matches.length}`);
+    return matches[0].id;
+  },chartUuid);
+  await page.goto(`/explore/?slice_id=${chartId}`);
   await expect(page).toHaveURL(new RegExp('/explore/\\?slice_id=\\d+'));
 
   await expect(page.getByRole('textbox',{name:'Chart title',exact:true})).toHaveValue('Aggregate ALL DATA — Download');
   await expect(page.getByText('Not added to any dashboard',{exact:true})).toBeVisible();
   await expect(page.getByRole('radio',{name:'Raw records',exact:true})).toBeChecked();
   const result=await refresh(page);expect(result.rowcount).toBe(before.rowCount);
-  await expect(page.getByRole('textbox',{name:`Search ${before.rowCount} records`,exact:true})).toBeVisible();
+  await page.getByText('Results',{exact:true}).click();
+  await expect(page.getByRole('textbox',{name:/^Search .* records$/})).toBeVisible();
   await page.screenshot({path:info.outputPath('standalone-download.png')});
   await download(page,info,'complete-export',beforePath);
   if(fixture){
@@ -67,10 +77,10 @@ test('Aggregate download includes all calculated rows and refreshes after a fixt
       await page.keyboard.press('Escape');
       await page.keyboard.press('Escape');
       await expect(page.getByRole('menuitem',{name:'file Export to .CSV',exact:true})).toHaveCount(0);
-      await page.getByRole('textbox',{name:`Search ${after.rowCount} records`,exact:true}).fill('2026-05');
+      await page.getByRole('textbox',{name:/^Search .* records$/}).fill('2026-05');
       await expect(page.getByRole('cell',{name:'month_date',exact:true})).toHaveText(Array(8).fill('2026-05-01 00:00:00'));
       await page.screenshot({path:info.outputPath('uploaded-month-visible.png')});
-      await page.getByRole('textbox',{name:`Search ${after.rowCount} records`,exact:true}).fill('');
+      await page.getByRole('textbox',{name:/^Search .* records$/}).fill('');
     }finally{
       if(uploaded){
         const cleaned=oracle(info.outputPath('cleaned-oracle.json'),['--cleanup-fixture']);

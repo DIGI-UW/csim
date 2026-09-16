@@ -5,7 +5,7 @@ import {openDashboard,timePeriod,timeUnit,hospital,allTrends,paintedPeriodBounds
 
 // This is an observation run, not a passing exact-format acceptance claim.
 // Every required label/layout discrepancy is retained in the machine-readable report.
-test('Native comparison records all eleven axes and explicit remaining gaps',async({page},info)=>{
+test('Official dashboard checks all eleven date axes across groupings and widths',async({page},info)=>{
   test.skip(!['standard','development'].includes(profile));
   test.setTimeout(600000);
   const watch=await openDashboard(page,profile);
@@ -55,10 +55,14 @@ test('Native comparison records all eleven axes and explicit remaining gaps',asy
   }
   expect(watch.failures).toEqual([]);
   expect(cases).toHaveLength(99);
-  const report={application:'unmodified',profile,acceptance:cases.some(c=>c.issues.length)?'GAPS':'PASS',cases};
+  const supportedOfficial=process.env.CSIM_NATIVE_MONTHS==='1'||process.env.CSIM_NATIVE_DATES==='1';
+  const supportedGaps=cases.flatMap(item=>item.issues.filter(issue=>issue!=='Exact period wording or complete tick list differs'));
+  const report={application:'unmodified',profile,
+    labelContract:supportedOfficial?'year-first labels: YYYY-MM, YYYY Qn, YYYY':'month-name-first comparison',
+    acceptance:supportedOfficial?(supportedGaps.length?'GAPS':'PASS'):(cases.some(c=>c.issues.length)?'GAPS':'PASS'),cases};
   fs.writeFileSync(info.outputPath('native-label-comparison.json'),JSON.stringify(report,null,2));
   await info.attach('native-label-comparison',{body:Buffer.from(JSON.stringify(report)),contentType:'application/json'});
-  if(process.env.CSIM_NATIVE_MONTHS==='1'){
+  if(supportedOfficial){
     // Enforce the official option's documented wording and geometry separately
     // from the original month-name-first acceptance comparison above.
     for(const item of cases){

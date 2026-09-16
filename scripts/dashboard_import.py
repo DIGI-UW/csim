@@ -4,6 +4,7 @@ The package contains SQL and the database connection template, never a database
 password. It can be imported repeatedly without restoring the reporting database.
 """
 import argparse
+import copy
 import hashlib
 import io
 import json
@@ -135,10 +136,50 @@ def repair_numeric_references(directory: Path):
     app = create_app()
     with app.app_context():
         from superset import db
+        from superset.connectors.sqla.models import SqlaTable, SqlMetric, TableColumn
         from superset.models.dashboard import Dashboard
         from superset.models.slice import Slice
 
         dashboard = db.session.query(Dashboard).filter_by(uuid=definition['uuid']).one()
+        synchronized_datasets = 0
+        # Superset 6.1 can report a successful overwrite while retaining an
+        # existing virtual dataset's SQL, calculated columns and metrics. Use
+        # the saved UUID and Superset's own import model to make the update
+        # deterministic. The charts retain the same dataset identifiers.
+        for dataset_file in directory.glob('datasets/**/*.yaml'):
+            expected = yaml.safe_load(dataset_file.read_text())
+            actual = db.session.query(SqlaTable).filter_by(uuid=expected['uuid']).one()
+            for key in (
+                'table_name', 'sql', 'main_dttm_col', 'catalog', 'schema',
+                'description', 'template_params', 'filter_select_enabled',
+                'fetch_values_predicate', 'normalize_columns',
+                'always_filter_main_dttm',
+            ):
+                if key in expected:
+                    setattr(actual, key, copy.deepcopy(expected[key]))
+            saved_columns = {
+                TableColumn.import_from_dict({
+                    key: copy.deepcopy(column.get(key))
+                    for key in (
+                        'column_name', 'expression', 'type', 'is_dttm',
+                        'groupby', 'filterable', 'python_date_format',
+                    ) if key in column
+                }, parent=actual)
+                for column in expected.get('columns', [])
+            }
+            saved_metrics = {
+                SqlMetric.import_from_dict({
+                    key: copy.deepcopy(metric.get(key))
+                    for key in ('metric_name', 'expression', 'metric_type', 'd3format')
+                    if key in metric
+                }, parent=actual)
+                for metric in expected.get('metrics', [])
+            }
+            for column in set(actual.columns).difference(saved_columns):
+                db.session.delete(column)
+            for metric in set(actual.metrics).difference(saved_metrics):
+                db.session.delete(metric)
+            synchronized_datasets += 1
         actual_by_uuid = {str(chart.uuid): chart for chart in dashboard.slices}
         remap = {
             source: actual_by_uuid[uuid].id
@@ -199,6 +240,7 @@ def repair_numeric_references(directory: Path):
         print(json.dumps({
             'numeric_reference_repair': 'OK',
             'destination_dashboard_id': dashboard.id,
+            'synchronized_datasets': synchronized_datasets,
             'remapped_charts': len(remap),
             'repaired_cached_scopes': repaired_caches,
         }))

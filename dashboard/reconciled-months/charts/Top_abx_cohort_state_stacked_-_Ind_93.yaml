@@ -1,6 +1,7 @@
 ---
 slice_name: Top abx (cohort/state stacked) - Ind
-description:
+description: The legend begins with the selected Cohort/State value so the comparison
+  population remains visible with the chart.
 certified_by:
 certification_details:
 viz_type: echarts_timeseries_bar
@@ -38,6 +39,7 @@ params:
     optionName: metric_de9d1m0ppu5_1tntxynvzrr
     sqlExpression:
   groupby:
+  - hosp_code
   - antibiotic_name
   adhoc_filters:
   - clause: WHERE

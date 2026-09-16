@@ -18,6 +18,12 @@ class NativeDateTest < Minitest::Test
         old = ReconciledDashboard.read(path)
         item = ReconciledDashboard.read(path.sub(source, root))
         %w[sql columns metrics].each { |key| assert_equal old[key], item[key] }
+        expected_name = if profile.end_with?('-examples')
+          old['table_name'].sub(/^September examples — /, 'Known-record example — ')
+        else
+          old['table_name'].sub(/^September — /, '')
+        end
+        assert_equal expected_name, item['table_name']
       end
       dashboard = ReconciledDashboard.read(Dir[File.join(root, 'dashboards/*.yaml')].first)
       assert_equal 'VERTICAL', dashboard['metadata']['filter_bar_orientation']
@@ -35,12 +41,21 @@ class NativeDateTest < Minitest::Test
       assert_empty download['params']['dashboards']
       assert_equal 100000, download['params']['row_limit']
       refute dashboard['position'].values.any? { |node| node.dig('meta','uuid') == download['uuid'] if node.is_a?(Hash) }
+      refute_includes dashboard['position'].fetch('MARKDOWN-8qLF0rtVZnycDfi3XPowe').dig('meta','code'), 'Aggregate ALL DATA'
       assert_equal ['Hospital and state', 'Location of Urine Culture Collection', 'Time Period', 'Time Unit', 'Your hospital', 'Cohort/State'], filters.map { |f| f['name'] }
       period = filters.find { |f| f['name']=='Time Period' }
       expected = profile.end_with?('-examples') ? '2025-11-01T00:00:00 : 2026-05-01T00:00:00' : '2025-09-01T00:00:00 : 2026-09-01T00:00:00'
       assert_equal 'filter_time', period['filterType']
       assert_equal expected, period.dig('defaultDataMask','filterState','value')
       assert_equal expected, period.dig('defaultDataMask','extraFormData','time_range')
+      assert_includes period['chartsInScope'], 107
+      refute_includes period['scope']['excluded'], 107
+      latest = Dir[File.join(root,'charts/*.yaml')].map { |p| ReconciledDashboard.read(p) }.find { |c| c['slice_name']=='Latest reporting month in selected period' }
+      assert_equal 'Latest reporting month in selected period', latest['slice_name']
+      assert_includes latest['description'], 'not an upload timestamp'
+      stacked = Dir[File.join(root,'charts/*.yaml')].map { |p| ReconciledDashboard.read(p) }.select { |c| ReconciledDashboard::COMPARISON_STACKED.include?(c['slice_name']) }
+      assert_equal 6, stacked.length
+      stacked.each { |chart| assert_equal 'hosp_code', chart.dig('params','groupby',0) }
       filters.each do |filter|
         if ['Time Period','Time Unit'].include?(filter['name'])
           assert_includes filter['chartsInScope'],108

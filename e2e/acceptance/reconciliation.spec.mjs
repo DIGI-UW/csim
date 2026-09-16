@@ -9,7 +9,7 @@ test('08 Beth’s September additions preserve context and comparison selections
   test.skip(!reconciled,'This workflow belongs to the separate September version.');
   const watch=await openDashboard(page,profile);
   if(!fixture)await hospital(page,'53');
-  const latestLink=page.getByRole('link',{name:'Latest reporting month',exact:true});
+  const latestLink=page.getByRole('link',{name:'Latest reporting month in selected period',exact:true});
   const id=Number(new URL(await latestLink.getAttribute('href'),'http://local').searchParams.get('slice_id'));
   const card=page.locator(`.dashboard-chart-id-${id}`);
   const expected=fixture?'Apr 2026':'Mar 2026';
@@ -20,9 +20,9 @@ test('08 Beth’s September additions preserve context and comparison selections
   await timePeriod(page,'2027-01-01','2028-01-01');
   await timeUnit(page,'Year');
   await card.scrollIntoViewIfNeeded();await watch.settle();
-  await expect(card).toContainText(expected);
-  expect(watch.replies.get(id).result.data).toEqual(initial);
-  await scene(page,info,'latest-independent','Latest reporting month','The card still reports the latest month with submissions, even when the viewing window contains no observations.');
+  await expect(card).not.toContainText(expected);
+  expect(watch.replies.get(id).result.data).not.toEqual(initial);
+  await scene(page,info,'latest-bounded','Latest reporting month in selected period','The card follows the viewing window. A window without observations does not show a future or unrelated month.');
   await timePeriod(page,'2025-11-01','2026-05-01');
   await timeUnit(page,'Quarter');
   // Native anchors move within the same document; saved-filter permalinks do not.

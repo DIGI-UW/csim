@@ -43,6 +43,25 @@ test('Readers can open the September dashboard and find each matching login',asy
   expect(destination.searchParams.get('next')).toBe('/superset/dashboard/csim-individual-reconciled-months/');
 });
 
+test('Beth review starts with the official dashboard and separates decisions from the known limitation',async({page},info)=>{
+  await page.goto('/beth-review.html');
+  await expect(page.getByRole('heading',{name:'Review the CSiM dashboard with Beth'})).toBeVisible();
+  await expect(page.getByRole('link',{name:'Open the dashboard →'})).toHaveAttribute('href','https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/');
+  await expect(page.getByRole('heading',{name:'Known official 6.1.0 limitation'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Two decisions needed from the team'})).toBeVisible();
+  await expect(page.locator('body')).toContainText('Hospital 53');
+  await expect(page.locator('body')).toContainText('Historical-to-individual transition');
+  await expect(page.locator('body')).toContainText('hospital 58');
+  await expect(page.locator('body')).toContainText('No Superset application code change is required');
+  const evidence=page.locator('img');
+  await expect(evidence).toHaveCount(7);
+  expect(await evidence.evaluateAll(images=>images.every(image=>image.complete&&image.naturalWidth>0))).toBe(true);
+  await page.setViewportSize({width:1280,height:900});
+  await page.screenshot({path:info.outputPath('beth-review-desktop.png'),fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  await page.screenshot({path:info.outputPath('beth-review-mobile.png'),fullPage:true});
+});
+
 test('Version comparison does not pass custom installations off as standard Superset',async({page})=>{
   await page.goto('/#versions');
   const rows=page.locator('#versions tbody tr');

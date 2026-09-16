@@ -1,4 +1,4 @@
-# Standalone chart, linked from the dashboard but outside its filter scopes.
+# Standalone admin chart outside the dashboard and its filter scopes.
 require_relative 'prepare_reconciled'
 module AggregateDownload
   def self.add(target, profile)
@@ -18,12 +18,6 @@ module AggregateDownload
         'extra_form_data'=>{}, 'dashboards'=>[]}
     }
     ReconciledDashboard.write(File.join(target, 'charts/Aggregate_ALL_DATA_Download.yaml'), chart)
-    path = Dir[File.join(target, 'dashboards/*.yaml')].fetch(0)
-    dashboard = ReconciledDashboard.read(path)
-    note = dashboard['position'].fetch('MARKDOWN-8qLF0rtVZnycDfi3XPowe').fetch('meta')
-    note['code'] += "\n\n**Download aggregate results:** [Aggregate ALL DATA — Download](/explore/?slice_id=109). After uploading Current, open this separate table, refresh its results, then download CSV. Dashboard selections do not restrict this table."
-    note['height'] = [note['height'], 30].max
-    ReconciledDashboard.write(path, dashboard)
     manifest_path = File.join(target, 'manifest.json')
     manifest = JSON.parse(File.read(manifest_path))
     manifest['standaloneCharts'] = [{'uuid'=>identity, 'sourceId'=>109, 'name'=>chart['slice_name']}]

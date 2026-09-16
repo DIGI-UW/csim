@@ -1,7 +1,7 @@
 ---
 slice_name: UC location (own hospital stacked) - Ind
-description: Choose Your hospital in Filters and controls. No hospital data is combined
-  while the selection is empty.
+description: Choose Your hospital in Filters and controls. The legend identifies that
+  hospital. No hospital data is combined while the selection is empty.
 certified_by:
 certification_details:
 viz_type: echarts_timeseries_bar
@@ -40,6 +40,7 @@ params:
     optionName: metric_72yke0nil7n_ex37wdlbwo
     sqlExpression:
   groupby:
+  - hosp_code
   - location_name
   adhoc_filters:
   - expressionType: SIMPLE

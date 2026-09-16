@@ -1,6 +1,7 @@
 # Download the aggregate dataset
 
-Open **Aggregate ALL DATA — Download** from the dashboard. It is a standalone
+Open **Aggregate ALL DATA — Download** from the administrator's Charts list or
+saved bookmark. It is intentionally absent from the hospital-facing dashboard. It is a standalone
 Table chart using the existing UTI Aggregate ALL DATA virtual dataset. It is not
 another database table, and dashboard selections are not carried into it.
 
@@ -19,7 +20,6 @@ when refreshing a substantially larger source; a finite row limit is not an
 unlimited export promise.
 
 The download chart is included in the dashboard asset package but is deliberately
-absent from its layout and filter scopes. The importer resolves the relative
-chart link using its persistent identity on each destination. Importing an update
-must preserve that separation. The known-record example has its own download
+absent from its layout and filter scopes. Importing an update must preserve that
+separation. The known-record example has its own download
 chart against the separate fixture database.
