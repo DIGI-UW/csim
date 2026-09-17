@@ -7,7 +7,7 @@ from pathlib import Path
 
 import yaml
 from superset.app import create_app
-from dashboard_import import STANDARD_PROFILES, MONTH_PROFILES, linked_chart_definitions, resolve_chart_links
+from dashboard_import import STANDARD_PROFILES, MONTH_PROFILES, CLIENT_PROFILES, linked_chart_definitions, resolve_chart_links
 
 ROOT = Path(os.environ.get('CSIM_PROJECT_ROOT', '/repro'))
 
@@ -77,7 +77,7 @@ def verify(profile: str):
                 expected_params['annotation_layers'] = []
             if os.environ.get('CSIM_SNAPSHOT') == '1' and expected_params.get('viz_type') == 'table':
                 expected_params['viz_type'] = 'ag-grid-table'
-            if profile in ('corrected', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES) and os.environ.get('CSIM_SNAPSHOT') != '1':
+            if profile in ('corrected', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES, *CLIENT_PROFILES) and os.environ.get('CSIM_SNAPSHOT') != '1':
                 expected_params['slice_id'] = actual.id
                 expected_params['dashboards'] = [] if expected['uuid'] in linked else [dashboard.id]
             assert actual_params == expected_params, (expected['slice_name'], {key: {'expected': expected_params.get(key), 'actual': actual_params.get(key)} for key in set(expected_params) | set(actual_params) if expected_params.get(key) != actual_params.get(key)})
@@ -140,11 +140,11 @@ def verify(profile: str):
         }
         Path(f'/tmp/csim-{profile}-import-verification.json').write_text(json.dumps(report, indent=2))
         print(json.dumps(report))
-        if profile in ('corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES):
+        if profile in ('corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES, *CLIENT_PROFILES):
             assert report['cached_scope_references']['all_match'], 'Imported filter scope caches must match the intended chart references'
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES), default='corrected')
+    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'simple', 'simple-examples', 'examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES, *CLIENT_PROFILES), default='corrected')
     verify(parser.parse_args().profile)

@@ -1,0 +1,73 @@
+---
+slice_name: Inappropriate UTI diagnosis (latest month comparison) - Ind
+description: Latest available month — independent of Time Period and Time Unit. Choose
+  one numeric hospital in Hospital and State. The table shows that hospital’s latest
+  available reporting month and compares it with its state and cohort, across all
+  collection locations.
+certified_by:
+certification_details:
+viz_type: table
+params:
+  datasource: 16__table
+  viz_type: table
+  slice_id: 94
+  query_mode: aggregate
+  groupby:
+  - hosp_code
+  - Month
+  - Your Hospital
+  - Comparison
+  - Cohort
+  - Your State
+  - State
+  temporal_columns_lookup: {}
+  all_columns: []
+  percent_metrics: []
+  adhoc_filters:
+  - expressionType: SQL
+    sqlExpression: "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~
+      '^[0-9]+([.][0-9]+)?$'"
+    clause: WHERE
+    isExtra: false
+    filterOptionName: filter_csim_selected_hospital
+  order_by_cols: []
+  server_pagination: false
+  server_page_length: 10
+  row_limit: 1000
+  percent_metric_calculation: row_limit
+  show_totals: false
+  table_timestamp_format: smart_date
+  include_search: false
+  allow_rearrange_columns: true
+  allow_render_html: true
+  column_config:
+    Cohort:
+      d3NumberFormat: ",.0%"
+    Your Hospital:
+      d3NumberFormat: ",.0%"
+    Your State:
+      d3NumberFormat: ",.0%"
+    hosp_code:
+      columnWidth:
+      truncateLongCells: false
+  show_cell_bars: false
+  align_pn: true
+  color_pn: false
+  comparison_color_enabled: false
+  comparison_color_scheme: Green
+  conditional_formatting: []
+  comparison_type: values
+  extra_form_data: {}
+  dashboards:
+  - 5
+  annotation_layers: []
+query_context: '{"datasource":{"id":16,"type":"table"},"force":false,"queries":[{"filters":[],"extras":{"having":"","where":"({{
+  filter_values(''hosp_code'') | length }} = 1 AND hosp_code ~ ''^[0-9]+([.][0-9]+)?$'')"},"applied_time_extras":{},"columns":["hosp_code","Month","Your
+  Hospital","Comparison","Cohort","Your State","State"],"metrics":[],"orderby":[],"annotation_layers":[],"row_limit":1000,"series_limit":0,"group_others_when_limit_reached":false,"order_desc":true,"url_params":{},"custom_params":{},"custom_form_data":{},"post_processing":[],"time_offsets":[]}],"form_data":{"adhoc_filters":[{"clause":"WHERE","expressionType":"SQL","filterOptionName":"filter_csim_selected_hospital","isExtra":false,"sqlExpression":"{{
+  filter_values(''hosp_code'') | length }} = 1 AND hosp_code ~ ''^[0-9]+([.][0-9]+)?$''"}],"align_pn":true,"all_columns":[],"allow_rearrange_columns":true,"allow_render_html":true,"annotation_layers":[],"color_pn":false,"column_config":{"Cohort":{"d3NumberFormat":",.0%"},"Your
+  Hospital":{"d3NumberFormat":",.0%"},"Your State":{"d3NumberFormat":",.0%"},"hosp_code":{"columnWidth":null,"truncateLongCells":false}},"comparison_color_enabled":false,"comparison_color_scheme":"Green","comparison_type":"values","conditional_formatting":[],"dashboards":[5],"datasource":"16__table","extra_form_data":{},"groupby":["hosp_code","Month","Your
+  Hospital","Comparison","Cohort","Your State","State"],"include_search":false,"order_by_cols":[],"percent_metric_calculation":"row_limit","percent_metrics":[],"query_mode":"aggregate","row_limit":1000,"server_page_length":10,"server_pagination":false,"show_cell_bars":false,"show_totals":false,"slice_id":94,"table_timestamp_format":"smart_date","temporal_columns_lookup":{},"viz_type":"table","force":false,"result_format":"json","result_type":"full"},"result_format":"json","result_type":"full"}'
+cache_timeout:
+uuid: 8b87a7f4-7c38-4351-a8c1-4638767594a7
+version: 1.0.0
+dataset_uuid: 104a70e6-027b-419a-87e1-8c45b5cb3e0c

@@ -1,0 +1,73 @@
+{
+  "baselineImport": "passed",
+  "firstUpdateImport": "passed",
+  "secondUpdateImport": "passed",
+  "noDuplicateObjects": true,
+  "databaseConnectionUnchanged": true,
+  "dashboardIdentityUnchanged": true,
+  "datasetIdentitiesUnchanged": true,
+  "charts": 21,
+  "datasets": 6,
+  "tableOfContentsLinks": 9,
+  "definitionVerification": [
+    "SQL",
+    "calculated columns",
+    "measures",
+    "chart settings",
+    "palette metadata",
+    "layout",
+    "filter defaults",
+    "filter scopes",
+    "cached scope references"
+  ],
+  "reportingRowsIncludedInPackage": false,
+  "state": {
+    "database": {
+      "id": 1,
+      "uuid": "21edc228-aaaf-4fbf-8c28-b47844ae09e2",
+      "name": "PostgreSQL",
+      "sqlalchemyUriStored": "postgresql://postgres:XXXXXXXXXX@postgres:5432/data",
+      "extra": "{\"metadata_params\": {}, \"engine_params\": {}, \"metadata_cache_timeout\": {}, \"schemas_allowed_for_file_upload\": []}",
+      "allowFileUpload": true,
+      "exposeInSqlLab": true
+    },
+    "dashboard": {
+      "id": 1,
+      "uuid": "57a603fc-a061-443f-8270-287a975d1bfc",
+      "slug": null
+    },
+    "chartUuids": [
+      "02b20c35-3ed0-4f8c-9908-3d399d8bd2f0",
+      "07031027-d38c-4606-b62c-c6c83a064245",
+      "0f9be896-be82-486f-820f-358d59b7f175",
+      "1ee5afbc-3c34-423f-ba44-df8086538aa3",
+      "202d48c2-f277-4c61-8713-33a570f36882",
+      "205ec2b5-c087-4870-8a00-e2d98c1e1df5",
+      "33a3f236-90d4-4ac1-8b5c-3fb633cae114",
+      "41de17c6-0a4a-48d7-aa1b-6fc4462f293e",
+      "60dde15d-8e97-48d1-a5c7-0e6cf4ac2525",
+      "71dd98b4-4fa6-44a7-abd8-5ca99001975b",
+      "7f2dcacf-447a-4107-af94-a0425dfaa642",
+      "8b87a7f4-7c38-4351-a8c1-4638767594a7",
+      "914af213-456c-401a-be8b-549972fea8f6",
+      "94955872-f6d7-48b2-b194-1606dc6f6735",
+      "96658808-c8f6-4aa9-a7c9-1d76ff6d70cd",
+      "9f878336-fecc-4263-adba-6a40719f1926",
+      "a84edca7-724f-530c-8ecf-b09456519b70",
+      "ce5c6d13-60e9-46e0-8250-6739b5bae3f5",
+      "dec02eaa-efac-4b1a-b086-aa73f6fc7c40",
+      "ec004284-4669-4b60-aa60-8cd95c47c0e6",
+      "ef9db8f6-7aa7-41dd-b995-876dd07437c8"
+    ],
+    "datasetUuids": [
+      "104a70e6-027b-419a-87e1-8c45b5cb3e0c",
+      "7be87e2d-0a35-4f60-97fd-a114550bb170",
+      "a4f0955a-d042-474b-a29b-811b98c90950",
+      "a8224d1c-7968-4218-8500-a2e94ed00b11",
+      "c17c5b6e-0945-4817-96a4-b11010885ed1",
+      "c32703e0-f62f-46ee-b920-58363d6f95ba"
+    ],
+    "uniqueCharts": true,
+    "uniqueDatasets": true
+  }
+}

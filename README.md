@@ -1,13 +1,15 @@
 # CSiM Individual Data dashboard
 
-Current client package and editing handoff: [Client delivery](CLIENT-DELIVERY.md). Beth is editing the official review dashboard; preserve and reconcile her saved changes before any asset deployment.
+Current client package and installation handoff: [Client delivery](CLIENT-DELIVERY.md).
+The identity-preserving main-dashboard ZIP and its repeat-import receipt are in
+[the client update release](release/client-update/README.md). It has passed an
+isolated official Superset 6.1.0 rehearsal; it has not been installed or accepted
+on the client's instance.
 
 The client target is the full September Individual Data dashboard on official
-Superset 6.1.0, with no CSiM application patches. Its current review version has
-21 reporting charts, a reporting-period summary, the six familiar reporting
-datasets and one summary helper. Beth's accepted edits will define the final
-contents. The separate known-record example and older comparisons are not part
-of the client package.
+Superset 6.1.0, with no CSiM application patches. Its reviewed version has 21
+charts and the six familiar reporting datasets. The separate known-record
+example, older comparisons, and demo database are not part of the client package.
 
 Public links: [official review dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/),
 [review checklist](https://design.csim.uwdigi.org/beth-review.html), and

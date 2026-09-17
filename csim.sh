@@ -5,11 +5,12 @@ cd "$(dirname "$0")"
 main() {
 profile="${1:-corrected}"
 action="${2:-status}"
-case "$profile" in baseline|corrected|fixture|preview|preview-fixture|standard|development) ;; *) echo 'Unknown CSiM profile.' >&2; exit 2 ;; esac
-case "$profile" in corrected) port=18189 ;; baseline) port=18190 ;; fixture) port=18191 ;; preview) port=18192 ;; preview-fixture) port=18193 ;; standard) port=18194 ;; development) port=18195 ;; esac
+case "$profile" in baseline|corrected|fixture|preview|preview-fixture|standard|development|client) ;; *) echo 'Unknown CSiM profile.' >&2; exit 2 ;; esac
+case "$profile" in corrected) port=18189 ;; baseline) port=18190 ;; fixture) port=18191 ;; preview) port=18192 ;; preview-fixture) port=18193 ;; standard) port=18194 ;; development) port=18195 ;; client) port=18196 ;; esac
 package_profile="$profile"
 [[ "$profile" != fixture ]] || package_profile=corrected
 [[ "$profile" != preview-fixture ]] || package_profile=preview
+[[ "$profile" != client ]] || package_profile=client-update
 env_file=".env.${profile}"
 
 if [[ ! -f "$env_file" ]]; then
@@ -31,6 +32,8 @@ with open(path, 'x', encoding='utf-8') as output:
         output.write('CSIM_SUPERSET_REF=e22ce197866ded732e4990063ae74697d89d383a\nCSIM_PATCH=superset-snapshot-csim-period.patch\nCSIM_NODE_IMAGE=node:24.16.0-bookworm-slim\n')
     if profile == 'standard':
         output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=6.1.0-standard\nCSIM_WEB_WORKERS=4\n')
+    if profile == 'client':
+        output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=6.1.0-standard\nCSIM_WEB_WORKERS=1\n')
     if profile == 'development':
         output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=e22ce197-standard\nCSIM_SNAPSHOT=1\n')
         output.write('CSIM_SUPERSET_IMAGE=apache/superset:e22ce197866ded732e4990063ae74697d89d383a-dev@sha256:4abe143d471d0e2b3985b6903a3c2595e0ac94bb9f0c68f5e09934a9ec2a3adb\n')
@@ -170,6 +173,13 @@ PYWORKERS
   test-update)
     compose exec -T superset python /repro/scripts/test_update.py --profile "$package_profile"
     ;;
+  client-rehearsal)
+    [[ "$profile" == client ]] || { echo 'The client rehearsal uses its own isolated client profile.' >&2; exit 2; }
+    restore
+    compose exec -T superset python /repro/scripts/rehearse_client_update.py
+    mkdir -p output
+    compose cp superset:/tmp/csim-client-update-rehearsal.json output/client-update-rehearsal.json
+    ;;
   verify-import)
     compose exec -T superset python /repro/scripts/verify_import.py --profile "$package_profile"
     mkdir -p output
@@ -188,7 +198,7 @@ PYWORKERS
     compose down --volumes
     ;;
   *)
-    echo 'Usage: csim.sh {baseline|corrected|fixture|preview} {init|demo-restore|update|verify-import|pack|status|down|reset}' >&2
+    echo 'Usage: csim.sh {baseline|corrected|fixture|preview|standard|development|client} {init|demo-restore|update|verify-import|pack|client-rehearsal|status|down|reset}' >&2
     exit 2
     ;;
 esac

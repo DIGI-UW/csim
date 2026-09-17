@@ -47,5 +47,5 @@ def check_update(profile):
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser()
-    parser.add_argument('--profile', choices=['corrected','preview','reconciled','reconciled-examples',*importer.STANDARD_PROFILES,*importer.MONTH_PROFILES],default='corrected')
+    parser.add_argument('--profile', choices=['corrected','preview','reconciled','reconciled-examples',*importer.STANDARD_PROFILES,*importer.MONTH_PROFILES,*importer.CLIENT_PROFILES],default='corrected')
     check_update(parser.parse_args().profile)

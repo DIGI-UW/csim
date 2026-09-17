@@ -12,13 +12,13 @@ import os
 from pathlib import Path
 import zipfile
 
-import requests
 import yaml
 
 ROOT = Path(os.environ.get('CSIM_PROJECT_ROOT', '/repro'))
 STANDARD_PROFILES = ('standard', 'standard-examples', 'development', 'development-examples', 'standard-sortable', 'development-sortable', 'standard-sortable-examples', 'development-sortable-examples')
 STANDARD_PROFILES += ('standard-month-selectors', 'standard-month-selectors-examples')
 MONTH_PROFILES = ('reconciled-months', 'reconciled-months-examples')
+CLIENT_PROFILES = ('client-baseline', 'client-update')
 
 
 def package(profile: str) -> Path:
@@ -29,6 +29,7 @@ def package(profile: str) -> Path:
 
 
 def connection():
+    import requests
     base = 'http://localhost:8088'
     session = requests.Session()
     login = session.post(
@@ -92,7 +93,7 @@ def import_dashboard(profile: str):
         raise ValueError(f'Native assets import failed ({response.status_code}): {response.text[:2000]}')
     if response.json().get('message') != 'OK':
         raise ValueError(f'Unexpected native import response: {response.text[:1000]}')
-    if profile in ('corrected','examples','reconciled','reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES) and os.environ.get('CSIM_SNAPSHOT') != '1':
+    if profile in ('corrected','examples','reconciled','reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES, *CLIENT_PROFILES) and os.environ.get('CSIM_SNAPSHOT') != '1':
         repair_numeric_references(directory)
     return directory
 
@@ -284,7 +285,7 @@ def receipt(profile: str):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('action', choices=('import', 'receipt', 'pack'))
-    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'hourly', 'examples', 'simple', 'simple-examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES), default='corrected')
+    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'hourly', 'examples', 'simple', 'simple-examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES, *CLIENT_PROFILES), default='corrected')
     args = parser.parse_args()
     if args.action == 'import':
         import_dashboard(args.profile)
