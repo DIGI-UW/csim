@@ -10,14 +10,14 @@
 <a href="./">← CSiM dashboard overview</a>
 <h1>Review the CSiM dashboard with Beth</h1>
 <p class="lead">Start with the full September dashboard on official Superset 6.1.0. Use this guide to understand the dates, choose the right hospital controls, and review the remaining filter limitations.</p>
-<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard →</a><a href="./#standard-instance">Login details</a><a href="native-dates.html">Date-entry guide</a><a href="filter-guide.html">Filters and charts catalogue →</a></div>
+<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard →</a><a href="./#standard-instance">Login details</a><a href="native-dates.html">Date-entry guide</a><a href="filter-guide.html">Filters and charts catalogue →</a><a href="data-guide.html">Data and uploads →</a></div>
 
 <section>
 <h2>What to review</h2>
 <table>
 <tr><th>Date range</th><td>Time Period opens in Custom. Enter a start date and an exclusive end date in the left sidebar.</td></tr>
 <tr><th>Month, quarter or year</th><td>Time Unit changes how the selected observations are grouped. It does not change the date range.</td></tr>
-<tr><th>Latest reporting month</th><td>The card shows the last observation month inside the chosen Time Period. It is labelled as an observation month, not an upload date.</td></tr>
+<tr><th>Latest reporting month</th><td>The card calculates the last reporting month inside the chosen Time Period. Its current title, “Latest Urine Culture Submission,” and day-level display need to be made consistent with that monthly meaning.</td></tr>
 <tr><th>Comparison context</th><td>The lower comparison charts carry the selected hospital or comparison group in their legend so a screenshot remains understandable.</td></tr>
 <tr><th>Chart colors</th><td>Yao's color assignments are preserved. A category keeps the same color when the legend includes a hospital code or comparison group.</td></tr>
 <tr><th>Section links</th><td>Table of Contents links stay on this dashboard and keep the active filter state. Sections 4.1–4.4 are grouped under section 4.</td></tr>
@@ -46,9 +46,9 @@
 
 <section id="dates-and-filters">
 <h2>Upload date and reporting month</h2>
-<p><strong>The upload note is typed text.</strong> Its date changes only when an editor changes and saves it. <strong>Latest reporting month</strong> is calculated from the observations within the selected hospital/state, location and Time Period.</p>
+<p><strong>The current dashboard has no upload-date note.</strong> The latest-month card is calculated from the observations within the selected hospital/state, location and Time Period.</p>
 <p>For example, uploading July observations in September means the upload date is in September, while the reporting month is July. The month card cannot tell us when a file was uploaded.</p>
-<p>The existing March 30 note is not a verified latest-upload date for this demo. A clearly labelled <strong>Last data upload</strong> note can be maintained manually. An automatic value would need a reliable record of successful uploads.</p>
+<p>Use month and year for the card, with wording that identifies it as reporting coverage. An automatic upload date would need a separate, reliable record of successful uploads. <a href="data-guide.html#dates">How the dates differ →</a></p>
 </section>
 
 <section id="filter-map">
@@ -75,7 +75,7 @@
 
 <section>
 <h2>Browser-checked evidence</h2>
-<p>These captures come from the official 6.1.0 dashboard and the supplied demonstration database. The complete check covered all 11 date axes at 1024, 1280 and 1600 pixels for Month, Quarter and Year: 99 chart views, with no clipped, overlapping or missing supported labels.</p>
+<p>These captures show the official 6.1.0 dashboard before the latest wording and legend edits, using the supplied demonstration database. They are reference evidence, not a fresh acceptance run for those edits. The complete check covered all 11 date axes at 1024, 1280 and 1600 pixels for Month, Quarter and Year: 99 chart views, with no clipped, overlapping or missing supported labels.</p>
 <div class="evidence">
 <figure><a href="evidence/beth-review/date-editor.png"><img src="evidence/beth-review/date-editor.png" alt="Official dashboard with the left filter panel and Custom start and end dates"></a><figcaption>Custom start and exclusive end dates open in the left sidebar.</figcaption></figure>
 <figure><a href="evidence/beth-review/latest-month.png"><img src="evidence/beth-review/latest-month.png" alt="Latest reporting month in selected period showing August 2026"></a><figcaption>The saved range ends before September 2026, so the card reports Aug 2026 instead of a future month.</figcaption></figure>

@@ -6,7 +6,7 @@ test('Shared catalogue is reachable and readable on desktop and mobile',async({p
   await expect(page).toHaveURL(/\/filter-guide\.html$/);
   await expect(page.getByRole('heading',{level:1})).toHaveText('Filters, charts and remaining issues');
   await expect(page.locator('#controls tbody tr')).toHaveCount(6);
-  await expect(page.locator('#chart-map tbody tr')).toHaveCount(9);
+  await expect(page.locator('#chart-map tbody tr')).toHaveCount(8);
   await expect(page.getByRole('link',{name:'Open the dashboard →',exact:true})).toHaveAttribute('href','https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/');
   for(const width of [1280,390]){
     await page.setViewportSize({width,height:900});

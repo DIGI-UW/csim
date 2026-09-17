@@ -9,8 +9,8 @@
 <main>
 <a class="back" href="./">← CSiM dashboard overview</a>
 <h1>Filters, charts and remaining issues</h1>
-<p class="lead">The CSiM dashboard has <strong>six controls and 22 data panels</strong>. Some panels show the selected period, others show all-time results or the latest available month. This catalogue describes their current behavior.</p>
-<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard →</a><a href="./#standard-instance">Login details</a><a href="beth-review.html">Review checklist and evidence</a></div>
+<p class="lead">The CSiM dashboard has <strong>six controls and 21 data panels</strong>. Some panels show the selected period, others show all-time results or the latest available month. This catalogue describes their current behavior.</p>
+<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard →</a><a href="./#standard-instance">Login details</a><a href="beth-review.html">Review checklist and evidence</a><a href="data-guide.html">Data and uploads</a></div>
 <nav aria-label="Catalogue sections"><a href="#controls">The six controls</a><a href="#chart-map">Which charts they affect</a><a href="#issues">What needs attention</a></nav>
 <section id="controls">
 <h2>The six controls</h2>
@@ -35,9 +35,8 @@
 <tr><th scope="row">Hospital total: 5</th><td data-label="Hospital">Your hospital</td><td data-label="Dates"><strong>All available dates</strong></td><td data-label="Location">Applies</td></tr>
 <tr><th scope="row">Cohort total: 5</th><td data-label="Hospital">Always the full cohort</td><td data-label="Dates"><strong>All available dates</strong></td><td data-label="Location">Applies</td></tr>
 <tr><th scope="row">Latest reporting month card</th><td data-label="Hospital">Hospital and state</td><td data-label="Dates">Latest month <strong>within the selected period</strong>; always a month</td><td data-label="Location">Applies</td></tr>
-<tr><th scope="row">Reporting period summary</th><td data-label="Hospital">None</td><td data-label="Dates">Displays the selected dates and grouping</td><td data-label="Location">None</td></tr>
 </tbody></table>
-<p>The manual upload note is text, not another data panel. Record review and aggregate download are separate pages; these dashboard filters do not control them.</p>
+<p>Record review and aggregate download are separate pages; these dashboard filters do not control them.</p>
 </section>
 <section id="issues">
 <h2>What needs attention?</h2>
@@ -45,7 +44,7 @@
 <div class="issue"><h3>2. Sections 4.2 and 5 mix controls and date coverage</h3><p>In 4.2, the trend/table use the upper hospital selector; the paired charts use the lower selectors. In 5, the selected-period trend cannot be directly compared with an all-time total unless the hospital, location and dates match.</p></div>
 <div class="issue"><h3>3. Some opening blanks require a hospital selection</h3><p>The default Cohort selection does not populate tables requiring one hospital. Lower hospital panels require <strong>Your hospital</strong>. These blanks do not, by themselves, mean data is missing.</p></div>
 <div class="issue"><h3>4. Clear all has a separate problem</h3><p>Superset 6.1.0 can retain stale selections when clearing and reselecting. Changing chart assignments does not fix this. <a href="beth-review.html#clear-all">See the known limitation.</a></p></div>
-<div class="issue"><h3>5. Reporting dates are monthly; upload dates are different</h3><p>The date editor accepts specific days, but observations have month/year precision. Use the first day of the starting month and the first day after the final month: February through March means <strong>February 1 to April 1</strong>. The end date is excluded.</p><p>The upload note is manually maintained; the latest-reporting-month card is calculated from observations. Uploading July data in September does not change its reporting month to September.</p></div>
+<div class="issue"><h3>5. Reporting dates are monthly; upload dates are different</h3><p>The date editor accepts specific days, but observations have month/year precision. Use the first day of the starting month and the first day after the final month: February through March means <strong>February 1 to April 1</strong>. The end date is excluded.</p><p>The latest-month card is calculated from observations; there is no upload timestamp on the current dashboard. Uploading July data in September does not change its reporting month to September.</p></div>
 </section>
 <section><h2>Already settled</h2><p>The earlier hospital 53 count concern and Historical/Current overlap question are marked resolved. They do not require new calculation rules.</p></section>
 <footer>Official Superset 6.1.0 · <a href="./">Dashboard overview</a> · <a href="beth-review.html">Review checklist</a> · <a href="native-dates.html">Date-entry guide</a></footer>
