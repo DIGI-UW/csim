@@ -57,9 +57,8 @@ already been installed in the client's Superset or accepted by the client.
 ## Installation sequence
 
 For a manual installation, follow [`manual/README.md`](manual/README.md). Import
-the dataset, chart, and dashboard ZIPs in that order, then open and save each
-dashboard filter once so Superset records its scope using the destination's
-numeric chart identifiers.
+the dataset, chart, and dashboard ZIPs in that order. Superset records the
+filter targets and scopes using the destination's numeric chart identifiers.
 
 For a repeatable administrator installation:
 

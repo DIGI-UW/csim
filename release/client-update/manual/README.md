@@ -19,10 +19,12 @@ the definitions. Use the password for the destination's existing `PostgreSQL`
 connection. The import reuses that connection; it does not replace the client's
 reporting database.
 
-After the third import, open the existing CSiM Individual Data dashboard. In
-**Edit dashboard > Filters**, open and save each filter so its chart scope is
-stored using the destination instance's chart identifiers. Then save the
-dashboard.
+After the third import, open the existing CSiM Individual Data dashboard and
+check the expected filters and charts. Superset maps the filter targets and
+excluded-chart scope to the destination during import. To inspect or change a
+filter later, open **Edit dashboard**, open the filter bar's settings menu, and
+choose **Add or edit filters**. Do not save filters merely to complete the
+installation.
 
 Do not import the files out of order. Superset 6.1.0 does not update a
 dashboard's existing datasets and charts when they arrive only as dashboard

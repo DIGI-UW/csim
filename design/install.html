@@ -18,8 +18,8 @@
 <div class="pending"><strong>Client installation pending</strong><span>The package has not yet been installed or accepted on the client's instance.</span></div>
 </div>
 
-<div class="actions"><a class="button" href="#artifacts">Download the three manual import files</a><a class="secondary" href="#install">Follow the manual steps</a><a href="https://github.com/DIGI-UW/csim/tree/codex/csim-native-usability/release/client-update/manual">Open the versioned bundle</a><a href="review.html">Open the dashboard review guide</a></div>
-<nav aria-label="Installation sections"><a href="#contents">What changes</a><a href="#artifacts">Release files</a><a href="#before">Prepare Superset</a><a href="#install">Update</a><a href="#verify">Confirm</a><a href="#rollback">Rollback</a><a href="#limits">Limits</a></nav>
+<div class="actions"><a class="button" href="#manual-install">Use the manual installation</a><a class="secondary" href="#automated-install">Open the automated option</a><a href="https://github.com/DIGI-UW/csim/tree/codex/csim-native-usability/release/client-update/manual">Open the versioned bundle</a><a href="review.html">Open the dashboard review guide</a></div>
+<nav aria-label="Installation sections"><a href="#contents">What changes</a><a href="#artifacts">Release files</a><a href="#before">Prepare Superset</a><a href="#manual-install">Manual installation</a><a href="#automated-install">Automated option</a><a href="#verify">Confirm</a><a href="#rollback">Rollback</a><a href="#limits">Limits</a></nav>
 
 <section id="contents"><h2>What this update changes</h2>
 <table><tbody>
@@ -70,16 +70,17 @@
 <p class="note"><strong>No custom Superset build is required.</strong> The date behavior, labels, missing-period rows, filter scopes and saved defaults are in the released dashboard, chart and dataset definitions. The production configuration enables those definitions and limits the instance-wide menu.</p>
 </section>
 
-<section id="install"><h2>Update the existing dashboard through Superset</h2>
+<section id="manual-install"><h2>Manual installation — use the Superset screens</h2>
 <ol class="steps">
 <li><h3>Pause dashboard editing and back up the destination</h3><p>Export the current client dashboard with its charts and datasets. Also take a Superset metadata-database backup using the client's established procedure. If the export contains edits newer than the September source, reconcile them before continuing.</p></li>
 <li><h3>Import the reporting datasets</h3><p>Open <strong>Datasets</strong>, choose <strong>Import dataset</strong>, and upload <a href="downloads/01-csim-reporting-datasets.zip">01-csim-reporting-datasets.zip</a>. Turn on <strong>Overwrite</strong>. If Superset asks for the PostgreSQL password, enter the password for the destination's existing <strong>PostgreSQL</strong> connection. If offered, keep column and metric synchronization enabled.</p></li>
 <li><h3>Import the charts</h3><p>Open <strong>Charts</strong>, choose <strong>Import chart</strong>, and upload <a href="downloads/02-csim-dashboard-charts.zip">02-csim-dashboard-charts.zip</a>. Turn on <strong>Overwrite</strong>.</p></li>
 <li><h3>Import the dashboard</h3><p>Open <strong>Dashboards</strong>, choose <strong>Import dashboard</strong>, and upload <a href="downloads/03-csim-dashboard.zip">03-csim-dashboard.zip</a>. Turn on <strong>Overwrite</strong>.</p></li>
-<li><h3>Save the destination's filter references</h3><p>Open the existing CSiM Individual Data dashboard. Choose <strong>Edit dashboard</strong>, then <strong>Filters</strong>. Open and save each filter, close the filter editor, and save the dashboard. This stores the filter scopes with the destination instance's chart identifiers.</p></li>
 </ol>
 <p class="warning note"><strong>Keep the order: datasets, charts, dashboard.</strong> In Superset 6.1.0, importing only the dashboard does not overwrite the existing dependent datasets and charts. The three files make each update explicit.</p>
-<details><summary>Repeatable administrator option</summary><p>The repository also contains an automated installer and definition comparison for future repeated deployments. This is useful for a technical administrator, but it is not required for the manual installation above.</p><pre><code>git clone https://github.com/DIGI-UW/csim.git
+</section>
+
+<section id="automated-install"><h2>Automated installation — technical administrator option</h2><p>This repeatable route is useful when an administrator will install the same release in more than one environment. It is not required for the manual installation above.</p><pre><code>git clone https://github.com/DIGI-UW/csim.git
 cd csim
 git checkout codex/csim-native-usability
 
@@ -88,7 +89,7 @@ export CSIM_SUPERSET_USERNAME="ADMIN-USERNAME"
 export CSIM_ADMIN_PASSWORD="ADMIN-PASSWORD"
 
 python scripts/dashboard_import.py import --profile client-update
-python scripts/verify_import.py --profile client-update</code></pre></details>
+python scripts/verify_import.py --profile client-update</code></pre>
 </section>
 
 <section id="verify"><h2>Confirm the update loaded</h2>
@@ -105,7 +106,7 @@ python scripts/verify_import.py --profile client-update</code></pre></details>
 <section id="limits"><h2>Known limits and decisions</h2>
 <ul>
 <li><strong>Clear all:</strong> official Superset 6.1.0 can retain a stale selection after Clear all and reselect. Reload after using Clear all. This package documents the limitation; it does not add a Superset patch.</li>
-<li><strong>Manual filter save:</strong> after the three imports, open and save each dashboard filter once so Superset records its scope using the destination's chart identifiers.</li>
+<li><strong>Filter scopes:</strong> the Superset 6.1.0 importer maps dashboard filter targets and excluded charts to the destination identifiers. Open <strong>Edit dashboard</strong>, then the filter bar’s settings menu and <strong>Add or edit filters</strong> only when reviewing or intentionally changing a filter.</li>
 <li><strong>Time Unit choices:</strong> the short Month/Quarter/Year menu comes from the installation-wide <code>TIME_GRAIN_DENYLIST</code> shown above. It is not stored in the dashboard ZIP.</li>
 <li><strong>Supporting records view:</strong> the separate Data &amp; records package still needs destination installation and role checks if the client accepts that workflow.</li>
 </ul>
