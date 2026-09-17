@@ -30,11 +30,12 @@ def package(profile: str) -> Path:
 
 def connection():
     import requests
-    base = 'http://localhost:8088'
+    base = os.environ.get('CSIM_SUPERSET_URL', 'http://localhost:8088').rstrip('/')
+    username = os.environ.get('CSIM_SUPERSET_USERNAME', 'demo')
     session = requests.Session()
     login = session.post(
         f'{base}/api/v1/security/login',
-        json={'username': 'demo', 'password': os.environ['CSIM_ADMIN_PASSWORD'], 'provider': 'db'},
+        json={'username': username, 'password': os.environ['CSIM_ADMIN_PASSWORD'], 'provider': 'db'},
         timeout=30,
     )
     login.raise_for_status()
@@ -51,10 +52,12 @@ def connection():
     return base, session
 
 
-def archive(directory: Path) -> bytes:
+def archive(directory: Path, *, omit_database: bool = False) -> bytes:
     payload = io.BytesIO()
     with zipfile.ZipFile(payload, 'w', zipfile.ZIP_DEFLATED) as target:
         for file in sorted(directory.rglob('*.yaml')):
+            if omit_database and file.parent == directory / 'databases':
+                continue
             entry = zipfile.ZipInfo(
                 f'csim/{file.relative_to(directory).as_posix()}', date_time=(1980, 1, 1, 0, 0, 0)
             )
@@ -78,14 +81,15 @@ def dashboard_definition(directory: Path):
 def import_dashboard(profile: str):
     directory = package(profile)
     base, session = connection()
+    sparse = profile == 'client-update'
     passwords = {
         file.relative_to(directory).as_posix(): os.environ['CSIM_DB_PASSWORD']
         for file in (directory / 'databases').glob('*.yaml')
-    }
+    } if not sparse else {}
     response = session.post(
         f'{base}/api/v1/assets/import/',
-        files={'bundle': ('csim-dashboard.zip', archive(directory), 'application/zip')},
-        data={'passwords': json.dumps(passwords), 'overwrite': 'true'},
+        files={'bundle': ('csim-dashboard.zip', archive(directory, omit_database=sparse), 'application/zip')},
+        data={'passwords': json.dumps(passwords), 'sparse': str(sparse).lower()},
         timeout=120,
         allow_redirects=False,
     )
@@ -275,7 +279,9 @@ def receipt(profile: str):
             'dashboard_id': dashboard.id,
             'dashboard_uuid': str(dashboard.uuid),
             'charts': charts,
-            'package_sha256': hashlib.sha256(archive(directory)).hexdigest(),
+            'package_sha256': hashlib.sha256(
+                archive(directory, omit_database=profile == 'client-update')
+            ).hexdigest(),
         }
         destination = Path(f'/tmp/csim-{profile}-receipt.json')
         destination.write_text(json.dumps(result, indent=2))
@@ -294,5 +300,7 @@ if __name__ == '__main__':
         receipt(args.profile)
     else:
         output = Path(f'/tmp/csim-{args.profile}-dashboard.zip')
-        output.write_bytes(archive(package(args.profile)))
+        output.write_bytes(archive(
+            package(args.profile), omit_database=args.profile == 'client-update'
+        ))
         print(output)

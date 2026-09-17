@@ -3,7 +3,15 @@
   "firstUpdateImport": "passed",
   "secondUpdateImport": "passed",
   "noDuplicateObjects": true,
-  "databaseConnectionUnchanged": true,
+  "databaseConnectionPreserved": true,
+  "databaseConnectionQueryBeforeUpdate": "passed",
+  "databaseConnectionQueryAfterEachUpdate": "passed",
+  "databaseDefinitionIncludedInUpdateArchive": false,
+  "connectionCheckRows": {
+    "before": 57,
+    "afterFirst": 57,
+    "afterSecond": 57
+  },
   "dashboardIdentityUnchanged": true,
   "datasetIdentitiesUnchanged": true,
   "charts": 21,
@@ -26,10 +34,10 @@
       "id": 1,
       "uuid": "21edc228-aaaf-4fbf-8c28-b47844ae09e2",
       "name": "PostgreSQL",
-      "sqlalchemyUriStored": "postgresql://postgres:XXXXXXXXXX@postgres:5432/data",
-      "extra": "{\"metadata_params\": {}, \"engine_params\": {}, \"metadata_cache_timeout\": {}, \"schemas_allowed_for_file_upload\": []}",
-      "allowFileUpload": true,
-      "exposeInSqlLab": true
+      "sqlalchemyUriStored": "postgresql://csim:XXXXXXXXXX@db:5432/csim_demo",
+      "extra": "{\"metadata_params\": {}, \"engine_params\": {}, \"metadata_cache_timeout\": {}, \"schemas_allowed_for_file_upload\": [], \"client_rehearsal_marker\": \"preserve-destination-connection\"}",
+      "allowFileUpload": false,
+      "exposeInSqlLab": false
     },
     "dashboard": {
       "id": 1,

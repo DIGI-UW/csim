@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'json'
 require 'minitest/autorun'
+require 'open3'
 require 'set'
 require 'yaml'
 require_relative 'prepare_client_update'
@@ -25,7 +26,7 @@ class ClientUpdateTest < Minitest::Test
     end
   end
 
-  def test_preserves_client_identities_and_connection
+  def test_preserves_client_identities_and_database_reference
     client_database = read(Dir[File.join(@client, 'databases/*.yaml')].fetch(0))
     update_database = read(Dir[File.join(@update, 'databases/*.yaml')].fetch(0))
     assert_equal client_database, update_database
@@ -50,6 +51,23 @@ class ClientUpdateTest < Minitest::Test
     assert_equal 21, update_charts.length
     client_charts.each { |name, source| assert_equal source['uuid'], update_charts.fetch(name)['uuid'], name }
     assert update_charts.key?('Latest Urine Culture Submission')
+  end
+
+  def test_release_bundle_omits_database_object_and_rehearsal_queries_connection
+    bundle = File.join(ROOT, 'release/client-update/csim-client-update-dashboard.zip')
+    entries, error, status = Open3.capture3('unzip', '-Z1', bundle)
+    assert status.success?, error
+    paths = entries.lines.map(&:strip)
+    assert_equal 21, paths.count { |path| path.start_with?('csim/charts/') }
+    assert_equal 6, paths.count { |path| path.start_with?('csim/datasets/') }
+    refute paths.any? { |path| path.start_with?('csim/databases/') }
+
+    receipt = JSON.parse(File.read(File.join(ROOT, 'release/client-update/rehearsal.json')))
+    assert_equal false, receipt.fetch('databaseDefinitionIncludedInUpdateArchive')
+    assert_equal true, receipt.fetch('databaseConnectionPreserved')
+    assert_equal 'passed', receipt.fetch('databaseConnectionQueryBeforeUpdate')
+    assert_equal 'passed', receipt.fetch('databaseConnectionQueryAfterEachUpdate')
+    assert_equal [57], receipt.fetch('connectionCheckRows').values.uniq
   end
 
   def test_preserves_client_source_tables_without_demo_connection

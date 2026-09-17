@@ -1,10 +1,14 @@
 """Rehearse the client baseline import and two update imports in isolation."""
+import hashlib
 import json
+import os
 from pathlib import Path
+from urllib.parse import quote_plus
 
 import dashboard_import as importer
 import verify_import as verifier
 import yaml
+from sqlalchemy import text
 from superset.app import create_app
 
 
@@ -62,6 +66,58 @@ def inventory(expected):
     return result
 
 
+def database_record():
+    from superset import db
+    from superset.models.core import Database
+
+    database_uuid = saved(
+        next((importer.package('client-update') / 'databases').glob('*.yaml'))
+    )['uuid']
+    return db.session.query(Database).filter_by(uuid=database_uuid).one()
+
+
+def connection_signature():
+    database = database_record()
+    return {
+        'sqlalchemyUriStored': database.sqlalchemy_uri,
+        'passwordFingerprint': hashlib.sha256(database.password.encode()).hexdigest(),
+        'extra': database.extra,
+        'allowFileUpload': database.allow_file_upload,
+        'exposeInSqlLab': database.expose_in_sqllab,
+    }
+
+
+def configure_destination_connection():
+    from superset import db
+
+    database = database_record()
+    password = quote_plus(os.environ['CSIM_DB_PASSWORD'])
+    database.set_sqlalchemy_uri(
+        f'postgresql://csim:{password}@db:5432/csim_demo'
+    )
+    database.extra = json.dumps({
+        'metadata_params': {},
+        'engine_params': {},
+        'metadata_cache_timeout': {},
+        'schemas_allowed_for_file_upload': [],
+        'client_rehearsal_marker': 'preserve-destination-connection',
+    })
+    database.allow_file_upload = False
+    database.expose_in_sqllab = False
+    db.session.commit()
+
+
+def query_destination_connection():
+    database = database_record()
+    with database.get_sqla_engine() as engine:
+        with engine.connect() as connection:
+            count = connection.execute(
+                text('SELECT COUNT(*) FROM v1."CSiM Hospitals and States"')
+            ).scalar_one()
+    assert count > 0
+    return count
+
+
 def main():
     baseline = package_uuids('client-baseline')
     update = package_uuids('client-update')
@@ -74,14 +130,21 @@ def main():
     with app.app_context():
         importer.import_dashboard('client-baseline')
         verifier.verify('client-baseline')
+        configure_destination_connection()
+        protected_connection = connection_signature()
+        rows_before = query_destination_connection()
         baseline_state = inventory(baseline)
 
         importer.import_dashboard('client-update')
         verifier.verify('client-update')
+        assert connection_signature() == protected_connection
+        rows_after_first = query_destination_connection()
         first = inventory(update)
 
         importer.import_dashboard('client-update')
         verifier.verify('client-update')
+        assert connection_signature() == protected_connection
+        rows_after_second = query_destination_connection()
         second = inventory(update)
 
     assert baseline_state['database'] == first['database'] == second['database']
@@ -100,7 +163,15 @@ def main():
         'firstUpdateImport': 'passed',
         'secondUpdateImport': 'passed',
         'noDuplicateObjects': True,
-        'databaseConnectionUnchanged': True,
+        'databaseConnectionPreserved': True,
+        'databaseConnectionQueryBeforeUpdate': 'passed',
+        'databaseConnectionQueryAfterEachUpdate': 'passed',
+        'databaseDefinitionIncludedInUpdateArchive': False,
+        'connectionCheckRows': {
+            'before': rows_before,
+            'afterFirst': rows_after_first,
+            'afterSecond': rows_after_second,
+        },
         'dashboardIdentityUnchanged': True,
         'datasetIdentitiesUnchanged': True,
         'charts': 21,

@@ -67,11 +67,12 @@ direct imports and old deployment scripts must also be avoided.
 | Instructions | A short start page, an editor guide, administrator import/restore instructions, and a list of changes and known limitations. |
 | Review evidence | The acceptance checklist, numerical examples, screenshots and dashboard workflow recordings from the accepted release. |
 
-The tested main release is one complete Superset dashboard ZIP containing its
-dashboard, charts, datasets and masked connection definition. Keep the readable
-files, reference-repair helper and verification tooling in GitHub. A client
-editor can use Superset and a shared release folder without running the
-repository; an administrator uses the repository helper for the 6.1.0 import.
+The tested main release is a sparse Superset asset ZIP containing its dashboard,
+charts and datasets, without a database connection definition. Keep the readable
+files, sparse-import and reference-repair helper, and verification tooling in
+GitHub. A client editor can use Superset and a shared release folder without
+running the repository; an administrator uses the repository helper for the
+6.1.0 import. Manual ZIP upload is not the tested installation path.
 
 The client's three physical source datasets and eight archived datasets stay
 in place. The update does not replace their database connection, restore a demo
@@ -91,7 +92,7 @@ With Beth's period-summary removal, the main dashboard uses the six reporting da
 | Hospital 53 totals | The full observed monthly range sums to 980. The saved shorter range sums to 269; the all-time card remains 980. | Preserve the different scopes and make them understandable. The latest team notes mark the count concern resolved; the older 500 note is not an outstanding requirement. |
 | Latest Urine Culture Submission | It shows the latest observation month within the chosen range, not when a file was uploaded. The title already distinguishes this reporting-coverage meaning from upload status. | Keep the title and filter scope clear. An upload-completion timestamp is a separate feature. |
 | Contents links | Current links stay within the dashboard and retain selections. | Recheck all nine links after layout edits and after transfer to the destination. |
-| Transfer and repeated updates | The client update preserves the production dashboard, database and six dataset identities. A clean 6.1.0 rehearsal imported the baseline, then the update twice without duplicates or connection changes. SQL, calculated columns, measures, chart settings, palette metadata, layout, filter defaults/scopes, cached scopes and nine Table of Contents links matched. | Take a fresh destination backup, confirm no later client edits, then run the same checks on the destination. The official 6.1.0 import still requires the versioned reference-repair helper. |
+| Transfer and repeated updates | The client update preserves the production dashboard and six dataset identities while referring to the existing database UUID. A clean 6.1.0 rehearsal imported the baseline, set a distinct working destination connection, then imported the sparse update twice. It produced no duplicates, did not overwrite the connection object, and queried the same source table before and after both updates. SQL, calculated columns, measures, chart settings, palette metadata, layout, filter defaults/scopes, cached scopes and nine Table of Contents links matched. | Take a fresh destination backup, confirm no later client edits, then run the same checks on the destination. The official 6.1.0 import still requires the versioned sparse-import and reference-repair helper. |
 | Record verification | Both demo source tables contain `record_id`; Current also contains `redcap_repeat_instance`. ALL DATA rows summarize multiple source records. | The separate view preserves all uploaded records, IDs and eligibility reasons; the local CSV matches every source row, and 1,058 hospital-group checks pass locally and on the public demo. The public viewer export returns all 3,453 rows. Confirm the review workflow with Beth, test the client role and imported version, and retain existing cohort weighting. There is no automatic chart-point drill-through. |
 | Uploads, downloads and hospital changes | Record review is included. The separate aggregate-download table is deferred until after the meeting. | With the client's intended role, replace Current using the established procedure and verify a new hospital's lookup, menu and colors. Decide separately whether the aggregate download is needed and, if so, test its refresh and complete CSV contents. |
 | Historical/Current overlap and embedded access | The latest team notes mark the overlap question resolved; no transition schedule is required. WordPress identity/access has separate owners. | Do not add a transition rule. Embedded access remains outside this dashboard update. |
@@ -115,11 +116,12 @@ release. Routine UI editing does not require a custom Superset build or Git.
 
 **Administrator instructions:** verify official 6.1.0, PostgreSQL driver,
 template-processing configuration, time-unit restriction, connection and
-roles. Back up the current definitions and application metadata. Import the
-client-specific datasets, then charts, then dashboard, following the tested
-sequence. Check and, where necessary, repair references on the destination.
-Do not supply demo connection settings or run a data restore as part of an
-update. Restore all changed dependencies when rolling back.
+roles. Back up the current asset definitions and complete Superset metadata
+database. Run the versioned helper inside the configured Superset environment;
+it imports the datasets, charts and dashboard as a sparse update, omits the
+database object, and repairs destination references. Do not use manual ZIP
+upload, supply demo connection settings, or run a data restore as part of an
+update. Rehearse the rollback against a copy before the live change.
 
 **Release checklist:** reproduce the agreed date, filter, color, contents-link,
 empty/populated-cohort and numerical examples; inspect actual chart screenshots;
