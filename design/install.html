@@ -4,13 +4,13 @@
 <title>Install the CSiM dashboard update</title>
 <meta name="description" content="Install the tested CSiM Individual Data dashboard update on the client's existing Superset 6.1.0 instance while preserving its PostgreSQL connection and reporting data.">
 <style>
-:root{--ink:#203444;--muted:#53646f;--teal:#066b7b;--line:#d9e1e5;--paper:#f5f8fa;--pale:#edf5f4;--amber:#78551f;--sand:#fbf1de;--green:#28734f}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:32px 24px 64px}a{color:var(--teal);text-underline-offset:3px}a:focus-visible,summary:focus-visible{outline:3px solid #a87600;outline-offset:4px}h1,h2,h3{line-height:1.2}h1{font-size:clamp(1.8rem,4vw,2.65rem);margin:18px 0}h2{font-size:1.5rem}h3{font-size:1.1rem;margin:0 0 7px}.lead{font-size:1.12rem;color:var(--muted);max-width:78ch}.kicker{color:var(--muted);font-size:.85rem;margin:18px 0 0}.actions{display:flex;gap:12px 24px;flex-wrap:wrap;align-items:center;margin:24px 0}.button{background:var(--teal);color:white;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:6px}.secondary{font-weight:650}nav{display:flex;flex-wrap:wrap;gap:12px 24px;padding:18px 0;border-top:1px solid var(--line)}section{background:white;border:1px solid var(--line);border-radius:10px;padding:24px 28px;margin:22px 0;scroll-margin-top:20px}.status{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}.status div{background:white;border:1px solid var(--line);border-radius:8px;padding:15px}.status strong,.status span{display:block}.status span{color:var(--muted);font-size:.9rem;margin-top:4px}.status .done strong{color:var(--green)}.status .pending strong{color:var(--amber)}table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th[scope=row]{width:27%;font-weight:700}.note{padding:14px 18px;background:var(--pale);border-left:4px solid var(--teal);border-radius:4px}.warning{background:var(--sand);border-color:var(--amber)}ol.steps{counter-reset:step;list-style:none;padding:0}.steps>li{counter-increment:step;padding:0 0 22px 52px;position:relative}.steps>li::before{content:counter(step);position:absolute;left:0;top:0;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:white;font-weight:750}.checks{display:grid;grid-template-columns:1fr 1fr;gap:14px}.check{border:1px solid var(--line);border-radius:7px;padding:15px}.check p{margin:5px 0 0;color:var(--muted);font-size:.94rem}details{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}summary{cursor:pointer;color:var(--teal);font-weight:700}code{overflow-wrap:anywhere;font-size:.9em}.skip{position:absolute;top:-80px;left:16px;background:white;padding:12px}.skip:focus{top:10px}footer{font-size:.88rem;color:var(--muted);padding-top:20px}p{margin:12px 0}li{margin:8px 0}@media(max-width:700px){main{padding:22px 16px}section{padding:20px 16px}.status,.checks{grid-template-columns:1fr}table{font-size:.94rem}th[scope=row],td{display:block;width:100%;border:0;padding:5px 0}tr{display:block;border-bottom:1px solid var(--line);padding:10px 0}.steps>li{padding-left:45px}.actions{align-items:flex-start}.button{display:block}}@media print{body{background:white;font-size:11pt}main{padding:0}.actions,nav,.back{display:none}section{border:0;padding:0}.status{display:flex}.status div{flex:1}.check,.steps>li{break-inside:avoid}details{display:block}a{color:inherit}h1{font-size:24pt}}
+:root{--ink:#203444;--muted:#53646f;--teal:#066b7b;--line:#d9e1e5;--paper:#f5f8fa;--pale:#edf5f4;--amber:#78551f;--sand:#fbf1de;--green:#28734f}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:32px 24px 64px}a{color:var(--teal);text-underline-offset:3px}a:focus-visible,summary:focus-visible{outline:3px solid #a87600;outline-offset:4px}h1,h2,h3{line-height:1.2}h1{font-size:clamp(1.8rem,4vw,2.65rem);margin:18px 0}h2{font-size:1.5rem}h3{font-size:1.1rem;margin:0 0 7px}.lead{font-size:1.12rem;color:var(--muted);max-width:78ch}.kicker{color:var(--muted);font-size:.85rem;margin:18px 0 0}.actions{display:flex;gap:12px 24px;flex-wrap:wrap;align-items:center;margin:24px 0}.button{background:var(--teal);color:white;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:6px}.secondary{font-weight:650}nav{display:flex;flex-wrap:wrap;gap:12px 24px;padding:18px 0;border-top:1px solid var(--line)}section{background:white;border:1px solid var(--line);border-radius:10px;padding:24px 28px;margin:22px 0;scroll-margin-top:20px}.status{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}.status div{background:white;border:1px solid var(--line);border-radius:8px;padding:15px}.status strong,.status span{display:block}.status span{color:var(--muted);font-size:.9rem;margin-top:4px}.status .done strong{color:var(--green)}.status .pending strong{color:var(--amber)}table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th[scope=row]{width:27%;font-weight:700}.note{padding:14px 18px;background:var(--pale);border-left:4px solid var(--teal);border-radius:4px}.warning{background:var(--sand);border-color:var(--amber)}ol.steps{counter-reset:step;list-style:none;padding:0}.steps>li{counter-increment:step;padding:0 0 22px 52px;position:relative}.steps>li::before{content:counter(step);position:absolute;left:0;top:0;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:white;font-weight:750}.checks{display:grid;grid-template-columns:1fr 1fr;gap:14px}.check{border:1px solid var(--line);border-radius:7px;padding:15px}.check p{margin:5px 0 0;color:var(--muted);font-size:.94rem}details{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}summary{cursor:pointer;color:var(--teal);font-weight:700}code{overflow-wrap:anywhere;font-size:.9em}pre{max-width:100%;overflow-x:auto;padding:12px;background:var(--paper);border-radius:6px}.skip{position:absolute;top:-80px;left:16px;background:white;padding:12px}.skip:focus{top:10px}footer{font-size:.88rem;color:var(--muted);padding-top:20px}p{margin:12px 0}li{margin:8px 0}@media(max-width:700px){main{padding:22px 16px}section{padding:20px 16px}.status,.checks{grid-template-columns:1fr}table{font-size:.94rem}th[scope=row],td{display:block;width:100%;border:0;padding:5px 0}tr{display:block;border-bottom:1px solid var(--line);padding:10px 0}.steps>li{padding-left:45px}.actions{align-items:flex-start}.button{display:block}}@media print{body{background:white;font-size:11pt}main{padding:0}.actions,nav,.back{display:none}section{border:0;padding:0}.status{display:flex}.status div{flex:1}.check,.steps>li{break-inside:avoid}details{display:block}a{color:inherit}h1{font-size:24pt}}
 </style></head>
 <body><a class="skip" href="#main">Skip to installation guide</a><main id="main">
 <a class="back" href="./">← CSiM dashboard overview</a>
 <p class="kicker">CSiM Individual Data dashboard · Client installation</p>
-<h1>Install the dashboard update without replacing the data</h1>
-<p class="lead">This release updates the client's familiar CSiM dashboard on official Superset 6.1.0. The installation helper updates the dashboard, charts and six reporting queries while leaving the destination's PostgreSQL connection and uploaded records in place.</p>
+<h1>Update the CSiM dashboard on Superset 6.1.0</h1>
+<p class="lead">Use this page to obtain the exact release, prepare the existing Superset instance and update the familiar CSiM dashboard. The update changes dashboard definitions and saved reporting queries. It leaves the PostgreSQL connection and uploaded records in place.</p>
 
 <div class="status" aria-label="Release status">
 <div class="done"><strong>Update prepared</strong><span>One dashboard, 21 charts and six reporting datasets; no database connection object or reporting rows.</span></div>
@@ -18,8 +18,8 @@
 <div class="pending"><strong>Client installation pending</strong><span>The package has not yet been installed or accepted on the client's instance.</span></div>
 </div>
 
-<div class="actions"><a class="button" href="#install">Read the installation sequence</a><a class="secondary" href="downloads/csim-client-update-dashboard.zip" download>Download dashboard asset bundle</a><a href="review.html">Review the dashboard</a><a href="data-guide.html">Understand the data</a><a href="https://github.com/DIGI-UW/csim/tree/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/release/client-update">Versioned release files</a></div>
-<nav aria-label="Installation sections"><a href="#contents">What changes</a><a href="#before">Before installation</a><a href="#install">Install</a><a href="#verify">Verify</a><a href="#rollback">Rollback</a><a href="#limits">Limits</a></nav>
+<div class="actions"><a class="button" href="downloads/csim-client-update-dashboard.zip" download>Download the dashboard update</a><a class="secondary" href="#install">Follow the update steps</a><a href="https://github.com/DIGI-UW/csim/tree/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/release/client-update">Open the versioned release</a><a href="review.html">Open the dashboard review guide</a></div>
+<nav aria-label="Installation sections"><a href="#contents">What changes</a><a href="#artifacts">Release files</a><a href="#before">Prepare Superset</a><a href="#install">Update</a><a href="#verify">Confirm</a><a href="#rollback">Rollback</a><a href="#limits">Limits</a></nav>
 
 <section id="contents"><h2>What this update changes</h2>
 <table><tbody>
@@ -31,39 +31,60 @@
 <p class="note"><strong>Dashboard definitions and reporting records are separate.</strong> This bundle describes what Superset should display and how it calculates results. It does not carry the rows stored in PostgreSQL. The tested helper also omits the database connection object from the update request.</p>
 </section>
 
-<section id="before"><h2>Before installing</h2>
-<ol>
-<li>Confirm the destination is the intended official Superset 6.1.0 instance.</li>
-<li>Export a fresh backup of the destination dashboard with its charts and datasets. Take a complete Superset metadata-database backup using the client's established backup procedure.</li>
-<li>Compare that export with the September baseline. If anyone saved later SQL, chart, layout or filter edits, reconcile them before continuing.</li>
-<li>Confirm the destination database, dashboard and six reporting datasets have the UUIDs listed in <code>dashboard/client-update/manifest.json</code>.</li>
-<li>Record one known hospital, reporting month and total, then verify that the existing PostgreSQL connection succeeds.</li>
-<li>Rehearse the complete import and rollback in a copy of the client Superset metadata before updating the live dashboard.</li>
-</ol>
-<p class="warning note"><strong>Do not use Superset's manual ZIP-upload screen for this update.</strong> The tested path uses the versioned helper so the database connection is omitted and destination chart references are repaired. The public demo dashboard also has different object identities and must not be imported into client production.</p>
+<section id="artifacts"><h2>Release files</h2>
+<table><tbody>
+<tr><th scope="row"><a href="downloads/csim-client-update-dashboard.zip" download>Dashboard update ZIP</a></th><td>The definition-only asset bundle: one dashboard, 21 charts and six reporting datasets.</td></tr>
+<tr><th scope="row"><a href="downloads/client-update-SHA256SUMS">SHA-256 checksum</a></th><td>Use this to confirm that the downloaded ZIP is the tested file.</td></tr>
+<tr><th scope="row"><a href="https://github.com/DIGI-UW/csim/blob/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/dashboard/client-update/manifest.json">Object manifest</a></th><td>The stable dashboard, dataset and database identifiers expected on the destination.</td></tr>
+<tr><th scope="row"><a href="https://github.com/DIGI-UW/csim/blob/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/scripts/dashboard_import.py">Update helper</a></th><td>The installer that omits the database connection and repairs destination references.</td></tr>
+<tr><th scope="row"><a href="https://github.com/DIGI-UW/csim/blob/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/scripts/verify_import.py">Definition comparison</a></th><td>The companion command that confirms the saved definitions match the release.</td></tr>
+<tr><th scope="row"><a href="https://github.com/DIGI-UW/csim/tree/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/release/client-update">Complete versioned release</a></th><td>The ZIP, checksum, release notes and machine-readable rehearsal result at the tested source revision.</td></tr>
+</tbody></table>
 </section>
 
-<section id="install"><h2>Installation sequence</h2>
+<section id="before"><h2>Prepare the Superset instance</h2>
+<p>Confirm the destination runs official Superset 6.1.0 and uses the existing client PostgreSQL connection. Then make these two settings explicit in the production <code>superset_config.py</code>.</p>
+<h3>1. Required for the dashboard's date queries</h3>
+<p>Add <code>ENABLE_TEMPLATE_PROCESSING</code> to the instance's existing <code>FEATURE_FLAGS</code> dictionary. Preserve every other feature flag already present:</p>
+<pre><code>FEATURE_FLAGS = {
+    # retain the instance's other existing feature flags
+    "ENABLE_TEMPLATE_PROCESSING": True,
+}</code></pre>
+<p>The saved virtual datasets use Superset's built-in <code>get_time_filter</code>, <code>filter_values</code> and <code>time_grain</code> template values. Without this setting, the delivered date-range and Month/Quarter/Year query logic will not run. No custom template function is required. See the <a href="https://superset.apache.org/admin-docs/6.1.0/configuration/sql-templating/">official Superset 6.1.0 SQL templating documentation</a>.</p>
+<h3>2. Required only for the agreed short Time Unit menu</h3>
+<p>On a dedicated CSiM instance, add the tested denylist below so users see the relevant Month, Quarter and Year choices instead of seconds, minutes, hours, days and weeks:</p>
+<pre><code>TIME_GRAIN_DENYLIST = [
+    "PT1S", "PT5S", "PT30S",
+    "PT1M", "PT5M", "PT10M", "PT15M", "PT30M",
+    "PT1H", "PT6H", "P1D", "P1W",
+    "P1W/1970-01-03T00:00:00Z",
+    "P1W/1970-01-04T00:00:00Z",
+]</code></pre>
+<p class="warning note"><strong>This menu setting applies to the whole Superset instance.</strong> It is appropriate for the dedicated CSiM installation. On a shared instance, review other dashboards before adding it. Omitting it leaves extra Time Unit choices visible; it does not remove the dashboard's date-range calculations.</p>
+<p>Restart every Superset web process and background worker that loads <code>superset_config.py</code> after changing the file. If both settings are already present, leave them in place and restart only if the file was changed.</p>
+<p class="note"><strong>No custom Superset build is required.</strong> The date behavior, labels, missing-period rows, filter scopes and saved defaults are in the released dashboard, chart and dataset definitions. The production configuration enables those definitions and limits the instance-wide menu.</p>
+</section>
+
+<section id="install"><h2>Update the existing dashboard</h2>
 <ol class="steps">
-<li><h3>Keep the fresh backup</h3><p>Record the current destination revision and retain its exported definitions and metadata backup.</p></li>
-<li><h3>Import the client update</h3><p>Use the versioned repository importer with the <code>client-update</code> profile. It sends a sparse update through Superset's asset API without a database definition, then corrects internal chart references and saved filter scopes that can otherwise retain numbers from the source instance.</p></li>
-<li><h3>Run the definition check</h3><p>The verifier compares SQL, calculated columns, measures, chart settings, colors, layout, filter defaults and scopes, and all nine Table of Contents links with the tested release.</p></li>
-<li><h3>Open and review the dashboard</h3><p>Check a known hospital and explicit date range before the updated dashboard becomes the accepted client release.</p></li>
+<li><h3>Pause dashboard editing and back up the destination</h3><p>Export the current client dashboard with its charts and datasets. Also take a Superset metadata-database backup using the client's established procedure. If the export contains edits newer than the September source, reconcile them before continuing.</p></li>
+<li><h3>Check out the exact installer</h3><p>Use the tested source revision. The dashboard ZIP by itself is provided for inspection and checksum comparison; it is not the supported update command.</p><pre><code>git clone https://github.com/DIGI-UW/csim.git
+cd csim
+git checkout d6351d954d5f265e0c0c3c5f66dbb96d612b5352</code></pre></li>
+<li><h3>Point the helper at client Superset</h3><p>Run these commands in the Python environment where Superset 6.1.0 and its dependencies are installed. Use the destination service URL and an administrator account:</p><pre><code>export CSIM_PROJECT_ROOT="$PWD"
+export CSIM_SUPERSET_URL="https://CLIENT-SUPERSET-HOST"
+export CSIM_SUPERSET_USERNAME="ADMIN-USERNAME"
+export CSIM_ADMIN_PASSWORD="ADMIN-PASSWORD"
+
+python scripts/dashboard_import.py import --profile client-update</code></pre><p>The helper updates the existing objects through Superset's asset API, excludes the database definition, and repairs the internal chart references and saved filter scopes for the destination instance.</p></li>
+<li><h3>Compare the installed definitions</h3><pre><code>python scripts/verify_import.py --profile client-update</code></pre><p>This compares the destination's saved SQL, calculated columns, measures, charts, colors, layout, filters and contents links with the versioned release.</p></li>
 </ol>
-<details><summary>Administrator environment, commands and why the helper is required</summary><p>These are commands for the destination's Superset Python environment, not a general workstation shell. Check out the exact release revision and make it readable inside that environment. Set <code>CSIM_PROJECT_ROOT</code> to that checkout, <code>CSIM_SUPERSET_URL</code> to the Superset service's internal URL, <code>CSIM_SUPERSET_USERNAME</code> to an administrator account, and <code>CSIM_ADMIN_PASSWORD</code> to that account's password. Then run:</p><pre><code>python scripts/dashboard_import.py import --profile client-update
-python scripts/verify_import.py --profile client-update</code></pre><p>The client-update path does not require the PostgreSQL password because it does not import a database object. Superset assigns local numeric chart identifiers on each instance, and official 6.1.0 can retain source-instance numbers in saved dashboard references. The helper derives replacements from stable UUIDs and the destination objects; it does not patch or replace Superset.</p><p>Use the downloaded asset bundle for inspection and checksum comparison. The tested installation is the helper-driven path above.</p></details>
+<p class="warning note"><strong>Do not upload the ZIP through Superset's manual import screen.</strong> That skips the destination-reference repair. Do not import the public demo dashboard; its object identifiers belong to a different installation.</p>
 </section>
 
-<section id="verify"><h2>What must be true after installation</h2>
-<div class="checks">
-<div class="check"><h3>One familiar dashboard</h3><p>The update changes the existing dashboard. It does not create a second CSiM Individual Data dashboard.</p></div>
-<div class="check"><h3>Six familiar reporting datasets</h3><p>No duplicate reporting datasets appear, and their saved SQL and measures match the release.</p></div>
-<div class="check"><h3>Connection preserved</h3><p>The same PostgreSQL connection object, settings and source tables remain, and the recorded source-data check still succeeds.</p></div>
-<div class="check"><h3>Data still present</h3><p>A known hospital, reporting month and total still match the pre-installation data check.</p></div>
-<div class="check"><h3>Dates and grouping work</h3><p>Explicit start and end dates work with Month, Quarter and Year in either selection order.</p></div>
-<div class="check"><h3>Presentation is intact</h3><p>Colors, readable axis labels, seven panel-coverage labels, section 4.1 wording and nine contents links are correct.</p></div>
-</div>
-<p><a href="review.html">Use the five-minute dashboard review →</a></p>
+<section id="verify"><h2>Confirm the update loaded</h2>
+<p>The definition comparison should finish successfully. Open the familiar dashboard and confirm that it is still connected to the client's data, that no duplicate CSiM dashboard or reporting datasets were created, and that an explicit date range works with Month, Quarter and Year.</p>
+<p><a href="review.html">Open the separate dashboard review guide →</a></p>
 </section>
 
 <section id="rollback"><h2>Rollback</h2>
@@ -76,10 +97,10 @@ python scripts/verify_import.py --profile client-update</code></pre><p>The clien
 <ul>
 <li><strong>Clear all:</strong> official Superset 6.1.0 can retain a stale selection after Clear all and reselect. Reload after using Clear all. This package documents the limitation; it does not add a Superset patch.</li>
 <li><strong>Importer helper:</strong> the versioned helper is part of the tested installation path. It omits the database object and repairs destination references. A manual ZIP upload is not a supported installation path.</li>
-<li><strong>Time Unit choices:</strong> Month, Quarter and Year remain an installation-wide restriction on this dedicated 6.1.0 instance.</li>
+<li><strong>Time Unit choices:</strong> the short Month/Quarter/Year menu comes from the installation-wide <code>TIME_GRAIN_DENYLIST</code> shown above. It is not stored in the dashboard ZIP.</li>
 <li><strong>Supporting records view:</strong> the separate Data &amp; records package still needs destination installation and role checks if the client accepts that workflow.</li>
 </ul>
-<details><summary>Evidence and official reference</summary><ul><li><a href="downloads/client-update-rehearsal.json">Repeat-import and connection-preservation result</a></li><li><a href="downloads/client-update-baseline-comparison.json">September baseline comparison</a></li><li><a href="downloads/client-update-SHA256SUMS">Package checksum</a></li><li><a href="https://github.com/DIGI-UW/csim/commit/d6351d954d5f265e0c0c3c5f66dbb96d612b5352">Exact tested source commit</a></li><li><a href="https://superset.apache.org/admin-docs/6.1.0/configuration/importing-exporting-datasources/">Official Superset 6.1.0 import and export documentation</a></li></ul></details>
+<details><summary>Evidence and official references</summary><ul><li><a href="downloads/client-update-rehearsal.json">Repeat-import and connection-preservation result</a></li><li><a href="downloads/client-update-baseline-comparison.json">September baseline comparison</a></li><li><a href="downloads/client-update-SHA256SUMS">Package checksum</a></li><li><a href="https://github.com/DIGI-UW/csim/commit/d6351d954d5f265e0c0c3c5f66dbb96d612b5352">Exact tested source commit</a></li><li><a href="https://superset.apache.org/admin-docs/6.1.0/configuration/sql-templating/">Official Superset 6.1.0 SQL templating documentation</a></li><li><a href="https://superset.apache.org/admin-docs/6.1.0/configuration/importing-exporting-datasources/">Official Superset 6.1.0 import and export documentation</a></li></ul></details>
 </section>
 
 <footer><a href="./">Dashboard overview</a> · <a href="review.html">Review guide</a> · <a href="data-guide.html">Data guide</a> · <a href="filter-guide.html">Filters and charts</a><br>Client installation guide · 17 September 2026</footer>

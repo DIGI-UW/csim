@@ -53,12 +53,21 @@ already been installed in the client's Superset or accepted by the client.
 
 ## Installation sequence
 
-1. Export and retain a fresh backup from the destination instance. If the
+1. In the destination's existing `superset_config.py`, enable the built-in SQL
+   templates used by the date queries. Add `"ENABLE_TEMPLATE_PROCESSING": True`
+   to the existing `FEATURE_FLAGS` dictionary without removing its other
+   entries. On the dedicated CSiM instance, also copy the tested
+   `TIME_GRAIN_DENYLIST` from [`superset_config.py`](../../superset_config.py) to
+   keep the Time Unit menu to Month, Quarter and Year. The denylist affects the
+   whole Superset instance; the template-processing flag is required for the
+   delivered `get_time_filter`, `filter_values`, and `time_grain` logic. Restart
+   the Superset processes that load the configuration after changing it.
+2. Export and retain a fresh backup from the destination instance. If the
    destination definitions were edited after the September export, compare that
    backup before continuing.
-2. Confirm that the destination dashboard, database, and six reporting datasets
+3. Confirm that the destination dashboard, database, and six reporting datasets
    have the UUIDs recorded in `dashboard/client-update/manifest.json`.
-3. Run the repository importer for the client update inside the destination's
+4. Run the repository importer for the client update inside the destination's
    configured Superset Python environment. Set `CSIM_PROJECT_ROOT`,
    `CSIM_SUPERSET_URL`, `CSIM_SUPERSET_USERNAME`, and `CSIM_ADMIN_PASSWORD` for
    that environment. The helper uses Superset's sparse asset importer without a
@@ -71,10 +80,10 @@ already been installed in the client's Superset or accepted by the client.
    python scripts/verify_import.py --profile client-update
    ```
 
-4. Open the dashboard and check the agreed Month, Quarter, Year, date-range,
+5. Open the dashboard and check the agreed Month, Quarter, Year, date-range,
    colors, seven date-scope panels, section 4.1 wording, and Table of Contents
    workflows before making it the accepted client release.
-5. Roll back with the fresh destination backup if any destination-specific
+6. Roll back with the fresh destination backup if any destination-specific
    difference is unexpected.
 
 Do not upload the ZIP through Superset's manual import screen. That is not the
