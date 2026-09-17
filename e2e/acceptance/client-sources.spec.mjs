@@ -25,5 +25,15 @@ test('Client upload sources have their production names and physical dataset reg
     await expect(row).toHaveCount(1);
     await expect(row.getByText('Physical',{exact:true})).toBeVisible();
   }
+  // The list can render its rows underneath the initial loading fade.
+  // Wait for readable, interactive rows before keeping screenshot evidence.
+  await expect(page.locator('.ant-spin-spinning,.ant-spin-blur')).toHaveCount(0);
+  const sourceLink=page.getByRole('link',{name:'UTI Individual Current',exact:true});
+  await sourceLink.click({trial:true});
+  await expect.poll(()=>sourceLink.evaluate(element=>{
+    let opacity=1;
+    for(let node=element;node;node=node.parentElement)opacity*=Number(getComputedStyle(node).opacity);
+    return opacity;
+  })).toBeGreaterThan(.95);
   await page.screenshot({path:info.outputPath('client-upload-sources.png')});
 });

@@ -28,7 +28,7 @@ def main():
     args = parser.parse_args()
     app = create_app()
     with app.app_context():
-        from superset import db
+        from superset import db, security_manager as sm
         from superset.connectors.sqla.models import SqlaTable
         anchor = db.session.query(SqlaTable).filter_by(uuid=REPORT_UUID).one()
         assert anchor.database.database_name == 'CSiM demo PostgreSQL', 'Use only the official demo connection'
@@ -63,6 +63,7 @@ def main():
         for kind, entries in before.items():
             assert {key: after[kind][key] for key in entries} == entries, f'An existing {kind} definition changed'
         result = []
+        viewer_access = []
         for name in NAMES:
             db.session.remove()
             table = db.session.query(SqlaTable).filter_by(database_id=database_id, schema='v1', table_name=name).one_or_none()
@@ -75,10 +76,18 @@ def main():
                 assert 'record_id' in columns
             if name == 'UTI Individual Current':
                 assert 'redcap_repeat_instance' in columns
+            if args.apply:
+                viewer_role = sm.find_role('CSiM demo datasets')
+                if viewer_role is not None:
+                    permission = sm.find_permission_view_menu('datasource_access', table.get_perm())
+                    assert permission is not None, f'Missing source permission: {name}'
+                    sm.add_permission_role(viewer_role, permission)
+                    db.session.commit()
+                    viewer_access.append(name)
             result.append({'name': name, 'id': table.id, 'uuid': str(table.uuid),
                            'registered': True, 'type': 'physical', 'columns': sorted(columns)})
         print('CSIM_SOURCE_REGISTRATIONS=' + json.dumps({'applied': args.apply, 'created': created,
-              'existingDefinitionsUnchanged': True, 'sources': result}))
+              'existingDefinitionsUnchanged': True, 'viewerSourceAccess': viewer_access, 'sources': result}))
 
 
 if __name__ == '__main__':

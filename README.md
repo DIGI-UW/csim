@@ -33,6 +33,26 @@ provide historical context; their custom-build recommendations and horizontal
 controls do not describe the current client target. Follow [Client delivery](CLIENT-DELIVERY.md)
 for package contents, unresolved issues and the final handoff checks.
 
+## Demo upload-source datasets
+
+The official demo registers the three existing upload tables under their production
+names: `UTI Individual Current`, `UTI Individual Historical`, and
+`CSiM Hospitals and States`. To add any missing registrations without importing
+or replacing dashboard definitions:
+
+```sh
+bash csim.sh standard source-datasets
+```
+
+This command only targets the supplied demo connection. Repeated runs reuse the
+same registrations. It also gives the existing demo-viewer role read access to
+these three demo sources; it does not create a user or grant editing/upload access.
+Normal native-date imports include this step. No reporting tables are created or
+reseeded. The client's existing physical datasets remain in place during delivery.
+
+Beth's current requests and the next implementation steps are in
+[the three-request checklist](reports/beth-three-requests-2026-09-16.md).
+
 ## Local comparison development
 
 Docker Compose, Ruby, Python 3, and Node.js are required.

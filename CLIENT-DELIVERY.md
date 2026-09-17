@@ -11,6 +11,11 @@ A saved checkpoint exists; the final client release is not yet assembled or
 accepted. The ZIP currently published on the overview reproduces the demo and
 is not the client upgrade package.
 
+Beth's latest requests: the saved Yao palette and six reporting dataset names
+match their sources. The demo now also registers the three physical upload
+sources under their production names. Record-level verification is still to be
+built; see the [request checklist](reports/beth-three-requests-2026-09-16.md).
+
 ## Preserve and reconcile Beth's edits
 
 1. Let Beth finish and save her chart, dataset and dashboard changes. Saving
@@ -44,6 +49,7 @@ direct imports and old deployment scripts must also be avoided.
 | Charts | The charts used by that dashboard. The current review has 21 reporting charts and one reporting-period summary. Final counts follow the accepted edits. |
 | Reporting datasets | Updates to the existing six familiar reporting datasets, including saved SQL, calculated columns and measures. Preserve their client identities and connection. |
 | Period summary | One additional helper dataset if the summary panel is retained. Explain its purpose in the editor guide. |
+| Proposed record verification | A separate record-level dataset and saved table, linking contributing Current/Historical submissions to the summary they support. Preserve source, record ID and Current repeat instance. Test record-to-summary reconciliation before including it. |
 | Optional administrator download | A separate Table chart using the existing UTI Aggregate ALL DATA dataset. Include only after checking refresh after upload, complete CSV contents and the intended user's access. |
 | Instructions | A short start page, an editor guide, administrator import/restore instructions, and a list of changes and known limitations. |
 | Review evidence | The acceptance checklist, numerical examples, screenshots and dashboard workflow recordings from the accepted release. |
@@ -58,7 +64,8 @@ database, add the example datasets, or import retired experimental charts.
 With the current summary panel, the expected client list is ten active
 datasets: six reporting, three physical sources and one helper; eighteen with
 the eight existing archives. Confirm this against a fresh destination export
-before applying the update.
+before applying the update. A separate record-verification dataset would add one
+active entry; it is not yet implemented.
 
 ## Issues to close against the accepted version
 
@@ -73,6 +80,7 @@ before applying the update.
 | Latest reporting month | It shows the latest observation month within the chosen range, not when a file was uploaded. | Keep the wording and filter scope clear. An upload-completion timestamp is a separate feature. |
 | Contents links | Current links stay within the dashboard and retain selections. | Recheck all nine links after layout edits and after transfer to the destination. |
 | Transfer and repeated updates | The demo package uses different dataset identities from the client and demo connection settings. | Build an update for the client's existing identities. Import twice without duplicates, unchanged target connection/data, and verify SQL, measures, bindings, layout and every filter scope. |
+| Record verification | Both demo source tables contain `record_id`; Current also contains `redcap_repeat_instance`. ALL DATA rows summarize multiple source records. | Provide contributing records with source and identifiers, exact population/date/location rules, and measure inclusion. Reconcile counts and rates without changing the summary grouping or cohort weighting. Validate any chart-to-record link in official 6.1.0. |
 | Uploads, downloads and hospital changes | The saved download chart exists. Full operational acceptance is still separate. | With the client's intended role, replace Current using the established procedure, refresh, verify the complete processed CSV, and verify a new hospital's lookup, menu and colors. |
 | Hospital transition rules and embedded access | Hospital-specific transition dates need the approved schedule; WordPress identity/access has separate owners. | Assign these explicitly in the issue list. Do not imply that the dashboard package implements unprovided transition rules or embedded access restrictions. |
 

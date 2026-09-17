@@ -14,7 +14,7 @@ object relationships. No production reporting records were accessed.
 - Eight explicitly archived datasets. These are existing client history, not
   obsolete demo experiments, and are outside demo cleanup.
 
-## Official demo list: 26 entries
+## Official demo before source registration: 26 entries
 
 | Group | Dataset count | Current use |
 | --- | ---: | --- |
@@ -36,6 +36,18 @@ equivalent isolated set. Including legacy charts, this instance has 130 saved
 charts: 44 on current dashboards, two standalone downloads, and 84 from old
 experiments. Removing the old dashboard entries preserved these charts and
 their datasets; that is why gallery cleanup did not clean the dataset list.
+
+## Current official demo list: 29 entries
+
+The three existing upload tables are now registered as physical datasets with
+the same names as production. They are dataset IDs 27–29 on the public demo.
+The original 26 virtual datasets, their definitions and chart bindings remain
+unchanged. Registration adds metadata, not copies of the reporting tables.
+
+The main dashboard still uses its six reporting datasets and one period helper.
+The extra example and retired datasets remain separate from the client package;
+matching the production names does not by itself clean the whole demo gallery.
+See the [current request checklist](beth-three-requests-2026-09-16.md).
 
 ## Published bundle versus a client update
 
