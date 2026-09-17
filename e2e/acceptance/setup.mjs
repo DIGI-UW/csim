@@ -11,7 +11,9 @@ export default async function setup() {
     await page.locator('#username').fill(process.env.CSIM_USERNAME || 'demo');
     await page.locator('#password').fill(process.env.CSIM_PASSWORD || env.CSIM_ADMIN_PASSWORD);
     await page.locator('[type=submit]').click();
-    await expect(page).toHaveURL(new RegExp('/(?:superset/)?dashboard/'+slug+'/'),{timeout:60000});
+    // Match the actual pathname, not a dashboard URL inside login's next parameter.
+    await expect(page).toHaveURL(url=>url.pathname===`/superset/dashboard/${slug}/`||url.pathname===`/dashboard/${slug}/`,{timeout:60000});
+    await expect(page.locator('[data-test=dashboard-header-container]')).toBeVisible();
     await page.context().storageState({path:authFile});
   } finally {await browser.close();}
 }

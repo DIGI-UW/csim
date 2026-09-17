@@ -21,7 +21,7 @@
 <tr><th>Comparison context</th><td>The lower comparison charts carry the selected hospital or comparison group in their legend so a screenshot remains understandable.</td></tr>
 <tr><th>Chart colors</th><td>Yao's color assignments are preserved. A category keeps the same color when the legend includes a hospital code or comparison group.</td></tr>
 <tr><th>Section links</th><td>Table of Contents links stay on this dashboard and keep the active filter state. Sections 4.1–4.4 are grouped under section 4.</td></tr>
-<tr><th>Dashboard content</th><td>The September explanations, latest-month card and all 21 reporting charts are retained. Dataset names remain familiar to editors.</td></tr>
+<tr><th>Dashboard content</th><td>The dashboard contains 21 data panels, including the latest-month card. Beth’s layout and wording are retained apart from the clarified seven-panel coverage and corrected 4.1 explanation. Dataset names remain familiar to editors.</td></tr>
 </table>
 </section>
 
@@ -60,10 +60,11 @@
 <tr><th>Time Period / Time Unit</th><td>The trends and paired charts use the chosen dates and grouping. The five overall charts and section 5 totals use all-time data. The two latest-month comparison tables choose their latest month independently.</td></tr>
 <tr><th>Collection location</th><td>Applies to trends, duration/antibiotic pairs and section 5 totals. The location breakdown in 4.4 and latest-month comparison tables cover all locations.</td></tr>
 </table>
-<p><strong>Seven panels have misleading date-filter indicators:</strong> the five overall charts and two latest-month tables list Time Period and Time Unit as applied, although their queries do not use them. With hospital 53 and dates in 2024, the trend shows 2024 but the table shows March 2026.</p>
-<figure class="gap-evidence"><a href="evidence/beth-review/therapy-filter-mismatch.png"><img src="evidence/beth-review/therapy-filter-mismatch.png" alt="Hospital 53 therapy table showing March 2026 while the applied Time Period is January through December 2024"></a><figcaption>The table keeps its latest available month. Its filter indicator incorrectly suggests the chosen period controls that month.</figcaption></figure>
-<p>The existing all-time and latest-month calculations have not changed. The inventory separates those reporting choices from the misleading filter indicators; no new behavior has been selected.</p>
-<p>This is separate from Clear all: it also happens without clearing any filters.</p>
+<p><strong>Seven panels now identify their independent date coverage.</strong> The five overall charts say “all reporting dates”; the two comparison tables say “latest available month” and show the month. Time Period and Time Unit are excluded from these panels, so their filter indicators match their calculations.</p>
+<figure class="gap-evidence"><a href="evidence/panel-coverage/panel-88-filters.png"><img src="evidence/panel-coverage/panel-88-filters.png" alt="Hospital 53 latest-month therapy table shows March 2026 and only the hospital filter, while Time Period is set to 2024"></a><figcaption>The table uses the hospital’s latest available month. The trend uses the chosen Time Period.</figcaption></figure>
+<p><strong>Section 4.1’s explanation is corrected:</strong> positive urinalysis submissions divided by urine culture submissions. Its measures are unchanged.</p>
+<p><a href="evidence/panel-coverage/">See screenshots of all seven panels and section 4.1 →</a></p>
+<p>These are ordinary dashboard settings. They do not change the separate Clear all limitation.</p>
 <details><summary>How editors can check and maintain this</summary><p>In Add/Edit Filters, use Scoping to choose the affected panels. Native dividers provide the sidebar headings. A chart’s filter icon lists its assigned filters; for a SQL-defined dataset, verify that changing the control actually changes the result as intended.</p><p><a href="https://docs.preset.io/docs/scoping-a-filter">Filter scoping guide</a> · <a href="https://docs.preset.io/docs/managing-filters">Dividers and applied-filter indicators</a></p></details>
 </section>
 

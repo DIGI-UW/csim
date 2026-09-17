@@ -51,7 +51,7 @@ test('Beth review starts with the official dashboard and separates decisions fro
   await expect(page.getByRole('heading',{name:'Items already settled in the team notes'})).toBeVisible();
   await expect(page.locator('body')).toContainText('hospital 53 count concern');
   await expect(page.locator('body')).toContainText('Historical/Current overlap question are marked resolved');
-  await expect(page.locator('body')).toContainText('Seven panels have misleading date-filter indicators');
+  await expect(page.locator('body')).toContainText('Seven panels now identify their independent date coverage');
   await expect(page.locator('body')).toContainText('No Superset application code change is required');
   const evidence=page.locator('img');
   await expect(evidence).toHaveCount(8);
