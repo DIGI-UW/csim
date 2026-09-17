@@ -6,7 +6,7 @@ in that update, alongside the date, filtering and presentation corrections.
 The separate examples and custom/development comparisons are not part of the
 client installation.
 
-**Current state:** Beth is still editing the [official review dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/).
+**Current state:** Beth could not save edits because of the connection and is no longer editing the [official review dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/).
 A saved checkpoint exists; the final client release is not yet assembled or
 accepted. The ZIP currently published on the overview reproduces the demo and
 is not the client upgrade package.
@@ -18,8 +18,7 @@ review instance, with numerical and viewer checks; see the [request checklist](r
 
 ## Preserve and reconcile Beth's edits
 
-1. Let Beth finish and save her chart, dataset and dashboard changes. Saving
-   the dashboard alone does not save edits still open in a chart editor.
+1. The current saved checkpoint has no additional Beth edits to reconcile. For any subsequent review, save chart and dataset edits separately from the dashboard.
 2. Export the dashboard, its charts and its datasets separately. Include the
    standalone aggregate-download chart if it is part of the accepted handoff.
    Keep the original exports unchanged, alongside readable definitions.
@@ -76,13 +75,13 @@ active entry if included: eleven active datasets, nineteen including the archive
 | Clear all and reselect | A stale selection was reproduced on the official build. | Keep this listed as a known limitation unless a native repair passes the same-page test. Reloading is a workaround, not successful recovery. |
 | Time Unit menu | The official installation uses an instance-wide Month/Quarter/Year restriction. | Include the administrator configuration requirement. Per-dashboard saved unit menus are a separate upstream comparison, not part of the official package. |
 | Yao's palette | The original assignments and hospital/comparison legend mappings are saved in the dashboard. Rendered-color checks passed before this editing round. | Check Beth's final legends, hospital choices and categories against the same palette. New legend names need corresponding assignments. |
-| Hospital 53 totals | The full observed monthly range sums to 980. The saved shorter range sums to 269; the all-time card remains 980. | Preserve the different scopes and make them understandable. The earlier request for 500 is a separate source question unless Beth withdraws it or supplies its derivation. |
+| Hospital 53 totals | The full observed monthly range sums to 980. The saved shorter range sums to 269; the all-time card remains 980. | Preserve the different scopes and make them understandable. The latest team notes mark the count concern resolved; the older 500 note is not an outstanding requirement. |
 | Latest reporting month | It shows the latest observation month within the chosen range, not when a file was uploaded. | Keep the wording and filter scope clear. An upload-completion timestamp is a separate feature. |
 | Contents links | Current links stay within the dashboard and retain selections. | Recheck all nine links after layout edits and after transfer to the destination. |
 | Transfer and repeated updates | The demo package uses different dataset identities from the client and demo connection settings. | Build an update for the client's existing identities. Import twice without duplicates, unchanged target connection/data, and verify SQL, measures, bindings, layout and every filter scope. |
 | Record verification | Both demo source tables contain `record_id`; Current also contains `redcap_repeat_instance`. ALL DATA rows summarize multiple source records. | The separate view preserves all uploaded records, IDs and eligibility reasons; the local CSV matches every source row, and 1,058 hospital-group checks pass locally and on the public demo. The public viewer export returns all 3,453 rows. Confirm the review workflow with Beth, test the client role and imported version, and retain existing cohort weighting. There is no automatic chart-point drill-through. |
 | Uploads, downloads and hospital changes | The saved download chart exists. Full operational acceptance is still separate. | With the client's intended role, replace Current using the established procedure, refresh, verify the complete processed CSV, and verify a new hospital's lookup, menu and colors. |
-| Hospital transition rules and embedded access | Hospital-specific transition dates need the approved schedule; WordPress identity/access has separate owners. | Assign these explicitly in the issue list. Do not imply that the dashboard package implements unprovided transition rules or embedded access restrictions. |
+| Historical/Current overlap and embedded access | The latest team notes mark the overlap question resolved; no transition schedule is required. WordPress identity/access has separate owners. | Do not add a transition rule. Embedded access remains outside this dashboard update. |
 
 The final issue list should link each item to Beth's notes, the relevant team
 documentation, its agreed disposition and evidence. Earlier reports describing

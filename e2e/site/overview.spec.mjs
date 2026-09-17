@@ -48,13 +48,13 @@ test('Beth review starts with the official dashboard and separates decisions fro
   await expect(page.getByRole('heading',{name:'Review the CSiM dashboard with Beth'})).toBeVisible();
   await expect(page.getByRole('link',{name:'Open the dashboard →'})).toHaveAttribute('href','https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/');
   await expect(page.getByRole('heading',{name:'Known official 6.1.0 limitation'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Two decisions needed from the team'})).toBeVisible();
-  await expect(page.locator('body')).toContainText('Hospital 53');
-  await expect(page.locator('body')).toContainText('Historical-to-individual transition');
-  await expect(page.locator('body')).toContainText('hospital 58');
+  await expect(page.getByRole('heading',{name:'Items already settled in the team notes'})).toBeVisible();
+  await expect(page.locator('body')).toContainText('hospital 53 count concern');
+  await expect(page.locator('body')).toContainText('Historical/Current overlap question are marked resolved');
+  await expect(page.locator('body')).toContainText('Seven panels have misleading date-filter indicators');
   await expect(page.locator('body')).toContainText('No Superset application code change is required');
   const evidence=page.locator('img');
-  await expect(evidence).toHaveCount(7);
+  await expect(evidence).toHaveCount(8);
   expect(await evidence.evaluateAll(images=>images.every(image=>image.complete&&image.naturalWidth>0))).toBe(true);
   await page.setViewportSize({width:1280,height:900});
   await page.screenshot({path:info.outputPath('beth-review-desktop.png'),fullPage:true});

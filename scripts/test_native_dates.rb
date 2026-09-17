@@ -2,6 +2,24 @@ require 'minitest/autorun'
 require_relative 'prepare_native_dates'
 
 class NativeDateTest < Minitest::Test
+  def test_navigation_guidance_preserves_controls_and_anchor_targets
+    %w[standard-month-selectors standard-month-selectors-examples].each do |profile|
+      dashboard = ReconciledDashboard.read(Dir[File.join(ReconciledDashboard::ROOT, 'dashboard', profile, 'dashboards/*.yaml')].fetch(0))
+      before = Marshal.load(Marshal.dump(dashboard))
+      NativeDateDashboard.add_navigation_guidance!(dashboard)
+      assert_equal before, dashboard, 'Presentation helper must be idempotent'
+      controls = dashboard['metadata']['native_filter_configuration']
+      assert_equal 'SELECT YOUR HOSPITAL FIRST', controls.first['title']
+      lower = controls.index { |f| f['name'] == 'Your hospital' }
+      assert_equal 'HOSPITAL COMPARISONS', controls[lower - 1]['title']
+      toc = dashboard['position'][NativeDateDashboard::TOC]['meta']['code']
+      assert_equal 4, toc.lines.count { |line| line.match?(/^  - \[4\.[1-4]\./) }
+      anchors = toc.scan(/\]\(#([^)]+)\)/).flatten
+      assert_equal 9, anchors.length
+      anchors.each { |id| assert_equal 'HEADER', dashboard['position'].fetch(id)['type'] }
+    end
+  end
+
   def test_yao_palette_is_preserved_with_hospital_legend_context
     april = ReconciledDashboard.read(Dir[File.join(ReconciledDashboard::ROOT, 'sources/exports/april-2026/unpacked/*/dashboards/*.yaml')].fetch(0))
     original = april.fetch('metadata').fetch('label_colors')
@@ -44,7 +62,7 @@ class NativeDateTest < Minitest::Test
       end
       dashboard = ReconciledDashboard.read(Dir[File.join(root, 'dashboards/*.yaml')].first)
       assert_equal 'VERTICAL', dashboard['metadata']['filter_bar_orientation']
-      filters = dashboard['metadata']['native_filter_configuration']
+      filters = dashboard['metadata']['native_filter_configuration'].reject { |f| f['type'] == 'DIVIDER' }
       assert_equal 6, filters.length
       download = ReconciledDashboard.read(File.join(root,'charts/Aggregate_ALL_DATA_Download.yaml'))
       dataset = ReconciledDashboard.read(File.join(root,'datasets/PostgreSQL/UTI_Aggregate_ALL_DATA_40.yaml'))

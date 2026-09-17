@@ -5,6 +5,27 @@ require_relative 'prepare_native_months'
 require_relative 'prepare_download'
 
 module NativeDateDashboard
+  TOC = 'MARKDOWN-kbpKudPZL01ntlPcgzEYI'.freeze
+  DIVIDERS = [
+    {'id'=>'NATIVE_FILTER_DIVIDER-csim-main', 'type'=>'DIVIDER',
+     'title'=>'SELECT YOUR HOSPITAL FIRST',
+     'description'=>'Use Hospital and state for the main charts. Choose one hospital to fill the latest-month comparison tables.'},
+    {'id'=>'NATIVE_FILTER_DIVIDER-csim-comparisons', 'type'=>'DIVIDER',
+     'title'=>'HOSPITAL COMPARISONS',
+     'description'=>'Use these selectors for the paired charts in 4.2–4.4 and your hospital total in 5. The therapy trend above uses Hospital and state.'}
+  ].freeze
+
+  def self.add_navigation_guidance!(dashboard)
+    filters = dashboard.fetch('metadata').fetch('native_filter_configuration')
+    filters.reject! { |f| f['type'] == 'DIVIDER' }
+    filters.unshift(Marshal.load(Marshal.dump(DIVIDERS.first)))
+    filters.insert(filters.index { |f| f['name'] == 'Your hospital' }, Marshal.load(Marshal.dump(DIVIDERS.last)))
+    dashboard.fetch('position').fetch('MARKDOWN-WIofdf7GkSmIbs0pSuT-6').fetch('meta')['code'] = '**The trend and latest-month table use Hospital and state.** The two duration-category charts below use Your hospital and Cohort/State.'
+    toc = dashboard.fetch('position').fetch(TOC).fetch('meta')
+    # Only indentation changes; same-page anchors preserve the user's selections.
+    toc['code'] = toc.fetch('code').lines.map { |line| line.match?(/^\s*- \[4\.[1-4]\./) ? '  ' + line.lstrip : line }.join
+  end
+
   def self.preserve_comparison_colors!(dashboard, fixture:)
     colors = dashboard.fetch('metadata').fetch('label_colors')
     # Superset keys saved colors by the complete series label. Adding hospital
@@ -64,6 +85,7 @@ module NativeDateDashboard
     %w[MARKDOWN-4LE_6MIsEUYEjgMUcvAyM MARKDOWN-WIofdf7GkSmIbs0pSuT-6].each do |id|
       dashboard['position'].fetch(id).fetch('meta')['code'] = '**Choose Your hospital in the left filter panel to display the hospital comparison panels.** Then choose Cohort/State for the comparison.'
     end
+    add_navigation_guidance!(dashboard)
     preserve_comparison_colors!(dashboard, fixture: fixture)
     ReconciledDashboard.write(path, dashboard)
 

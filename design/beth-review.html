@@ -9,8 +9,8 @@
 <main>
 <a href="./">← CSiM dashboard overview</a>
 <h1>Review the CSiM dashboard with Beth</h1>
-<p class="lead">Start with the full September dashboard on official Superset 6.1.0. This page separates what is ready to review, what Superset still does poorly, and the source-data decisions that the dashboard cannot make for the team.</p>
-<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard →</a><a href="./#standard-instance">Login details</a><a href="native-dates.html">Date-entry guide</a></div>
+<p class="lead">Start with the full September dashboard on official Superset 6.1.0. Use this guide to understand the dates, choose the right hospital controls, and review the remaining filter limitations.</p>
+<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard →</a><a href="./#standard-instance">Login details</a><a href="native-dates.html">Date-entry guide</a><a href="filter-guide.html">Filters and charts catalogue →</a></div>
 
 <section>
 <h2>What to review</h2>
@@ -20,7 +20,7 @@
 <tr><th>Latest reporting month</th><td>The card shows the last observation month inside the chosen Time Period. It is labelled as an observation month, not an upload date.</td></tr>
 <tr><th>Comparison context</th><td>The lower comparison charts carry the selected hospital or comparison group in their legend so a screenshot remains understandable.</td></tr>
 <tr><th>Chart colors</th><td>Yao's color assignments are preserved. A category keeps the same color when the legend includes a hospital code or comparison group.</td></tr>
-<tr><th>Section links</th><td>Table of Contents links point back to this dashboard and keep the active filter state.</td></tr>
+<tr><th>Section links</th><td>Table of Contents links stay on this dashboard and keep the active filter state. Sections 4.1–4.4 are grouped under section 4.</td></tr>
 <tr><th>Dashboard content</th><td>The September explanations, latest-month card and all 21 reporting charts are retained. Dataset names remain familiar to editors.</td></tr>
 </table>
 </section>
@@ -37,18 +37,40 @@
 </ol>
 </section>
 
-<section class="limit">
+<section class="limit" id="clear-all">
 <h2>Known official 6.1.0 limitation</h2>
 <p><strong>Clear all, then reselect in the left sidebar can leave a stale result.</strong> Moving filters to the left does not repair that Superset behavior. For this review, change individual selections or reload the dashboard after Clear all.</p>
 <p class="small">Reproduction: choose a hospital, use Clear all, then choose the same hospital again without reloading. The browser check below reselected hospital 31, but Superset combined it with the stale Cohort value and left the date range empty, exposing February 2030. The custom Superset comparison contains a source-level repair; the recommended dashboard intentionally stays on the official build.</p>
 <figure class="gap-evidence"><a href="evidence/beth-review/clear-all-gap.png"><img src="evidence/beth-review/clear-all-gap.png" alt="After Clear all, the official sidebar shows stale Cohort together with hospital 31 and no date range"></a><figcaption>Known gap reproduced on official 6.1.0: Cohort and hospital 31 are both selected after Clear all, while Time Period is empty.</figcaption></figure>
 </section>
 
+<section id="dates-and-filters">
+<h2>Upload date and reporting month</h2>
+<p><strong>The upload note is typed text.</strong> Its date changes only when an editor changes and saves it. <strong>Latest reporting month</strong> is calculated from the observations within the selected hospital/state, location and Time Period.</p>
+<p>For example, uploading July observations in September means the upload date is in September, while the reporting month is July. The month card cannot tell us when a file was uploaded.</p>
+<p>The existing March 30 note is not a verified latest-upload date for this demo. A clearly labelled <strong>Last data upload</strong> note can be maintained manually. An automatic value would need a reliable record of successful uploads.</p>
+</section>
+
+<section id="filter-map">
+<h2>Which hospital choice affects each chart?</h2>
+<p>The sidebar contains two groups. Selecting a hospital in the first does not select it in the second.</p>
+<table>
+<tr><th>Hospital and state</th><td>The main charts, including the 4.2 therapy trend and section 5 submissions trend. Choose one numeric hospital for the latest-month comparison tables.</td></tr>
+<tr><th>Your hospital / Cohort/State</th><td>The paired charts in 4.2–4.4. Your hospital also controls the hospital total in section 5.</td></tr>
+<tr><th>Time Period / Time Unit</th><td>The trends and paired charts use the chosen dates and grouping. The five overall charts and section 5 totals use all-time data. The two latest-month comparison tables choose their latest month independently.</td></tr>
+<tr><th>Collection location</th><td>Applies to trends, duration/antibiotic pairs and section 5 totals. The location breakdown in 4.4 and latest-month comparison tables cover all locations.</td></tr>
+</table>
+<p><strong>Seven panels have misleading date-filter indicators:</strong> the five overall charts and two latest-month tables list Time Period and Time Unit as applied, although their queries do not use them. With hospital 53 and dates in 2024, the trend shows 2024 but the table shows March 2026.</p>
+<figure class="gap-evidence"><a href="evidence/beth-review/therapy-filter-mismatch.png"><img src="evidence/beth-review/therapy-filter-mismatch.png" alt="Hospital 53 therapy table showing March 2026 while the applied Time Period is January through December 2024"></a><figcaption>The table keeps its latest available month. Its filter indicator incorrectly suggests the chosen period controls that month.</figcaption></figure>
+<p>The existing all-time and latest-month calculations have not changed. The inventory separates those reporting choices from the misleading filter indicators; no new behavior has been selected.</p>
+<p>This is separate from Clear all: it also happens without clearing any filters.</p>
+<details><summary>How editors can check and maintain this</summary><p>In Add/Edit Filters, use Scoping to choose the affected panels. Native dividers provide the sidebar headings. A chart’s filter icon lists its assigned filters; for a SQL-defined dataset, verify that changing the control actually changes the result as intended.</p><p><a href="https://docs.preset.io/docs/scoping-a-filter">Filter scoping guide</a> · <a href="https://docs.preset.io/docs/managing-filters">Dividers and applied-filter indicators</a></p></details>
+</section>
+
 <section>
-<h2>Two decisions needed from the team</h2>
-<div class="question"><strong>1. Hospital 53:</strong> What source rows or calculation produce the expected all-time total of 500? The supplied demonstration database contains 980 distinct historical records for hospital 53 and no current records, so changing the dashboard to 500 without that source would invent a rule.</div>
-<div class="question"><strong>2. Historical-to-individual transition:</strong> For each hospital, what is the first month that should come from the individual dataset? The proposed rule is historical data before that month and individual data from that month onward. The dashboard needs the approved per-hospital schedule and the rule for hospitals with no transition date.</div>
-<p><strong>Roster correction:</strong> hospital 58 has demonstration records but no entry in the supplied hospital/state lookup, so the current query excludes it. Add the approved hospital name, state and cohort mapping rather than guessing those values in the dashboard.</p>
+<h2>Items already settled in the team notes</h2>
+<p>The hospital 53 count concern and the Historical/Current overlap question are marked resolved. They do not require a new counting rule or a hospital transition schedule. The two filter groups remain separate.</p>
+<p>The <a href="https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/">Data &amp; records dashboard</a> explains source dependencies and links to the separate record-review table.</p>
 </section>
 
 <section>

@@ -679,8 +679,8 @@ position:
     children: []
     id: MARKDOWN-WIofdf7GkSmIbs0pSuT-6
     meta:
-      code: "**Choose Your hospital in the left filter panel to display the hospital
-        comparison panels.** Then choose Cohort/State for the comparison."
+      code: "**The trend and latest-month table use Hospital and state.** The two
+        duration-category charts below use Your hospital and Cohort/State."
       height: 12
       width: 12
     parents:
@@ -715,10 +715,10 @@ position:
         - [2. Inappropriate diagnosis of UTI (by urinalysis data)](#HEADER-hAJImIfKTuh5AjqubMMQx)
         - [3. Prevalence and treatment of asymptomatic bacteriuria](#HEADER-vvlp4XUy79yAsrEv5y3Z9)
         - [4. Additional urine testing and antibiotic insights](#HEADER-w3h--tvRPIJ4paGsvAvtq)
-        - [4.1. Positive urinalysis within 24hours of urine culture](#HEADER-VSO77JOVErZuIv0jiVKxm)
-        - [4.2. Average Duration of Antibiotic Therapy (days)](#HEADER-eVOJ7CLoDLTv7Uc8Ct2eU)
-        - [4.3. Top antibiotic prescriptions](#HEADER-uzYe_XPHyTLsyEBmvrbL6)
-        - [4.4. Location of service](#HEADER-jcjz34JVi0EGsAKJEFcAL)
+          - [4.1. Positive urinalysis within 24hours of urine culture](#HEADER-VSO77JOVErZuIv0jiVKxm)
+          - [4.2. Average Duration of Antibiotic Therapy (days)](#HEADER-eVOJ7CLoDLTv7Uc8Ct2eU)
+          - [4.3. Top antibiotic prescriptions](#HEADER-uzYe_XPHyTLsyEBmvrbL6)
+          - [4.4. Location of service](#HEADER-jcjz34JVi0EGsAKJEFcAL)
         - [5. Total number of data submitted](#HEADER-PMMsB3kEnSteAcLMsgZz-)
       height: 51
       width: 12
@@ -3279,6 +3279,11 @@ metadata:
   cross_filters_enabled: false
   default_filters: "{}"
   native_filter_configuration:
+  - id: NATIVE_FILTER_DIVIDER-csim-main
+    type: DIVIDER
+    title: SELECT YOUR HOSPITAL FIRST
+    description: Use Hospital and state for the main charts. Choose one hospital to
+      fill the latest-month comparison tables.
   - id: NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE
     controlValues:
       sortAscending: true
@@ -3493,6 +3498,11 @@ metadata:
     - 104
     - 108
     tabsInScope: []
+  - id: NATIVE_FILTER_DIVIDER-csim-comparisons
+    type: DIVIDER
+    title: HOSPITAL COMPARISONS
+    description: Use these selectors for the paired charts in 4.2–4.4 and your hospital
+      total in 5. The therapy trend above uses Hospital and state.
   - id: NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI
     controlValues:
       sortAscending: true

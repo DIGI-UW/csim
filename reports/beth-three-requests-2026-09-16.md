@@ -29,15 +29,13 @@ contains summary rows and does not provide this record-level view.
 
 ## Other work, in order
 
-1. Preserve and reconcile Beth's saved edits, then produce one clean client
+1. Preserve the saved checkpoint (Beth could not save edits), then produce one clean client
    package. Rehearse import twice against the client's existing object identities
    without duplicates, connection changes or changes to uploaded data.
 2. Repair or clearly retain the known left-sidebar **Clear all / reselect**
    limitation. It is separate from these three requests and still needs a passing
    same-page recovery test on official 6.1.0.
-3. Resolve team-dependent questions separately: approved hospital transition
-   rules and the source of the older expected total of 500. The observed full
-   Hospital 53 range sums to 980; the saved shorter range sums to 269.
+3. The latest team notes mark hospital 53 and Historical/Current overlap resolved. Do not retain the older 500 note or a transition schedule as open requirements. See the [date and filter map](dates-and-filter-scope-2026-09-17.md) for the remaining presentation and filter questions.
 
 ## Checks for the source registrations
 
