@@ -126,6 +126,10 @@ PYWORKERS
       compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"
     done
     ;;
+  data-review)
+    [[ "$profile" == standard ]] || { echo "Data review targets the official demo." >&2; exit 2; }
+    compose exec -T superset python /repro/scripts/install_data_review.py --apply
+    ;;
   source-datasets)
     [[ "$profile" == standard ]] || { echo 'Client source registrations use the official demo.' >&2; exit 2; }
     compose exec -T superset python /repro/scripts/register_client_sources.py --apply

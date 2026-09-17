@@ -6,12 +6,12 @@ September 16, 2026. Target: the [official Superset 6.1.0 dashboard](https://stan
 | --- | --- | --- |
 | Yao's accessible colors | All 109 original label-to-color assignments match the April export in the public dashboard. Existing rendered-color checks also cover hospital/comparison legend names. | Recheck any legends Beth changes before the final release. |
 | Production dataset names | All six reporting names match production. The three existing demo upload sources are now registered with the production names and reflected identifier columns. | Exclude the separate examples and retired objects from the client update. Test an update over the client's existing identities. |
-| Identify the contributing submissions | Both source tables have record IDs; Current also has a repeat instance. | Build a separate record-verification table and CSV, with exact membership and measure-contribution checks. This is not implemented yet. |
+| Identify the contributing submissions | The standalone record-review chart and complete CSV are implemented and locally validated. A separate Data & records dashboard shows the dependencies and exclusions. | Verify the public viewer workflow, then have Beth accept the table and include it in the client package. |
 
-## Record verification: the next substantive change
+## Record verification
 
-Keep the summary dataset at its existing level of aggregation. A separate saved
-view should show each contributing submission, its source (Current or
+Keep the summary dataset at its existing level of aggregation. The separate saved
+view shows each uploaded submission, its source (Current or
 Historical), record ID, and repeat instance where present. Historical rows have
 no repeat instance. IDs must retain their source context; their uniqueness must
 be checked rather than assumed.
@@ -23,8 +23,8 @@ have no underlying submissions.
 
 Acceptance: for agreed examples, the listed submissions reproduce the summary
 counts and measures, repeat instances remain distinct, CSV contents are complete,
-and the dashboard measures do not change. A direct chart-to-record link must be
-verified in stock 6.1.0 before it is promised. The existing ALL DATA download
+and the dashboard measures do not change. The Data & records dashboard links to the standalone table. Automatic chart-point
+drill-through is not implemented. The existing ALL DATA download
 contains summary rows and does not provide this record-level view.
 
 ## Other work, in order
