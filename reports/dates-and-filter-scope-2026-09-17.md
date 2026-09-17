@@ -98,14 +98,14 @@ No new native Clear all fix is established by this audit. Upstream changes addre
 
 Sources: [filter management](https://docs.preset.io/docs/managing-filters), [filter scoping](https://docs.preset.io/docs/scoping-a-filter), [Superset 6.1 SQL templating](https://superset.apache.org/admin-docs/6.1.0/configuration/sql-templating/), and the [team's upload/dashboard guide](https://docs.google.com/document/d/1ZJXriNttqVWN3w_vXwYR7HH6DcrqbcIb/edit). Preset documents the Superset-based interface; installed 6.1.0 behavior was checked separately.
 
-## Presentation changes prepared locally
+## Published presentation changes
 
 - The sidebar begins with SELECT YOUR HOSPITAL FIRST, followed by guidance for Hospital and state.
 - HOSPITAL COMPARISONS introduces the two lower selectors.
 - Section 4.2 explicitly distinguishes the upper-controlled trend/table from the lower-controlled paired charts.
 - Table of Contents entries 4.1–4.4 are nested under section 4; all nine existing same-page destinations remain intact.
 
-These presentation changes passed local checks and screenshot review but have not been published. Only these presentation fields change. Filter values, defaults, requiredness, scopes, colors, chart definitions and dataset SQL remain unchanged. The date note remains unchanged pending confirmation of its intended manual value.
+Published from revision `9661a7f1223e526a4c8b28effaa51e2cdf62e1c0` on September 16 Pacific (September 17 UTC). The [shareable catalogue](https://design.csim.uwdigi.org/filter-guide.html), overview and Beth review page are live. All eight website checks passed against the public site; desktop/mobile screenshots and the public dashboard guidance were inspected. The deployment comparison verified that all 22 panels, filter values, defaults, requiredness, scopes, colors, chart definitions and dataset SQL remain unchanged. The date note remains unchanged pending confirmation of its intended manual value. [Publication receipt](navigation-guide-publication-2026-09-17.json). This update does not establish new numerical acceptance or resolve the documented filter limitations.
 
 ## Current issue status
 
