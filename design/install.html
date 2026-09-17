@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Install the CSiM dashboard update</title>
+<meta name="description" content="Install the tested CSiM Individual Data dashboard update on the client's existing Superset 6.1.0 instance without replacing reporting data or the PostgreSQL connection.">
+<style>
+:root{--ink:#203444;--muted:#53646f;--teal:#066b7b;--line:#d9e1e5;--paper:#f5f8fa;--pale:#edf5f4;--amber:#78551f;--sand:#fbf1de;--green:#28734f}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:32px 24px 64px}a{color:var(--teal);text-underline-offset:3px}a:focus-visible,summary:focus-visible{outline:3px solid #a87600;outline-offset:4px}h1,h2,h3{line-height:1.2}h1{font-size:clamp(1.8rem,4vw,2.65rem);margin:18px 0}h2{font-size:1.5rem}h3{font-size:1.1rem;margin:0 0 7px}.lead{font-size:1.12rem;color:var(--muted);max-width:78ch}.kicker{color:var(--muted);font-size:.85rem;margin:18px 0 0}.actions{display:flex;gap:12px 24px;flex-wrap:wrap;align-items:center;margin:24px 0}.button{background:var(--teal);color:white;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:6px}.secondary{font-weight:650}nav{display:flex;flex-wrap:wrap;gap:12px 24px;padding:18px 0;border-top:1px solid var(--line)}section{background:white;border:1px solid var(--line);border-radius:10px;padding:24px 28px;margin:22px 0;scroll-margin-top:20px}.status{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}.status div{background:white;border:1px solid var(--line);border-radius:8px;padding:15px}.status strong,.status span{display:block}.status span{color:var(--muted);font-size:.9rem;margin-top:4px}.status .done strong{color:var(--green)}.status .pending strong{color:var(--amber)}table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th[scope=row]{width:27%;font-weight:700}.note{padding:14px 18px;background:var(--pale);border-left:4px solid var(--teal);border-radius:4px}.warning{background:var(--sand);border-color:var(--amber)}ol.steps{counter-reset:step;list-style:none;padding:0}.steps>li{counter-increment:step;padding:0 0 22px 52px;position:relative}.steps>li::before{content:counter(step);position:absolute;left:0;top:0;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:white;font-weight:750}.checks{display:grid;grid-template-columns:1fr 1fr;gap:14px}.check{border:1px solid var(--line);border-radius:7px;padding:15px}.check p{margin:5px 0 0;color:var(--muted);font-size:.94rem}details{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}summary{cursor:pointer;color:var(--teal);font-weight:700}code{overflow-wrap:anywhere;font-size:.9em}.skip{position:absolute;top:-80px;left:16px;background:white;padding:12px}.skip:focus{top:10px}footer{font-size:.88rem;color:var(--muted);padding-top:20px}p{margin:12px 0}li{margin:8px 0}@media(max-width:700px){main{padding:22px 16px}section{padding:20px 16px}.status,.checks{grid-template-columns:1fr}table{font-size:.94rem}th[scope=row],td{display:block;width:100%;border:0;padding:5px 0}tr{display:block;border-bottom:1px solid var(--line);padding:10px 0}.steps>li{padding-left:45px}.actions{align-items:flex-start}.button{display:block}}@media print{body{background:white;font-size:11pt}main{padding:0}.actions,nav,.back{display:none}section{border:0;padding:0}.status{display:flex}.status div{flex:1}.check,.steps>li{break-inside:avoid}details{display:block}a{color:inherit}h1{font-size:24pt}}
+</style></head>
+<body><a class="skip" href="#main">Skip to installation guide</a><main id="main">
+<a class="back" href="./">← CSiM dashboard overview</a>
+<p class="kicker">CSiM Individual Data dashboard · Client installation</p>
+<h1>Install the dashboard update without replacing the data</h1>
+<p class="lead">This package updates the client's familiar CSiM dashboard on official Superset 6.1.0. It keeps the existing dashboard, reporting datasets, PostgreSQL connection and uploaded source tables. It contains definitions, not patient or reporting records.</p>
+
+<div class="status" aria-label="Release status">
+<div class="done"><strong>Package prepared</strong><span>One dashboard, 21 charts and six reporting datasets.</span></div>
+<div class="done"><strong>Repeat import passed</strong><span>Baseline, update and the same update again produced no duplicate objects.</span></div>
+<div class="pending"><strong>Client installation pending</strong><span>The package has not yet been installed or accepted on the client's instance.</span></div>
+</div>
+
+<div class="actions"><a class="button" href="downloads/csim-client-update-dashboard.zip" download>Download tested update ZIP</a><a class="secondary" href="review.html">Review the dashboard</a><a href="data-guide.html">Understand the data</a><a href="https://github.com/DIGI-UW/csim/tree/888bdde3dd93d4dbf48c333f5f5f92f8b42131e7/release/client-update">Versioned release files</a></div>
+<nav aria-label="Installation sections"><a href="#contents">What changes</a><a href="#before">Before installation</a><a href="#install">Install</a><a href="#verify">Verify</a><a href="#rollback">Rollback</a><a href="#limits">Limits</a></nav>
+
+<section id="contents"><h2>What this update changes</h2>
+<table><tbody>
+<tr><th scope="row">Updates</th><td>The existing Individual Data dashboard, its 21 charts, six saved reporting queries, layout, colors, filters and Table of Contents links.</td></tr>
+<tr><th scope="row">Preserves</th><td>The client's dashboard identity, six reporting-dataset identities, PostgreSQL connection, source-table names and uploaded Current, Historical and hospital-lookup records.</td></tr>
+<tr><th scope="row">Does not include</th><td>Demo records, example dashboards, retired experiments, archived client datasets, a Superset application patch or database credentials.</td></tr>
+<tr><th scope="row">Separate supporting view</th><td>The Data &amp; records dashboard and individual-record review table remain a separate package. Installing the main update cannot silently add them to the familiar dashboard.</td></tr>
+</tbody></table>
+<p class="note"><strong>Dashboard definitions and reporting records are separate.</strong> This ZIP describes what Superset should display and how it calculates results. It does not carry the rows stored in PostgreSQL.</p>
+</section>
+
+<section id="before"><h2>Before installing</h2>
+<ol>
+<li>Confirm the destination is the intended official Superset 6.1.0 instance.</li>
+<li>Export a fresh backup of the destination dashboard, its charts and datasets. Keep the application metadata backup as the rollback point.</li>
+<li>Compare that export with the September baseline. If anyone saved later SQL, chart, layout or filter edits, reconcile them before continuing.</li>
+<li>Confirm the destination still uses the existing PostgreSQL connection and the same six reporting datasets.</li>
+<li>Rehearse in a copy of the client configuration before updating the live dashboard.</li>
+</ol>
+<p class="warning note"><strong>Do not import the public demo dashboard into client production.</strong> Its local object identities and demo connection differ from the client's. Use the client update linked on this page.</p>
+</section>
+
+<section id="install"><h2>Installation sequence</h2>
+<ol class="steps">
+<li><h3>Keep the fresh backup</h3><p>Record the current destination revision and retain its exported definitions and metadata backup.</p></li>
+<li><h3>Import the client update</h3><p>Use the versioned repository importer with the <code>client-update</code> profile. It invokes Superset's normal asset importer, then corrects internal chart references and saved filter scopes that can otherwise retain numbers from the source instance.</p></li>
+<li><h3>Run the definition check</h3><p>The verifier compares SQL, calculated columns, measures, chart settings, colors, layout, filter defaults and scopes, and all nine Table of Contents links with the tested release.</p></li>
+<li><h3>Open and review the dashboard</h3><p>Check a known hospital and explicit date range before the updated dashboard becomes the accepted client release.</p></li>
+</ol>
+<details><summary>Administrator commands and why the helper is required</summary><p>From the checked-out release revision, run the importer and verifier inside the configured Superset environment:</p><pre><code>python scripts/dashboard_import.py import --profile client-update
+python scripts/verify_import.py --profile client-update</code></pre><p>Superset assigns local numeric chart identifiers on each instance. Official 6.1.0 can retain source-instance numbers in dashboard layout and cached filter scope. The helper remaps those references to the destination's objects; it does not patch or replace Superset.</p></details>
+</section>
+
+<section id="verify"><h2>What must be true after installation</h2>
+<div class="checks">
+<div class="check"><h3>One familiar dashboard</h3><p>The update changes the existing dashboard. It does not create a second CSiM Individual Data dashboard.</p></div>
+<div class="check"><h3>Six familiar reporting datasets</h3><p>No duplicate reporting datasets appear, and their saved SQL and measures match the release.</p></div>
+<div class="check"><h3>Connection unchanged</h3><p>The PostgreSQL connection and source tables remain the client's existing ones.</p></div>
+<div class="check"><h3>Data still present</h3><p>A known hospital, reporting month and total still match the pre-installation data check.</p></div>
+<div class="check"><h3>Dates and grouping work</h3><p>Explicit start and end dates work with Month, Quarter and Year in either selection order.</p></div>
+<div class="check"><h3>Presentation is intact</h3><p>Colors, readable axis labels, seven panel-coverage labels, section 4.1 wording and nine contents links are correct.</p></div>
+</div>
+<p><a href="review.html">Use the five-minute dashboard review →</a></p>
+</section>
+
+<section id="rollback"><h2>Rollback</h2>
+<p>If the destination differs unexpectedly, stop before further edits. Restore the backed-up dashboard, chart and dataset definitions and the matching application metadata backup. Reporting records stay in PostgreSQL and should not be restored or replaced as part of a definition rollback.</p>
+<p>After rollback, repeat the known hospital, date, total and filter checks. A dashboard that opens successfully is not enough to prove every relationship was restored.</p>
+</section>
+
+<section id="limits"><h2>Known limits and decisions</h2>
+<ul>
+<li><strong>Clear all:</strong> official Superset 6.1.0 can retain a stale selection after Clear all and reselect. Reload after using Clear all. This package documents the limitation; it does not add a Superset patch.</li>
+<li><strong>Importer repair:</strong> the versioned reference helper is part of the tested installation path. A manual ZIP upload alone has not passed the same destination-reference checks.</li>
+<li><strong>Time Unit choices:</strong> Month, Quarter and Year remain an installation-wide restriction on this dedicated 6.1.0 instance.</li>
+<li><strong>Supporting records view:</strong> the separate Data &amp; records package still needs destination installation and role checks if the client accepts that workflow.</li>
+</ul>
+<details><summary>Evidence for this release</summary><ul><li><a href="downloads/client-update-rehearsal.json">Repeat-import result</a></li><li><a href="downloads/client-update-baseline-comparison.json">September baseline comparison</a></li><li><a href="downloads/client-update-SHA256SUMS">Package checksum</a></li><li><a href="https://github.com/DIGI-UW/csim/commit/888bdde3dd93d4dbf48c333f5f5f92f8b42131e7">Exact source commit</a></li></ul></details>
+</section>
+
+<footer><a href="./">Dashboard overview</a> · <a href="review.html">Review guide</a> · <a href="data-guide.html">Data guide</a> · <a href="filter-guide.html">Filters and charts</a><br>Client installation guide · 17 September 2026</footer>
+</main></body></html>
+

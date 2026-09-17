@@ -20,6 +20,6 @@ test('Shared catalogue is reachable and readable on desktop and mobile',async({p
   await expect(image).toBeVisible();
   expect(await image.evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
   await page.getByRole('link',{name:'See the known limitation.',exact:true}).click();
-  await expect(page).toHaveURL(/beth-review\.html#clear-all$/);
+  await expect(page).toHaveURL(/review\.html#clear-all$/);
   await expect(page.locator('#clear-all h2')).toBeInViewport();
 });

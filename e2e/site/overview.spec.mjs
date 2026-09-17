@@ -43,9 +43,10 @@ test('Readers can open the September dashboard and find each matching login',asy
   expect(destination.searchParams.get('next')).toBe('/superset/dashboard/csim-individual-reconciled-months/');
 });
 
-test('Beth review starts with the official dashboard and separates decisions from the known limitation',async({page},info)=>{
+test('Review guide starts with the official dashboard and separates decisions from the known limitation',async({page},info)=>{
   await page.goto('/beth-review.html');
-  await expect(page.getByRole('heading',{name:'Review the CSiM dashboard with Beth'})).toBeVisible();
+  await expect(page).toHaveURL(/review\.html$/);
+  await expect(page.getByRole('heading',{name:'Review the CSiM dashboard'})).toBeVisible();
   await expect(page.getByRole('link',{name:'Open the dashboard →'})).toHaveAttribute('href','https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/');
   await expect(page.getByRole('heading',{name:'Known official 6.1.0 limitation'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Items already settled in the team notes'})).toBeVisible();
