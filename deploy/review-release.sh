@@ -53,6 +53,9 @@ if [[ "$action" == assets ]]; then
     docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/dashboard_import.py" import --profile "$package" </dev/null
     docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/verify_import.py" --profile "$package" </dev/null
   done
+  if [[ "$profile" == standard ]]; then
+    docker exec "$container" python "$target/scripts/register_client_sources.py" --apply </dev/null
+  fi
   docker cp "$1/demo_access.py" "$container:$target/demo_access.py"
   docker exec "$container" python "$target/demo_access.py" </dev/null
   python3 - "$profile" "$revision" "$backup" "${packages[@]}" <<'PYRECEIPT'

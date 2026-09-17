@@ -126,12 +126,17 @@ PYWORKERS
       compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"
     done
     ;;
+  source-datasets)
+    [[ "$profile" == standard ]] || { echo 'Client source registrations use the official demo.' >&2; exit 2; }
+    compose exec -T superset python /repro/scripts/register_client_sources.py --apply
+    ;;
   native-months|native-dates)
     [[ "$profile" == standard ]] || { echo 'Native date controls target official stable Superset.' >&2; exit 2; }
     for candidate in standard-month-selectors standard-month-selectors-examples; do
       compose exec -T superset python /repro/scripts/dashboard_import.py import --profile "$candidate"
       compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"
     done
+    compose exec -T superset python /repro/scripts/register_client_sources.py --apply
     ;;
   reconciled)
     [[ "$profile" == corrected ]] || { echo 'The September version uses the main instance.' >&2; exit 2; }
