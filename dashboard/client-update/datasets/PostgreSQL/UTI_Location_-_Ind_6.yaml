@@ -6,7 +6,7 @@ description:
 default_endpoint:
 offset: 0
 cache_timeout:
-catalog: csim_demo
+catalog: data
 schema: v1
 sql: "{% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S')
   %}\n{% set start_at = from_dttm if from_dttm is defined else applied_time.from_expr

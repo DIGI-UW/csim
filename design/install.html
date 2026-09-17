@@ -24,11 +24,11 @@
 <section id="contents"><h2>What this update changes</h2>
 <table><tbody>
 <tr><th scope="row">Updates</th><td>The existing Individual Data dashboard, 21 chart definitions, six saved reporting-query definitions, layout, colors, filters and Table of Contents links.</td></tr>
-<tr><th scope="row">Preserves</th><td>The client's dashboard identity, six reporting-dataset identities, PostgreSQL connection object, source-table names and uploaded Current, Historical and hospital-lookup records.</td></tr>
-<tr><th scope="row">Does not include</th><td>A database connection definition, database credentials, reporting records, example dashboards, retired experiments, archived client datasets or a Superset application patch.</td></tr>
+<tr><th scope="row">Preserves</th><td>The client's dashboard identity, six reporting-dataset identities, PostgreSQL connection address, database name, credentials, source-table names and uploaded Current, Historical and hospital-lookup records.</td></tr>
+<tr><th scope="row">Does not include</th><td>A new database connection, database credentials, reporting records, example dashboards, retired experiments, archived client datasets or a Superset application patch.</td></tr>
 <tr><th scope="row">Separate supporting view</th><td>The Data &amp; records dashboard and individual-record review table remain a separate package. Installing the main update cannot silently add them to the familiar dashboard.</td></tr>
 </tbody></table>
-<p class="note"><strong>Dashboard definitions and reporting records are separate.</strong> This bundle describes what Superset should display and how it calculates results. It does not carry the rows stored in PostgreSQL or a database password. Superset reuses the destination's existing PostgreSQL connection.</p>
+<p class="note"><strong>Dashboard definitions and reporting records are separate.</strong> This bundle describes what Superset should display and how it calculates results. It does not carry the rows stored in PostgreSQL or a database password. It was built from the CSiM destination export and reuses its existing PostgreSQL connection.</p>
 </section>
 
 <section id="artifacts"><h2>Release files</h2>
@@ -71,9 +71,10 @@
 </section>
 
 <section id="manual-install"><h2>Manual installation — use the Superset screens</h2>
+<p class="warning note"><strong>This is a CSiM-specific update.</strong> Before importing, open the existing <strong>PostgreSQL</strong> connection and confirm it uses the CSiM reporting database named <strong>data</strong>. Do not apply this ZIP to another instance with a different connection or database name; create a new update from that instance's export instead.</p>
 <ol class="steps">
 <li><h3>Pause dashboard editing and back up the destination</h3><p>Export the current client dashboard with its charts and datasets. Also take a Superset metadata-database backup using the client's established procedure. If the export contains edits newer than the September source, reconcile them before continuing.</p></li>
-<li><h3>Import the reporting datasets</h3><p>Open <strong>Datasets</strong>, choose <strong>Import dataset</strong>, and upload <a href="downloads/01-csim-reporting-datasets.zip">01-csim-reporting-datasets.zip</a>. Turn on <strong>Overwrite</strong>. If Superset asks for the PostgreSQL password, enter the password for the destination's existing <strong>PostgreSQL</strong> connection. If offered, keep column and metric synchronization enabled.</p></li>
+<li><h3>Import the reporting datasets</h3><p>Open <strong>Datasets</strong>, choose <strong>Import dataset</strong>, and upload <a href="downloads/01-csim-reporting-datasets.zip">01-csim-reporting-datasets.zip</a>. Turn on <strong>Overwrite</strong>. If Superset asks for the PostgreSQL password, use the password for the existing <strong>PostgreSQL</strong> connection. Do not create or edit a connection. If offered, keep column and metric synchronization enabled.</p></li>
 <li><h3>Import the charts</h3><p>Open <strong>Charts</strong>, choose <strong>Import chart</strong>, and upload <a href="downloads/02-csim-dashboard-charts.zip">02-csim-dashboard-charts.zip</a>. Turn on <strong>Overwrite</strong>.</p></li>
 <li><h3>Import the dashboard</h3><p>Open <strong>Dashboards</strong>, choose <strong>Import dashboard</strong>, and upload <a href="downloads/03-csim-dashboard.zip">03-csim-dashboard.zip</a>. Turn on <strong>Overwrite</strong>.</p></li>
 </ol>
@@ -93,7 +94,7 @@ python scripts/verify_import.py --profile client-update</code></pre>
 </section>
 
 <section id="verify"><h2>Confirm the update loaded</h2>
-<p>The definition comparison should finish successfully. Open the familiar dashboard and confirm that it is still connected to the client's data, that no duplicate CSiM dashboard or reporting datasets were created, and that an explicit date range works with Month, Quarter and Year.</p>
+<p>The definition comparison should finish successfully. Confirm that the existing PostgreSQL connection still points to <strong>data</strong>, no duplicate CSiM dashboard or reporting datasets were created, and the familiar dashboard works with the client's data for an explicit date range and Month, Quarter and Year.</p>
 <p><a href="review.html">Open the separate dashboard review guide →</a></p>
 </section>
 
@@ -107,6 +108,7 @@ python scripts/verify_import.py --profile client-update</code></pre>
 <ul>
 <li><strong>Clear all:</strong> official Superset 6.1.0 can retain a stale selection after Clear all and reselect. Reload after using Clear all. This package documents the limitation; it does not add a Superset patch.</li>
 <li><strong>Filter scopes:</strong> the Superset 6.1.0 importer maps dashboard filter targets and excluded charts to the destination identifiers. Open <strong>Edit dashboard</strong>, then the filter bar’s settings menu and <strong>Add or edit filters</strong> only when reviewing or intentionally changing a filter.</li>
+<li><strong>Connection safety:</strong> this release preserves the client's <code>data</code> catalog in all six reporting datasets and does not overwrite the PostgreSQL connection. A package must be rebuilt from a fresh export before use on an instance with a different database connection.</li>
 <li><strong>Time Unit choices:</strong> the short Month/Quarter/Year menu comes from the installation-wide <code>TIME_GRAIN_DENYLIST</code> shown above. It is not stored in the dashboard ZIP.</li>
 <li><strong>Supporting records view:</strong> the separate Data &amp; records package still needs destination installation and role checks if the client accepts that workflow.</li>
 </ul>

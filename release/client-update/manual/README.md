@@ -5,6 +5,10 @@ the official Superset 6.1.0 interface. They contain dashboard definitions and
 saved reporting queries. They do not contain uploaded reporting records or a
 database password.
 
+They are specific to the CSiM instance whose existing `PostgreSQL` connection
+uses database `data`. Do not use them on another instance with a different
+connection or database name. Build a new update from that instance's export.
+
 Import the files in this exact order:
 
 1. In **Datasets**, select **Import dataset** and import
@@ -16,8 +20,8 @@ Import the files in this exact order:
 
 Superset may ask for the existing PostgreSQL connection password while reading
 the definitions. Use the password for the destination's existing `PostgreSQL`
-connection. The import reuses that connection; it does not replace the client's
-reporting database.
+connection. Do not create or edit a database connection. The import reuses that
+connection and preserves the `data` database catalog.
 
 After the third import, open the existing CSiM Individual Data dashboard and
 check the expected filters and charts. Superset maps the filter targets and

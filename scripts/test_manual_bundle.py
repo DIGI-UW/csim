@@ -42,6 +42,17 @@ class ManualBundleTest(unittest.TestCase):
             self.assertNotIn(b"INSERT INTO", contents)
             self.assertIn(b"XXXXXXXXXX", contents)
 
+    def test_datasets_do_not_reroute_the_destination_database(self):
+        for archive_path in MANUAL.glob("*.zip"):
+            with zipfile.ZipFile(archive_path) as archive:
+                datasets = b"\n".join(
+                    archive.read(item)
+                    for item in archive.namelist()
+                    if "/datasets/" in item and item.endswith(".yaml")
+                )
+            self.assertNotIn(b"catalog: csim_demo", datasets)
+            self.assertIn(b"catalog: data", datasets)
+
     def test_source_instance_caches_are_not_shipped(self):
         for name in ("02-csim-dashboard-charts.zip", "03-csim-dashboard.zip"):
             with zipfile.ZipFile(MANUAL / name) as archive:

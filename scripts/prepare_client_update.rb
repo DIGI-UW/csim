@@ -147,6 +147,10 @@ module ClientUpdate
       target = rewrite(reviewed, uuid_mapping)
       target['table_name'] = client.fetch('table_name')
       target['schema'] = client['schema'] if client.key?('schema')
+      # The PostgreSQL catalog selects the database used by this virtual
+      # dataset. It is environment-specific: retain the client value (`data`)
+      # instead of carrying the local demo catalog (`csim_demo`) from review.
+      target['catalog'] = client['catalog'] if client.key?('catalog')
       target['database_uuid'] = client_database.fetch('uuid')
       relations.each do |before, after|
         target['sql'] = target['sql'].gsub(%("v1"."#{before}"), %("v1"."#{after}")) if target['sql']

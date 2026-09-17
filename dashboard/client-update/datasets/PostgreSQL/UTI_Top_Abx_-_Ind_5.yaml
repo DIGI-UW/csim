@@ -6,7 +6,7 @@ description:
 default_endpoint:
 offset: 0
 cache_timeout:
-catalog: csim_demo
+catalog: data
 schema: v1
 sql: |
   {% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S') %}

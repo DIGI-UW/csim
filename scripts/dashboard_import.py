@@ -155,7 +155,7 @@ def repair_numeric_references(directory: Path):
             expected = yaml.safe_load(dataset_file.read_text())
             actual = db.session.query(SqlaTable).filter_by(uuid=expected['uuid']).one()
             for key in (
-                'table_name', 'sql', 'main_dttm_col', 'catalog', 'schema',
+                'table_name', 'sql', 'main_dttm_col', 'schema',
                 'description', 'template_params', 'filter_select_enabled',
                 'fetch_values_predicate', 'normalize_columns',
                 'always_filter_main_dttm',

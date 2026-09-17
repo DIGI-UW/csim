@@ -6,7 +6,7 @@ description:
 default_endpoint:
 offset: 0
 cache_timeout:
-catalog: csim_demo
+catalog: data
 schema: v1
 sql: "WITH raw_data AS (\r\n    SELECT\r\n        hosp_name, month, year,\r\n        tx___1,
   duration\r\n    FROM \"v1\".\"UTI Individual Current\"\r\n    WHERE hosp_name IS

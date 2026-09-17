@@ -43,6 +43,7 @@ class ClientUpdateTest < Minitest::Test
     client_datasets.each do |name, source|
       assert_equal source['uuid'], update_datasets.fetch(name)['uuid'], name
       assert_equal client_database['uuid'], update_datasets.fetch(name)['database_uuid'], name
+      assert_equal source['catalog'], update_datasets.fetch(name)['catalog'], name
     end
 
     client_charts = items(@client, 'charts/*.yaml', 'slice_name')
@@ -61,6 +62,10 @@ class ClientUpdateTest < Minitest::Test
     assert_equal 21, paths.count { |path| path.start_with?('csim/charts/') }
     assert_equal 6, paths.count { |path| path.start_with?('csim/datasets/') }
     refute paths.any? { |path| path.start_with?('csim/databases/') }
+    data, data_error, data_status = Open3.capture3('unzip', '-p', bundle, 'csim/datasets/*/*.yaml')
+    assert data_status.success?, data_error
+    assert_includes data, 'catalog: data'
+    refute_includes data, 'catalog: csim_demo'
 
     receipt = JSON.parse(File.read(File.join(ROOT, 'release/client-update/rehearsal.json')))
     assert_equal false, receipt.fetch('databaseDefinitionIncludedInUpdateArchive')
@@ -77,6 +82,7 @@ class ClientUpdateTest < Minitest::Test
     update_relations = Dir[File.join(@update, 'datasets/**/*.yaml')].flat_map do |path|
       dataset = read(path)
       refute_includes dataset['sql'].to_s, 'csim_demo'
+      refute_equal 'csim_demo', dataset['catalog']
       dataset['sql'].to_s.scan(/"v1"\."([^"]+)"/).flatten
     end.uniq.sort
     assert_equal client_relations, update_relations

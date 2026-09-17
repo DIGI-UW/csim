@@ -6,7 +6,7 @@ description:
 default_endpoint:
 offset: 0
 cache_timeout:
-catalog: csim_demo
+catalog: data
 schema: v1
 sql: "WITH raw_data AS (\r\n    SELECT\r\n        hosp_name, sign_symp, month, year,\r\n
   \       ucx_positive, urinalysis, tx___1\r\n    FROM \"v1\".\"UTI Individual Current\"\r\n

@@ -15,11 +15,13 @@ test('Client installation guide links the tested package and explains safe insta
   await expect(page.getByRole('link',{name:'3. Dashboard',exact:true})).toHaveAttribute('href','downloads/03-csim-dashboard.zip');
   await expect(page.locator('#artifacts')).toContainText('Object manifest');
   await expect(page.locator('#contents')).toContainText('It does not carry the rows stored in PostgreSQL');
-  await expect(page.locator('#contents')).toContainText("reuses the destination's existing PostgreSQL connection");
+  await expect(page.locator('#contents')).toContainText("reuses its existing PostgreSQL connection");
+  await expect(page.locator('#contents')).toContainText('database name, credentials');
   await expect(page.locator('#before')).toContainText('ENABLE_TEMPLATE_PROCESSING');
   await expect(page.locator('#before')).toContainText('TIME_GRAIN_DENYLIST');
   await expect(page.locator('#before')).toContainText('No custom Superset build is required');
   await expect(page.locator('#manual-install')).toContainText('Keep the order: datasets, charts, dashboard');
+  await expect(page.locator('#manual-install')).toContainText('database named data');
   await expect(page.locator('#manual-install')).not.toContainText('Open and save each filter');
   await expect(page.locator('#automated-install')).toContainText('python scripts/dashboard_import.py import --profile client-update');
   for(const width of [1280,390]){
