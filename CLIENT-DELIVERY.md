@@ -11,15 +11,19 @@ is not the client upgrade package.
 
 Beth's latest requests: the saved Yao palette and six reporting dataset names
 match their sources. The demo now also registers the three physical upload
-sources under their production names. A separate record-review table and Data & records dashboard are live on the official
-review instance, with numerical and viewer checks; see the [request checklist](reports/beth-three-requests-2026-09-16.md).
+sources under their production names. The client package includes a separate
+record-review table and Data & records dashboard, which are live on the
+official review instance with numerical and viewer checks; see the [request
+checklist](reports/beth-three-requests-2026-09-16.md). A separate aggregate
+download table is deferred until after the meeting.
 
 ## Preserve and reconcile Beth's edits
 
-1. Use Beth's [September 17 export](sources/exports/beth-september-17-2026/README.md) as the source of her saved edits. Resolve the latest-month/upload-date wording and section 4.1 formula explanation before handoff. Preserve this source unchanged; do not regenerate the older demo over it. For later reviews, save chart and dataset edits separately from the dashboard.
+1. Use Beth's [September 17 export](sources/exports/beth-september-17-2026/README.md) as the source of her saved edits. Keep the **Latest Urine Culture Submission** card as reporting coverage, not an upload-date indicator, and retain the corrected section 4.1 explanation. Preserve this source unchanged; do not regenerate the older demo over it. For later reviews, save chart and dataset edits separately from the dashboard.
 2. Export the dashboard, its charts and its datasets separately. Include the
-   standalone aggregate-download chart if it is part of the accepted handoff.
-   Keep the original exports unchanged, alongside readable definitions.
+   agreed record-review view and Data & records dashboard. Keep the original
+   exports unchanged, alongside readable definitions. The separate aggregate
+   download table is not part of this handoff until the post-meeting decision.
 3. Compare the saved objects with the last deployed revision and the intended
    client objects. Match persistent identities rather than names or local
    numeric IDs. Separate deliberate edits, import-generated differences and
@@ -45,8 +49,8 @@ direct imports and old deployment scripts must also be avoided.
 | Dashboard | One accepted Individual Data dashboard, with Beth's saved edits, its Table of Contents, filters, layout and colors. |
 | Charts | The charts used by that dashboard. Beth's final export has 21 charts; she removed the reporting-period summary. Final counts follow the agreed supporting views. |
 | Reporting datasets | Updates to the existing six familiar reporting datasets, including saved SQL, calculated columns and measures. Preserve their client identities and connection. |
-| Record verification and dependencies | One extra virtual dataset, one standalone record/CSV table and a separate Data & records dashboard with two summary charts. IDs, source, repeat instance and exclusion reasons remain visible. Include after Beth accepts this workflow. |
-| Optional administrator download | A separate Table chart using the existing UTI Aggregate ALL DATA dataset. Include only after checking refresh after upload, complete CSV contents and the intended user's access. |
+| Record verification and dependencies | One extra virtual dataset, one standalone record/CSV table and a separate Data & records dashboard with two summary charts. IDs, source, repeat instance and exclusion reasons remain visible. Include these supporting views. |
+| Aggregate download table | A separate Table chart using the existing UTI Aggregate ALL DATA dataset. It would download the already-aggregated dataset rows, not original submission records. Defer this view until after the meeting. |
 | Instructions | A short start page, an editor guide, administrator import/restore instructions, and a list of changes and known limitations. |
 | Review evidence | The acceptance checklist, numerical examples, screenshots and dashboard workflow recordings from the accepted release. |
 
@@ -57,7 +61,7 @@ use Superset and a shared release folder without running the repository.
 The client's three physical source datasets and eight archived datasets stay
 in place. The update does not replace their database connection, restore a demo
 database, add the example datasets, or import retired experimental charts.
-With Beth's period-summary removal, the main dashboard uses the six reporting datasets and the client retains its three physical sources: nine active datasets, seventeen including the eight existing archives. The separate record-verification view adds one active dataset if included: ten active, eighteen including archives. Confirm this against a fresh destination export. Beth's single-dashboard ZIP omits that standalone record-review view and the standalone aggregate-download chart; package agreed additions explicitly.
+With Beth's period-summary removal, the main dashboard uses the six reporting datasets and the client retains its three physical sources: nine active datasets, seventeen including the eight existing archives. The agreed record-verification view adds one active dataset: ten active, eighteen including archives. Confirm this against a fresh destination export. Beth's single-dashboard ZIP omits the standalone record-review view, the Data & records dashboard and the aggregate-download chart; package the first two explicitly and defer the last.
 
 ## Issues to close against the accepted version
 
@@ -70,11 +74,11 @@ With Beth's period-summary removal, the main dashboard uses the six reporting da
 | Time Unit menu | The official installation uses an instance-wide Month/Quarter/Year restriction. | Include the administrator configuration requirement. Per-dashboard saved unit menus are a separate upstream comparison, not part of the official package. |
 | Yao's palette | The original assignments and hospital/comparison legend mappings are saved in the dashboard. Rendered-color checks passed before this editing round. | Check Beth's final legends, hospital choices and categories against the same palette. New legend names need corresponding assignments. |
 | Hospital 53 totals | The full observed monthly range sums to 980. The saved shorter range sums to 269; the all-time card remains 980. | Preserve the different scopes and make them understandable. The latest team notes mark the count concern resolved; the older 500 note is not an outstanding requirement. |
-| Latest reporting month | It shows the latest observation month within the chosen range, not when a file was uploaded. | Keep the wording and filter scope clear. An upload-completion timestamp is a separate feature. |
+| Latest Urine Culture Submission | It shows the latest observation month within the chosen range, not when a file was uploaded. The title already distinguishes this reporting-coverage meaning from upload status. | Keep the title and filter scope clear. An upload-completion timestamp is a separate feature. |
 | Contents links | Current links stay within the dashboard and retain selections. | Recheck all nine links after layout edits and after transfer to the destination. |
 | Transfer and repeated updates | The demo package uses different dataset identities from the client and demo connection settings. | Build an update for the client's existing identities. Import twice without duplicates, unchanged target connection/data, and verify SQL, measures, bindings, layout and every filter scope. |
 | Record verification | Both demo source tables contain `record_id`; Current also contains `redcap_repeat_instance`. ALL DATA rows summarize multiple source records. | The separate view preserves all uploaded records, IDs and eligibility reasons; the local CSV matches every source row, and 1,058 hospital-group checks pass locally and on the public demo. The public viewer export returns all 3,453 rows. Confirm the review workflow with Beth, test the client role and imported version, and retain existing cohort weighting. There is no automatic chart-point drill-through. |
-| Uploads, downloads and hospital changes | The saved download chart exists. Full operational acceptance is still separate. | With the client's intended role, replace Current using the established procedure, refresh, verify the complete processed CSV, and verify a new hospital's lookup, menu and colors. |
+| Uploads, downloads and hospital changes | Record review is included. The separate aggregate-download table is deferred until after the meeting. | With the client's intended role, replace Current using the established procedure and verify a new hospital's lookup, menu and colors. Decide separately whether the aggregate download is needed and, if so, test its refresh and complete CSV contents. |
 | Historical/Current overlap and embedded access | The latest team notes mark the overlap question resolved; no transition schedule is required. WordPress identity/access has separate owners. | Do not add a transition rule. Embedded access remains outside this dashboard update. |
 
 The final issue list should link each item to Beth's notes, the relevant team

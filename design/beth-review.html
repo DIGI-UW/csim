@@ -17,7 +17,7 @@
 <table>
 <tr><th>Date range</th><td>Time Period opens in Custom. Enter a start date and an exclusive end date in the left sidebar.</td></tr>
 <tr><th>Month, quarter or year</th><td>Time Unit changes how the selected observations are grouped. It does not change the date range.</td></tr>
-<tr><th>Latest reporting month</th><td>The card calculates the last reporting month inside the chosen Time Period. Its current title, “Latest Urine Culture Submission,” and day-level display need to be made consistent with that monthly meaning.</td></tr>
+<tr><th>Latest Urine Culture Submission</th><td>The card calculates the last reporting month inside the chosen Time Period. Its title identifies reporting coverage; it does not indicate when a file was uploaded.</td></tr>
 <tr><th>Comparison context</th><td>The lower comparison charts carry the selected hospital or comparison group in their legend so a screenshot remains understandable.</td></tr>
 <tr><th>Chart colors</th><td>Yao's color assignments are preserved. A category keeps the same color when the legend includes a hospital code or comparison group.</td></tr>
 <tr><th>Section links</th><td>Table of Contents links stay on this dashboard and keep the active filter state. Sections 4.1–4.4 are grouped under section 4.</td></tr>
@@ -45,10 +45,10 @@
 </section>
 
 <section id="dates-and-filters">
-<h2>Upload date and reporting month</h2>
-<p><strong>The current dashboard has no upload-date note.</strong> The latest-month card is calculated from the observations within the selected hospital/state, location and Time Period.</p>
-<p>For example, uploading July observations in September means the upload date is in September, while the reporting month is July. The month card cannot tell us when a file was uploaded.</p>
-<p>Use month and year for the card, with wording that identifies it as reporting coverage. An automatic upload date would need a separate, reliable record of successful uploads. <a href="data-guide.html#dates">How the dates differ →</a></p>
+<h2>Reporting coverage and upload date</h2>
+<p><strong>Latest Urine Culture Submission is a reporting-coverage card.</strong> It is calculated from the observations within the selected hospital/state, location and Time Period.</p>
+<p>For example, uploading July observations in September leaves July as the latest reporting month. The card does not record the date of that upload.</p>
+<p>The current dashboard has no upload-date note. A later upload-date feature would need a separate, reliable record of successful uploads. <a href="data-guide.html#dates">How the dates differ →</a></p>
 </section>
 
 <section id="filter-map">
@@ -90,7 +90,7 @@
 
 <section>
 <h2>What is part of this delivery</h2>
-<p>The recommended result is a versioned dashboard, datasets and ordinary Superset configuration that run on official Superset 6.1.0. No Superset application code change is required for the dashboard improvements above. The standalone aggregate download remains available to administrators, but it is not linked from the hospital-facing dashboard.</p>
+<p>The recommended result is a versioned dashboard, datasets and ordinary Superset configuration that run on official Superset 6.1.0. No Superset application code change is required for the dashboard improvements above. The main dashboard and separate Data &amp; records view are included; the standalone aggregate download is deferred until after the meeting.</p>
 <p class="small">The separate custom and development installations remain comparisons for control and importer improvements. They are not dependencies of this dashboard.</p>
 </section>
 </main>

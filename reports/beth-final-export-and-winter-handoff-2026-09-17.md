@@ -42,13 +42,13 @@ The nested Table of Contents and first-step hospital guidance were already publi
 
 ## Three corrections or clarifications before installation
 
-### 1. Reporting month is not upload date
+### 1. Latest Urine Culture Submission is reporting coverage, not upload date
 
 **Example:** Uploading July data in September should show July as the latest reporting month. It does not tell us when the upload happened.
 
-The saved card uses `MAX(CASE WHEN ucsub > 0 THEN month_date END)`. The data represents each reporting month by its first day. The current screen therefore shows values such as **Aug 01 2026**, even though no precise submission or upload day was calculated. Beth's report describes it as the last manual upload date, which is not what it measures.
+The saved card uses `MAX(CASE WHEN ucsub > 0 THEN month_date END)`. The data represents each reporting month by its first day. The current screen can therefore show values such as **Aug 01 2026**, even though no precise submission or upload day was calculated. Its title, **Latest Urine Culture Submission**, is intentional: it identifies the reporting coverage and does not imply that the dashboard records an upload timestamp.
 
-**Recommendation to confirm with Beth:** label it **Latest reporting month**, display **Aug 2026**, and describe it as the latest month with data within the selected filters. If the team also needs **Last data upload**, keep that separate: either a clearly manual note, or a later feature based on a reliable successful-upload timestamp.
+**Current direction:** retain **Latest Urine Culture Submission** and describe it as the latest month with data within the selected filters. If the team also needs **Last data upload**, keep that separate: either a clearly manual note, or a later feature based on a reliable successful-upload timestamp. Whether to suppress the technical first-of-month day is a presentation decision, not a change in the card's meaning.
 
 ### 2. The section 4.1 explanation describes the wrong measure
 
@@ -62,7 +62,7 @@ The report says adding the two IDs to the aggregate dataset is â€œnot possible.â
 
 The demo already has a [separate individual-record review table](https://standard.csim.uwdigi.org/explore/?slice_id=131), with `record_ID`, Current's `redcap_repeat_instance`, source and eligibility information. It preserves the summary calculations. Beth previously requested this separate chart for the client.
 
-**Recommendation:** demonstrate that existing view, include it explicitly in the agreed package, and describe it as the way to check individual records. Beth's one-dashboard ZIP does **not** include this standalone chart or its dataset. It also omits the standalone aggregate CSV download and the separate Data & records dashboard. Agree which supporting views to install; do not assume the attached ZIP includes everything visible on the demo server.
+**Current direction:** include the existing record-review view and the separate Data & records dashboard, and describe the record-review view as the way to check individual records. Beth's one-dashboard ZIP does **not** include those supporting views or their dataset. It also omits the standalone aggregate CSV download. Defer the aggregate download until after the meeting; do not assume the attached ZIP includes everything visible on the demo server.
 
 ## Installation work still required
 
