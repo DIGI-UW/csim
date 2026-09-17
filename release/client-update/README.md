@@ -5,6 +5,9 @@ UTI/ASB Dashboard [Individual Data]** on official Superset 6.1.0.
 
 ## Files
 
+- `manual/` — three ordered ZIP files for installation through the official
+  Superset 6.1.0 Datasets, Charts, and Dashboards import screens. This is the
+  primary path for a one-time client handoff.
 - `csim-client-update-dashboard.zip` — a sparse Superset asset bundle with the
   main dashboard, 21 charts and six reporting datasets. It deliberately omits
   the PostgreSQL database object.
@@ -53,6 +56,13 @@ already been installed in the client's Superset or accepted by the client.
 
 ## Installation sequence
 
+For a manual installation, follow [`manual/README.md`](manual/README.md). Import
+the dataset, chart, and dashboard ZIPs in that order, then open and save each
+dashboard filter once so Superset records its scope using the destination's
+numeric chart identifiers.
+
+For a repeatable administrator installation:
+
 1. In the destination's existing `superset_config.py`, enable the built-in SQL
    templates used by the date queries. Add `"ENABLE_TEMPLATE_PROCESSING": True`
    to the existing `FEATURE_FLAGS` dictionary without removing its other
@@ -86,8 +96,8 @@ already been installed in the client's Superset or accepted by the client.
 6. Roll back with the fresh destination backup if any destination-specific
    difference is unexpected.
 
-Do not upload the ZIP through Superset's manual import screen. That is not the
-tested path because it does not run the destination-reference repair. Do not
+Do not upload the single `csim-client-update-dashboard.zip` through Superset's
+manual import screen; use the three files in `manual/` instead. Do not
 restore the demo database, change the destination connection, or import the
 example dashboards as part of this update.
 

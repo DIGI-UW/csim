@@ -13,12 +13,12 @@
 <p class="lead">Use this page to obtain the exact release, prepare the existing Superset instance and update the familiar CSiM dashboard. The update changes dashboard definitions and saved reporting queries. It leaves the PostgreSQL connection and uploaded records in place.</p>
 
 <div class="status" aria-label="Release status">
-<div class="done"><strong>Update prepared</strong><span>One dashboard, 21 charts and six reporting datasets; no database connection object or reporting rows.</span></div>
-<div class="done"><strong>Rehearsal passed</strong><span>The update ran twice without duplicates and the destination-specific connection still returned the same source rows.</span></div>
+<div class="done"><strong>Manual bundle ready</strong><span>Three ordered UI imports cover one dashboard, 21 charts and six reporting datasets; they contain no reporting rows or password.</span></div>
+<div class="done"><strong>Automated rehearsal passed</strong><span>The repository installer ran twice without duplicates and the destination-specific connection still returned the same source rows. The three-file manual rehearsal is in progress.</span></div>
 <div class="pending"><strong>Client installation pending</strong><span>The package has not yet been installed or accepted on the client's instance.</span></div>
 </div>
 
-<div class="actions"><a class="button" href="downloads/csim-client-update-dashboard.zip" download>Download the dashboard update</a><a class="secondary" href="#install">Follow the update steps</a><a href="https://github.com/DIGI-UW/csim/tree/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/release/client-update">Open the versioned release</a><a href="review.html">Open the dashboard review guide</a></div>
+<div class="actions"><a class="button" href="#artifacts">Download the three manual import files</a><a class="secondary" href="#install">Follow the manual steps</a><a href="https://github.com/DIGI-UW/csim/tree/codex/csim-native-usability/release/client-update/manual">Open the versioned bundle</a><a href="review.html">Open the dashboard review guide</a></div>
 <nav aria-label="Installation sections"><a href="#contents">What changes</a><a href="#artifacts">Release files</a><a href="#before">Prepare Superset</a><a href="#install">Update</a><a href="#verify">Confirm</a><a href="#rollback">Rollback</a><a href="#limits">Limits</a></nav>
 
 <section id="contents"><h2>What this update changes</h2>
@@ -28,13 +28,18 @@
 <tr><th scope="row">Does not include</th><td>A database connection definition, database credentials, reporting records, example dashboards, retired experiments, archived client datasets or a Superset application patch.</td></tr>
 <tr><th scope="row">Separate supporting view</th><td>The Data &amp; records dashboard and individual-record review table remain a separate package. Installing the main update cannot silently add them to the familiar dashboard.</td></tr>
 </tbody></table>
-<p class="note"><strong>Dashboard definitions and reporting records are separate.</strong> This bundle describes what Superset should display and how it calculates results. It does not carry the rows stored in PostgreSQL. The tested helper also omits the database connection object from the update request.</p>
+<p class="note"><strong>Dashboard definitions and reporting records are separate.</strong> This bundle describes what Superset should display and how it calculates results. It does not carry the rows stored in PostgreSQL or a database password. Superset reuses the destination's existing PostgreSQL connection.</p>
 </section>
 
 <section id="artifacts"><h2>Release files</h2>
 <table><tbody>
-<tr><th scope="row"><a href="downloads/csim-client-update-dashboard.zip" download>Dashboard update ZIP</a></th><td>The definition-only asset bundle: one dashboard, 21 charts and six reporting datasets.</td></tr>
-<tr><th scope="row"><a href="downloads/client-update-SHA256SUMS">SHA-256 checksum</a></th><td>Use this to confirm that the downloaded ZIP is the tested file.</td></tr>
+<tr><th scope="row"><a href="downloads/01-csim-reporting-datasets.zip" download>1. Reporting datasets</a></th><td>Import first from the Datasets page. Contains the six saved reporting queries and the existing connection reference.</td></tr>
+<tr><th scope="row"><a href="downloads/02-csim-dashboard-charts.zip" download>2. Dashboard charts</a></th><td>Import second from the Charts page. Contains the 21 chart definitions and their dataset dependencies.</td></tr>
+<tr><th scope="row"><a href="downloads/03-csim-dashboard.zip" download>3. Dashboard</a></th><td>Import last from the Dashboards page. Contains the layout, filters, chart links and Table of Contents.</td></tr>
+<tr><th scope="row"><a href="downloads/manual-SHA256SUMS">Manual bundle checksums</a></th><td>Use these to confirm that all three downloads are the released files.</td></tr>
+<tr><th scope="row"><a href="downloads/manual-installation.txt">Printable manual steps</a></th><td>The same import order in a small text file that can be kept beside the ZIP files.</td></tr>
+<tr><th scope="row"><a href="downloads/csim-client-update-dashboard.zip" download>Administrator automation bundle</a></th><td>The single definition-only asset used by the repeatable repository installer. It is not the manual upload file.</td></tr>
+<tr><th scope="row"><a href="downloads/client-update-SHA256SUMS">Automation bundle checksum</a></th><td>Checksum for the single administrator bundle.</td></tr>
 <tr><th scope="row"><a href="https://github.com/DIGI-UW/csim/blob/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/dashboard/client-update/manifest.json">Object manifest</a></th><td>The stable dashboard, dataset and database identifiers expected on the destination.</td></tr>
 <tr><th scope="row"><a href="https://github.com/DIGI-UW/csim/blob/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/scripts/dashboard_import.py">Update helper</a></th><td>The installer that omits the database connection and repairs destination references.</td></tr>
 <tr><th scope="row"><a href="https://github.com/DIGI-UW/csim/blob/d6351d954d5f265e0c0c3c5f66dbb96d612b5352/scripts/verify_import.py">Definition comparison</a></th><td>The companion command that confirms the saved definitions match the release.</td></tr>
@@ -65,21 +70,25 @@
 <p class="note"><strong>No custom Superset build is required.</strong> The date behavior, labels, missing-period rows, filter scopes and saved defaults are in the released dashboard, chart and dataset definitions. The production configuration enables those definitions and limits the instance-wide menu.</p>
 </section>
 
-<section id="install"><h2>Update the existing dashboard</h2>
+<section id="install"><h2>Update the existing dashboard through Superset</h2>
 <ol class="steps">
 <li><h3>Pause dashboard editing and back up the destination</h3><p>Export the current client dashboard with its charts and datasets. Also take a Superset metadata-database backup using the client's established procedure. If the export contains edits newer than the September source, reconcile them before continuing.</p></li>
-<li><h3>Check out the exact installer</h3><p>Use the tested source revision. The dashboard ZIP by itself is provided for inspection and checksum comparison; it is not the supported update command.</p><pre><code>git clone https://github.com/DIGI-UW/csim.git
+<li><h3>Import the reporting datasets</h3><p>Open <strong>Datasets</strong>, choose <strong>Import dataset</strong>, and upload <a href="downloads/01-csim-reporting-datasets.zip">01-csim-reporting-datasets.zip</a>. Turn on <strong>Overwrite</strong>. If Superset asks for the PostgreSQL password, enter the password for the destination's existing <strong>PostgreSQL</strong> connection. If offered, keep column and metric synchronization enabled.</p></li>
+<li><h3>Import the charts</h3><p>Open <strong>Charts</strong>, choose <strong>Import chart</strong>, and upload <a href="downloads/02-csim-dashboard-charts.zip">02-csim-dashboard-charts.zip</a>. Turn on <strong>Overwrite</strong>.</p></li>
+<li><h3>Import the dashboard</h3><p>Open <strong>Dashboards</strong>, choose <strong>Import dashboard</strong>, and upload <a href="downloads/03-csim-dashboard.zip">03-csim-dashboard.zip</a>. Turn on <strong>Overwrite</strong>.</p></li>
+<li><h3>Save the destination's filter references</h3><p>Open the existing CSiM Individual Data dashboard. Choose <strong>Edit dashboard</strong>, then <strong>Filters</strong>. Open and save each filter, close the filter editor, and save the dashboard. This stores the filter scopes with the destination instance's chart identifiers.</p></li>
+</ol>
+<p class="warning note"><strong>Keep the order: datasets, charts, dashboard.</strong> In Superset 6.1.0, importing only the dashboard does not overwrite the existing dependent datasets and charts. The three files make each update explicit.</p>
+<details><summary>Repeatable administrator option</summary><p>The repository also contains an automated installer and definition comparison for future repeated deployments. This is useful for a technical administrator, but it is not required for the manual installation above.</p><pre><code>git clone https://github.com/DIGI-UW/csim.git
 cd csim
-git checkout d6351d954d5f265e0c0c3c5f66dbb96d612b5352</code></pre></li>
-<li><h3>Point the helper at client Superset</h3><p>Run these commands in the Python environment where Superset 6.1.0 and its dependencies are installed. Use the destination service URL and an administrator account:</p><pre><code>export CSIM_PROJECT_ROOT="$PWD"
+git checkout codex/csim-native-usability
+
 export CSIM_SUPERSET_URL="https://CLIENT-SUPERSET-HOST"
 export CSIM_SUPERSET_USERNAME="ADMIN-USERNAME"
 export CSIM_ADMIN_PASSWORD="ADMIN-PASSWORD"
 
-python scripts/dashboard_import.py import --profile client-update</code></pre><p>The helper updates the existing objects through Superset's asset API, excludes the database definition, and repairs the internal chart references and saved filter scopes for the destination instance.</p></li>
-<li><h3>Compare the installed definitions</h3><pre><code>python scripts/verify_import.py --profile client-update</code></pre><p>This compares the destination's saved SQL, calculated columns, measures, charts, colors, layout, filters and contents links with the versioned release.</p></li>
-</ol>
-<p class="warning note"><strong>Do not upload the ZIP through Superset's manual import screen.</strong> That skips the destination-reference repair. Do not import the public demo dashboard; its object identifiers belong to a different installation.</p>
+python scripts/dashboard_import.py import --profile client-update
+python scripts/verify_import.py --profile client-update</code></pre></details>
 </section>
 
 <section id="verify"><h2>Confirm the update loaded</h2>
@@ -96,7 +105,7 @@ python scripts/dashboard_import.py import --profile client-update</code></pre><p
 <section id="limits"><h2>Known limits and decisions</h2>
 <ul>
 <li><strong>Clear all:</strong> official Superset 6.1.0 can retain a stale selection after Clear all and reselect. Reload after using Clear all. This package documents the limitation; it does not add a Superset patch.</li>
-<li><strong>Importer helper:</strong> the versioned helper is part of the tested installation path. It omits the database object and repairs destination references. A manual ZIP upload is not a supported installation path.</li>
+<li><strong>Manual filter save:</strong> after the three imports, open and save each dashboard filter once so Superset records its scope using the destination's chart identifiers.</li>
 <li><strong>Time Unit choices:</strong> the short Month/Quarter/Year menu comes from the installation-wide <code>TIME_GRAIN_DENYLIST</code> shown above. It is not stored in the dashboard ZIP.</li>
 <li><strong>Supporting records view:</strong> the separate Data &amp; records package still needs destination installation and role checks if the client accepts that workflow.</li>
 </ul>

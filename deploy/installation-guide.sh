@@ -17,6 +17,10 @@ ssh -o BatchMode=yes "$host" "mkdir -p '$source'"
 git archive "$revision" \
   design/index.html design/review.html design/filter-guide.html design/data-guide.html design/install.html \
   release/client-update/csim-client-update-dashboard.zip release/client-update/SHA256SUMS \
+  release/client-update/manual/01-csim-reporting-datasets.zip \
+  release/client-update/manual/02-csim-dashboard-charts.zip \
+  release/client-update/manual/03-csim-dashboard.zip \
+  release/client-update/manual/README.md release/client-update/manual/SHA256SUMS \
   release/client-update/rehearsal.json release/client-update/baseline-comparison.json |
   ssh -o BatchMode=yes "$host" "tar -xf - -C '$source'"
 
@@ -33,6 +37,11 @@ done
 mkdir -p "$release/downloads"
 cp "$source/release/client-update/csim-client-update-dashboard.zip" "$release/downloads/"
 cp "$source/release/client-update/SHA256SUMS" "$release/downloads/client-update-SHA256SUMS"
+cp "$source/release/client-update/manual/01-csim-reporting-datasets.zip" "$release/downloads/"
+cp "$source/release/client-update/manual/02-csim-dashboard-charts.zip" "$release/downloads/"
+cp "$source/release/client-update/manual/03-csim-dashboard.zip" "$release/downloads/"
+cp "$source/release/client-update/manual/README.md" "$release/downloads/manual-installation.txt"
+cp "$source/release/client-update/manual/SHA256SUMS" "$release/downloads/manual-SHA256SUMS"
 cp "$source/release/client-update/rehearsal.json" "$release/downloads/client-update-rehearsal.json"
 cp "$source/release/client-update/baseline-comparison.json" "$release/downloads/client-update-baseline-comparison.json"
 python3 - "$release" "$revision" "$current" <<'PY'
@@ -41,6 +50,8 @@ from pathlib import Path
 release, revision, previous = map(Path, sys.argv[1:])
 files = ['index.html','review.html','filter-guide.html','data-guide.html','install.html',
          'downloads/csim-client-update-dashboard.zip','downloads/client-update-SHA256SUMS',
+         'downloads/01-csim-reporting-datasets.zip','downloads/02-csim-dashboard-charts.zip',
+         'downloads/03-csim-dashboard.zip','downloads/manual-installation.txt','downloads/manual-SHA256SUMS',
          'downloads/client-update-rehearsal.json','downloads/client-update-baseline-comparison.json']
 receipt = {
   'sourceRevision': str(revision),
