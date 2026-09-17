@@ -56,7 +56,7 @@ test('Review guide starts with the official dashboard and separates decisions fr
   await expect(page.locator('body')).toContainText('No Superset application code change is required');
   const evidence=page.locator('img');
   await expect(evidence).toHaveCount(8);
-  expect(await evidence.evaluateAll(images=>images.every(image=>image.complete&&image.naturalWidth>0))).toBe(true);
+  await expect.poll(()=>evidence.evaluateAll(images=>images.every(image=>image.complete&&image.naturalWidth>0))).toBe(true);
   await page.setViewportSize({width:1280,height:900});
   await page.screenshot({path:info.outputPath('beth-review-desktop.png'),fullPage:true});
   await page.setViewportSize({width:390,height:844});
