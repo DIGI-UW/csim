@@ -6,9 +6,7 @@ in that update, alongside the date, filtering and presentation corrections.
 The separate examples and custom/development comparisons are not part of the
 client installation.
 
-**Current state:** Beth could not save edits because of the connection and is no longer editing the [official review dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/).
-A saved checkpoint exists; the final client release is not yet assembled or
-accepted. The ZIP currently published on the overview reproduces the demo and
+**Current state — September 17:** Beth finished and shared her saved edits this morning. Her original ZIP and a fresh live backup are preserved, with identical object definitions: 21 charts and six reporting datasets. See the [changes and Winter handoff](reports/beth-final-export-and-winter-handoff-2026-09-17.md). The client-specific release is not yet assembled, transfer-tested or accepted. The ZIP currently published on the overview reproduces the demo and
 is not the client upgrade package.
 
 Beth's latest requests: the saved Yao palette and six reporting dataset names
@@ -18,7 +16,7 @@ review instance, with numerical and viewer checks; see the [request checklist](r
 
 ## Preserve and reconcile Beth's edits
 
-1. The current saved checkpoint has no additional Beth edits to reconcile. For any subsequent review, save chart and dataset edits separately from the dashboard.
+1. Use Beth's [September 17 export](sources/exports/beth-september-17-2026/README.md) as the source of her saved edits. Resolve the latest-month/upload-date wording and section 4.1 formula explanation before handoff. Preserve this source unchanged; do not regenerate the older demo over it. For later reviews, save chart and dataset edits separately from the dashboard.
 2. Export the dashboard, its charts and its datasets separately. Include the
    standalone aggregate-download chart if it is part of the accepted handoff.
    Keep the original exports unchanged, alongside readable definitions.
@@ -45,9 +43,8 @@ direct imports and old deployment scripts must also be avoided.
 | Part | Contents |
 | --- | --- |
 | Dashboard | One accepted Individual Data dashboard, with Beth's saved edits, its Table of Contents, filters, layout and colors. |
-| Charts | The charts used by that dashboard. The current review has 21 reporting charts and one reporting-period summary. Final counts follow the accepted edits. |
+| Charts | The charts used by that dashboard. Beth's final export has 21 charts; she removed the reporting-period summary. Final counts follow the agreed supporting views. |
 | Reporting datasets | Updates to the existing six familiar reporting datasets, including saved SQL, calculated columns and measures. Preserve their client identities and connection. |
-| Period summary | One additional helper dataset if the summary panel is retained. Explain its purpose in the editor guide. |
 | Record verification and dependencies | One extra virtual dataset, one standalone record/CSV table and a separate Data & records dashboard with two summary charts. IDs, source, repeat instance and exclusion reasons remain visible. Include after Beth accepts this workflow. |
 | Optional administrator download | A separate Table chart using the existing UTI Aggregate ALL DATA dataset. Include only after checking refresh after upload, complete CSV contents and the intended user's access. |
 | Instructions | A short start page, an editor guide, administrator import/restore instructions, and a list of changes and known limitations. |
@@ -60,11 +57,7 @@ use Superset and a shared release folder without running the repository.
 The client's three physical source datasets and eight archived datasets stay
 in place. The update does not replace their database connection, restore a demo
 database, add the example datasets, or import retired experimental charts.
-With the current summary panel, the expected client list is ten active
-datasets: six reporting, three physical sources and one helper; eighteen with
-the eight existing archives. Confirm this against a fresh destination export
-before applying the update. The new record-verification dataset adds one
-active entry if included: eleven active datasets, nineteen including the archives.
+With Beth's period-summary removal, the main dashboard uses the six reporting datasets and the client retains its three physical sources: nine active datasets, seventeen including the eight existing archives. The separate record-verification view adds one active dataset if included: ten active, eighteen including archives. Confirm this against a fresh destination export. Beth's single-dashboard ZIP omits that standalone record-review view and the standalone aggregate-download chart; package agreed additions explicitly.
 
 ## Issues to close against the accepted version
 
@@ -121,7 +114,9 @@ helper is necessary.
 
 ## Current supporting files
 
-- [Saved review checkpoint](sources/live-review/2026-09-16T214843Z/README.md)
+- [Beth's final saved export](sources/exports/beth-september-17-2026/README.md)
+- [Matching live backup](sources/live-review/2026-09-17T163028Z/README.md)
+- [September 17 handoff and open decisions](reports/beth-final-export-and-winter-handoff-2026-09-17.md)
 - [Production and demo dataset inventory](reports/client-dataset-inventory.md)
 - [Hospital 53 numerical reconciliation](reports/hospital-53-date-reconciliation.md)
 - [Editor guide](CLIENT-HANDOVER.md)

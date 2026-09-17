@@ -1,0 +1,4375 @@
+{
+  "dashboards": {
+    "before_count": 1,
+    "after_count": 1,
+    "shared_uuid_count": 1,
+    "objects": {
+      "e44b3196-5105-57c7-8fc9-252c29aa8d42": {
+        "name": "CSiM Individual Data — September / Superset 6.1.0",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/metadata/chart_configuration/100/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/101/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/102/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/105/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/85/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/86/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/87/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/88/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/89/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/90/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/92/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/93/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/94/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/95/crossFilters/chartsInScope",
+            "before": [
+              73,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/96/crossFilters/chartsInScope",
+            "before": [
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/97/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/98/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              93,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_configuration/99/crossFilters/chartsInScope",
+            "before": [
+              73,
+              74,
+              75,
+              77,
+              79,
+              80,
+              81,
+              82,
+              85,
+              94,
+              95,
+              97,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              106,
+              107
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/chart_customization_config",
+            "before": null,
+            "after": [
+
+            ]
+          },
+          {
+            "path": "/metadata/default_filters",
+            "before": null,
+            "after": "{}"
+          },
+          {
+            "path": "/metadata/global_chart_configuration/chartsInScope",
+            "before": [
+              96,
+              95,
+              94,
+              85,
+              86,
+              90,
+              88,
+              100,
+              102,
+              99,
+              101,
+              89,
+              87,
+              105,
+              103,
+              93,
+              92,
+              98,
+              97,
+              104,
+              91,
+              127
+            ],
+            "after": [
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              105
+            ]
+          },
+          {
+            "path": "/metadata/map_label_colors/% positive UA",
+            "before": null,
+            "after": "#1FA8C9"
+          },
+          {
+            "path": "/metadata/map_label_colors/ASB prevalence",
+            "before": null,
+            "after": "#1FA8C9"
+          },
+          {
+            "path": "/metadata/map_label_colors/ASB treatment rate",
+            "before": null,
+            "after": "#1FA8C9"
+          },
+          {
+            "path": "/metadata/native_filter_configuration",
+            "before": [
+              {
+                "id": "NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE",
+                "controlValues": {
+                  "sortAscending": true,
+                  "enableEmptyFilter": false,
+                  "defaultToFirstItem": false,
+                  "creatable": false,
+                  "multiSelect": true,
+                  "searchAllOptions": false,
+                  "inverseSelection": false
+                },
+                "name": "Hospital and state",
+                "filterType": "filter_select",
+                "targets": [
+                  {
+                    "column": {
+                      "name": "hosp_code"
+                    },
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "filters": [
+                      {
+                        "col": "hosp_code",
+                        "op": "IN",
+                        "val": [
+                          "Cohort"
+                        ]
+                      }
+                    ]
+                  },
+                  "filterState": {
+                    "validateMessage": false,
+                    "validateStatus": false,
+                    "label": "Cohort",
+                    "value": [
+                      "Cohort"
+                    ],
+                    "excludeFilterValues": true
+                  }
+                },
+                "cascadeParentIds": [
+
+                ],
+                "scope": {
+                  "excluded": [
+                    103,
+                    100,
+                    102,
+                    99,
+                    101,
+                    89,
+                    87,
+                    104,
+                    127
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "type": "NATIVE_FILTER",
+                "description": "Start with the cohort view, then choose an individual hospital to review its results.",
+                "chartsInScope": [
+                  96,
+                  95,
+                  94,
+                  85,
+                  86,
+                  90,
+                  88,
+                  105,
+                  93,
+                  92,
+                  98,
+                  97,
+                  91
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "id": "NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8",
+                "controlValues": {
+                  "sortAscending": true,
+                  "enableEmptyFilter": false,
+                  "defaultToFirstItem": false,
+                  "creatable": false,
+                  "multiSelect": false,
+                  "searchAllOptions": false,
+                  "inverseSelection": false
+                },
+                "name": "Location of Urine Culture Collection",
+                "filterType": "filter_select",
+                "targets": [
+                  {
+                    "column": {
+                      "name": "location_name"
+                    },
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "filters": [
+                      {
+                        "col": "location_name",
+                        "op": "IN",
+                        "val": [
+                          "All locations"
+                        ]
+                      }
+                    ]
+                  },
+                  "filterState": {
+                    "excludeFilterValues": true,
+                    "label": "All locations",
+                    "validateMessage": false,
+                    "validateStatus": false,
+                    "value": [
+                      "All locations"
+                    ]
+                  }
+                },
+                "cascadeParentIds": [
+
+                ],
+                "scope": {
+                  "rootPath": [
+                    "ROOT_ID"
+                  ],
+                  "excluded": [
+                    94,
+                    88,
+                    102,
+                    101,
+                    127
+                  ]
+                },
+                "type": "NATIVE_FILTER",
+                "description": "If you want to view the whole dashboard through a single location of UC submission, choose a specific location. Otherwise choose \"All locations\"",
+                "chartsInScope": [
+                  96,
+                  95,
+                  85,
+                  86,
+                  90,
+                  100,
+                  99,
+                  89,
+                  87,
+                  105,
+                  103,
+                  93,
+                  92,
+                  98,
+                  97,
+                  104,
+                  91
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "id": "NATIVE_FILTER-_ZDg__D4KUKCpsVyVa992",
+                "controlValues": {
+                  "enableEmptyFilter": false
+                },
+                "name": "Time Period",
+                "filterType": "filter_time",
+                "targets": [
+                  {
+                  }
+                ],
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "time_range": "2025-09-01T00:00:00 : 2026-09-01T00:00:00"
+                  },
+                  "filterState": {
+                    "value": "2025-09-01T00:00:00 : 2026-09-01T00:00:00"
+                  }
+                },
+                "cascadeParentIds": [
+
+                ],
+                "scope": {
+                  "excluded": [
+                    103,
+                    104
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "type": "NATIVE_FILTER",
+                "description": "Choose a specific start and end in Custom. The start is included; the end is excluded. For February through March, use February 1 to April 1. Reporting records are monthly.",
+                "chartsInScope": [
+                  96,
+                  95,
+                  94,
+                  85,
+                  86,
+                  90,
+                  88,
+                  100,
+                  102,
+                  99,
+                  101,
+                  89,
+                  87,
+                  105,
+                  93,
+                  92,
+                  98,
+                  97,
+                  91,
+                  127
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "id": "NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_",
+                "controlValues": {
+                  "sortAscending": false,
+                  "enableEmptyFilter": false
+                },
+                "name": "Time Unit",
+                "filterType": "filter_timegrain",
+                "targets": [
+                  {
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "time_grain_sqla": "P1M"
+                  },
+                  "filterState": {
+                    "label": "Month",
+                    "value": [
+                      "P1M"
+                    ]
+                  }
+                },
+                "cascadeParentIds": [
+
+                ],
+                "scope": {
+                  "excluded": [
+                    103,
+                    104,
+                    91
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "type": "NATIVE_FILTER",
+                "description": "Group the selected observations by Month, Quarter, or Year.",
+                "chartsInScope": [
+                  96,
+                  95,
+                  94,
+                  85,
+                  86,
+                  90,
+                  88,
+                  100,
+                  102,
+                  99,
+                  101,
+                  89,
+                  87,
+                  105,
+                  93,
+                  92,
+                  98,
+                  97,
+                  127
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "id": "NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI",
+                "controlValues": {
+                  "sortAscending": true,
+                  "enableEmptyFilter": false,
+                  "defaultToFirstItem": false,
+                  "creatable": false,
+                  "multiSelect": false,
+                  "searchAllOptions": false,
+                  "inverseSelection": false
+                },
+                "name": "Your hospital",
+                "filterType": "filter_select",
+                "targets": [
+                  {
+                    "column": {
+                      "name": "hosp_code"
+                    },
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "cascadeParentIds": [
+
+                ],
+                "scope": {
+                  "excluded": [
+                    103,
+                    93,
+                    92,
+                    98,
+                    97,
+                    96,
+                    95,
+                    94,
+                    85,
+                    86,
+                    90,
+                    88,
+                    99,
+                    101,
+                    87,
+                    105,
+                    91,
+                    127
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "type": "NATIVE_FILTER",
+                "description": "Choose one hospital to display the hospital-only comparison charts and all-time submission total.",
+                "chartsInScope": [
+                  100,
+                  102,
+                  89,
+                  104
+                ],
+                "tabsInScope": [
+
+                ],
+                "adhoc_filters": [
+                  {
+                    "expressionType": "SQL",
+                    "sqlExpression": "hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                    "clause": "WHERE",
+                    "subject": null,
+                    "operator": null,
+                    "comparator": null,
+                    "isExtra": false,
+                    "isNew": false,
+                    "datasourceWarning": false,
+                    "filterOptionName": "filter_xs9r9paqjtp_osl1w4knx8"
+                  }
+                ],
+                "time_range": "No filter"
+              },
+              {
+                "id": "NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG",
+                "controlValues": {
+                  "sortAscending": false,
+                  "enableEmptyFilter": false,
+                  "defaultToFirstItem": false,
+                  "creatable": false,
+                  "multiSelect": false,
+                  "searchAllOptions": false,
+                  "inverseSelection": false
+                },
+                "name": "Cohort/State",
+                "filterType": "filter_select",
+                "targets": [
+                  {
+                    "column": {
+                      "name": "hosp_code"
+                    },
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "filters": [
+                      {
+                        "col": "hosp_code",
+                        "op": "IN",
+                        "val": [
+                          "Cohort"
+                        ]
+                      }
+                    ]
+                  },
+                  "filterState": {
+                    "excludeFilterValues": true,
+                    "label": "Cohort",
+                    "validateMessage": false,
+                    "validateStatus": false,
+                    "value": [
+                      "Cohort"
+                    ]
+                  }
+                },
+                "cascadeParentIds": [
+
+                ],
+                "scope": {
+                  "excluded": [
+                    103,
+                    93,
+                    92,
+                    98,
+                    97,
+                    96,
+                    95,
+                    94,
+                    85,
+                    86,
+                    90,
+                    88,
+                    100,
+                    102,
+                    89,
+                    105,
+                    104,
+                    91,
+                    127
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "type": "NATIVE_FILTER",
+                "description": "Select a state or the entire cohort to compare to your hospital",
+                "chartsInScope": [
+                  99,
+                  101,
+                  87
+                ],
+                "tabsInScope": [
+
+                ],
+                "adhoc_filters": [
+                  {
+                    "expressionType": "SQL",
+                    "sqlExpression": "hosp_code !~ '^[0-9]+([.][0-9]+)?$'",
+                    "clause": "WHERE",
+                    "subject": null,
+                    "operator": null,
+                    "comparator": null,
+                    "isExtra": false,
+                    "isNew": false,
+                    "datasourceWarning": false,
+                    "filterOptionName": "filter_rekrwkno8wf_ylwqvzay7u"
+                  }
+                ],
+                "time_range": "No filter"
+              }
+            ],
+            "after": [
+              {
+                "description": "",
+                "id": "NATIVE_FILTER_DIVIDER-CzRyqyxEgedR5_JalGxMD",
+                "scope": {
+                  "excluded": [
+
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "title": "SELECT YOUR HOSPITAL FIRST",
+                "type": "DIVIDER",
+                "chartsInScope": [
+
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "id": "NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE",
+                "type": "NATIVE_FILTER",
+                "name": "Hospital and State",
+                "filterType": "filter_select",
+                "description": "Start with the cohort view, then choose an individual hospital to review its results.",
+                "targets": [
+                  {
+                    "column": {
+                      "name": "hosp_code"
+                    },
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "scope": {
+                  "excluded": [
+                    103,
+                    100,
+                    102,
+                    99,
+                    101,
+                    89,
+                    87,
+                    104,
+                    127
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "controlValues": {
+                  "sortAscending": true,
+                  "enableEmptyFilter": false,
+                  "defaultToFirstItem": false,
+                  "creatable": false,
+                  "multiSelect": true,
+                  "searchAllOptions": false,
+                  "inverseSelection": false
+                },
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "filters": [
+                      {
+                        "col": "hosp_code",
+                        "op": "IN",
+                        "val": [
+                          "Cohort"
+                        ]
+                      }
+                    ]
+                  },
+                  "filterState": {
+                    "excludeFilterValues": true,
+                    "label": "Cohort",
+                    "validateMessage": false,
+                    "validateStatus": false,
+                    "value": [
+                      "Cohort"
+                    ]
+                  }
+                },
+                "cascadeParentIds": [
+
+                ],
+                "sortMetric": null
+              },
+              {
+                "cascadeParentIds": [
+
+                ],
+                "chartsInScope": [
+                  85,
+                  86,
+                  87,
+                  89,
+                  90,
+                  91,
+                  92,
+                  93,
+                  95,
+                  96,
+                  97,
+                  98,
+                  99,
+                  100,
+                  103,
+                  104,
+                  105
+                ],
+                "controlValues": {
+                  "creatable": false,
+                  "defaultToFirstItem": false,
+                  "enableEmptyFilter": false,
+                  "inverseSelection": false,
+                  "multiSelect": false,
+                  "searchAllOptions": false,
+                  "sortAscending": true
+                },
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "filters": [
+                      {
+                        "col": "location_name",
+                        "op": "IN",
+                        "val": [
+                          "All locations"
+                        ]
+                      }
+                    ]
+                  },
+                  "filterState": {
+                    "excludeFilterValues": true,
+                    "label": "All locations",
+                    "validateMessage": false,
+                    "validateStatus": false,
+                    "value": [
+                      "All locations"
+                    ]
+                  }
+                },
+                "description": "If you want to view the whole dashboard through a single location of UC submission, choose a specific location. Otherwise choose \"All locations\"",
+                "filterType": "filter_select",
+                "id": "NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8",
+                "name": "Location of Urine Culture Collection",
+                "scope": {
+                  "excluded": [
+                    94,
+                    88,
+                    102,
+                    101,
+                    127
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "tabsInScope": [
+
+                ],
+                "targets": [
+                  {
+                    "column": {
+                      "name": "location_name"
+                    },
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "type": "NATIVE_FILTER"
+              },
+              {
+                "controlValues": {
+                  "enableEmptyFilter": false
+                },
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "time_range": "2025-09-01T00:00:00 : 2026-09-01T00:00:00"
+                  },
+                  "filterState": {
+                    "value": "2025-09-01T00:00:00 : 2026-09-01T00:00:00"
+                  }
+                },
+                "defaultValueQueriesData": null,
+                "description": "",
+                "filterType": "filter_time",
+                "id": "NATIVE_FILTER-_ZDg__D4KUKCpsVyVa992",
+                "name": "Time Period",
+                "requiredFirst": {
+                },
+                "scope": {
+                  "excluded": [
+                    103,
+                    104
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "type": "NATIVE_FILTER",
+                "chartsInScope": [
+                  85,
+                  86,
+                  87,
+                  88,
+                  89,
+                  90,
+                  91,
+                  92,
+                  93,
+                  94,
+                  95,
+                  96,
+                  97,
+                  98,
+                  99,
+                  100,
+                  101,
+                  102,
+                  105
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "cascadeParentIds": [
+
+                ],
+                "controlValues": {
+                  "enableEmptyFilter": false,
+                  "sortAscending": false
+                },
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "time_grain_sqla": "P1M"
+                  },
+                  "filterState": {
+                    "label": "Month",
+                    "value": [
+                      "P1M"
+                    ]
+                  }
+                },
+                "description": "",
+                "filterType": "filter_timegrain",
+                "id": "NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_",
+                "name": "Time Unit",
+                "scope": {
+                  "excluded": [
+                    103,
+                    104,
+                    91
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "sortMetric": null,
+                "targets": [
+                  {
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "type": "NATIVE_FILTER",
+                "chartsInScope": [
+                  85,
+                  86,
+                  87,
+                  88,
+                  89,
+                  90,
+                  92,
+                  93,
+                  94,
+                  95,
+                  96,
+                  97,
+                  98,
+                  99,
+                  100,
+                  101,
+                  102,
+                  105
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "description": "",
+                "id": "NATIVE_FILTER_DIVIDER-xq8Jf0-9O3FsXngoAE5nJ",
+                "scope": {
+                  "excluded": [
+
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "title": "_____________________________________",
+                "type": "DIVIDER",
+                "chartsInScope": [
+
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "description": "Use these filters for 4.2 Average Therapy Duration, 4.3 Top antibiotic prescriptions, and 4.4. Urine culture locations",
+                "id": "NATIVE_FILTER_DIVIDER-A6esrEIVR6TFgxJuu4SZP",
+                "scope": {
+                  "excluded": [
+
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "title": "COMPARISON FILTERS",
+                "type": "DIVIDER",
+                "chartsInScope": [
+
+                ],
+                "tabsInScope": [
+
+                ]
+              },
+              {
+                "adhoc_filters": [
+                  {
+                    "clause": "WHERE",
+                    "comparator": null,
+                    "datasourceWarning": false,
+                    "expressionType": "SQL",
+                    "filterOptionName": "filter_xs9r9paqjtp_osl1w4knx8",
+                    "isExtra": false,
+                    "isNew": false,
+                    "operator": null,
+                    "sqlExpression": "hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                    "subject": null
+                  }
+                ],
+                "cascadeParentIds": [
+
+                ],
+                "chartsInScope": [
+                  89,
+                  100,
+                  102,
+                  104
+                ],
+                "controlValues": {
+                  "creatable": false,
+                  "defaultToFirstItem": false,
+                  "enableEmptyFilter": false,
+                  "inverseSelection": false,
+                  "multiSelect": false,
+                  "searchAllOptions": false,
+                  "sortAscending": true
+                },
+                "description": "Choose one hospital to display the hospital-only comparison charts and all-time submission total.",
+                "filterType": "filter_select",
+                "id": "NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI",
+                "name": "Your hospital",
+                "scope": {
+                  "excluded": [
+                    103,
+                    93,
+                    92,
+                    98,
+                    97,
+                    96,
+                    95,
+                    94,
+                    85,
+                    86,
+                    90,
+                    88,
+                    99,
+                    101,
+                    87,
+                    105,
+                    91,
+                    127
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "tabsInScope": [
+
+                ],
+                "targets": [
+                  {
+                    "column": {
+                      "name": "hosp_code"
+                    },
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "time_range": "No filter",
+                "type": "NATIVE_FILTER"
+              },
+              {
+                "adhoc_filters": [
+                  {
+                    "clause": "WHERE",
+                    "comparator": null,
+                    "datasourceWarning": false,
+                    "expressionType": "SQL",
+                    "filterOptionName": "filter_rekrwkno8wf_ylwqvzay7u",
+                    "isExtra": false,
+                    "isNew": false,
+                    "operator": null,
+                    "sqlExpression": "hosp_code !~ '^[0-9]+([.][0-9]+)?$'",
+                    "subject": null
+                  }
+                ],
+                "cascadeParentIds": [
+
+                ],
+                "chartsInScope": [
+                  87,
+                  99,
+                  101
+                ],
+                "controlValues": {
+                  "creatable": false,
+                  "defaultToFirstItem": false,
+                  "enableEmptyFilter": false,
+                  "inverseSelection": false,
+                  "multiSelect": false,
+                  "searchAllOptions": false,
+                  "sortAscending": false
+                },
+                "defaultDataMask": {
+                  "extraFormData": {
+                    "filters": [
+                      {
+                        "col": "hosp_code",
+                        "op": "IN",
+                        "val": [
+                          "Cohort"
+                        ]
+                      }
+                    ]
+                  },
+                  "filterState": {
+                    "excludeFilterValues": true,
+                    "label": "Cohort",
+                    "validateMessage": false,
+                    "validateStatus": false,
+                    "value": [
+                      "Cohort"
+                    ]
+                  }
+                },
+                "description": "Select a state or the entire cohort to compare to your hospital",
+                "filterType": "filter_select",
+                "id": "NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG",
+                "name": "Cohort/State",
+                "scope": {
+                  "excluded": [
+                    103,
+                    93,
+                    92,
+                    98,
+                    97,
+                    96,
+                    95,
+                    94,
+                    85,
+                    86,
+                    90,
+                    88,
+                    100,
+                    102,
+                    89,
+                    105,
+                    104,
+                    91,
+                    127
+                  ],
+                  "rootPath": [
+                    "ROOT_ID"
+                  ]
+                },
+                "tabsInScope": [
+
+                ],
+                "targets": [
+                  {
+                    "column": {
+                      "name": "hosp_code"
+                    },
+                    "datasetUuid": "12cf6aed-4a67-5829-88b4-2636ee62a97f"
+                  }
+                ],
+                "time_range": "No filter",
+                "type": "NATIVE_FILTER"
+              }
+            ]
+          },
+          {
+            "path": "/metadata/shared_label_colors",
+            "before": [
+              "12",
+              "16",
+              "24",
+              "<=3 days",
+              ">3 to 5 days",
+              ">5 to 7 days",
+              ">7 days",
+              "Ceftriaxone",
+              "Cephalexin",
+              "Cohort",
+              "Emergency Department",
+              "Fluoroquinolone",
+              "Inpatient",
+              "Nitrofurantoin",
+              "OR",
+              "Other",
+              "TMP/SMX"
+            ],
+            "after": [
+              "12",
+              "16",
+              "24",
+              "25",
+              "27",
+              "31",
+              "50",
+              "53",
+              "<=3 days",
+              ">3 to 5 days",
+              ">5 to 7 days",
+              ">7 days",
+              "AZ",
+              "Ceftriaxone",
+              "Cephalexin",
+              "Cohort",
+              "Cohort, Other",
+              "Emergency Department",
+              "Fluoroquinolone",
+              "Inpatient",
+              "MT",
+              "Nitrofurantoin",
+              "OR",
+              "Other",
+              "TMP/SMX",
+              "WA"
+            ]
+          },
+          {
+            "path": "/position/CHART-AZwUoq6QiB-Exfxcw9bQs/meta/height",
+            "before": 14,
+            "after": 15
+          },
+          {
+            "path": "/position/CHART-AZwUoq6QiB-Exfxcw9bQs/meta/sliceName",
+            "before": "Latest reporting month in selected period",
+            "after": "Latest Urine Culture Submission"
+          },
+          {
+            "path": "/position/CHART-csim-native-period",
+            "before": {
+              "id": "CHART-csim-native-period",
+              "type": "CHART",
+              "children": [
+
+              ],
+              "parents": [
+                "ROOT_ID",
+                "GRID_ID",
+                "ROW-csim-native-period"
+              ],
+              "meta": {
+                "chartId": 127,
+                "sliceName": "Reporting period",
+                "uuid": "3d5f5431-f71d-5006-87f5-96bedbd8ed5b",
+                "width": 12,
+                "height": 16
+              }
+            },
+            "after": null
+          },
+          {
+            "path": "/position/CHART-explore-106-1/meta/sliceNameOverride",
+            "before": "All-time UC submissions by your hospital",
+            "after": "All-time UC submissions by Your Hospital"
+          },
+          {
+            "path": "/position/GRID_ID/children",
+            "before": [
+              "ROW-csim-native-period",
+              "ROW-5RI0Rt1SvKbXRf-OhEmkV",
+              "ROW-6p6C4N9oaGpvR7_YhLdkS",
+              "ROW-7Ofrh4DMN-RBbmcQ4V1f4",
+              "HEADER-r8eXHkDW41n9UmZ9Apmio",
+              "ROW-LGxSAWU8pNk5FX_j3s-qz",
+              "ROW-0OxIIphdm3SL_ypBio0Wv",
+              "ROW-5NL3vrAxfrhjK_cuVyPul",
+              "DIVIDER-hy2ainy_SELzuKrYrb_Jj",
+              "HEADER-hAJImIfKTuh5AjqubMMQx",
+              "ROW-yjoXoawttu8mfHyy83vFE",
+              "ROW-MgRB7rPCApS2zfVE-sT0-",
+              "DIVIDER-7rB2TGBY_prp0PpUBVbG5",
+              "HEADER-vvlp4XUy79yAsrEv5y3Z9",
+              "ROW-ucj4EtMSvInrd46NMq3xt",
+              "ROW-By5FanjzJpL953-ylo2IJ",
+              "ROW-nuKa1rG16zklFc8n22r80",
+              "DIVIDER-CKyvCTwJLHaCOyNkI0gKg",
+              "DIVIDER-6_0mdMIOhcz9aR3njjVRV",
+              "HEADER-w3h--tvRPIJ4paGsvAvtq",
+              "HEADER-VSO77JOVErZuIv0jiVKxm",
+              "ROW-4eWVJTGwm8bLmVMLI8EQi",
+              "ROW-8svotCUjfBILpVHSWeiVj",
+              "DIVIDER-RGIlduxsNTS37cGX_dk2I",
+              "HEADER-eVOJ7CLoDLTv7Uc8Ct2eU",
+              "ROW-KB0zd-HZnpc3ouaucIEDj",
+              "ROW-LjGzHOQrR4OVK0wn00hiQ",
+              "ROW-ZsfRVbFF5i_VnnZsR-607",
+              "ROW-M2nkSd3Ud7f0p6HCKF_T5",
+              "DIVIDER-h6PJUQBH7VWF-IBBc0PKe",
+              "HEADER-uzYe_XPHyTLsyEBmvrbL6",
+              "ROW-bABdf2_UHfC6ThBvdeAfA",
+              "ROW-GQqT8Wdpyplj6Y951hXjP",
+              "DIVIDER-_Zjj3wsr7Qk7Ch-OarxJQ",
+              "HEADER-jcjz34JVi0EGsAKJEFcAL",
+              "ROW-Y5Gte0_aCAAGnrQjVbxtZ",
+              "ROW-huPmA1gS2Ewv7Rkc-8Gu7",
+              "DIVIDER-nYA_8yf8Tqu5aRZDl4rXl",
+              "HEADER-PMMsB3kEnSteAcLMsgZz-",
+              "ROW-3zwVt4PvzTZDSCWmb_p_k",
+              "DIVIDER-aJ9hppVv7nwMpAVlc45Cc",
+              "ROW-VV80vb0X_kLgm2kSpxC-J"
+            ],
+            "after": [
+              "ROW-5RI0Rt1SvKbXRf-OhEmkV",
+              "ROW-6p6C4N9oaGpvR7_YhLdkS",
+              "ROW-7Ofrh4DMN-RBbmcQ4V1f4",
+              "HEADER-r8eXHkDW41n9UmZ9Apmio",
+              "ROW-LGxSAWU8pNk5FX_j3s-qz",
+              "ROW-0OxIIphdm3SL_ypBio0Wv",
+              "ROW-5NL3vrAxfrhjK_cuVyPul",
+              "DIVIDER-hy2ainy_SELzuKrYrb_Jj",
+              "HEADER-hAJImIfKTuh5AjqubMMQx",
+              "ROW-yjoXoawttu8mfHyy83vFE",
+              "ROW-MgRB7rPCApS2zfVE-sT0-",
+              "DIVIDER-7rB2TGBY_prp0PpUBVbG5",
+              "HEADER-vvlp4XUy79yAsrEv5y3Z9",
+              "ROW-ucj4EtMSvInrd46NMq3xt",
+              "ROW-By5FanjzJpL953-ylo2IJ",
+              "ROW-nuKa1rG16zklFc8n22r80",
+              "DIVIDER-CKyvCTwJLHaCOyNkI0gKg",
+              "DIVIDER-6_0mdMIOhcz9aR3njjVRV",
+              "HEADER-w3h--tvRPIJ4paGsvAvtq",
+              "HEADER-VSO77JOVErZuIv0jiVKxm",
+              "ROW-4eWVJTGwm8bLmVMLI8EQi",
+              "ROW-8svotCUjfBILpVHSWeiVj",
+              "DIVIDER-RGIlduxsNTS37cGX_dk2I",
+              "HEADER-eVOJ7CLoDLTv7Uc8Ct2eU",
+              "ROW-KB0zd-HZnpc3ouaucIEDj",
+              "ROW-LjGzHOQrR4OVK0wn00hiQ",
+              "ROW-ZsfRVbFF5i_VnnZsR-607",
+              "ROW-Jr8QofsfrtGXgoFHVb9iQ",
+              "ROW-M2nkSd3Ud7f0p6HCKF_T5",
+              "DIVIDER-h6PJUQBH7VWF-IBBc0PKe",
+              "HEADER-uzYe_XPHyTLsyEBmvrbL6",
+              "ROW-bABdf2_UHfC6ThBvdeAfA",
+              "ROW-GQqT8Wdpyplj6Y951hXjP",
+              "DIVIDER-_Zjj3wsr7Qk7Ch-OarxJQ",
+              "HEADER-jcjz34JVi0EGsAKJEFcAL",
+              "ROW-Y5Gte0_aCAAGnrQjVbxtZ",
+              "ROW-huPmA1gS2Ewv7Rkc-8Gu7",
+              "DIVIDER-nYA_8yf8Tqu5aRZDl4rXl",
+              "HEADER-PMMsB3kEnSteAcLMsgZz-",
+              "ROW-3zwVt4PvzTZDSCWmb_p_k",
+              "DIVIDER-aJ9hppVv7nwMpAVlc45Cc"
+            ]
+          },
+          {
+            "path": "/position/HEADER_ID/meta/text",
+            "before": "CSiM UTI/ASB Dashboard [Individual Data]",
+            "after": "CSiM Individual Data — September / Superset 6.1.0"
+          },
+          {
+            "path": "/position/MARKDOWN-4LE_6MIsEUYEjgMUcvAyM/meta/code",
+            "before": "**Choose Your hospital in the left filter panel to display the hospital comparison panels.** Then choose Cohort/State for the comparison.",
+            "after": "**Use the COMPARISON FILTERS for the graphs below**"
+          },
+          {
+            "path": "/position/MARKDOWN-4LE_6MIsEUYEjgMUcvAyM/meta/height",
+            "before": 12,
+            "after": 6
+          },
+          {
+            "path": "/position/MARKDOWN-7gyWWjV1CJF2ryDRxxwYT/meta/height",
+            "before": 35,
+            "after": 32
+          },
+          {
+            "path": "/position/MARKDOWN-8qLF0rtVZnycDfi3XPowe",
+            "before": {
+              "children": [
+
+              ],
+              "id": "MARKDOWN-8qLF0rtVZnycDfi3XPowe",
+              "meta": {
+                "code": "*Manual upload note from the source dashboard:* March 30, 2026. This is separate from the latest reporting month shown beside it.\n\n**Choose an individual hospital in Hospital and state to populate the latest-month comparison tables.** Cohort remains available for the main charts.",
+                "height": 22,
+                "width": 6
+              },
+              "parents": [
+                "ROOT_ID",
+                "GRID_ID",
+                "ROW-6p6C4N9oaGpvR7_YhLdkS"
+              ],
+              "type": "MARKDOWN"
+            },
+            "after": null
+          },
+          {
+            "path": "/position/MARKDOWN-B7A7v4jMD46v0QeBjl_jp/meta/height",
+            "before": 35,
+            "after": 32
+          },
+          {
+            "path": "/position/MARKDOWN-Fkr0aRTAWrrVJZK3ze6b4",
+            "before": null,
+            "after": {
+              "children": [
+
+              ],
+              "id": "MARKDOWN-Fkr0aRTAWrrVJZK3ze6b4",
+              "meta": {
+                "code": "**Use the COMPARISON FILTERS for the graphs below**",
+                "height": 6,
+                "width": 12
+              },
+              "parents": [
+                "ROOT_ID",
+                "GRID_ID",
+                "ROW-Jr8QofsfrtGXgoFHVb9iQ"
+              ],
+              "type": "MARKDOWN"
+            }
+          },
+          {
+            "path": "/position/MARKDOWN-IBpOW8Ky_k-mYxMODnaLn/meta/height",
+            "before": 17,
+            "after": 21
+          },
+          {
+            "path": "/position/MARKDOWN-JXgHlLO9PG7KNKElKdY02",
+            "before": {
+              "children": [
+
+              ],
+              "id": "MARKDOWN-JXgHlLO9PG7KNKElKdY02",
+              "meta": {
+                "code": "Data source: Internal organization",
+                "height": 9,
+                "width": 12
+              },
+              "parents": [
+                "ROOT_ID",
+                "GRID_ID",
+                "ROW-VV80vb0X_kLgm2kSpxC-J"
+              ],
+              "type": "MARKDOWN"
+            },
+            "after": null
+          },
+          {
+            "path": "/position/MARKDOWN-WIofdf7GkSmIbs0pSuT-6/meta/code",
+            "before": "**Choose Your hospital in the left filter panel to display the hospital comparison panels.** Then choose Cohort/State for the comparison.",
+            "after": "**Use *Hospital* and *State* filter for graph below**"
+          },
+          {
+            "path": "/position/MARKDOWN-WIofdf7GkSmIbs0pSuT-6/meta/height",
+            "before": 12,
+            "after": 8
+          },
+          {
+            "path": "/position/MARKDOWN-dmqWGw3wWo5dFYGn-enHs/meta/code",
+            "before": "|   |\r\n|:---:|\r\n| Number of treated asymptomatic patients with a positive urine culture or urinalysis (pyuria or nitrituria) |\r\n| ______________________________________________________________________|\r\n| Number of treated patients (symptomatic and asymptomatic) with a positive urine culture or urinalysis (pyuria or nitrituria) |\r\n\r\n\r\n- The cohort and state averages are weighted by the number of urine cultures submitted by the hospitals.",
+            "after": "|   |\r\n|:---:|\r\n| Number of treated asymptomatic patients with a positive urine culture or urinalysis (pyuria or nitrituria) |\r\n| ______________________________________________________________________|\r\n| Number of treated patients (symptomatic and asymptomatic) with a positive urine culture or urinalysis (pyuria or nitrituria) |\r\n\r\n\r\n"
+          },
+          {
+            "path": "/position/MARKDOWN-dmqWGw3wWo5dFYGn-enHs/meta/height",
+            "before": 30,
+            "after": 26
+          },
+          {
+            "path": "/position/MARKDOWN-kbpKudPZL01ntlPcgzEYI/meta/code",
+            "before": "### **Table of Contents**\n- [1. Inappropriate Diagnosis of UTI (by urine culture data)](#HEADER-r8eXHkDW41n9UmZ9Apmio)\n- [2. Inappropriate diagnosis of UTI (by urinalysis data)](#HEADER-hAJImIfKTuh5AjqubMMQx)\n- [3. Prevalence and treatment of asymptomatic bacteriuria](#HEADER-vvlp4XUy79yAsrEv5y3Z9)\n- [4. Additional urine testing and antibiotic insights](#HEADER-w3h--tvRPIJ4paGsvAvtq)\n- [4.1. Positive urinalysis within 24hours of urine culture](#HEADER-VSO77JOVErZuIv0jiVKxm)\n- [4.2. Average Duration of Antibiotic Therapy (days)](#HEADER-eVOJ7CLoDLTv7Uc8Ct2eU)\n- [4.3. Top antibiotic prescriptions](#HEADER-uzYe_XPHyTLsyEBmvrbL6)\n- [4.4. Location of service](#HEADER-jcjz34JVi0EGsAKJEFcAL)\n- [5. Total number of data submitted](#HEADER-PMMsB3kEnSteAcLMsgZz-)",
+            "after": "### **Table of Contents**\n- [1. Inappropriate Diagnosis of UTI (by urine culture data)](#HEADER-r8eXHkDW41n9UmZ9Apmio)\n- [2. Inappropriate diagnosis of UTI (by urinalysis data)](#HEADER-hAJImIfKTuh5AjqubMMQx)\n- [3. Prevalence and treatment of asymptomatic bacteriuria](#HEADER-vvlp4XUy79yAsrEv5y3Z9)\n- [4. Additional urine testing and antibiotic insights](#HEADER-w3h--tvRPIJ4paGsvAvtq)\n  - [4.1. Positive urinalysis within 24hours of urine culture](#HEADER-VSO77JOVErZuIv0jiVKxm)\n  - [4.2. Average Duration of Antibiotic Therapy (days)](#HEADER-eVOJ7CLoDLTv7Uc8Ct2eU)\n  - [4.3. Top antibiotic prescriptions](#HEADER-uzYe_XPHyTLsyEBmvrbL6)\n  - [4.4. Location of service](#HEADER-jcjz34JVi0EGsAKJEFcAL)\n- [5. Total number of data submitted](#HEADER-PMMsB3kEnSteAcLMsgZz-)"
+          },
+          {
+            "path": "/position/MARKDOWN-kbpKudPZL01ntlPcgzEYI/meta/height",
+            "before": 51,
+            "after": 38
+          },
+          {
+            "path": "/position/MARKDOWN-lMg97gCudWooyMZtyjDZC/meta/code",
+            "before": "**Location** means where the urine culture was drawn in the healthcare system.",
+            "after": "**Location** means where the urine culture was drawn in the healthcare system. **Use the COMPARISON FILTERS**"
+          },
+          {
+            "path": "/position/MARKDOWN-mGg-oVONg4-41Dujtvdc_/meta/code",
+            "before": "## **✨Goal:** Lower % is better!\n\n### This metric accounts for diagnosing UTI with urinalysis rather than urine culture data.",
+            "after": "## **✨Goal:** Lower % is better!\n\n### This metric accounts for diagnosing UTI with urinalysis rather than urine culture data.\n\n#### The cohort and state averages are weighted by the number of urine cultures submitted by the hospitals."
+          },
+          {
+            "path": "/position/MARKDOWN-mGg-oVONg4-41Dujtvdc_/meta/height",
+            "before": 30,
+            "after": 26
+          },
+          {
+            "path": "/position/MARKDOWN-p6QkzNWJ4ubEsqJvrGV6b/meta/code",
+            "before": "|   |\r\n|:---:|\r\n| Number of Positive UA |\r\n| _________________________ |\r\n| Number of UC Submissions |\r\n\r\n- The cohort and state averages are weighted by the number of urine cultures submitted by the hospitals.",
+            "after": "|   |\r\n|:---:|\r\n| Number of treated asymptomatic patients with a positive urine culture |\r\n| _________________________ |\r\n| Number of treated patients (symptomatic and asymptomatic) with a positive urine culture |\r\n\r\n- The cohort and state averages are weighted by the number of urine cultures submitted by the hospitals."
+          },
+          {
+            "path": "/position/MARKDOWN-xkq1H2Nb_MpP-CAH0CmeM/meta/height",
+            "before": 17,
+            "after": 21
+          },
+          {
+            "path": "/position/ROW-6p6C4N9oaGpvR7_YhLdkS/children",
+            "before": [
+              "MARKDOWN-8qLF0rtVZnycDfi3XPowe",
+              "CHART-AZwUoq6QiB-Exfxcw9bQs"
+            ],
+            "after": [
+              "CHART-AZwUoq6QiB-Exfxcw9bQs"
+            ]
+          },
+          {
+            "path": "/position/ROW-Jr8QofsfrtGXgoFHVb9iQ",
+            "before": null,
+            "after": {
+              "children": [
+                "MARKDOWN-Fkr0aRTAWrrVJZK3ze6b4"
+              ],
+              "id": "ROW-Jr8QofsfrtGXgoFHVb9iQ",
+              "meta": {
+                "background": "BACKGROUND_TRANSPARENT"
+              },
+              "parents": [
+                "ROOT_ID",
+                "GRID_ID"
+              ],
+              "type": "ROW"
+            }
+          },
+          {
+            "path": "/position/ROW-VV80vb0X_kLgm2kSpxC-J",
+            "before": {
+              "children": [
+                "MARKDOWN-JXgHlLO9PG7KNKElKdY02"
+              ],
+              "id": "ROW-VV80vb0X_kLgm2kSpxC-J",
+              "meta": {
+                "background": "BACKGROUND_TRANSPARENT"
+              },
+              "parents": [
+                "ROOT_ID",
+                "GRID_ID"
+              ],
+              "type": "ROW"
+            },
+            "after": null
+          },
+          {
+            "path": "/position/ROW-csim-native-period",
+            "before": {
+              "id": "ROW-csim-native-period",
+              "type": "ROW",
+              "children": [
+                "CHART-csim-native-period"
+              ],
+              "parents": [
+                "ROOT_ID",
+                "GRID_ID"
+              ],
+              "meta": {
+                "background": "BACKGROUND_TRANSPARENT"
+              }
+            },
+            "after": null
+          }
+        ]
+      }
+    }
+  },
+  "charts": {
+    "before_count": 22,
+    "after_count": 21,
+    "shared_uuid_count": 21,
+    "objects": {
+      "02134c7c-4bc1-5f53-822f-0e1812aabd35": {
+        "name": "Abx duration (own hospital stacked) - Ind",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/params/adhoc_filters",
+            "before": [
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_e1mzbmkjvo4_mn5cs3j4ygb",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              },
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_lfj0aaun2m_rwb4yom13g",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              },
+              {
+                "expressionType": "SQL",
+                "sqlExpression": "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "clause": "WHERE",
+                "isExtra": false,
+                "filterOptionName": "filter_csim_selected_hospital"
+              }
+            ],
+            "after": [
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_lfj0aaun2m_rwb4yom13g",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              },
+              {
+                "clause": "WHERE",
+                "expressionType": "SQL",
+                "filterOptionName": "filter_csim_selected_hospital",
+                "isExtra": false,
+                "sqlExpression": "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'"
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_e1mzbmkjvo4_mn5cs3j4ygb",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              }
+            ]
+          },
+          {
+            "path": "/params/color_by_primary_axis",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/echart_options",
+            "before": null,
+            "after": "{}"
+          },
+          {
+            "path": "/params/force_max_interval",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/granularity_sqla",
+            "before": "month_date",
+            "after": null
+          },
+          {
+            "path": "/params/group_others_when_limit_reached",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/legendOrientation",
+            "before": "top",
+            "after": "left"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_columns",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_rows",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_cell_title_template",
+            "before": null,
+            "after": ""
+          },
+          {
+            "path": "/params/matrixify_charts_per_row",
+            "before": null,
+            "after": 4
+          },
+          {
+            "path": "/params/matrixify_dimension_columns",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_rows",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_columns",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_rows",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_enable",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/matrixify_fit_columns_dynamically",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_mode_columns",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_mode_rows",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_row_height",
+            "before": null,
+            "after": 300
+          },
+          {
+            "path": "/params/matrixify_show_column_headers",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_show_row_labels",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_columns",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_rows",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_value_columns",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/matrixify_topn_value_rows",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/only_total",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/order_desc",
+            "before": false,
+            "after": null
+          },
+          {
+            "path": "/params/percentage_threshold",
+            "before": 0,
+            "after": null
+          },
+          {
+            "path": "/params/time_grain_sqla",
+            "before": "P1M",
+            "after": null
+          },
+          {
+            "path": "/params/time_shift_color",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/tooltipTimeFormat",
+            "before": null,
+            "after": "smart_date"
+          },
+          {
+            "path": "/params/xAxisForceCategorical",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/x_axis_number_format",
+            "before": null,
+            "after": "~g"
+          },
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":14,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[{\"col\":\"month_date\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"extras\":{\"having\":\"\",\"where\":\"(hosp_code ~ '^[0-9]+([.][0-9]+)?$') AND ({{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$')\"},\"applied_time_extras\":{},\"columns\":[{\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"period_label\",\"label\":\"period_label\",\"expressionType\":\"SQL\",\"isColumnReference\":true},\"hosp_code\"],\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135563\",\"column_name\":\"dur_cat_1\",\"created_on\":\"2026-03-17T18:08:24.018584\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":425,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"90a2fcea-950e-4332-a919-f2d4f6caf159\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\"<=3 days\",\"optionName\":\"metric_2fx4sysd7py_mwapt5qjyt\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135571\",\"column_name\":\"dur_cat_2\",\"created_on\":\"2026-03-17T18:08:24.018604\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":426,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"69af81c4-a7e7-4fa2-9caf-ca5f7d91ac40\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">3 to 5 days\",\"optionName\":\"metric_ovlc8w69oj_6xka7wjdm5y\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135578\",\"column_name\":\"dur_cat_3\",\"created_on\":\"2026-03-17T18:08:24.018623\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":427,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"b13cc836-71ef-4edd-9c2b-a30877a1370f\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">5 to 7 days\",\"optionName\":\"metric_jrz8xoxx9g_qfeumqc4ngl\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135585\",\"column_name\":\"dur_cat_4\",\"created_on\":\"2026-03-17T18:08:24.018642\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":428,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"5e098d80-8b2a-4825-9c4f-85b6f5652bc1\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">7 days\",\"optionName\":\"metric_5nxy3olipf7_p0gigzdb35\",\"sqlExpression\":null}],\"orderby\":[[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135563\",\"column_name\":\"dur_cat_1\",\"created_on\":\"2026-03-17T18:08:24.018584\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":425,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"90a2fcea-950e-4332-a919-f2d4f6caf159\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\"<=3 days\",\"optionName\":\"metric_2fx4sysd7py_mwapt5qjyt\",\"sqlExpression\":null},false]],\"annotation_layers\":[],\"row_limit\":1000,\"series_columns\":[\"hosp_code\"],\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"time_offsets\":[],\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"period_label\"],\"columns\":[\"hosp_code\"],\"aggregates\":{\"<=3 days\":{\"operator\":\"mean\"},\">3 to 5 days\":{\"operator\":\"mean\"},\">5 to 7 days\":{\"operator\":\"mean\"},\">7 days\":{\"operator\":\"mean\"}},\"drop_missing_columns\":false}},{\"operation\":\"flatten\"}]}],\"form_data\":{\"datasource\":\"14__table\",\"viz_type\":\"echarts_timeseries_bar\",\"slice_id\":89,\"matrixify_enable\":false,\"matrixify_mode_columns\":\"disabled\",\"matrixify_dimension_selection_mode_columns\":\"members\",\"matrixify_dimension_columns\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_columns\":10,\"matrixify_all_sort_by_columns\":\"a_to_z\",\"matrixify_topn_order_columns\":true,\"matrixify_show_column_headers\":true,\"matrixify_fit_columns_dynamically\":true,\"matrixify_mode_rows\":\"disabled\",\"matrixify_dimension_selection_mode_rows\":\"members\",\"matrixify_dimension_rows\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_rows\":10,\"matrixify_all_sort_by_rows\":\"a_to_z\",\"matrixify_topn_order_rows\":true,\"matrixify_show_row_labels\":true,\"matrixify_row_height\":300,\"matrixify_charts_per_row\":4,\"matrixify_cell_title_template\":\"\",\"x_axis\":\"period_label\",\"x_axis_sort\":\"name\",\"x_axis_sort_asc\":true,\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135563\",\"column_name\":\"dur_cat_1\",\"created_on\":\"2026-03-17T18:08:24.018584\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":425,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"90a2fcea-950e-4332-a919-f2d4f6caf159\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\"<=3 days\",\"optionName\":\"metric_2fx4sysd7py_mwapt5qjyt\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135571\",\"column_name\":\"dur_cat_2\",\"created_on\":\"2026-03-17T18:08:24.018604\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":426,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"69af81c4-a7e7-4fa2-9caf-ca5f7d91ac40\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">3 to 5 days\",\"optionName\":\"metric_ovlc8w69oj_6xka7wjdm5y\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135578\",\"column_name\":\"dur_cat_3\",\"created_on\":\"2026-03-17T18:08:24.018623\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":427,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"b13cc836-71ef-4edd-9c2b-a30877a1370f\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">5 to 7 days\",\"optionName\":\"metric_jrz8xoxx9g_qfeumqc4ngl\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135585\",\"column_name\":\"dur_cat_4\",\"created_on\":\"2026-03-17T18:08:24.018642\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":428,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"5e098d80-8b2a-4825-9c4f-85b6f5652bc1\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">7 days\",\"optionName\":\"metric_5nxy3olipf7_p0gigzdb35\",\"sqlExpression\":null}],\"groupby\":[\"hosp_code\"],\"adhoc_filters\":[{\"clause\":\"WHERE\",\"comparator\":null,\"datasourceWarning\":false,\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_lfj0aaun2m_rwb4yom13g\",\"isExtra\":false,\"isNew\":false,\"operator\":null,\"operatorId\":null,\"sqlExpression\":\"hosp_code ~ '^[0-9]+([.][0-9]+)?$'\",\"subject\":null},{\"clause\":\"WHERE\",\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_csim_selected_hospital\",\"isExtra\":false,\"sqlExpression\":\"{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'\"},{\"clause\":\"WHERE\",\"comparator\":\"No filter\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_e1mzbmkjvo4_mn5cs3j4ygb\",\"isExtra\":false,\"isNew\":false,\"operator\":\"TEMPORAL_RANGE\",\"sqlExpression\":null,\"subject\":\"month_date\"}],\"group_others_when_limit_reached\":false,\"row_limit\":1000,\"truncate_metric\":true,\"show_empty_columns\":true,\"comparison_type\":\"values\",\"annotation_layers\":[],\"forecastEnabled\":false,\"forecastPeriods\":10,\"forecastInterval\":0.8,\"orientation\":\"vertical\",\"x_axis_title\":\"Time\",\"x_axis_title_margin\":60,\"y_axis_title\":\"Number of treated patients\",\"y_axis_title_margin\":30,\"y_axis_title_position\":\"Left\",\"sort_series_type\":\"name\",\"sort_series_ascending\":true,\"color_scheme\":\"presetColors\",\"show_value\":false,\"stack\":\"Stack\",\"color_by_primary_axis\":false,\"minorTicks\":false,\"zoomable\":false,\"show_legend\":true,\"legendType\":\"scroll\",\"legendOrientation\":\"left\",\"x_axis_time_format\":\"smart_date\",\"x_axis_number_format\":\"~g\",\"xAxisLabelRotation\":90,\"xAxisLabelInterval\":0,\"y_axis_format\":\"SMART_NUMBER\",\"logAxis\":false,\"minorSplitLine\":false,\"truncateYAxis\":false,\"y_axis_bounds\":[null,null],\"truncateXAxis\":false,\"force_max_interval\":false,\"rich_tooltip\":true,\"showTooltipTotal\":true,\"showTooltipPercentage\":true,\"tooltipSortByMetric\":false,\"tooltipTimeFormat\":\"smart_date\",\"echart_options\":\"{}\",\"extra_form_data\":{},\"dashboards\":[5],\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          }
+        ]
+      },
+      "0c91fddd-eb8e-5d00-830f-be8725a87426": {
+        "name": "UC location (cohort/state stacked) - Ind",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/params/adhoc_filters",
+            "before": [
+              {
+                "expressionType": "SIMPLE",
+                "subject": "month_date",
+                "operator": "TEMPORAL_RANGE",
+                "comparator": "No filter",
+                "clause": "WHERE",
+                "sqlExpression": null,
+                "isExtra": false,
+                "isNew": false,
+                "datasourceWarning": false,
+                "filterOptionName": "filter_k44d4h69ud_hmj9oem2kv9"
+              },
+              {
+                "expressionType": "SQL",
+                "subject": null,
+                "operator": null,
+                "operatorId": null,
+                "comparator": null,
+                "clause": "WHERE",
+                "sqlExpression": "hosp_code !~ '^[0-9]+([.][0-9]+)?$'",
+                "isExtra": false,
+                "isNew": false,
+                "datasourceWarning": false,
+                "filterOptionName": "filter_588ae3d36nu_w509jodwmsm"
+              },
+              {
+                "expressionType": "SIMPLE",
+                "subject": "location_name",
+                "operator": "!=",
+                "operatorId": "NOT_EQUALS",
+                "comparator": "All locations",
+                "clause": "WHERE",
+                "sqlExpression": null,
+                "isExtra": false,
+                "isNew": false,
+                "datasourceWarning": false,
+                "filterOptionName": "filter_0rpn1hig77g_rhbq0ddyzd"
+              }
+            ],
+            "after": [
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_588ae3d36nu_w509jodwmsm",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code !~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "All locations",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_0rpn1hig77g_rhbq0ddyzd",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "!=",
+                "operatorId": "NOT_EQUALS",
+                "sqlExpression": null,
+                "subject": "location_name"
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_k44d4h69ud_hmj9oem2kv9",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              }
+            ]
+          },
+          {
+            "path": "/params/color_by_primary_axis",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/echart_options",
+            "before": null,
+            "after": "{}"
+          },
+          {
+            "path": "/params/force_max_interval",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/granularity_sqla",
+            "before": "month_date",
+            "after": null
+          },
+          {
+            "path": "/params/group_others_when_limit_reached",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/legendOrientation",
+            "before": "top",
+            "after": "left"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_columns",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_rows",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_cell_title_template",
+            "before": null,
+            "after": ""
+          },
+          {
+            "path": "/params/matrixify_charts_per_row",
+            "before": null,
+            "after": 4
+          },
+          {
+            "path": "/params/matrixify_dimension_columns",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_rows",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_columns",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_rows",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_enable",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/matrixify_fit_columns_dynamically",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_mode_columns",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_mode_rows",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_row_height",
+            "before": null,
+            "after": 300
+          },
+          {
+            "path": "/params/matrixify_show_column_headers",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_show_row_labels",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_columns",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_rows",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_value_columns",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/matrixify_topn_value_rows",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/only_total",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/order_desc",
+            "before": false,
+            "after": null
+          },
+          {
+            "path": "/params/percentage_threshold",
+            "before": 0,
+            "after": null
+          },
+          {
+            "path": "/params/time_grain_sqla",
+            "before": "P1M",
+            "after": null
+          },
+          {
+            "path": "/params/time_shift_color",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/tooltipTimeFormat",
+            "before": null,
+            "after": "smart_date"
+          },
+          {
+            "path": "/params/xAxisForceCategorical",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/x_axis_number_format",
+            "before": null,
+            "after": "~g"
+          },
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":17,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[{\"col\":\"location_name\",\"op\":\"!=\",\"val\":\"All locations\"},{\"col\":\"month_date\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"extras\":{\"having\":\"\",\"where\":\"(hosp_code !~ '^[0-9]+([.][0-9]+)?$')\"},\"applied_time_extras\":{},\"columns\":[{\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"period_label\",\"label\":\"period_label\",\"expressionType\":\"SQL\",\"isColumnReference\":true},\"hosp_code\",\"location_name\"],\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T22:03:46.758844\",\"column_name\":\"n_submissions\",\"created_on\":\"2026-03-17T22:03:46.758840\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":451,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"column\",\"type_generic\":0,\"uuid\":\"df220a59-92c4-4a29-925c-22cd0d9d18cc\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(n_submissions)\",\"optionName\":\"metric_h0ka8txduwe_2y0km9y716a\",\"sqlExpression\":null}],\"orderby\":[[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T22:03:46.758844\",\"column_name\":\"n_submissions\",\"created_on\":\"2026-03-17T22:03:46.758840\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":451,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"column\",\"type_generic\":0,\"uuid\":\"df220a59-92c4-4a29-925c-22cd0d9d18cc\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(n_submissions)\",\"optionName\":\"metric_h0ka8txduwe_2y0km9y716a\",\"sqlExpression\":null},false]],\"annotation_layers\":[],\"row_limit\":1000,\"series_columns\":[\"hosp_code\",\"location_name\"],\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"time_offsets\":[],\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"period_label\"],\"columns\":[\"hosp_code\",\"location_name\"],\"aggregates\":{\"SUM(n_submissions)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":false}},{\"operation\":\"rename\",\"options\":{\"columns\":{\"SUM(n_submissions)\":null},\"level\":0,\"inplace\":true}},{\"operation\":\"flatten\"}]}],\"form_data\":{\"datasource\":\"17__table\",\"viz_type\":\"echarts_timeseries_bar\",\"slice_id\":101,\"matrixify_enable\":false,\"matrixify_mode_columns\":\"disabled\",\"matrixify_dimension_selection_mode_columns\":\"members\",\"matrixify_dimension_columns\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_columns\":10,\"matrixify_all_sort_by_columns\":\"a_to_z\",\"matrixify_topn_order_columns\":true,\"matrixify_show_column_headers\":true,\"matrixify_fit_columns_dynamically\":true,\"matrixify_mode_rows\":\"disabled\",\"matrixify_dimension_selection_mode_rows\":\"members\",\"matrixify_dimension_rows\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_rows\":10,\"matrixify_all_sort_by_rows\":\"a_to_z\",\"matrixify_topn_order_rows\":true,\"matrixify_show_row_labels\":true,\"matrixify_row_height\":300,\"matrixify_charts_per_row\":4,\"matrixify_cell_title_template\":\"\",\"x_axis\":\"period_label\",\"x_axis_sort\":\"name\",\"x_axis_sort_asc\":true,\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T22:03:46.758844\",\"column_name\":\"n_submissions\",\"created_on\":\"2026-03-17T22:03:46.758840\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":451,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"column\",\"type_generic\":0,\"uuid\":\"df220a59-92c4-4a29-925c-22cd0d9d18cc\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(n_submissions)\",\"optionName\":\"metric_h0ka8txduwe_2y0km9y716a\",\"sqlExpression\":null}],\"groupby\":[\"hosp_code\",\"location_name\"],\"adhoc_filters\":[{\"clause\":\"WHERE\",\"comparator\":null,\"datasourceWarning\":false,\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_588ae3d36nu_w509jodwmsm\",\"isExtra\":false,\"isNew\":false,\"operator\":null,\"operatorId\":null,\"sqlExpression\":\"hosp_code !~ '^[0-9]+([.][0-9]+)?$'\",\"subject\":null},{\"clause\":\"WHERE\",\"comparator\":\"All locations\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_0rpn1hig77g_rhbq0ddyzd\",\"isExtra\":false,\"isNew\":false,\"operator\":\"!=\",\"operatorId\":\"NOT_EQUALS\",\"sqlExpression\":null,\"subject\":\"location_name\"},{\"clause\":\"WHERE\",\"comparator\":\"No filter\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_k44d4h69ud_hmj9oem2kv9\",\"isExtra\":false,\"isNew\":false,\"operator\":\"TEMPORAL_RANGE\",\"sqlExpression\":null,\"subject\":\"month_date\"}],\"group_others_when_limit_reached\":false,\"row_limit\":1000,\"truncate_metric\":true,\"show_empty_columns\":true,\"comparison_type\":\"values\",\"annotation_layers\":[],\"forecastEnabled\":false,\"forecastPeriods\":10,\"forecastInterval\":0.8,\"orientation\":\"vertical\",\"x_axis_title\":\"Time\",\"x_axis_title_margin\":60,\"y_axis_title\":\"Number of urine cultures\",\"y_axis_title_margin\":30,\"y_axis_title_position\":\"Left\",\"sort_series_type\":\"name\",\"sort_series_ascending\":true,\"color_scheme\":\"echarts5Colors\",\"show_value\":false,\"stack\":\"Stack\",\"color_by_primary_axis\":false,\"minorTicks\":false,\"zoomable\":false,\"show_legend\":true,\"legendType\":\"scroll\",\"legendOrientation\":\"left\",\"x_axis_time_format\":\"smart_date\",\"x_axis_number_format\":\"~g\",\"xAxisLabelRotation\":90,\"xAxisLabelInterval\":0,\"y_axis_format\":\"SMART_NUMBER\",\"logAxis\":false,\"minorSplitLine\":false,\"truncateYAxis\":false,\"y_axis_bounds\":[null,null],\"truncateXAxis\":false,\"force_max_interval\":false,\"rich_tooltip\":true,\"showTooltipTotal\":true,\"showTooltipPercentage\":true,\"tooltipSortByMetric\":false,\"tooltipTimeFormat\":\"smart_date\",\"echart_options\":\"{}\",\"extra_form_data\":{},\"dashboards\":[5],\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          }
+        ]
+      },
+      "2d3cca36-b3f1-516f-85ef-f26f8051ec00": {
+        "name": "Positive UA (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "36617aea-cd9e-5ae9-840c-b483d983a0c8": {
+        "name": "Volume of UC submissions (own hospital)",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/params/annotation_layers",
+            "before": [
+
+            ],
+            "after": null
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_columns",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_rows",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_cell_title_template",
+            "before": null,
+            "after": ""
+          },
+          {
+            "path": "/params/matrixify_charts_per_row",
+            "before": null,
+            "after": 4
+          },
+          {
+            "path": "/params/matrixify_dimension_columns",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_rows",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_columns",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_rows",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_enable",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/matrixify_fit_columns_dynamically",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_mode_columns",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_mode_rows",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_row_height",
+            "before": null,
+            "after": 300
+          },
+          {
+            "path": "/params/matrixify_show_column_headers",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_show_row_labels",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_columns",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_rows",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_value_columns",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/matrixify_topn_value_rows",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/subtitle",
+            "before": "Choose Your hospital above",
+            "after": "based on Your Hospital filter"
+          },
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":14,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[{\"col\":\"month_date\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"extras\":{\"having\":\"\",\"where\":\"(hosp_code ~ '^[0-9]+([.][0-9]+)?$') AND ({{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$')\"},\"applied_time_extras\":{},\"columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"hasCustomLabel\":true,\"label\":\"All-time hospital submissions\",\"sqlExpression\":\"SUM(ucsub)\"}],\"annotation_layers\":[],\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{}}],\"form_data\":{\"datasource\":\"14__table\",\"viz_type\":\"big_number_total\",\"slice_id\":104,\"matrixify_enable\":false,\"matrixify_mode_columns\":\"disabled\",\"matrixify_dimension_selection_mode_columns\":\"members\",\"matrixify_dimension_columns\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_columns\":10,\"matrixify_all_sort_by_columns\":\"a_to_z\",\"matrixify_topn_order_columns\":true,\"matrixify_show_column_headers\":true,\"matrixify_fit_columns_dynamically\":true,\"matrixify_mode_rows\":\"disabled\",\"matrixify_dimension_selection_mode_rows\":\"members\",\"matrixify_dimension_rows\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_rows\":10,\"matrixify_all_sort_by_rows\":\"a_to_z\",\"matrixify_topn_order_rows\":true,\"matrixify_show_row_labels\":true,\"matrixify_row_height\":300,\"matrixify_charts_per_row\":4,\"matrixify_cell_title_template\":\"\",\"metric\":{\"expressionType\":\"SQL\",\"hasCustomLabel\":true,\"label\":\"All-time hospital submissions\",\"sqlExpression\":\"SUM(ucsub)\"},\"adhoc_filters\":[{\"clause\":\"WHERE\",\"comparator\":\"No filter\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_xxq6m6v254_zrkj0th85ts\",\"isExtra\":false,\"isNew\":false,\"operator\":\"TEMPORAL_RANGE\",\"sqlExpression\":null,\"subject\":\"month_date\"},{\"clause\":\"WHERE\",\"comparator\":null,\"datasourceWarning\":false,\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_csim_numeric_hospital\",\"isExtra\":false,\"isNew\":false,\"operator\":null,\"operatorId\":null,\"sqlExpression\":\"hosp_code ~ '^[0-9]+([.][0-9]+)?$'\",\"subject\":null},{\"clause\":\"WHERE\",\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_csim_selected_hospital\",\"isExtra\":false,\"sqlExpression\":\"{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'\"}],\"header_font_size\":0.5,\"subtitle\":\"based on Your Hospital filter\",\"subtitle_font_size\":0.125,\"show_metric_name\":false,\"metric_name_font_size\":0.15,\"y_axis_format\":\"SMART_NUMBER\",\"time_format\":\"smart_date\",\"force_timestamp_formatting\":false,\"conditional_formatting\":[],\"extra_form_data\":{},\"dashboards\":[5],\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          }
+        ]
+      },
+      "3d5f5431-f71d-5006-87f5-96bedbd8ed5b": {
+        "name": "Reporting period",
+        "status": "removed",
+        "changes": [
+          {
+            "path": "",
+            "before": {
+              "slice_name": "Reporting period",
+              "description": "Applied start and exclusive end, with the selected grouping.",
+              "certified_by": null,
+              "certification_details": null,
+              "viz_type": "table",
+              "params": {
+                "datasource": "25__table",
+                "slice_id": 127,
+                "viz_type": "table",
+                "query_mode": "raw",
+                "all_columns": [
+                  "Start",
+                  "End (exclusive)",
+                  "Group by",
+                  "Status"
+                ],
+                "groupby": [
+
+                ],
+                "metrics": [
+
+                ],
+                "adhoc_filters": [
+
+                ],
+                "order_by_cols": [
+
+                ],
+                "row_limit": 2,
+                "server_pagination": false,
+                "include_search": false,
+                "show_totals": false,
+                "show_cell_bars": false,
+                "time_grain_sqla": "P1M",
+                "column_config": {
+                  "Start": {
+                    "columnWidth": 150
+                  },
+                  "End (exclusive)": {
+                    "columnWidth": 150
+                  },
+                  "Group by": {
+                    "columnWidth": 90
+                  },
+                  "Status": {
+                    "columnWidth": 420,
+                    "truncateLongCells": false
+                  }
+                },
+                "extra_form_data": {
+                },
+                "dashboards": [
+                  5
+                ],
+                "annotation_layers": [
+
+                ]
+              },
+              "query_context": null,
+              "cache_timeout": null,
+              "uuid": "3d5f5431-f71d-5006-87f5-96bedbd8ed5b",
+              "version": "1.0.0",
+              "dataset_uuid": "c851c8be-f300-50b8-8bf7-1c51e1ab27c2"
+            },
+            "after": null
+          }
+        ]
+      },
+      "43867e5a-dbd6-5aff-8fe1-1f3fe46f3d05": {
+        "name": "Inappropriate UTI diagnosis (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "57a9d31c-ac59-586d-8d59-2fddb7695d6a": {
+        "name": "ASB treatment rate (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "68a633b2-8a21-5a24-8040-626c77c3ece4": {
+        "name": "Inappropriate UTI+ASPN diagnosis (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "7e348110-f723-51e8-8431-b5c5e1e38cf1": {
+        "name": "Positive UA (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "a84edca7-724f-530c-8ecf-b09456519b70": {
+        "name": "Latest Urine Culture Submission",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/description",
+            "before": "Latest reporting month with urine culture submissions inside the selected Time Period for the selected hospital/state and collection location. This is an observation month, not an upload timestamp.",
+            "after": "Latest month with urine culture submissions, based on the selected time period, hospital or state, and collection location."
+          },
+          {
+            "path": "/params/annotation_layers",
+            "before": [
+
+            ],
+            "after": null
+          },
+          {
+            "path": "/params/subtitle",
+            "before": "Observation month within selected period",
+            "after": "for the selected time period, hospital or state, and collection location."
+          },
+          {
+            "path": "/params/time_format",
+            "before": "%b %Y",
+            "after": "%b %d %Y"
+          },
+          {
+            "path": "/params/time_grain_sqla",
+            "before": "P1M",
+            "after": null
+          },
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":14,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[{\"col\":\"month_date\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"extras\":{\"having\":\"\",\"where\":\"\"},\"applied_time_extras\":{},\"columns\":[],\"metrics\":[{\"expressionType\":\"SQL\",\"hasCustomLabel\":true,\"label\":\"Latest reporting month in selected period\",\"sqlExpression\":\"MAX(CASE WHEN ucsub > 0 THEN month_date END)\"}],\"annotation_layers\":[],\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{}}],\"form_data\":{\"datasource\":\"14__table\",\"viz_type\":\"big_number_total\",\"slice_id\":91,\"matrixify_enable\":false,\"matrixify_mode_columns\":\"disabled\",\"matrixify_dimension_selection_mode_columns\":\"members\",\"matrixify_dimension_columns\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_columns\":10,\"matrixify_all_sort_by_columns\":\"a_to_z\",\"matrixify_topn_order_columns\":true,\"matrixify_show_column_headers\":true,\"matrixify_fit_columns_dynamically\":true,\"matrixify_mode_rows\":\"disabled\",\"matrixify_dimension_selection_mode_rows\":\"members\",\"matrixify_dimension_rows\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_rows\":10,\"matrixify_all_sort_by_rows\":\"a_to_z\",\"matrixify_topn_order_rows\":true,\"matrixify_show_row_labels\":true,\"matrixify_row_height\":300,\"matrixify_charts_per_row\":4,\"matrixify_cell_title_template\":\"\",\"metric\":{\"expressionType\":\"SQL\",\"hasCustomLabel\":true,\"label\":\"Latest reporting month in selected period\",\"sqlExpression\":\"MAX(CASE WHEN ucsub > 0 THEN month_date END)\"},\"adhoc_filters\":[{\"clause\":\"WHERE\",\"comparator\":\"No filter\",\"expressionType\":\"SIMPLE\",\"operator\":\"TEMPORAL_RANGE\",\"subject\":\"month_date\"}],\"header_font_size\":0.7,\"subtitle\":\"for the selected time period, hospital or state, and collection location.\",\"subtitle_font_size\":0.2,\"show_metric_name\":false,\"metric_name_font_size\":0.15,\"y_axis_format\":\"SMART_NUMBER\",\"time_format\":\"%b %d %Y\",\"force_timestamp_formatting\":true,\"conditional_formatting\":[],\"extra_form_data\":{},\"dashboards\":[5],\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          },
+          {
+            "path": "/slice_name",
+            "before": "Latest reporting month in selected period",
+            "after": "Latest Urine Culture Submission"
+          }
+        ]
+      },
+      "ab8821f3-672c-5311-8cc3-f65654fc0c4f": {
+        "name": "Abx duration (cohort/state stacked) - Ind",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/params/adhoc_filters",
+            "before": [
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_rcvi91ewhb_1kfj0nbxpir",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              },
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_a4hkc98p6ip_5y5zz08wzby",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code !~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              }
+            ],
+            "after": [
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_a4hkc98p6ip_5y5zz08wzby",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code !~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_rcvi91ewhb_1kfj0nbxpir",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              }
+            ]
+          },
+          {
+            "path": "/params/color_by_primary_axis",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/echart_options",
+            "before": null,
+            "after": "{}"
+          },
+          {
+            "path": "/params/force_max_interval",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/granularity_sqla",
+            "before": "month_date",
+            "after": null
+          },
+          {
+            "path": "/params/group_others_when_limit_reached",
+            "before": false,
+            "after": null
+          },
+          {
+            "path": "/params/legendOrientation",
+            "before": "top",
+            "after": "left"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_columns",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_rows",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_cell_title_template",
+            "before": null,
+            "after": ""
+          },
+          {
+            "path": "/params/matrixify_charts_per_row",
+            "before": null,
+            "after": 4
+          },
+          {
+            "path": "/params/matrixify_dimension_columns",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_rows",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_columns",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_rows",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_enable",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/matrixify_fit_columns_dynamically",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_mode_columns",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_mode_rows",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_row_height",
+            "before": null,
+            "after": 300
+          },
+          {
+            "path": "/params/matrixify_show_column_headers",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_show_row_labels",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_columns",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_rows",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_value_columns",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/matrixify_topn_value_rows",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/only_total",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/order_desc",
+            "before": false,
+            "after": null
+          },
+          {
+            "path": "/params/percentage_threshold",
+            "before": 0,
+            "after": null
+          },
+          {
+            "path": "/params/time_grain_sqla",
+            "before": "P1M",
+            "after": null
+          },
+          {
+            "path": "/params/time_shift_color",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/tooltipTimeFormat",
+            "before": null,
+            "after": "smart_date"
+          },
+          {
+            "path": "/params/xAxisForceCategorical",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/x_axis_number_format",
+            "before": null,
+            "after": "~g"
+          },
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":14,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[{\"col\":\"month_date\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"extras\":{\"having\":\"\",\"where\":\"(hosp_code !~ '^[0-9]+([.][0-9]+)?$')\"},\"applied_time_extras\":{},\"columns\":[{\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"period_label\",\"label\":\"period_label\",\"expressionType\":\"SQL\",\"isColumnReference\":true},\"hosp_code\"],\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135563\",\"column_name\":\"dur_cat_1\",\"created_on\":\"2026-03-17T18:08:24.018584\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":425,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"90a2fcea-950e-4332-a919-f2d4f6caf159\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\"<=3 days\",\"optionName\":\"metric_h0449g4972c_4afw3hujrn5\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135571\",\"column_name\":\"dur_cat_2\",\"created_on\":\"2026-03-17T18:08:24.018604\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":426,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"69af81c4-a7e7-4fa2-9caf-ca5f7d91ac40\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">3 to 5 days\",\"optionName\":\"metric_w0rgycznrei_mf4pmy8sshr\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135578\",\"column_name\":\"dur_cat_3\",\"created_on\":\"2026-03-17T18:08:24.018623\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":427,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"b13cc836-71ef-4edd-9c2b-a30877a1370f\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">5 to 7 days\",\"optionName\":\"metric_qwkadevajt_xpce46lxc1\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135585\",\"column_name\":\"dur_cat_4\",\"created_on\":\"2026-03-17T18:08:24.018642\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":428,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"5e098d80-8b2a-4825-9c4f-85b6f5652bc1\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">7 days\",\"optionName\":\"metric_0duxilczpm2g_5n2if7v5pi4\",\"sqlExpression\":null}],\"orderby\":[[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135563\",\"column_name\":\"dur_cat_1\",\"created_on\":\"2026-03-17T18:08:24.018584\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":425,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"90a2fcea-950e-4332-a919-f2d4f6caf159\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\"<=3 days\",\"optionName\":\"metric_h0449g4972c_4afw3hujrn5\",\"sqlExpression\":null},false]],\"annotation_layers\":[],\"row_limit\":1000,\"series_columns\":[\"hosp_code\"],\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"time_offsets\":[],\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"period_label\"],\"columns\":[\"hosp_code\"],\"aggregates\":{\"<=3 days\":{\"operator\":\"mean\"},\">3 to 5 days\":{\"operator\":\"mean\"},\">5 to 7 days\":{\"operator\":\"mean\"},\">7 days\":{\"operator\":\"mean\"}},\"drop_missing_columns\":false}},{\"operation\":\"flatten\"}]}],\"form_data\":{\"datasource\":\"14__table\",\"viz_type\":\"echarts_timeseries_bar\",\"slice_id\":87,\"matrixify_enable\":false,\"matrixify_mode_columns\":\"disabled\",\"matrixify_dimension_selection_mode_columns\":\"members\",\"matrixify_dimension_columns\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_columns\":10,\"matrixify_all_sort_by_columns\":\"a_to_z\",\"matrixify_topn_order_columns\":true,\"matrixify_show_column_headers\":true,\"matrixify_fit_columns_dynamically\":true,\"matrixify_mode_rows\":\"disabled\",\"matrixify_dimension_selection_mode_rows\":\"members\",\"matrixify_dimension_rows\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_rows\":10,\"matrixify_all_sort_by_rows\":\"a_to_z\",\"matrixify_topn_order_rows\":true,\"matrixify_show_row_labels\":true,\"matrixify_row_height\":300,\"matrixify_charts_per_row\":4,\"matrixify_cell_title_template\":\"\",\"x_axis\":\"period_label\",\"x_axis_sort\":\"name\",\"x_axis_sort_asc\":true,\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135563\",\"column_name\":\"dur_cat_1\",\"created_on\":\"2026-03-17T18:08:24.018584\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":425,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"90a2fcea-950e-4332-a919-f2d4f6caf159\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\"<=3 days\",\"optionName\":\"metric_h0449g4972c_4afw3hujrn5\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135571\",\"column_name\":\"dur_cat_2\",\"created_on\":\"2026-03-17T18:08:24.018604\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":426,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"69af81c4-a7e7-4fa2-9caf-ca5f7d91ac40\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">3 to 5 days\",\"optionName\":\"metric_w0rgycznrei_mf4pmy8sshr\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135578\",\"column_name\":\"dur_cat_3\",\"created_on\":\"2026-03-17T18:08:24.018623\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":427,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"b13cc836-71ef-4edd-9c2b-a30877a1370f\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">5 to 7 days\",\"optionName\":\"metric_qwkadevajt_xpce46lxc1\",\"sqlExpression\":null},{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T18:08:24.135585\",\"column_name\":\"dur_cat_4\",\"created_on\":\"2026-03-17T18:08:24.018642\",\"description\":null,\"expression\":\"\",\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":428,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"5e098d80-8b2a-4825-9c4f-85b6f5652bc1\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"label\":\">7 days\",\"optionName\":\"metric_0duxilczpm2g_5n2if7v5pi4\",\"sqlExpression\":null}],\"groupby\":[\"hosp_code\"],\"adhoc_filters\":[{\"clause\":\"WHERE\",\"comparator\":null,\"datasourceWarning\":false,\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_a4hkc98p6ip_5y5zz08wzby\",\"isExtra\":false,\"isNew\":false,\"operator\":null,\"operatorId\":null,\"sqlExpression\":\"hosp_code !~ '^[0-9]+([.][0-9]+)?$'\",\"subject\":null},{\"clause\":\"WHERE\",\"comparator\":\"No filter\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_rcvi91ewhb_1kfj0nbxpir\",\"isExtra\":false,\"isNew\":false,\"operator\":\"TEMPORAL_RANGE\",\"sqlExpression\":null,\"subject\":\"month_date\"}],\"row_limit\":1000,\"truncate_metric\":true,\"show_empty_columns\":true,\"comparison_type\":\"values\",\"annotation_layers\":[],\"forecastEnabled\":false,\"forecastPeriods\":10,\"forecastInterval\":0.8,\"orientation\":\"vertical\",\"x_axis_title\":\"Time\",\"x_axis_title_margin\":60,\"y_axis_title\":\"Number of treated patients\",\"y_axis_title_margin\":30,\"y_axis_title_position\":\"Left\",\"sort_series_type\":\"name\",\"sort_series_ascending\":true,\"color_scheme\":\"presetColors\",\"show_value\":false,\"stack\":\"Stack\",\"color_by_primary_axis\":false,\"minorTicks\":false,\"zoomable\":false,\"show_legend\":true,\"legendType\":\"scroll\",\"legendOrientation\":\"left\",\"x_axis_time_format\":\"smart_date\",\"x_axis_number_format\":\"~g\",\"xAxisLabelRotation\":90,\"xAxisLabelInterval\":0,\"y_axis_format\":\"SMART_NUMBER\",\"logAxis\":false,\"minorSplitLine\":false,\"truncateYAxis\":false,\"y_axis_bounds\":[null,null],\"truncateXAxis\":true,\"force_max_interval\":false,\"rich_tooltip\":true,\"showTooltipTotal\":true,\"showTooltipPercentage\":true,\"tooltipSortByMetric\":false,\"tooltipTimeFormat\":\"smart_date\",\"echart_options\":\"{}\",\"extra_form_data\":{},\"dashboards\":[5],\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          }
+        ]
+      },
+      "ad4f4401-1091-517f-8f70-9a7ce3fdf3dd": {
+        "name": "ASB prevalence (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "b6a02175-22de-5077-841b-f676feb49b23": {
+        "name": "Abx duration (latest comparison) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "befda14b-f0e5-5d7b-8c43-5a43900ea7ff": {
+        "name": "Inappropriate UTI diagnosis (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "da9dde72-7eb7-5a69-85af-59287009d774": {
+        "name": "Inappropriate UTI diagnosis (latest month comparison) - Ind",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":16,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[],\"extras\":{\"having\":\"\",\"where\":\"({{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$')\"},\"applied_time_extras\":{},\"columns\":[\"hosp_code\",\"Month\",\"Your Hospital\",\"Comparison\",\"Cohort\",\"Your State\",\"State\"],\"metrics\":[],\"orderby\":[],\"annotation_layers\":[],\"row_limit\":1000,\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"post_processing\":[],\"time_offsets\":[]}],\"form_data\":{\"adhoc_filters\":[{\"clause\":\"WHERE\",\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_csim_selected_hospital\",\"isExtra\":false,\"sqlExpression\":\"{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'\"}],\"align_pn\":true,\"all_columns\":[],\"allow_rearrange_columns\":true,\"allow_render_html\":true,\"annotation_layers\":[],\"color_pn\":false,\"column_config\":{\"Cohort\":{\"d3NumberFormat\":\",.0%\"},\"Your Hospital\":{\"d3NumberFormat\":\",.0%\"},\"Your State\":{\"d3NumberFormat\":\",.0%\"},\"hosp_code\":{\"columnWidth\":null,\"truncateLongCells\":false}},\"comparison_color_enabled\":false,\"comparison_color_scheme\":\"Green\",\"comparison_type\":\"values\",\"conditional_formatting\":[],\"dashboards\":[5],\"datasource\":\"16__table\",\"extra_form_data\":{},\"groupby\":[\"hosp_code\",\"Month\",\"Your Hospital\",\"Comparison\",\"Cohort\",\"Your State\",\"State\"],\"include_search\":false,\"order_by_cols\":[],\"percent_metric_calculation\":\"row_limit\",\"percent_metrics\":[],\"query_mode\":\"aggregate\",\"row_limit\":1000,\"server_page_length\":10,\"server_pagination\":false,\"show_cell_bars\":false,\"show_totals\":false,\"slice_id\":94,\"table_timestamp_format\":\"smart_date\",\"temporal_columns_lookup\":{},\"viz_type\":\"table\",\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          }
+        ]
+      },
+      "dc5f7e14-478d-52f0-81c4-e3fdae99bbf7": {
+        "name": "Volume of UC submissions (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "dedb1e5e-2572-545c-8653-8e362c3c7a89": {
+        "name": "UC location (own hospital stacked) - Ind",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/params/adhoc_filters",
+            "before": [
+              {
+                "expressionType": "SIMPLE",
+                "subject": "month_date",
+                "operator": "TEMPORAL_RANGE",
+                "comparator": "No filter",
+                "clause": "WHERE",
+                "sqlExpression": null,
+                "isExtra": false,
+                "isNew": false,
+                "datasourceWarning": false,
+                "filterOptionName": "filter_zfv2t0s1mhk_iw1h12synne"
+              },
+              {
+                "expressionType": "SQL",
+                "subject": null,
+                "operator": null,
+                "operatorId": null,
+                "comparator": null,
+                "clause": "WHERE",
+                "sqlExpression": "hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "isExtra": false,
+                "isNew": false,
+                "datasourceWarning": false,
+                "filterOptionName": "filter_hc6rnzambzm_mz2zj90u4b"
+              },
+              {
+                "expressionType": "SIMPLE",
+                "subject": "location_name",
+                "operator": "!=",
+                "operatorId": "NOT_EQUALS",
+                "comparator": "All locations",
+                "clause": "WHERE",
+                "sqlExpression": null,
+                "isExtra": false,
+                "isNew": false,
+                "datasourceWarning": false,
+                "filterOptionName": "filter_bvqfaw8sfm_plz4ze4eoi9"
+              },
+              {
+                "expressionType": "SQL",
+                "sqlExpression": "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "clause": "WHERE",
+                "isExtra": false,
+                "filterOptionName": "filter_csim_selected_hospital"
+              }
+            ],
+            "after": [
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_hc6rnzambzm_mz2zj90u4b",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "All locations",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_bvqfaw8sfm_plz4ze4eoi9",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "!=",
+                "operatorId": "NOT_EQUALS",
+                "sqlExpression": null,
+                "subject": "location_name"
+              },
+              {
+                "clause": "WHERE",
+                "expressionType": "SQL",
+                "filterOptionName": "filter_csim_selected_hospital",
+                "isExtra": false,
+                "sqlExpression": "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'"
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_zfv2t0s1mhk_iw1h12synne",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              }
+            ]
+          },
+          {
+            "path": "/params/color_by_primary_axis",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/echart_options",
+            "before": null,
+            "after": "{}"
+          },
+          {
+            "path": "/params/force_max_interval",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/granularity_sqla",
+            "before": "month_date",
+            "after": null
+          },
+          {
+            "path": "/params/group_others_when_limit_reached",
+            "before": false,
+            "after": null
+          },
+          {
+            "path": "/params/legendOrientation",
+            "before": "top",
+            "after": "left"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_columns",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_rows",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_cell_title_template",
+            "before": null,
+            "after": ""
+          },
+          {
+            "path": "/params/matrixify_charts_per_row",
+            "before": null,
+            "after": 4
+          },
+          {
+            "path": "/params/matrixify_dimension_columns",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_rows",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_columns",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_rows",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_enable",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/matrixify_fit_columns_dynamically",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_mode_columns",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_mode_rows",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_row_height",
+            "before": null,
+            "after": 300
+          },
+          {
+            "path": "/params/matrixify_show_column_headers",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_show_row_labels",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_columns",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_rows",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_value_columns",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/matrixify_topn_value_rows",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/only_total",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/order_desc",
+            "before": false,
+            "after": null
+          },
+          {
+            "path": "/params/percentage_threshold",
+            "before": 0,
+            "after": null
+          },
+          {
+            "path": "/params/time_grain_sqla",
+            "before": "P1M",
+            "after": null
+          },
+          {
+            "path": "/params/time_shift_color",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/tooltipTimeFormat",
+            "before": null,
+            "after": "smart_date"
+          },
+          {
+            "path": "/params/xAxisForceCategorical",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/x_axis_number_format",
+            "before": null,
+            "after": "~g"
+          },
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":17,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[{\"col\":\"location_name\",\"op\":\"!=\",\"val\":\"All locations\"},{\"col\":\"month_date\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"extras\":{\"having\":\"\",\"where\":\"(hosp_code ~ '^[0-9]+([.][0-9]+)?$') AND ({{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$')\"},\"applied_time_extras\":{},\"columns\":[{\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"period_label\",\"label\":\"period_label\",\"expressionType\":\"SQL\",\"isColumnReference\":true},\"hosp_code\",\"location_name\"],\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T22:03:46.758844\",\"column_name\":\"n_submissions\",\"created_on\":\"2026-03-17T22:03:46.758840\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":451,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"column\",\"type_generic\":0,\"uuid\":\"df220a59-92c4-4a29-925c-22cd0d9d18cc\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(n_submissions)\",\"optionName\":\"metric_72yke0nil7n_ex37wdlbwo\",\"sqlExpression\":null}],\"orderby\":[[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T22:03:46.758844\",\"column_name\":\"n_submissions\",\"created_on\":\"2026-03-17T22:03:46.758840\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":451,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"column\",\"type_generic\":0,\"uuid\":\"df220a59-92c4-4a29-925c-22cd0d9d18cc\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(n_submissions)\",\"optionName\":\"metric_72yke0nil7n_ex37wdlbwo\",\"sqlExpression\":null},false]],\"annotation_layers\":[],\"row_limit\":1000,\"series_columns\":[\"hosp_code\",\"location_name\"],\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"time_offsets\":[],\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"period_label\"],\"columns\":[\"hosp_code\",\"location_name\"],\"aggregates\":{\"SUM(n_submissions)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":false}},{\"operation\":\"rename\",\"options\":{\"columns\":{\"SUM(n_submissions)\":null},\"level\":0,\"inplace\":true}},{\"operation\":\"flatten\"}]}],\"form_data\":{\"datasource\":\"17__table\",\"viz_type\":\"echarts_timeseries_bar\",\"slice_id\":102,\"matrixify_enable\":false,\"matrixify_mode_columns\":\"disabled\",\"matrixify_dimension_selection_mode_columns\":\"members\",\"matrixify_dimension_columns\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_columns\":10,\"matrixify_all_sort_by_columns\":\"a_to_z\",\"matrixify_topn_order_columns\":true,\"matrixify_show_column_headers\":true,\"matrixify_fit_columns_dynamically\":true,\"matrixify_mode_rows\":\"disabled\",\"matrixify_dimension_selection_mode_rows\":\"members\",\"matrixify_dimension_rows\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_rows\":10,\"matrixify_all_sort_by_rows\":\"a_to_z\",\"matrixify_topn_order_rows\":true,\"matrixify_show_row_labels\":true,\"matrixify_row_height\":300,\"matrixify_charts_per_row\":4,\"matrixify_cell_title_template\":\"\",\"x_axis\":\"period_label\",\"x_axis_sort\":\"name\",\"x_axis_sort_asc\":true,\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T22:03:46.758844\",\"column_name\":\"n_submissions\",\"created_on\":\"2026-03-17T22:03:46.758840\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":451,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"column\",\"type_generic\":0,\"uuid\":\"df220a59-92c4-4a29-925c-22cd0d9d18cc\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(n_submissions)\",\"optionName\":\"metric_72yke0nil7n_ex37wdlbwo\",\"sqlExpression\":null}],\"groupby\":[\"hosp_code\",\"location_name\"],\"adhoc_filters\":[{\"clause\":\"WHERE\",\"comparator\":null,\"datasourceWarning\":false,\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_hc6rnzambzm_mz2zj90u4b\",\"isExtra\":false,\"isNew\":false,\"operator\":null,\"operatorId\":null,\"sqlExpression\":\"hosp_code ~ '^[0-9]+([.][0-9]+)?$'\",\"subject\":null},{\"clause\":\"WHERE\",\"comparator\":\"All locations\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_bvqfaw8sfm_plz4ze4eoi9\",\"isExtra\":false,\"isNew\":false,\"operator\":\"!=\",\"operatorId\":\"NOT_EQUALS\",\"sqlExpression\":null,\"subject\":\"location_name\"},{\"clause\":\"WHERE\",\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_csim_selected_hospital\",\"isExtra\":false,\"sqlExpression\":\"{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'\"},{\"clause\":\"WHERE\",\"comparator\":\"No filter\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_zfv2t0s1mhk_iw1h12synne\",\"isExtra\":false,\"isNew\":false,\"operator\":\"TEMPORAL_RANGE\",\"sqlExpression\":null,\"subject\":\"month_date\"}],\"row_limit\":1000,\"truncate_metric\":true,\"show_empty_columns\":true,\"comparison_type\":\"values\",\"annotation_layers\":[],\"forecastEnabled\":false,\"forecastPeriods\":10,\"forecastInterval\":0.8,\"orientation\":\"vertical\",\"x_axis_title\":\"Time\",\"x_axis_title_margin\":60,\"y_axis_title\":\"Number of urine cultures\",\"y_axis_title_margin\":30,\"y_axis_title_position\":\"Left\",\"sort_series_type\":\"name\",\"sort_series_ascending\":true,\"color_scheme\":\"echarts5Colors\",\"show_value\":false,\"stack\":\"Stack\",\"color_by_primary_axis\":false,\"minorTicks\":false,\"zoomable\":false,\"show_legend\":true,\"legendType\":\"scroll\",\"legendOrientation\":\"left\",\"x_axis_time_format\":\"smart_date\",\"x_axis_number_format\":\"~g\",\"xAxisLabelRotation\":90,\"xAxisLabelInterval\":0,\"y_axis_format\":\"SMART_NUMBER\",\"logAxis\":false,\"minorSplitLine\":false,\"truncateYAxis\":false,\"y_axis_bounds\":[null,null],\"truncateXAxis\":false,\"force_max_interval\":false,\"rich_tooltip\":true,\"showTooltipTotal\":true,\"showTooltipPercentage\":true,\"tooltipSortByMetric\":false,\"tooltipTimeFormat\":\"smart_date\",\"echart_options\":\"{}\",\"extra_form_data\":{},\"dashboards\":[5],\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          }
+        ]
+      },
+      "dfe7d37a-5f11-55e4-806e-9931ea22d182": {
+        "name": "Top abx (cohort/state stacked) - Ind",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/params/adhoc_filters",
+            "before": [
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_avjsvcyz5ev_mbvv8t2ibcn",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              },
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_939gsretjvr_4jfib78kdpr",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code !~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              }
+            ],
+            "after": [
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_939gsretjvr_4jfib78kdpr",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code !~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_avjsvcyz5ev_mbvv8t2ibcn",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              }
+            ]
+          },
+          {
+            "path": "/params/color_by_primary_axis",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/echart_options",
+            "before": null,
+            "after": "{}"
+          },
+          {
+            "path": "/params/force_max_interval",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/granularity_sqla",
+            "before": "month_date",
+            "after": null
+          },
+          {
+            "path": "/params/group_others_when_limit_reached",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/legendOrientation",
+            "before": "top",
+            "after": "left"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_columns",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_rows",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_cell_title_template",
+            "before": null,
+            "after": ""
+          },
+          {
+            "path": "/params/matrixify_charts_per_row",
+            "before": null,
+            "after": 4
+          },
+          {
+            "path": "/params/matrixify_dimension_columns",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_rows",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_columns",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_rows",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_enable",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/matrixify_fit_columns_dynamically",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_mode_columns",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_mode_rows",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_row_height",
+            "before": null,
+            "after": 300
+          },
+          {
+            "path": "/params/matrixify_show_column_headers",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_show_row_labels",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_columns",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_rows",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_value_columns",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/matrixify_topn_value_rows",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/only_total",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/order_desc",
+            "before": false,
+            "after": null
+          },
+          {
+            "path": "/params/percentage_threshold",
+            "before": 0,
+            "after": null
+          },
+          {
+            "path": "/params/time_grain_sqla",
+            "before": "P1M",
+            "after": null
+          },
+          {
+            "path": "/params/time_shift_color",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/tooltipTimeFormat",
+            "before": null,
+            "after": "smart_date"
+          },
+          {
+            "path": "/params/xAxisForceCategorical",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/x_axis_number_format",
+            "before": null,
+            "after": "~g"
+          },
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":18,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[{\"col\":\"month_date\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"extras\":{\"having\":\"\",\"where\":\"(hosp_code !~ '^[0-9]+([.][0-9]+)?$')\"},\"applied_time_extras\":{},\"columns\":[{\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"period_label\",\"label\":\"period_label\",\"expressionType\":\"SQL\",\"isColumnReference\":true},\"hosp_code\",\"antibiotic_name\"],\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T21:38:24.742162\",\"column_name\":\"prescription_count\",\"created_on\":\"2026-03-17T21:38:24.742158\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":443,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"d5a8e533-c248-450c-8a86-f3ececa132ac\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(prescription_count)\",\"optionName\":\"metric_de9d1m0ppu5_1tntxynvzrr\",\"sqlExpression\":null}],\"orderby\":[[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T21:38:24.742162\",\"column_name\":\"prescription_count\",\"created_on\":\"2026-03-17T21:38:24.742158\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":443,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"d5a8e533-c248-450c-8a86-f3ececa132ac\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(prescription_count)\",\"optionName\":\"metric_de9d1m0ppu5_1tntxynvzrr\",\"sqlExpression\":null},false]],\"annotation_layers\":[],\"row_limit\":1000,\"series_columns\":[\"hosp_code\",\"antibiotic_name\"],\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"time_offsets\":[],\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"period_label\"],\"columns\":[\"hosp_code\",\"antibiotic_name\"],\"aggregates\":{\"SUM(prescription_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":false}},{\"operation\":\"rename\",\"options\":{\"columns\":{\"SUM(prescription_count)\":null},\"level\":0,\"inplace\":true}},{\"operation\":\"flatten\"}]}],\"form_data\":{\"datasource\":\"18__table\",\"viz_type\":\"echarts_timeseries_bar\",\"slice_id\":99,\"matrixify_enable\":false,\"matrixify_mode_columns\":\"disabled\",\"matrixify_dimension_selection_mode_columns\":\"members\",\"matrixify_dimension_columns\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_columns\":10,\"matrixify_all_sort_by_columns\":\"a_to_z\",\"matrixify_topn_order_columns\":true,\"matrixify_show_column_headers\":true,\"matrixify_fit_columns_dynamically\":true,\"matrixify_mode_rows\":\"disabled\",\"matrixify_dimension_selection_mode_rows\":\"members\",\"matrixify_dimension_rows\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_rows\":10,\"matrixify_all_sort_by_rows\":\"a_to_z\",\"matrixify_topn_order_rows\":true,\"matrixify_show_row_labels\":true,\"matrixify_row_height\":300,\"matrixify_charts_per_row\":4,\"matrixify_cell_title_template\":\"\",\"x_axis\":\"period_label\",\"x_axis_sort\":\"name\",\"x_axis_sort_asc\":true,\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T21:38:24.742162\",\"column_name\":\"prescription_count\",\"created_on\":\"2026-03-17T21:38:24.742158\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":443,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"d5a8e533-c248-450c-8a86-f3ececa132ac\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(prescription_count)\",\"optionName\":\"metric_de9d1m0ppu5_1tntxynvzrr\",\"sqlExpression\":null}],\"groupby\":[\"hosp_code\",\"antibiotic_name\"],\"adhoc_filters\":[{\"clause\":\"WHERE\",\"comparator\":null,\"datasourceWarning\":false,\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_939gsretjvr_4jfib78kdpr\",\"isExtra\":false,\"isNew\":false,\"operator\":null,\"operatorId\":null,\"sqlExpression\":\"hosp_code !~ '^[0-9]+([.][0-9]+)?$'\",\"subject\":null},{\"clause\":\"WHERE\",\"comparator\":\"No filter\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_avjsvcyz5ev_mbvv8t2ibcn\",\"isExtra\":false,\"isNew\":false,\"operator\":\"TEMPORAL_RANGE\",\"sqlExpression\":null,\"subject\":\"month_date\"}],\"group_others_when_limit_reached\":false,\"row_limit\":1000,\"truncate_metric\":true,\"show_empty_columns\":true,\"comparison_type\":\"values\",\"annotation_layers\":[],\"forecastEnabled\":false,\"forecastPeriods\":10,\"forecastInterval\":0.8,\"orientation\":\"vertical\",\"x_axis_title\":\"Time\",\"x_axis_title_margin\":60,\"y_axis_title\":\"Number of antibiotic prescriptions\",\"y_axis_title_margin\":30,\"y_axis_title_position\":\"Left\",\"sort_series_type\":\"sum\",\"sort_series_ascending\":false,\"color_scheme\":\"googleCategory20c\",\"show_value\":false,\"stack\":\"Stack\",\"color_by_primary_axis\":false,\"minorTicks\":false,\"zoomable\":false,\"show_legend\":true,\"legendType\":\"scroll\",\"legendOrientation\":\"left\",\"legendMargin\":\"\",\"x_axis_time_format\":\"smart_date\",\"x_axis_number_format\":\"~g\",\"xAxisLabelRotation\":90,\"xAxisLabelInterval\":0,\"y_axis_format\":\"SMART_NUMBER\",\"logAxis\":false,\"minorSplitLine\":false,\"truncateYAxis\":false,\"y_axis_bounds\":[null,null],\"truncateXAxis\":false,\"force_max_interval\":false,\"rich_tooltip\":true,\"showTooltipTotal\":true,\"showTooltipPercentage\":true,\"tooltipSortByMetric\":false,\"tooltipTimeFormat\":\"smart_date\",\"echart_options\":\"{}\",\"extra_form_data\":{},\"dashboards\":[5],\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          }
+        ]
+      },
+      "e94b0ba9-50a1-5fee-8cca-fa3652f40f2c": {
+        "name": "Inappropriate UTI+ASPN diagnosis (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "ec108725-dcda-5aa8-857b-4cd321cf4dc6": {
+        "name": "Top abx (own hospital stacked) - Ind",
+        "status": "retained",
+        "changes": [
+          {
+            "path": "/params/adhoc_filters",
+            "before": [
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_uzy7dlp54pb_ivn01kvt4d",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_hqam1ijiw1u_0tcxdxx3z0jd",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              },
+              {
+                "expressionType": "SQL",
+                "sqlExpression": "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "clause": "WHERE",
+                "isExtra": false,
+                "filterOptionName": "filter_csim_selected_hospital"
+              }
+            ],
+            "after": [
+              {
+                "clause": "WHERE",
+                "comparator": null,
+                "datasourceWarning": false,
+                "expressionType": "SQL",
+                "filterOptionName": "filter_uzy7dlp54pb_ivn01kvt4d",
+                "isExtra": false,
+                "isNew": false,
+                "operator": null,
+                "operatorId": null,
+                "sqlExpression": "hosp_code ~ '^[0-9]+([.][0-9]+)?$'",
+                "subject": null
+              },
+              {
+                "clause": "WHERE",
+                "expressionType": "SQL",
+                "filterOptionName": "filter_csim_selected_hospital",
+                "isExtra": false,
+                "sqlExpression": "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'"
+              },
+              {
+                "clause": "WHERE",
+                "comparator": "No filter",
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "filterOptionName": "filter_hqam1ijiw1u_0tcxdxx3z0jd",
+                "isExtra": false,
+                "isNew": false,
+                "operator": "TEMPORAL_RANGE",
+                "sqlExpression": null,
+                "subject": "month_date"
+              }
+            ]
+          },
+          {
+            "path": "/params/color_by_primary_axis",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/echart_options",
+            "before": null,
+            "after": "{}"
+          },
+          {
+            "path": "/params/force_max_interval",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/granularity_sqla",
+            "before": "month_date",
+            "after": null
+          },
+          {
+            "path": "/params/group_others_when_limit_reached",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/legendOrientation",
+            "before": "top",
+            "after": "left"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_columns",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_all_sort_by_rows",
+            "before": null,
+            "after": "a_to_z"
+          },
+          {
+            "path": "/params/matrixify_cell_title_template",
+            "before": null,
+            "after": ""
+          },
+          {
+            "path": "/params/matrixify_charts_per_row",
+            "before": null,
+            "after": 4
+          },
+          {
+            "path": "/params/matrixify_dimension_columns",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_rows",
+            "before": null,
+            "after": {
+              "dimension": "",
+              "values": [
+
+              ]
+            }
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_columns",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_dimension_selection_mode_rows",
+            "before": null,
+            "after": "members"
+          },
+          {
+            "path": "/params/matrixify_enable",
+            "before": null,
+            "after": false
+          },
+          {
+            "path": "/params/matrixify_fit_columns_dynamically",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_mode_columns",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_mode_rows",
+            "before": null,
+            "after": "disabled"
+          },
+          {
+            "path": "/params/matrixify_row_height",
+            "before": null,
+            "after": 300
+          },
+          {
+            "path": "/params/matrixify_show_column_headers",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_show_row_labels",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_columns",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_order_rows",
+            "before": null,
+            "after": true
+          },
+          {
+            "path": "/params/matrixify_topn_value_columns",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/matrixify_topn_value_rows",
+            "before": null,
+            "after": 10
+          },
+          {
+            "path": "/params/only_total",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/order_desc",
+            "before": false,
+            "after": null
+          },
+          {
+            "path": "/params/percentage_threshold",
+            "before": 0,
+            "after": null
+          },
+          {
+            "path": "/params/time_grain_sqla",
+            "before": "P1M",
+            "after": null
+          },
+          {
+            "path": "/params/time_shift_color",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/tooltipTimeFormat",
+            "before": null,
+            "after": "smart_date"
+          },
+          {
+            "path": "/params/xAxisForceCategorical",
+            "before": true,
+            "after": null
+          },
+          {
+            "path": "/params/x_axis_number_format",
+            "before": null,
+            "after": "~g"
+          },
+          {
+            "path": "/query_context",
+            "before": null,
+            "after": "{\"datasource\":{\"id\":18,\"type\":\"table\"},\"force\":false,\"queries\":[{\"filters\":[{\"col\":\"month_date\",\"op\":\"TEMPORAL_RANGE\",\"val\":\"No filter\"}],\"extras\":{\"having\":\"\",\"where\":\"(hosp_code ~ '^[0-9]+([.][0-9]+)?$') AND ({{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$')\"},\"applied_time_extras\":{},\"columns\":[{\"columnType\":\"BASE_AXIS\",\"sqlExpression\":\"period_label\",\"label\":\"period_label\",\"expressionType\":\"SQL\",\"isColumnReference\":true},\"hosp_code\",\"antibiotic_name\"],\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T21:38:24.742162\",\"column_name\":\"prescription_count\",\"created_on\":\"2026-03-17T21:38:24.742158\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":443,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"d5a8e533-c248-450c-8a86-f3ececa132ac\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(prescription_count)\",\"optionName\":\"metric_yc5paz6gegq_0co8t3qr2wa\",\"sqlExpression\":null}],\"orderby\":[[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T21:38:24.742162\",\"column_name\":\"prescription_count\",\"created_on\":\"2026-03-17T21:38:24.742158\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":443,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"d5a8e533-c248-450c-8a86-f3ececa132ac\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(prescription_count)\",\"optionName\":\"metric_yc5paz6gegq_0co8t3qr2wa\",\"sqlExpression\":null},false]],\"annotation_layers\":[],\"row_limit\":1000,\"series_columns\":[\"hosp_code\",\"antibiotic_name\"],\"series_limit\":0,\"group_others_when_limit_reached\":false,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"time_offsets\":[],\"post_processing\":[{\"operation\":\"pivot\",\"options\":{\"index\":[\"period_label\"],\"columns\":[\"hosp_code\",\"antibiotic_name\"],\"aggregates\":{\"SUM(prescription_count)\":{\"operator\":\"mean\"}},\"drop_missing_columns\":false}},{\"operation\":\"rename\",\"options\":{\"columns\":{\"SUM(prescription_count)\":null},\"level\":0,\"inplace\":true}},{\"operation\":\"flatten\"}]}],\"form_data\":{\"datasource\":\"18__table\",\"viz_type\":\"echarts_timeseries_bar\",\"slice_id\":100,\"matrixify_enable\":false,\"matrixify_mode_columns\":\"disabled\",\"matrixify_dimension_selection_mode_columns\":\"members\",\"matrixify_dimension_columns\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_columns\":10,\"matrixify_all_sort_by_columns\":\"a_to_z\",\"matrixify_topn_order_columns\":true,\"matrixify_show_column_headers\":true,\"matrixify_fit_columns_dynamically\":true,\"matrixify_mode_rows\":\"disabled\",\"matrixify_dimension_selection_mode_rows\":\"members\",\"matrixify_dimension_rows\":{\"dimension\":\"\",\"values\":[]},\"matrixify_topn_value_rows\":10,\"matrixify_all_sort_by_rows\":\"a_to_z\",\"matrixify_topn_order_rows\":true,\"matrixify_show_row_labels\":true,\"matrixify_row_height\":300,\"matrixify_charts_per_row\":4,\"matrixify_cell_title_template\":\"\",\"x_axis\":\"period_label\",\"x_axis_sort\":\"name\",\"x_axis_sort_asc\":true,\"metrics\":[{\"aggregate\":\"SUM\",\"column\":{\"advanced_data_type\":null,\"changed_on\":\"2026-03-17T21:38:24.742162\",\"column_name\":\"prescription_count\",\"created_on\":\"2026-03-17T21:38:24.742158\",\"description\":null,\"expression\":null,\"extra\":null,\"filterable\":true,\"groupby\":true,\"id\":443,\"is_active\":true,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"DECIMAL\",\"type_generic\":0,\"uuid\":\"d5a8e533-c248-450c-8a86-f3ececa132ac\",\"verbose_name\":null},\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"label\":\"SUM(prescription_count)\",\"optionName\":\"metric_yc5paz6gegq_0co8t3qr2wa\",\"sqlExpression\":null}],\"groupby\":[\"hosp_code\",\"antibiotic_name\"],\"adhoc_filters\":[{\"clause\":\"WHERE\",\"comparator\":null,\"datasourceWarning\":false,\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_uzy7dlp54pb_ivn01kvt4d\",\"isExtra\":false,\"isNew\":false,\"operator\":null,\"operatorId\":null,\"sqlExpression\":\"hosp_code ~ '^[0-9]+([.][0-9]+)?$'\",\"subject\":null},{\"clause\":\"WHERE\",\"expressionType\":\"SQL\",\"filterOptionName\":\"filter_csim_selected_hospital\",\"isExtra\":false,\"sqlExpression\":\"{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~ '^[0-9]+([.][0-9]+)?$'\"},{\"clause\":\"WHERE\",\"comparator\":\"No filter\",\"datasourceWarning\":false,\"expressionType\":\"SIMPLE\",\"filterOptionName\":\"filter_hqam1ijiw1u_0tcxdxx3z0jd\",\"isExtra\":false,\"isNew\":false,\"operator\":\"TEMPORAL_RANGE\",\"sqlExpression\":null,\"subject\":\"month_date\"}],\"group_others_when_limit_reached\":false,\"row_limit\":1000,\"truncate_metric\":true,\"show_empty_columns\":true,\"comparison_type\":\"values\",\"annotation_layers\":[],\"forecastEnabled\":false,\"forecastPeriods\":10,\"forecastInterval\":0.8,\"orientation\":\"vertical\",\"x_axis_title\":\"Time\",\"x_axis_title_margin\":60,\"y_axis_title\":\"Number of antibiotic prescriptions\",\"y_axis_title_margin\":30,\"y_axis_title_position\":\"Left\",\"sort_series_type\":\"sum\",\"sort_series_ascending\":false,\"color_scheme\":\"googleCategory20c\",\"show_value\":false,\"stack\":\"Stack\",\"color_by_primary_axis\":false,\"minorTicks\":false,\"zoomable\":false,\"show_legend\":true,\"legendType\":\"scroll\",\"legendOrientation\":\"left\",\"legendMargin\":\"\",\"x_axis_time_format\":\"smart_date\",\"x_axis_number_format\":\"~g\",\"xAxisLabelRotation\":90,\"xAxisLabelInterval\":0,\"y_axis_format\":\"SMART_NUMBER\",\"logAxis\":false,\"minorSplitLine\":false,\"truncateYAxis\":false,\"y_axis_bounds\":[null,null],\"truncateXAxis\":false,\"force_max_interval\":false,\"rich_tooltip\":true,\"showTooltipTotal\":true,\"showTooltipPercentage\":true,\"tooltipSortByMetric\":false,\"tooltipTimeFormat\":\"smart_date\",\"echart_options\":\"{}\",\"extra_form_data\":{},\"dashboards\":[5],\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}"
+          }
+        ]
+      },
+      "fcae29cc-acff-58cf-8a48-c9395d6e9b68": {
+        "name": "Abx duration (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "ffb7068f-e6ca-58fe-839c-5162b2b24031": {
+        "name": "Volume of UC submissions (entire cohort)",
+        "status": "retained",
+        "changes": [
+
+        ]
+      }
+    }
+  },
+  "datasets": {
+    "before_count": 7,
+    "after_count": 6,
+    "shared_uuid_count": 6,
+    "objects": {
+      "12cf6aed-4a67-5829-88b4-2636ee62a97f": {
+        "name": "UTI Aggregate ALL DATA",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "1a21eb78-1059-55e1-8170-e55081099b26": {
+        "name": "UTI Location - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "23b2efc0-8296-551f-8429-3a9cebe1d85d": {
+        "name": "UTI Aggregate Overall Performance Bar Charts",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "45f4cfaa-70df-50e5-839a-606a0ca36734": {
+        "name": "UTI Abx duration comparison - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "9cfd3630-96fa-59fc-8d84-6e265791cef9": {
+        "name": "UTI Top Abx - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "9e2b28d9-6146-505e-8d6b-7945ee54878e": {
+        "name": "UTI Inappropriate UTI Dx Comparison Table - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "c851c8be-f300-50b8-8bf7-1c51e1ab27c2": {
+        "name": "Reporting period — standard-month-selectors",
+        "status": "removed",
+        "changes": [
+          {
+            "path": "",
+            "before": {
+              "table_name": "Reporting period — standard-month-selectors",
+              "main_dttm_col": "month_date",
+              "currency_code_column": null,
+              "description": "Applied date boundaries and grouping; no reporting records or measures.",
+              "default_endpoint": null,
+              "offset": 0,
+              "cache_timeout": null,
+              "catalog": "csim_demo",
+              "schema": "v1",
+              "sql": "{% set period = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S', remove_filter=True) %}\nWITH bounds AS (\n  SELECT {% if period.from_expr %}TIMESTAMP '{{ period.from_expr }}'{% else %}NULL::timestamp{% endif %} AS start_date,\n         {% if period.to_expr %}TIMESTAMP '{{ period.to_expr }}'{% else %}NULL::timestamp{% endif %} AS end_date\n)\nSELECT COALESCE(to_char(start_date, 'YYYY-MM-DD HH24:MI'), 'No start limit') AS \"Start\",\n       COALESCE(to_char(end_date, 'YYYY-MM-DD HH24:MI'), 'No end limit') AS \"End (exclusive)\",\n       '{{ {'P1M':'Month', 'P3M':'Quarter', 'P1Y':'Year'}.get(time_grain, 'Month') }}'::text AS \"Group by\",\n       CASE WHEN start_date >= end_date THEN 'Choose an end after the start.'\n       ELSE 'Start included; end excluded. Monthly records use the first day of each month. Grouping does not expand the selected dates.' END AS \"Status\",\n       CURRENT_DATE AS month_date\nFROM bounds\n",
+              "params": null,
+              "template_params": null,
+              "filter_select_enabled": true,
+              "fetch_values_predicate": null,
+              "extra": null,
+              "normalize_columns": false,
+              "always_filter_main_dttm": false,
+              "folders": null,
+              "uuid": "c851c8be-f300-50b8-8bf7-1c51e1ab27c2",
+              "metrics": [
+
+              ],
+              "columns": [
+                {
+                  "column_name": "End (exclusive)",
+                  "verbose_name": null,
+                  "is_dttm": false,
+                  "is_active": true,
+                  "type": "VARCHAR",
+                  "advanced_data_type": null,
+                  "groupby": true,
+                  "filterable": true,
+                  "expression": null,
+                  "description": null,
+                  "python_date_format": null,
+                  "datetime_format": null,
+                  "extra": null
+                },
+                {
+                  "column_name": "Group by",
+                  "verbose_name": null,
+                  "is_dttm": false,
+                  "is_active": true,
+                  "type": "VARCHAR",
+                  "advanced_data_type": null,
+                  "groupby": true,
+                  "filterable": true,
+                  "expression": null,
+                  "description": null,
+                  "python_date_format": null,
+                  "datetime_format": null,
+                  "extra": null
+                },
+                {
+                  "column_name": "Start",
+                  "verbose_name": null,
+                  "is_dttm": false,
+                  "is_active": true,
+                  "type": "VARCHAR",
+                  "advanced_data_type": null,
+                  "groupby": true,
+                  "filterable": true,
+                  "expression": null,
+                  "description": null,
+                  "python_date_format": null,
+                  "datetime_format": null,
+                  "extra": null
+                },
+                {
+                  "column_name": "Status",
+                  "verbose_name": null,
+                  "is_dttm": false,
+                  "is_active": true,
+                  "type": "VARCHAR",
+                  "advanced_data_type": null,
+                  "groupby": true,
+                  "filterable": true,
+                  "expression": null,
+                  "description": null,
+                  "python_date_format": null,
+                  "datetime_format": null,
+                  "extra": null
+                },
+                {
+                  "column_name": "month_date",
+                  "verbose_name": null,
+                  "is_dttm": true,
+                  "is_active": true,
+                  "type": "DATE",
+                  "advanced_data_type": null,
+                  "groupby": true,
+                  "filterable": true,
+                  "expression": null,
+                  "description": null,
+                  "python_date_format": null,
+                  "datetime_format": null,
+                  "extra": null
+                }
+              ],
+              "version": "1.0.0",
+              "database_uuid": "21edc228-aaaf-4fbf-8c28-b47844ae09e2"
+            },
+            "after": null
+          }
+        ]
+      }
+    }
+  },
+  "databases": {
+    "before_count": 1,
+    "after_count": 1,
+    "shared_uuid_count": 1,
+    "objects": {
+      "21edc228-aaaf-4fbf-8c28-b47844ae09e2": {
+        "name": "CSiM demo PostgreSQL",
+        "status": "retained",
+        "changes": [
+
+        ]
+      }
+    }
+  }
+}

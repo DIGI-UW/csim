@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-09-17T16:30:28.040599+00:00",
+  "completedAt": "2026-09-17T16:30:30.234112+00:00",
+  "slug": "csim-individual-standard-month-selectors",
+  "sourceAssetsRevision": "dbb1f00",
+  "consistentDuringExport": true,
+  "status": "saved review snapshot; not a final accepted release",
+  "reportingRowsIncluded": false,
+  "exports": {
+    "dashboard": {
+      "objects": 1,
+      "file": "dashboards.zip",
+      "sha256": "58346d98f008d7cd3faae758cb23c310a622081ffd716bfa0d5c4215112e2899"
+    },
+    "chart": {
+      "objects": 21,
+      "file": "charts.zip",
+      "sha256": "9da997af984d8f753cff0ace32ac27b4bf9cfe58d337f61bc0a02ceb60a65232"
+    },
+    "dataset": {
+      "objects": 6,
+      "file": "datasets.zip",
+      "sha256": "1dd302f2ee59deaae0c394359dce375f1e5f74081c5a0981acedb8566635ad48"
+    }
+  }
+}
