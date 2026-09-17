@@ -15,7 +15,8 @@ release_root="/home/ubuntu/catalyst-demo/targets/catalyst/runtime/media/csim-rel
 
 ssh -o BatchMode=yes "$host" "mkdir -p '$source'"
 git archive "$revision" \
-  design/index.html design/filter-guide.html design/beth-review.html \
+  design/index.html design/filter-guide.html design/data-guide.html \
+  design/review.html design/beth-review.html \
   design/evidence/panel-coverage | ssh -o BatchMode=yes "$host" "tar -xf - -C '$source'"
 
 ssh -o BatchMode=yes "$host" bash -s -- "$source" "$site" "$release_root" "$revision" <<'REMOTE'
@@ -27,6 +28,8 @@ release="$release_root/$revision"
 cp -a "$current" "$release"
 cp "$source/design/index.html" "$release/index.html"
 cp "$source/design/filter-guide.html" "$release/filter-guide.html"
+cp "$source/design/data-guide.html" "$release/data-guide.html"
+cp "$source/design/review.html" "$release/review.html"
 cp "$source/design/beth-review.html" "$release/beth-review.html"
 mkdir -p "$release/evidence/panel-coverage"
 cp -a "$source/design/evidence/panel-coverage/." "$release/evidence/panel-coverage/"
@@ -34,7 +37,7 @@ python3 - "$release" "$revision" "$current" <<'PY'
 import datetime, hashlib, json, sys
 from pathlib import Path
 release, revision, previous = map(Path, sys.argv[1:])
-files = ['index.html', 'filter-guide.html', 'beth-review.html']
+files = ['index.html', 'filter-guide.html', 'data-guide.html', 'review.html', 'beth-review.html']
 files += [str(path.relative_to(release)) for path in sorted((release/'evidence/panel-coverage').iterdir()) if path.is_file()]
 receipt = {
   'sourceRevision': str(revision),

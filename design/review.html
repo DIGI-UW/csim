@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CSiM dashboard review guide</title>
+<style>
+:root{--ink:#203444;--muted:#53646f;--teal:#066b7b;--pale:#e8f3f1;--line:#d9e1e5;--paper:#f5f8fa;--amber:#8a5a00}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 system-ui,sans-serif}main{max-width:1080px;margin:auto;padding:32px 24px 64px}a{color:var(--teal);text-underline-offset:3px}h1,h2{line-height:1.2}h1{margin:.35em 0}.lead{font-size:1.12rem;color:var(--muted);max-width:76ch}.actions{display:flex;gap:14px 22px;flex-wrap:wrap;align-items:center;margin:24px 0}.button{display:inline-block;background:var(--teal);color:white;text-decoration:none;font-weight:700;padding:11px 17px;border-radius:6px}section{background:white;border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:22px 0}table{border-collapse:collapse;width:100%}th,td{padding:13px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{width:27%}.limit{border-left:4px solid var(--amber)}li{margin:.55em 0}.question{background:var(--pale);padding:14px 18px;border-radius:6px;margin:12px 0}.small{font-size:.92rem;color:var(--muted)}.evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.evidence figure{margin:0}.evidence img,.gap-evidence img{display:block;width:100%;height:auto;border:1px solid var(--line)}.evidence figcaption,.gap-evidence figcaption{font-size:.86rem;color:var(--muted);margin-top:7px}.gap-evidence{margin:18px 0 0;max-width:760px}code{font-size:.95em}@media(max-width:650px){main{padding:22px 16px}section{padding:21px 18px}th,td{display:block;width:auto}th{border-bottom:0;padding-bottom:2px}.evidence{grid-template-columns:1fr}}
+</style>
+<main>
+<a href="./">← CSiM dashboard overview</a>
+<h1>Review the CSiM dashboard</h1>
+<p class="lead">Start with the full September dashboard on official Superset 6.1.0. Use this guide to understand the dates, choose the right hospital controls, and review the remaining filter limitations.</p>
+<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard →</a><a href="./#standard-instance">Login details</a><a href="native-dates.html">Date-entry guide</a><a href="filter-guide.html">Filters and charts catalogue →</a><a href="data-guide.html">Data and uploads →</a></div>
+
+<section>
+<h2>What to review</h2>
+<table>
+<tr><th>Date range</th><td>Time Period opens in Custom. Enter a start date and an exclusive end date in the left sidebar.</td></tr>
+<tr><th>Month, quarter or year</th><td>Time Unit changes how the selected observations are grouped. It does not change the date range.</td></tr>
+<tr><th>Latest Urine Culture Submission</th><td>The card calculates the last reporting month inside the chosen Time Period. Its title identifies reporting coverage; it does not indicate when a file was uploaded.</td></tr>
+<tr><th>Comparison context</th><td>The lower comparison charts carry the selected hospital or comparison group in their legend so a screenshot remains understandable.</td></tr>
+<tr><th>Chart colors</th><td>Yao's color assignments are preserved. A category keeps the same color when the legend includes a hospital code or comparison group.</td></tr>
+<tr><th>Section links</th><td>Table of Contents links stay on this dashboard and keep the active filter state. Sections 4.1–4.4 are grouped under section 4.</td></tr>
+<tr><th>Dashboard content</th><td>The dashboard contains 21 data panels, including the latest-month card. The reviewed September layout and wording are retained apart from the clarified seven-panel coverage and corrected 4.1 explanation. Dataset names remain familiar to editors.</td></tr>
+</table>
+</section>
+
+<section>
+<h2>Five-minute review</h2>
+<ol>
+<li>Choose a hospital and a date range in the left sidebar.</li>
+<li>Switch Time Unit from Month to Quarter to Year. Confirm that the values, order and labels remain understandable.</li>
+<li>Check the latest-reporting-month card and one main trend.</li>
+<li>Choose <strong>Your hospital</strong> and <strong>Cohort/State</strong>, then inspect the lower comparison legends.</li>
+<li>Compare the antibiotic, duration and collection-location colors across the hospital and cohort/state panels. The same category should have the same color.</li>
+<li>Use one Table of Contents link and confirm the same choices remain selected.</li>
+</ol>
+</section>
+
+<section class="limit" id="clear-all">
+<h2>Known official 6.1.0 limitation</h2>
+<p><strong>Clear all, then reselect in the left sidebar can leave a stale result.</strong> Moving filters to the left does not repair that Superset behavior. For this review, change individual selections or reload the dashboard after Clear all.</p>
+<p class="small">Reproduction: choose a hospital, use Clear all, then choose the same hospital again without reloading. The browser check below reselected hospital 31, but Superset combined it with the stale Cohort value and left the date range empty, exposing February 2030. The custom Superset comparison contains a source-level repair; the recommended dashboard intentionally stays on the official build.</p>
+<figure class="gap-evidence"><a href="evidence/beth-review/clear-all-gap.png"><img src="evidence/beth-review/clear-all-gap.png" alt="After Clear all, the official sidebar shows stale Cohort together with hospital 31 and no date range"></a><figcaption>Known gap reproduced on official 6.1.0: Cohort and hospital 31 are both selected after Clear all, while Time Period is empty.</figcaption></figure>
+</section>
+
+<section id="dates-and-filters">
+<h2>Reporting coverage and upload date</h2>
+<p><strong>Latest Urine Culture Submission is a reporting-coverage card.</strong> It is calculated from the observations within the selected hospital/state, location and Time Period.</p>
+<p>For example, uploading July observations in September leaves July as the latest reporting month. The card does not record the date of that upload.</p>
+<p>The current dashboard has no upload-date note. A later upload-date feature would need a separate, reliable record of successful uploads. <a href="data-guide.html#dates">How the dates differ →</a></p>
+</section>
+
+<section id="filter-map">
+<h2>Which hospital choice affects each chart?</h2>
+<p>The sidebar contains two groups. Selecting a hospital in the first does not select it in the second.</p>
+<table>
+<tr><th>Hospital and state</th><td>The main charts, including the 4.2 therapy trend and section 5 submissions trend. Choose one numeric hospital for the latest-month comparison tables.</td></tr>
+<tr><th>Your hospital / Cohort/State</th><td>The paired charts in 4.2–4.4. Your hospital also controls the hospital total in section 5.</td></tr>
+<tr><th>Time Period / Time Unit</th><td>The trends and paired charts use the chosen dates and grouping. The five overall charts and section 5 totals use all-time data. The two latest-month comparison tables choose their latest month independently.</td></tr>
+<tr><th>Collection location</th><td>Applies to trends, duration/antibiotic pairs and section 5 totals. The location breakdown in 4.4 and latest-month comparison tables cover all locations.</td></tr>
+</table>
+<p><strong>Seven panels now identify their independent date coverage.</strong> The five overall charts say “all reporting dates”; the two comparison tables say “latest available month” and show the month. Time Period and Time Unit are excluded from these panels, so their filter indicators match their calculations.</p>
+<figure class="gap-evidence"><a href="evidence/panel-coverage/panel-88-filters.png"><img src="evidence/panel-coverage/panel-88-filters.png" alt="Hospital 53 latest-month therapy table shows March 2026 and only the hospital filter, while Time Period is set to 2024"></a><figcaption>The table uses the hospital’s latest available month. The trend uses the chosen Time Period.</figcaption></figure>
+<p><strong>Section 4.1’s explanation is corrected:</strong> positive urinalysis submissions divided by urine culture submissions. Its measures are unchanged.</p>
+<p><a href="evidence/panel-coverage/">See screenshots of all seven panels and section 4.1 →</a></p>
+<p>These are ordinary dashboard settings. They do not change the separate Clear all limitation.</p>
+<details><summary>How editors can check and maintain this</summary><p>In Add/Edit Filters, use Scoping to choose the affected panels. Native dividers provide the sidebar headings. A chart’s filter icon lists its assigned filters; for a SQL-defined dataset, verify that changing the control actually changes the result as intended.</p><p><a href="https://docs.preset.io/docs/scoping-a-filter">Filter scoping guide</a> · <a href="https://docs.preset.io/docs/managing-filters">Dividers and applied-filter indicators</a></p></details>
+</section>
+
+<section>
+<h2>Items already settled in the team notes</h2>
+<p>The hospital 53 count concern and the Historical/Current overlap question are marked resolved. They do not require a new counting rule or a hospital transition schedule. The two filter groups remain separate.</p>
+<p>The <a href="https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/">Data &amp; records dashboard</a> explains source dependencies and links to the separate record-review table.</p>
+</section>
+
+<section>
+<h2>Browser-checked evidence</h2>
+<p>These captures show the official 6.1.0 dashboard before the latest wording and legend edits, using the supplied demonstration database. They are reference evidence, not a fresh acceptance run for those edits. The complete check covered all 11 date axes at 1024, 1280 and 1600 pixels for Month, Quarter and Year: 99 chart views, with no clipped, overlapping or missing supported labels.</p>
+<div class="evidence">
+<figure><a href="evidence/beth-review/date-editor.png"><img src="evidence/beth-review/date-editor.png" alt="Official dashboard with the left filter panel and Custom start and end dates"></a><figcaption>Custom start and exclusive end dates open in the left sidebar.</figcaption></figure>
+<figure><a href="evidence/beth-review/latest-month.png"><img src="evidence/beth-review/latest-month.png" alt="Latest reporting month in selected period showing August 2026"></a><figcaption>The saved range ends before September 2026, so the card reports Aug 2026 instead of a future month.</figcaption></figure>
+<figure><a href="evidence/beth-review/comparison-context.png"><img src="evidence/beth-review/comparison-context.png" alt="Hospital antibiotic comparison with hospital 53 in the legend and Yao's original category colors"></a><figcaption>The legend identifies hospital 53 while preserving Yao's category colors.</figcaption></figure>
+<figure><a href="evidence/beth-review/month.png"><img src="evidence/beth-review/month.png" alt="Monthly submissions chart with spaced year-first month labels"></a><figcaption>Month: chronological <code>YYYY-MM</code> labels.</figcaption></figure>
+<figure><a href="evidence/beth-review/quarter.png"><img src="evidence/beth-review/quarter.png" alt="Quarterly submissions chart with spaced year and quarter labels"></a><figcaption>Quarter: chronological <code>YYYY Qn</code> labels.</figcaption></figure>
+<figure><a href="evidence/beth-review/year.png"><img src="evidence/beth-review/year.png" alt="Annual submissions chart with two year labels"></a><figcaption>Year: simple year labels.</figcaption></figure>
+</div>
+<details><summary>Keeping the colors consistent</summary><p>Superset matches a saved color to the complete legend name. Adding a hospital code changes that name: <code>Ceftriaxone</code> becomes <code>53, Ceftriaxone</code>. The saved dashboard assigns both names Yao's original color. New hospital codes or renamed categories need matching entries in the dashboard's color settings.</p><p>The palette check covers 66 chart views: all eleven date axes, Month/Quarter/Year, and two hospital/comparison selections. It compares the rendered colors with the April export. The supplied color settings match that export exactly.</p><p><a href="https://uwdigi.atlassian.net/wiki/spaces/CSiM/pages/929890354/CSiM+Dashboard+Requirements">CSiM dashboard requirements</a> include accessibility and black-and-white printing. Preserving the palette does not replace reviewing those broader requirements.</p></details>
+</section>
+
+<section>
+<h2>What is part of this delivery</h2>
+<p>The recommended result is a versioned dashboard, datasets and ordinary Superset configuration that run on official Superset 6.1.0. No Superset application code change is required for the dashboard improvements above. The main dashboard and separate Data &amp; records view are included; the standalone aggregate download is deferred until after the meeting.</p>
+<p class="small">The separate custom and development installations remain comparisons for control and importer improvements. They are not dependencies of this dashboard.</p>
+</section>
+</main>
+</html>
