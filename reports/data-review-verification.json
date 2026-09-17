@@ -1,0 +1,61 @@
+{
+  "deployedRevision": "45a5d272381f7709b654e9d4eebdfac08fc25b54",
+  "verifiedAt": "2026-09-17T03:49:00Z",
+  "runtime": "Official Superset 6.1.0; no application rebuild or restart",
+  "dashboardUrl": "https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/",
+  "recordTableUrl": "https://standard.csim.uwdigi.org/explore/?slice_id=131",
+  "publicObjects": {
+    "dataset": 30,
+    "dashboard": 7,
+    "recordTable": 131,
+    "sourceSummary": 132,
+    "hospitalSummary": 133
+  },
+  "existingReportingDefinitionsUnchanged": true,
+  "sourceRecords": 3453,
+  "hospitalGroupsVerified": 1058,
+  "hospital53Records": 980,
+  "sourceCounts": {
+    "historicalIncluded": 3124,
+    "historicalExcluded": 290,
+    "currentIncluded": 38,
+    "currentExcluded": 1
+  },
+  "excludedByHospital": {
+    "27": 1,
+    "58": 86,
+    "59": 39,
+    "60": 139,
+    "61": 26
+  },
+  "numericalChecks": {
+    "local": "passed",
+    "public": "passed",
+    "rolledBackFixtureChecks": "passed",
+    "scope": "Source membership, hospital totals and selected rate inputs for month/quarter/year and partial-quarter windows; not all cohort-weighted measures"
+  },
+  "localCsv": {
+    "rows": 3453,
+    "columns": 20,
+    "duplicatePreservingComparison": "passed"
+  },
+  "publicViewer": {
+    "dashboard": "passed",
+    "recordTable": "passed",
+    "csvMenu": "passed",
+    "csvResponseStatus": 200,
+    "csvResponseBytes": 579420,
+    "csvRowsReportedByServer": 3453,
+    "downloadEvent": "Browser tool timed out; final local file receipt not confirmed. Server logs show the viewer action completed the full CSV stream."
+  },
+  "aggregateQuerySha256": "44a388bc3508ba3aa69b8a7a32d10c901cd546542682525bb0d833c71d738742",
+  "screenshotsInspected": [
+    "../design/evidence/beth-review/data-and-records-public.png",
+    "../design/evidence/beth-review/individual-records-public.png",
+    "../design/evidence/beth-review/aggregate-query-union.png"
+  ],
+  "ciVerified": false,
+  "bethAcceptance": "pending",
+  "clientImportRehearsal": "pending",
+  "overviewWebsiteUpdated": false
+}

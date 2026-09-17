@@ -29,6 +29,7 @@
   ],
   "localBrowserRegression": "passed",
   "publicViewerScreenshot": "../design/evidence/beth-review/client-upload-sources-public.png",
-  "recordVerificationImplemented": false,
-  "ciVerified": false
+  "recordVerificationImplemented": true,
+  "ciVerified": false,
+  "recordVerificationEvidence": "data-review-verification.json"
 }

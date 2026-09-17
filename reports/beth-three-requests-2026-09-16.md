@@ -6,7 +6,7 @@ September 16, 2026. Target: the [official Superset 6.1.0 dashboard](https://stan
 | --- | --- | --- |
 | Yao's accessible colors | All 109 original label-to-color assignments match the April export in the public dashboard. Existing rendered-color checks also cover hospital/comparison legend names. | Recheck any legends Beth changes before the final release. |
 | Production dataset names | All six reporting names match production. The three existing demo upload sources are now registered with the production names and reflected identifier columns. | Exclude the separate examples and retired objects from the client update. Test an update over the client's existing identities. |
-| Identify the contributing submissions | The standalone record-review chart and complete CSV are implemented and locally validated. A separate Data & records dashboard shows the dependencies and exclusions. | Verify the public viewer workflow, then have Beth accept the table and include it in the client package. |
+| Identify the contributing submissions | The [record-review chart](https://standard.csim.uwdigi.org/explore/?slice_id=131) and [Data & records dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/) are live. Viewer access and numerical checks pass; the public CSV response contains all 3,453 records. | Have Beth accept the workflow, then test it in the client import package. |
 
 ## Record verification
 

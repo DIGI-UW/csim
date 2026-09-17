@@ -13,8 +13,8 @@ is not the client upgrade package.
 
 Beth's latest requests: the saved Yao palette and six reporting dataset names
 match their sources. The demo now also registers the three physical upload
-sources under their production names. A separate record-review table and Data & records dashboard are implemented
-and validated locally; see the [request checklist](reports/beth-three-requests-2026-09-16.md).
+sources under their production names. A separate record-review table and Data & records dashboard are live on the official
+review instance, with numerical and viewer checks; see the [request checklist](reports/beth-three-requests-2026-09-16.md).
 
 ## Preserve and reconcile Beth's edits
 
@@ -80,7 +80,7 @@ active entry if included: eleven active datasets, nineteen including the archive
 | Latest reporting month | It shows the latest observation month within the chosen range, not when a file was uploaded. | Keep the wording and filter scope clear. An upload-completion timestamp is a separate feature. |
 | Contents links | Current links stay within the dashboard and retain selections. | Recheck all nine links after layout edits and after transfer to the destination. |
 | Transfer and repeated updates | The demo package uses different dataset identities from the client and demo connection settings. | Build an update for the client's existing identities. Import twice without duplicates, unchanged target connection/data, and verify SQL, measures, bindings, layout and every filter scope. |
-| Record verification | Both demo source tables contain `record_id`; Current also contains `redcap_repeat_instance`. ALL DATA rows summarize multiple source records. | The separate view preserves all uploaded records, IDs and eligibility reasons; local CSV and 1,058 hospital-group checks pass. Confirm the review workflow with Beth, test the client role and imported version, and retain existing cohort weighting. There is no automatic chart-point drill-through. |
+| Record verification | Both demo source tables contain `record_id`; Current also contains `redcap_repeat_instance`. ALL DATA rows summarize multiple source records. | The separate view preserves all uploaded records, IDs and eligibility reasons; the local CSV matches every source row, and 1,058 hospital-group checks pass locally and on the public demo. The public viewer export returns all 3,453 rows. Confirm the review workflow with Beth, test the client role and imported version, and retain existing cohort weighting. There is no automatic chart-point drill-through. |
 | Uploads, downloads and hospital changes | The saved download chart exists. Full operational acceptance is still separate. | With the client's intended role, replace Current using the established procedure, refresh, verify the complete processed CSV, and verify a new hospital's lookup, menu and colors. |
 | Hospital transition rules and embedded access | Hospital-specific transition dates need the approved schedule; WordPress identity/access has separate owners. | Assign these explicitly in the issue list. Do not imply that the dashboard package implements unprovided transition rules or embedded access restrictions. |
 

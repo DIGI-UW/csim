@@ -86,3 +86,12 @@ reporting datasets.
 
 These delivery checks are still required. Working chart calculations and a
 cleanly scoped demo ZIP do not by themselves establish a clean client upgrade.
+
+## Record-review addition — September 16
+
+The public demo now has one further virtual dataset, `UTI Individual — Record review`,
+bringing its inventory from 29 to 30. It powers the separate Data & records
+dashboard and standalone record table; it does not replace or feed the six
+reporting datasets. If accepted for client delivery, it brings the expected
+client list to eleven active datasets, nineteen including the eight archives.
+The client package still excludes the unrelated demo objects.

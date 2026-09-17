@@ -36,7 +36,9 @@ for package contents, unresolved issues and the final handoff checks.
 ## Data & records
 
 The separate dependency dashboard and standalone submission-review table are
-documented in [Data & records](review/README.md). Build them against the already
+live at [Data & records](https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/),
+with the [standalone record table](https://standard.csim.uwdigi.org/explore/?slice_id=131).
+See the [guide and verification](review/README.md). Build them against the already
 loaded demo with `bash csim.sh standard data-review`; the main dashboard is not
 modified.
 

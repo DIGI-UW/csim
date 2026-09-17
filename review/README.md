@@ -5,6 +5,20 @@ queries and hospital lookup. Two summary charts show included/excluded records b
 source and hospital. The detailed record table is a separate saved chart; it does
 not belong to the reporting dashboard or inherit its filters.
 
+## Open the review
+
+- [Data & records dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/)
+- [Individual records and CSV](https://standard.csim.uwdigi.org/explore/?slice_id=131)
+- [Reporting dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/)
+
+The public demo contains 3,453 source records. Numerical checks cover 1,058
+hospital/date/location groups, and the public viewer can open both new views.
+Its full CSV request returns 3,453 rows; the local downloaded CSV was compared
+row-for-row across all 20 columns. Browser screenshots were inspected.
+See the [verification record](../reports/data-review-verification.json).
+These checks are separate from Beth accepting the workflow and the final
+client import rehearsal. CI has not been verified for this revision.
+
 ## Contents
 
 - **UTI Individual — Record review**: one virtual dataset reading Current,
