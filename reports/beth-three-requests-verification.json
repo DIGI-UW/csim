@@ -1,0 +1,34 @@
+{
+  "registrationRevision": "c356554",
+  "originalPaletteAssignments": 109,
+  "originalPaletteMatches": true,
+  "sixReportingNamesMatch": true,
+  "publicSourceRegistrations": [
+    {
+      "name": "CSiM Hospitals and States",
+      "id": 27,
+      "type": "physical"
+    },
+    {
+      "name": "UTI Individual Historical",
+      "id": 28,
+      "type": "physical"
+    },
+    {
+      "name": "UTI Individual Current",
+      "id": 29,
+      "type": "physical"
+    }
+  ],
+  "repeatCreated": [],
+  "existingDefinitionsUnchanged": true,
+  "viewerSourceAccess": [
+    "CSiM Hospitals and States",
+    "UTI Individual Historical",
+    "UTI Individual Current"
+  ],
+  "localBrowserRegression": "passed",
+  "publicViewerScreenshot": "../design/evidence/beth-review/client-upload-sources-public.png",
+  "recordVerificationImplemented": false,
+  "ciVerified": false
+}

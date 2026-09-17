@@ -46,9 +46,13 @@ repeat local run created none. Existing dashboard, chart and dataset definitions
 were compared before and after and remained unchanged. A local browser regression
 verified names, physical types and identifier columns; its screenshot was inspected.
 The public command confirmed the same registrations and unchanged definitions.
-Public viewer visibility is checked separately after granting the approved read access.
+The existing public demo viewer also sees all three Physical datasets after the
+approved read-access update. The public screenshot was inspected. No editing or
+upload permissions were added.
 
-![Local administrator dataset list](../design/evidence/beth-review/client-upload-sources-local.png)
+![Public demo viewer dataset list](../design/evidence/beth-review/client-upload-sources-public.png)
 
-The screenshot is from the local administrator view. These checks cover source
-registration, not record-level verification or final client acceptance.
+The [local administrator screenshot](../design/evidence/beth-review/client-upload-sources-local.png)
+shows the same three source names alongside the six reporting names. These checks
+cover source registration, not record-level verification or final client acceptance.
+The local browser regression passed without video; CI was not verified for this change.
