@@ -51,14 +51,20 @@ def main():
         if not args.apply:
             print(json.dumps({'plannedDataset':DATASET,'rows':count,'standaloneChart':DETAIL,'dashboard':SLUG}));return
         base,session=connection()
+        def request(method,url,**kwargs):
+            # HTTPS responses can renew the cookie. This CLI talks only to the
+            # app's own HTTP loopback listener; browser cookie policy is unchanged.
+            for cookie in session.cookies:
+                cookie.secure=False
+            return session.request(method,url,**kwargs)
         def write(resource,payload,obj=None):
-            response=session.request('PUT' if obj else 'POST',base+'/api/v1/'+resource+'/'+(str(obj.id) if obj else ''),json=payload,timeout=90,allow_redirects=False)
+            response=request('PUT' if obj else 'POST',base+'/api/v1/'+resource+'/'+(str(obj.id) if obj else ''),json=payload,timeout=90,allow_redirects=False)
             assert response.status_code in (200,201), f'{resource}: {response.status_code} {response.text[:1200]}'
             return obj.id if obj else response.json()['id']
         table=db.session.query(SqlaTable).filter_by(uuid=identity('records')).one_or_none()
         dataset_id=write('dataset',{'table_name':DATASET,'schema':'v1','sql':sql,'uuid':identity('records'),('database_id' if table else 'database'):database_id},table)
         # Refresh metadata from the saved query; required for later SQL edits too.
-        response=session.put(base+f'/api/v1/dataset/{dataset_id}/refresh',timeout=90)
+        response=request('PUT',base+f'/api/v1/dataset/{dataset_id}/refresh',timeout=90)
         assert response.status_code==200,response.text[:800]
         db.session.expire_all()
         table=db.session.query(SqlaTable).filter_by(id=dataset_id).one()
