@@ -14,7 +14,7 @@ first=(ROOT/'output/Caddyfile-redirects').read_bytes()
 subprocess.run(['python3',str(ROOT/'deploy/render_caddy.py'),str(ROOT/'output/Caddyfile-redirects'),str(ROOT/'output/Caddyfile-redirects'),'--redirects'],check=True)
 assert first==(ROOT/'output/Caddyfile-redirects').read_bytes(),'Route rendering must be idempotent'
 source=(ROOT/'output/Caddyfile-redirects').read_text().replace('admin off','admin off\n\tauto_https off')
-for host in ['dashboard.csim.uwdigi.org','preview.csim.uwdigi.org','design.csim.uwdigi.org','csim.uwdigi.org']:
+for host in ['dashboard.csim.uwdigi.org','preview.csim.uwdigi.org','design.csim.uwdigi.org','csim.uwdigi.org','standard.csim.uwdigi.org']:
  source=re.sub(r'(?m)^'+re.escape(host)+r' \{','http://'+host+' {',source)
 (ROOT/'output/Caddyfile-http').write_text(source)
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -52,5 +52,12 @@ try:
    actual=urllib.parse.unquote(response.headers['Location'])
    assert actual=='https://'+host+expected,(path,actual,expected)
   else:raise AssertionError('Expected a redirect: '+path)
- print('Eight legacy path and encoded login-return cases passed.')
+ for path,target in [('/', 'csim-individual-standard-month-selectors'),('/superset/dashboard/csim-individual-standard/?native_filters_key=old','csim-individual-standard-month-selectors'),('/superset/dashboard/csim-individual-standard-sortable/','csim-individual-standard-month-selectors'),('/superset/dashboard/csim-standard-examples/','csim-standard-month-selectors-examples'),('/superset/dashboard/csim-standard-sortable-examples?native_filters_key=old','csim-standard-month-selectors-examples')]:
+  request=urllib.request.Request(base+path,headers={'Host':'standard.csim.uwdigi.org'})
+  try:opener.open(request,timeout=10)
+  except urllib.error.HTTPError as response:
+   assert response.code==302,(path,response.code)
+   assert response.headers['Location']=='/superset/dashboard/'+target+'/',(path,response.headers['Location'])
+  else:raise AssertionError('Expected current dashboard redirect: '+path)
+ print('Eight legacy redirects and five current-dashboard entry/retirement routes passed.')
 finally:subprocess.run(['docker','stop',container],check=False,stdout=subprocess.DEVNULL)

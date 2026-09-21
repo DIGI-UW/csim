@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CSiM data guide — sources, datasets and uploads</title>
+<meta name="description" content="Understand the CSiM source tables, calculated datasets, upload workflow and differences between production and the demo.">
+<style>
+:root{--ink:#203444;--muted:#53646f;--teal:#066b7b;--line:#d9e1e5;--paper:#f5f8fa}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:32px 24px 64px}a{color:var(--teal);text-underline-offset:3px}a:focus-visible,summary:focus-visible{outline:3px solid #a87600;outline-offset:4px}h1,h2,h3{line-height:1.2}h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:18px 0}h2{font-size:1.5rem}h3{font-size:1.1rem;margin-bottom:8px}.lead{font-size:1.12rem;color:var(--muted);max-width:75ch}.actions{display:flex;gap:12px 24px;flex-wrap:wrap;margin:24px 0}.button{background:var(--teal);color:white;text-decoration:none;font-weight:650;padding:10px 16px;border-radius:6px}nav{display:flex;flex-wrap:wrap;gap:12px 24px;padding:18px 0;border-top:1px solid var(--line)}section{background:white;border:1px solid var(--line);border-radius:10px;padding:24px 28px;margin:22px 0;scroll-margin-top:20px}table{border-collapse:collapse;width:100%;font-size:.94rem}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}thead{color:var(--muted)}th[scope=row]{width:30%;font-weight:650}.note{padding:14px 18px;background:#edf5f4;border-left:4px solid var(--teal);border-radius:4px}.issue{margin:24px 0}details{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}summary{cursor:pointer;color:var(--teal);font-weight:650}img{width:100%;height:auto;border:1px solid var(--line)}figure{margin:18px 0}figcaption,footer{font-size:.88rem;color:var(--muted)}footer{padding-top:20px}p{margin:12px 0}li{margin:9px 0}@media(max-width:680px){main{padding:22px 16px}section{padding:20px 16px}table{font-size:.94rem}thead{position:absolute;clip-path:inset(100%);height:1px;overflow:hidden}tbody tr{display:block;border-bottom:1px solid var(--line);padding:10px 0}th[scope=row],td{display:block;width:100%;border:0;padding:4px 0}td[data-label]::before{content:attr(data-label) ': ';font-weight:650}.actions{align-items:flex-start}.button{display:block}}@media print{body{background:white;font-size:11pt}main{padding:0}.actions,nav,.back{display:none}section{border:0;padding:0;break-inside:auto}tr,.issue{break-inside:avoid}details{display:none}a{color:inherit}h1{font-size:24pt}}
+
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}.flow div{background:#edf5f4;border:1px solid #d9e1e5;border-radius:8px;padding:16px}.flow strong,.flow span{display:block}.flow span{color:#53646f;font-size:.92rem;margin-top:5px}.kicker{color:#53646f;font-size:.85rem;margin:18px 0 0}code{overflow-wrap:anywhere;font-size:.9em}.skip{position:absolute;top:-80px;left:16px;background:white;padding:12px}.skip:focus{top:10px}.source-list{padding-left:22px}@media(max-width:680px){.flow{grid-template-columns:1fr;gap:8px}.flow div{padding:13px}h2{font-size:1.3rem}}@media print{.flow{display:block}.flow div{break-inside:avoid}details{display:block}}</style></head>
+<body><a class="skip" href="#main">Skip to data guide</a><main id="main">
+<a class="back" href="./">← CSiM dashboard overview</a>
+<p class="kicker">CSiM Individual Data dashboard · Data guide</p>
+<h1>Where the data comes from</h1>
+<p class="lead">Case records are entered in REDCap, uploaded into PostgreSQL, and summarized by saved queries in Superset. The dashboard displays those results. Superset calls both the uploaded tables and the calculated results <strong>datasets</strong>.</p>
+<div class="flow" aria-label="Data flow">
+<div><strong>1. Collect &amp; upload</strong><span>REDCap → updated file → three PostgreSQL source tables</span></div>
+<div><strong>2. Calculate</strong><span>Six saved reporting queries → counts, rates and comparisons</span></div>
+<div><strong>3. View &amp; check</strong><span>Dashboard charts, aggregate download and separate record review</span></div>
+</div>
+<div class="actions"><a class="button" href="https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/">Explore the demo data →</a><a href="./#standard-instance">Demo login</a><a href="filter-guide.html">Filters and charts</a><a href="install.html">Client installation</a></div>
+<nav aria-label="Data guide sections"><a href="#sources">Source tables</a><a href="#calculations">Calculated datasets</a><a href="#uploads">Updating data</a><a href="#visibility">Missing records</a><a href="#environments">Production &amp; demo</a><a href="#dates">What the dates mean</a></nav>
+
+<section id="sources"><h2>Three tables hold the uploaded data</h2>
+<p>Hospitals submit sampled case records. Each row describes a submitted case or urine-culture review, with information such as hospital, reporting month/year, collection location, symptoms, results and antibiotic treatment. <strong>Submission counts are not necessarily every urine culture performed by the hospital.</strong></p>
+<table><thead><tr><th scope="col">Source table</th><th scope="col">What it contains</th></tr></thead><tbody>
+<tr><th scope="row">UTI Individual Current</th><td>Records from the current collection process. Includes record ID, repeat-instance identifiers and form-completion status.</td></tr>
+<tr><th scope="row">UTI Individual Historical</th><td>Historical records, including record ID. It does not have the Current table’s repeat-instance fields.</td></tr>
+<tr><th scope="row">CSiM Hospitals and States</th><td>The lookup connecting hospital codes to hospitals and states. Reporting queries use it to assign records to the correct groups.</td></tr>
+</tbody></table>
+<p>These are <strong>physical datasets</strong>: Superset entries pointing at actual database tables. Current and Historical are combined by the reporting queries. Records do not automatically move between them at year-end, and combining them does not automatically remove duplicates.</p>
+<details><summary>Where PostgreSQL fits</summary><p>PostgreSQL stores the uploaded records. Superset stores the chart definitions, filters, layouts and saved queries separately. Registering a physical dataset in Superset does not create another copy of its records.</p><p>The supplied production connection points to database <code>data</code>, with tables in schema <code>v1</code>—a named section of that database. Its <code>postgres:5432</code> address is an internal database service. Our demo uses its own database, <code>csim_demo</code>, with tables in <code>v1</code>. The Historical table name differs between the supplied production definitions and our demo; see the upload note below.</p></details>
+</section>
+
+<section id="calculations"><h2>Six queries turn records into reporting results</h2>
+<p>These are <strong>virtual datasets</strong>: saved SQL queries, not additional uploaded files. They calculate results from the source tables when queried. Superset may reuse cached results until refreshed.</p>
+<table><thead><tr><th scope="col">Reporting dataset</th><th scope="col">Purpose</th></tr></thead><tbody>
+<tr><th scope="row">UTI Aggregate ALL DATA</th><td>Counts, rates and duration summaries for the main reporting views.</td></tr>
+<tr><th scope="row">UTI Aggregate Overall Performance Bar Charts</th><td>Overall performance summaries.</td></tr>
+<tr><th scope="row">UTI Inappropriate UTI Dx Comparison Table - Ind</th><td>Diagnosis comparison table.</td></tr>
+<tr><th scope="row">UTI Abx duration comparison - Ind</th><td>Antibiotic-duration comparisons.</td></tr>
+<tr><th scope="row">UTI Top Abx - Ind</th><td>Antibiotic-choice breakdowns.</td></tr>
+<tr><th scope="row">UTI Location - Ind</th><td>Collection-location breakdowns.</td></tr>
+</tbody></table>
+<p class="note"><strong>One aggregate row can represent many cases.</strong> Twenty submissions from one hospital in a month can contribute to one summary row. That row cannot carry a single record ID describing all twenty submissions.</p>
+<p>The aggregate results also contain overlapping views: hospitals, states, the cohort, individual locations and “All locations.” <strong>Adding every row of the aggregate download together would double-count records.</strong></p>
+<h3>Where to check individual records</h3><p><a href="record-export.html">Watch the CSV export demonstration and follow the steps →</a></p>
+<p>The separate <a href="https://standard.csim.uwdigi.org/explore/?slice_id=131">Individual records review table</a> shows one row per uploaded record, including record ID, source, Current repeat identifiers and reporting eligibility. It includes excluded records with an explanation. It does not inherit the main dashboard’s selections.</p>
+<details><summary>How to see the calculation in Superset</summary><p>With an editor account, open <strong>Datasets → UTI Aggregate ALL DATA → Edit → Source</strong>. The opening query combines Current and Historical. Later steps join the hospital lookup and calculate totals and rates.</p><p>Record IDs are not assumed unique across sources or repeated forms. The record-review table retains the source and repeat identifiers so cases can be distinguished. It is a separate saved query; it does not change the six reporting calculations.</p></details>
+</section>
+
+<section id="uploads"><h2>How updated data reaches the dashboard</h2>
+<ol><li>Export the updated file from REDCap.</li><li>In Superset, choose <strong>+ → Data → Upload CSV</strong>, then the existing PostgreSQL connection and <strong>v1</strong> schema.</li><li>Use the <strong>exact existing table name</strong>, normally <strong>UTI Individual Current</strong>.</li><li>Choose <strong>Replace</strong> for the existing table and upload the file.</li><li>Refresh the affected chart results and check a known hospital, reporting month and submission count.</li></ol>
+<p class="note"><strong>Replace replaces the table’s contents.</strong> Upload the complete set of records intended to remain in that table, not just the newly added rows.</p>
+<details id="historical-source"><summary>Which Historical table should be updated?</summary><p>The current client update package reads <strong>UTI Individual Historical 2024-2025</strong>, matching the supplied production export. Our demonstration reads <strong>UTI Individual Historical</strong>. These names can refer to different physical tables.</p><p>Before a Historical upload, open <strong>Datasets → UTI Aggregate ALL DATA → Edit → Source</strong> and check the table named after <code>FROM</code> in the Historical part of the query. Match the upload destination to the intended source. Uploading a different table will not update these results. An administrator should check the column names before changing the query to another table.</p></details>
+<h3>Adding a hospital</h3>
+<p>A new hospital is a <strong>two-table update</strong>: upload its complete Current or Historical records, then add one matching row to <strong>CSiM Hospitals and States</strong>. That lookup row supplies the hospital name and state used by the reporting queries and hospital selector.</p>
+<ol><li>Use the same hospital code in the uploaded records’ <code>hosp_name</code> field and the lookup table’s <code>hosp_code</code> field.</li><li>When uploading through Superset with <strong>Replace</strong>, use a complete lookup file: every existing hospital plus the new row or rows. A file containing only new hospitals would remove the existing lookup entries.</li><li>Keep exactly one lookup row for each code. No matching row hides the hospital from reporting; duplicate rows can duplicate its calculated totals.</li><li>Refresh the dashboard, search for the hospital in <strong>Hospital and State</strong>, and check one known reporting month and submission count.</li></ol>
+<p>A saved color is optional. It affects the appearance of a comparison legend, not whether the hospital appears.</p>
+<p>Normal uploads do not require changing the reporting queries if table names, columns and coded values remain consistent. Uploading into a newly named table does not redirect the existing queries to it.</p>
+<p><a href="https://docs.google.com/document/d/1ZJXriNttqVWN3w_vXwYR7HH6DcrqbcIb/edit">Team upload and maintenance guide →</a></p>
+</section>
+
+<section id="visibility"><h2>Why an uploaded record might not appear</h2>
+<p>The aggregate query includes records with a hospital code, reporting month and year. The hospital must match the lookup. Current records must also be marked complete.</p>
+<p>A Current record can exist in PostgreSQL but remain outside the dashboard calculations because its form is incomplete. A valid record may also be outside the selected hospital, location or date range.</p>
+<p>The <a href="https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/">Data &amp; records dashboard</a> shows inclusion and exclusion summaries. The record table explains individual exclusions. Inclusion means eligible for reporting <em>before</em> the dashboard selections are applied.</p>
+<details><summary>The Current completion rule</summary><p>The saved query requires <code>qi_asb_complete = 2</code> for Current records. Historical uses its own source fields and does not have this same completion check. Neither a missing lookup entry nor an incomplete form is repaired by changing a chart filter.</p></details>
+</section>
+
+<section id="environments"><h2>Production and the demo are separate copies</h2>
+<table><thead><tr><th scope="col">Environment</th><th scope="col">Data and purpose</th></tr></thead><tbody>
+<tr><th scope="row">Client production<br><a href="https://superset.uwcsim.org/">superset.uwcsim.org</a></th><td>Client uploads and reporting. The supplied inventory has three source datasets, six active reporting datasets and eight archived datasets.</td></tr>
+<tr><th scope="row">DIGI test server<br><code>34.223.100.228:8088</code></th><td>The test environment associated with the supplied demo database and dashboard exports.</td></tr>
+<tr><th scope="row">Our public demo<br><a href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">standard.csim.uwdigi.org</a></th><td>A restored copy of the supplied demo data, with the dashboard corrections and separate record-review tools.</td></tr>
+<tr><th scope="row">Local development</th><td>Separate copies for building and testing. An additional generated test dataset contains deliberate gaps, zeros and other edge cases.</td></tr>
+</tbody></table>
+<p><strong>These environments do not automatically synchronize.</strong> Extra entries in our demo dataset list come from test variants, supporting views and earlier experiments. They are not additional client upload requirements.</p>
+<h3>What moves when we update the dashboard?</h3>
+<p>A dashboard export contains definitions: charts, saved queries, layout and filter relationships. The underlying PostgreSQL records are separate. A client update must keep the client’s existing database connection and source tables, and update the intended reporting objects without creating duplicate datasets.</p>
+<p>The separate record-review view adds one reporting dataset if included in the client package. Demo fixtures and experimental dashboards do not belong in that package.</p>
+</section>
+
+<section id="dates"><h2>Reporting month is different from upload date</h2>
+<p class="note">A September upload containing July records still has <strong>July</strong> as its latest reporting month.</p>
+<p>The reporting date is built from the source month and year, represented internally by the first day of that month. It does not establish a precise specimen-collection day, record-entry date or file-upload timestamp.</p>
+<p><strong>Time Period</strong> selects the reporting dates. <strong>Time Unit</strong> groups those observations by Month, Quarter or Year. A date editor accepting days does not make the underlying observations more precise.</p>
+<p>The latest-month card uses the latest month with submissions inside the selected filters. Showing a day on that card suggests precision the calculation does not provide. An actual upload-date field would need a separate, reliable record of successful uploads.</p>
+<p><a href="filter-guide.html">See which charts use the selected period, all available dates or the latest month →</a></p>
+</section>
+
+<details id="references"><summary>Sources and further reading</summary><ul class="source-list"><li><a href="https://docs.google.com/document/d/1ZJXriNttqVWN3w_vXwYR7HH6DcrqbcIb/edit">Team upload and maintenance guide</a> — upload procedure and dataset architecture. Some interface examples describe an earlier release.</li><li><a href="https://github.com/DIGI-UW/csim/tree/583bb0a6539ab72801d9c05b18f564f0f38fa68d/sources/exports/beth-september-17-2026">Saved September 17 definitions</a> — query and dashboard behavior.</li><li><a href="https://github.com/DIGI-UW/csim/blob/583bb0a6539ab72801d9c05b18f564f0f38fa68d/review/record-review.sql">Record-review query</a> — source fields and inclusion checks.</li></ul><p>Production inventory and connection details come from the supplied list and screenshots. This guide describes the definitions and demo setup; it is not a live inventory of production records.</p></details>
+<footer><a href="./">Dashboard overview</a> · <a href="filter-guide.html">Filters and charts</a> · <a href="review.html">Review checklist</a> · <a href="install.html">Client installation</a><br>Data guide · 18 September 2026</footer>
+</main></body></html>

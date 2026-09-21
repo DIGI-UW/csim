@@ -1,44 +1,70 @@
 # CSiM Individual Data dashboard
 
-The separately identified [September version](RECONCILIATION.md) incorporates Beth’s current test presentation and latest-data card while preserving the established 20-chart dashboard. It has 21 charts and six independent dataset definitions; the snapshot examples remain unchanged.
+Current client package and installation handoff: [Client delivery](CLIENT-DELIVERY.md).
+The identity-preserving main-dashboard ZIP and its repeat-import receipt are in
+[the client update release](release/client-update/README.md). It has passed an
+isolated official Superset 6.1.0 rehearsal; it has not been installed or accepted
+on the client's instance.
 
-Versioned CSiM dashboard definitions, demo data, deployment tooling, and browser
-evidence for date labels and Time Period filtering.
+The client target is the full September Individual Data dashboard on official
+Superset 6.1.0, with no CSiM application patches. Its reviewed version has 21
+charts and the six familiar reporting datasets. The separate known-record
+example, older comparisons, and demo database are not part of the client package.
 
-The selected baseline contains 20 charts and six datasets from the April 2026
-export. September test and production definitions are preserved alongside it.
-See [the source comparison](sources/README.md) and [implementation plan](PLAN.md).
+Public links: [official review dashboard](https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/),
+[review checklist](https://design.csim.uwdigi.org/beth-review.html), and
+[overview and matching logins](https://design.csim.uwdigi.org/).
 
-Public links: [main dashboard](https://dashboard.csim.uwdigi.org/), [snapshot](https://preview.csim.uwdigi.org/), and [overview and logins](https://design.csim.uwdigi.org/).
+The current official dashboard uses the **left sidebar** and native **Custom
+start/end dates**. Start is included; end is excluded. Month, Quarter and Year
+are separate grouping choices. Its saved opening range is September 1, 2025 to
+September 1, 2026, with Cohort selected and Your hospital unset. Saved filter
+links can restore different selections. The lower hospital-only panels require
+an explicit hospital choice.
 
-The public applications currently contain CSiM source patches. The next release
-must deliver the client's full September month-range workflow and demonstrable
-options with and without custom Superset code. The evidence determines which
-option to recommend; neither requirement is secondary. See
-[current acceptance](RELEASE-ACCEPTANCE.md) for implemented, tested and deployed
-behavior.
+The ordinary saved SQL and chart settings supply calendar gaps and sortable
+`YYYY-MM`, `YYYY Qn`, and `YYYY` labels. Yao's category colors are retained,
+including hospital/comparison legend names. **Clear all followed by reselecting
+in the left sidebar remains a known official-build limitation.** Changing
+individual selections or reloading is a workaround, not a demonstrated repair.
 
-The snapshot also supports a [second dashboard with inclusive month controls](MONTH_CONTROLS.md). It retains the full report and original snapshot dashboard.
+The April baseline and September source exports remain preserved in the
+[source comparison](sources/README.md). The [older reconciliation](RECONCILIATION.md),
+[month-control comparisons](MONTH_CONTROLS.md), and dated acceptance records
+provide historical context; their custom-build recommendations and horizontal
+controls do not describe the current client target. Follow [Client delivery](CLIENT-DELIVERY.md)
+for package contents, unresolved issues and the final handoff checks.
 
-The corrected full dashboards start with hospital 53, which supplies useful
-content in all twenty panels. Worked examples start with hospital 91. Cohort is
-still available, but hospital-specific comparisons and totals require an
-individual hospital. Saved filter links restore their saved selections.
+## Data & records
 
-The pending September update instead opens with Cohort and leaves the lower
-hospital selection unset. Query guards prevent unset hospital panels from
-combining hospitals. This does not change the established 20-chart comparison.
+The separate dependency dashboard and standalone submission-review table are
+live at [Data & records](https://standard.csim.uwdigi.org/superset/dashboard/csim-data-records/),
+with the [standalone record table](https://standard.csim.uwdigi.org/explore/?slice_id=131).
+See the [guide and verification](review/README.md). Build them against the already
+loaded demo with `bash csim.sh standard data-review`; the main dashboard is not
+modified.
 
-The separate full September month-control candidates retain 21 charts and six
-datasets. Their default is the last 12 complete months, recalculated on each fresh
-load. From month and Through month include whole months; changing Month, Quarter
-or Year never widens that window. The known-record version keeps a fixed window.
-These candidates are local until the acceptance record identifies a public release.
+## Demo upload-source datasets
 
-See [screenshot checks](https://design.csim.uwdigi.org/evidence/screenshots/) for
-opening panels, label spacing, grouping, filter recovery and numerical examples.
+The official demo registers the three existing upload tables under their production
+names: `UTI Individual Current`, `UTI Individual Historical`, and
+`CSiM Hospitals and States`. To add any missing registrations without importing
+or replacing dashboard definitions:
 
-## Local commands
+```sh
+bash csim.sh standard source-datasets
+```
+
+This command only targets the supplied demo connection. Repeated runs reuse the
+same registrations. It also gives the existing demo-viewer role read access to
+these three demo sources; it does not create a user or grant editing/upload access.
+Normal native-date imports include this step. No reporting tables are created or
+reseeded. The client's existing physical datasets remain in place during delivery.
+
+Beth's current requests and the next implementation steps are in
+[the three-request checklist](reports/beth-three-requests-2026-09-16.md).
+
+## Local comparison development
 
 Docker Compose, Ruby, Python 3, and Node.js are required.
 
@@ -76,8 +102,8 @@ in its ignored `.env.PROFILE` file. The login is `demo`.
 
 `standard` uses official Superset 6.1.0 on port 18194; `development` uses the pinned
 Apache development image on port 18195. Both add only the PostgreSQL driver and
-supported configuration. Each has its own metadata and demo database. These are
-local candidates; their existence does not establish a public release.
+supported configuration. Each has its own metadata and demo database. The official application is also deployed at `standard.csim.uwdigi.org`.
+The separate unmodified development comparison remains local.
 
 ```sh
 ruby scripts/prepare_dashboard.rb
@@ -115,8 +141,9 @@ automatically by these commands.
 
 ### Native From / Through month comparison
 
-The local `standard-month-selectors` packages retain all 21 charts and six datasets
-on official Superset 6.1.0. Two native dropdowns supply inclusive month bounds to
+The `standard-month-selectors` packages retain all 21 reporting charts and six
+reporting datasets on official Superset 6.1.0. They add one native summary chart
+and its dataset, for 22 charts/seven datasets in the complete package. Two native dropdowns supply inclusive month bounds to
 the existing dataset queries, before aggregation. The option lists include whole
 calendar years covering the reporting data, including months without observations.
 No reporting tables or Superset application files are changed.
@@ -133,7 +160,8 @@ CSIM_PROFILE=standard CSIM_NATIVE_MONTHS=1 CSIM_DATA_PROFILE=edge-cases \
 
 This imports definitions into the already initialized instance; it does not reseed.
 The supplied-data dashboard is `/superset/dashboard/csim-individual-standard-month-selectors/`.
-Its saved window is September 2025–August 2026, rather than a rolling default.
+Its saved presets resolve to the last twelve complete months; named months fix
+the window. The reporting summary displays the actual dates and range guidance.
 The known-record version saves November 2025–April 2026. Clearing an endpoint removes
 that bound. The horizontal bar avoids the reproduced native vertical-sidebar reset
 defect. Year-first chart labels remain an explicit wording tradeoff. These packages

@@ -4,6 +4,7 @@ The package contains SQL and the database connection template, never a database
 password. It can be imported repeatedly without restoring the reporting database.
 """
 import argparse
+import copy
 import hashlib
 import io
 import json
@@ -11,13 +12,13 @@ import os
 from pathlib import Path
 import zipfile
 
-import requests
 import yaml
 
 ROOT = Path(os.environ.get('CSIM_PROJECT_ROOT', '/repro'))
 STANDARD_PROFILES = ('standard', 'standard-examples', 'development', 'development-examples', 'standard-sortable', 'development-sortable', 'standard-sortable-examples', 'development-sortable-examples')
 STANDARD_PROFILES += ('standard-month-selectors', 'standard-month-selectors-examples')
 MONTH_PROFILES = ('reconciled-months', 'reconciled-months-examples')
+CLIENT_PROFILES = ('client-baseline', 'client-update')
 
 
 def package(profile: str) -> Path:
@@ -28,11 +29,13 @@ def package(profile: str) -> Path:
 
 
 def connection():
-    base = 'http://localhost:8088'
+    import requests
+    base = os.environ.get('CSIM_SUPERSET_URL', 'http://localhost:8088').rstrip('/')
+    username = os.environ.get('CSIM_SUPERSET_USERNAME', 'demo')
     session = requests.Session()
     login = session.post(
         f'{base}/api/v1/security/login',
-        json={'username': 'demo', 'password': os.environ['CSIM_ADMIN_PASSWORD'], 'provider': 'db'},
+        json={'username': username, 'password': os.environ['CSIM_ADMIN_PASSWORD'], 'provider': 'db'},
         timeout=30,
     )
     login.raise_for_status()
@@ -49,10 +52,12 @@ def connection():
     return base, session
 
 
-def archive(directory: Path) -> bytes:
+def archive(directory: Path, *, omit_database: bool = False) -> bytes:
     payload = io.BytesIO()
     with zipfile.ZipFile(payload, 'w', zipfile.ZIP_DEFLATED) as target:
         for file in sorted(directory.rglob('*.yaml')):
+            if omit_database and file.parent == directory / 'databases':
+                continue
             entry = zipfile.ZipInfo(
                 f'csim/{file.relative_to(directory).as_posix()}', date_time=(1980, 1, 1, 0, 0, 0)
             )
@@ -76,14 +81,15 @@ def dashboard_definition(directory: Path):
 def import_dashboard(profile: str):
     directory = package(profile)
     base, session = connection()
+    sparse = profile == 'client-update'
     passwords = {
         file.relative_to(directory).as_posix(): os.environ['CSIM_DB_PASSWORD']
         for file in (directory / 'databases').glob('*.yaml')
-    }
+    } if not sparse else {}
     response = session.post(
         f'{base}/api/v1/assets/import/',
-        files={'bundle': ('csim-dashboard.zip', archive(directory), 'application/zip')},
-        data={'passwords': json.dumps(passwords), 'overwrite': 'true'},
+        files={'bundle': ('csim-dashboard.zip', archive(directory, omit_database=sparse), 'application/zip')},
+        data={'passwords': json.dumps(passwords), 'sparse': str(sparse).lower()},
         timeout=120,
         allow_redirects=False,
     )
@@ -91,9 +97,27 @@ def import_dashboard(profile: str):
         raise ValueError(f'Native assets import failed ({response.status_code}): {response.text[:2000]}')
     if response.json().get('message') != 'OK':
         raise ValueError(f'Unexpected native import response: {response.text[:1000]}')
-    if profile in ('corrected','examples','reconciled','reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES) and os.environ.get('CSIM_SNAPSHOT') != '1':
+    if profile in ('corrected','examples','reconciled','reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES, *CLIENT_PROFILES) and os.environ.get('CSIM_SNAPSHOT') != '1':
         repair_numeric_references(directory)
     return directory
+
+
+def linked_chart_definitions(directory):
+    manifest = directory / 'manifest.json'
+    return json.loads(manifest.read_text()).get('standaloneCharts', []) if manifest.exists() else []
+
+
+def resolve_chart_links(position, mapping):
+    # The source package uses its own chart ids. Resolve only explicit linked
+    # chart URLs, once, so replacement ids cannot cascade into other links.
+    import re
+    for node in position.values():
+        code = node.get('meta', {}).get('code') if isinstance(node, dict) else None
+        if isinstance(code, str):
+            node['meta']['code'] = re.sub(
+                r'/explore/\?slice_id=(\d+)(?=[)#&\s]|$)',
+                lambda match: '/explore/?slice_id=' + str(mapping.get(int(match[1]), int(match[1]))), code)
+    return position
 
 
 def repair_numeric_references(directory: Path):
@@ -117,9 +141,50 @@ def repair_numeric_references(directory: Path):
     app = create_app()
     with app.app_context():
         from superset import db
+        from superset.connectors.sqla.models import SqlaTable, SqlMetric, TableColumn
         from superset.models.dashboard import Dashboard
+        from superset.models.slice import Slice
 
         dashboard = db.session.query(Dashboard).filter_by(uuid=definition['uuid']).one()
+        synchronized_datasets = 0
+        # Superset 6.1 can report a successful overwrite while retaining an
+        # existing virtual dataset's SQL, calculated columns and metrics. Use
+        # the saved UUID and Superset's own import model to make the update
+        # deterministic. The charts retain the same dataset identifiers.
+        for dataset_file in directory.glob('datasets/**/*.yaml'):
+            expected = yaml.safe_load(dataset_file.read_text())
+            actual = db.session.query(SqlaTable).filter_by(uuid=expected['uuid']).one()
+            for key in (
+                'table_name', 'sql', 'main_dttm_col', 'schema',
+                'description', 'template_params', 'filter_select_enabled',
+                'fetch_values_predicate', 'normalize_columns',
+                'always_filter_main_dttm',
+            ):
+                if key in expected:
+                    setattr(actual, key, copy.deepcopy(expected[key]))
+            saved_columns = {
+                TableColumn.import_from_dict({
+                    key: copy.deepcopy(column.get(key))
+                    for key in (
+                        'column_name', 'expression', 'type', 'is_dttm',
+                        'groupby', 'filterable', 'python_date_format',
+                    ) if key in column
+                }, parent=actual)
+                for column in expected.get('columns', [])
+            }
+            saved_metrics = {
+                SqlMetric.import_from_dict({
+                    key: copy.deepcopy(metric.get(key))
+                    for key in ('metric_name', 'expression', 'metric_type', 'd3format')
+                    if key in metric
+                }, parent=actual)
+                for metric in expected.get('metrics', [])
+            }
+            for column in set(actual.columns).difference(saved_columns):
+                db.session.delete(column)
+            for metric in set(actual.metrics).difference(saved_metrics):
+                db.session.delete(metric)
+            synchronized_datasets += 1
         actual_by_uuid = {str(chart.uuid): chart for chart in dashboard.slices}
         remap = {
             source: actual_by_uuid[uuid].id
@@ -152,6 +217,24 @@ def repair_numeric_references(directory: Path):
                 global_config['chartsInScope'] = destination_cache
                 repaired_caches += 1
         dashboard.json_metadata = json.dumps(metadata)
+        linked_map = {}
+        for linked in linked_chart_definitions(directory):
+            chart = db.session.query(Slice).filter_by(uuid=linked['uuid']).one()
+            if chart.dashboards:
+                raise ValueError('The download chart must remain outside dashboard filter scopes')
+            params = json.loads(chart.params)
+            params['slice_id'] = chart.id
+            params['dashboards'] = []
+            chart.params = json.dumps(params)
+            linked_map[linked['sourceId']] = chart.id
+        if linked_map:
+            # Use the package's unresolved markdown, not the previously saved
+            # destination, to keep updates independent of local identifier values.
+            position = json.loads(dashboard.position_json)
+            for key, node in definition['position'].items():
+                if isinstance(node, dict) and 'code' in node.get('meta', {}):
+                    position[key]['meta']['code'] = node['meta']['code']
+            dashboard.position_json = json.dumps(resolve_chart_links(position, linked_map))
 
         for chart in actual_by_uuid.values():
             params = json.loads(chart.params)
@@ -162,6 +245,7 @@ def repair_numeric_references(directory: Path):
         print(json.dumps({
             'numeric_reference_repair': 'OK',
             'destination_dashboard_id': dashboard.id,
+            'synchronized_datasets': synchronized_datasets,
             'remapped_charts': len(remap),
             'repaired_cached_scopes': repaired_caches,
         }))
@@ -195,7 +279,9 @@ def receipt(profile: str):
             'dashboard_id': dashboard.id,
             'dashboard_uuid': str(dashboard.uuid),
             'charts': charts,
-            'package_sha256': hashlib.sha256(archive(directory)).hexdigest(),
+            'package_sha256': hashlib.sha256(
+                archive(directory, omit_database=profile == 'client-update')
+            ).hexdigest(),
         }
         destination = Path(f'/tmp/csim-{profile}-receipt.json')
         destination.write_text(json.dumps(result, indent=2))
@@ -205,7 +291,7 @@ def receipt(profile: str):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('action', choices=('import', 'receipt', 'pack'))
-    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'hourly', 'examples', 'simple', 'simple-examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES), default='corrected')
+    parser.add_argument('--profile', choices=('baseline', 'corrected', 'preview', 'hourly', 'examples', 'simple', 'simple-examples', 'reconciled', 'reconciled-examples', *STANDARD_PROFILES, *MONTH_PROFILES, *CLIENT_PROFILES), default='corrected')
     args = parser.parse_args()
     if args.action == 'import':
         import_dashboard(args.profile)
@@ -214,5 +300,7 @@ if __name__ == '__main__':
         receipt(args.profile)
     else:
         output = Path(f'/tmp/csim-{args.profile}-dashboard.zip')
-        output.write_bytes(archive(package(args.profile)))
+        output.write_bytes(archive(
+            package(args.profile), omit_database=args.profile == 'client-update'
+        ))
         print(output)

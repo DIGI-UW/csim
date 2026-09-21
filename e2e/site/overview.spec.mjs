@@ -26,10 +26,12 @@ test('Readers can open the September dashboard and find each matching login',asy
   const primary=page.getByRole('link',{name:'Open recommended dashboard →',exact:true});
   await expect(primary).toBeInViewport();
   const recommended=new URL(await primary.getAttribute('href'));
-  expect(recommended.hostname).toBe('dashboard.csim.uwdigi.org');
-  expect(recommended.searchParams.get('next')).toBe('/superset/dashboard/csim-individual-reconciled-months/');
+  expect(recommended.hostname).toBe('standard.csim.uwdigi.org');
+  expect(recommended.pathname).toBe('/superset/dashboard/csim-individual-standard-month-selectors/');
+  expect(recommended.search).toBe('');
+  await expect(page.locator('#standard-instance a.instance-open')).toHaveAttribute('href',recommended.href);
   await page.locator('#start-here').getByRole('link',{name:'Login details',exact:true}).click();
-  await expect(page.locator('#demo-instance a.instance-open')).toBeInViewport();
+  await expect(page.locator('#standard-instance a.instance-open')).toBeInViewport();
   for(const [id,host] of [['demo-instance','dashboard.csim.uwdigi.org'],['snapshot-instance','preview.csim.uwdigi.org']]){
     const box=page.locator('#'+id);
     await expect(box.locator('a.instance-open')).toHaveAttribute('href',new RegExp('https://'+host+'/login/'));
@@ -39,6 +41,26 @@ test('Readers can open the September dashboard and find each matching login',asy
   }
   const destination=new URL(await page.locator('#demo-instance a.instance-open').getAttribute('href'));
   expect(destination.searchParams.get('next')).toBe('/superset/dashboard/csim-individual-reconciled-months/');
+});
+
+test('Review guide starts with the official dashboard and separates decisions from the known limitation',async({page},info)=>{
+  await page.goto('/beth-review.html');
+  await expect(page).toHaveURL(/review\.html$/);
+  await expect(page.getByRole('heading',{name:'Review the CSiM dashboard'})).toBeVisible();
+  await expect(page.getByRole('link',{name:'Open the dashboard →'})).toHaveAttribute('href','https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/');
+  await expect(page.getByRole('heading',{name:'Known official 6.1.0 limitation'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Items already settled in the team notes'})).toBeVisible();
+  await expect(page.locator('body')).toContainText('hospital 53 count concern');
+  await expect(page.locator('body')).toContainText('Historical/Current overlap question are marked resolved');
+  await expect(page.locator('body')).toContainText('Seven panels now identify their independent date coverage');
+  await expect(page.locator('body')).toContainText('No Superset application code change is required');
+  const evidence=page.locator('img');
+  await expect(evidence).toHaveCount(8);
+  await expect.poll(()=>evidence.evaluateAll(images=>images.every(image=>image.complete&&image.naturalWidth>0))).toBe(true);
+  await page.setViewportSize({width:1280,height:900});
+  await page.screenshot({path:info.outputPath('beth-review-desktop.png'),fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  await page.screenshot({path:info.outputPath('beth-review-mobile.png'),fullPage:true});
 });
 
 test('Version comparison does not pass custom installations off as standard Superset',async({page})=>{
@@ -52,8 +74,11 @@ test('Version comparison does not pass custom installations off as standard Supe
   await expect(rows.nth(2)).toContainText('CSiM custom');
   await expect(rows.nth(2).locator('a')).toHaveCount(2);
   await expect(page.locator('#solution-labels')).toContainText('retain every monthly label');
-  await expect(page.locator('#solution-filters')).toContainText('expected hospital-only results returned without reloading');
-  await expect(page.locator('#solution-calculation')).toContainText('Accurate filtering does not depend on using the custom fields');
+  await expect(page.locator('#solution-filters .status')).toHaveText('Known gap in official Superset 6.1.0');
+  await expect(page.locator('#solution-filters')).toContainText('Moving the controls left does not repair that defect');
+  await expect(page.locator('#solution-calculation .status')).toContainText('No Superset code change needed');
+  await expect(page.locator('#solution-calculation')).toContainText('It opens in Custom with Specific Date/Time for both endpoints');
+  await expect(page.locator('#solution-calculation')).toContainText('the end is excluded');
   await expect(page.locator('#solution-time-menu')).toContainText('needs no CSiM code');
   await page.screenshot({path:test.info().outputPath('version-comparison.png')});
 });

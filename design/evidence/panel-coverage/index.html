@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CSiM panel coverage evidence</title>
+<style>
+:root{--ink:#203444;--muted:#53646f;--teal:#066b7b;--line:#d9e1e5;--paper:#f5f8fa}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 system-ui,sans-serif}main{max-width:1160px;margin:auto;padding:32px 24px 64px}a{color:var(--teal);text-underline-offset:3px}h1,h2{line-height:1.2}.lead{font-size:1.1rem;color:var(--muted);max-width:72ch}.summary{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:24px 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}.card img{display:block;width:100%;height:auto;border:1px solid var(--line)}figcaption{font-size:.9rem;color:var(--muted);margin-top:8px}code{font-size:.9em}@media(max-width:700px){main{padding:22px 16px}.grid{grid-template-columns:1fr}}
+</style>
+<main>
+<p><a href="../../filter-guide.html#panel-coverage">← Filters and charts catalogue</a></p>
+<h1>Panel coverage evidence</h1>
+<p class="lead">These screenshots show the published official Superset 6.1.0 dashboard after the panel-coverage update.</p>
+<section class="summary">
+<h2>What was checked</h2>
+<p>For hospital 53, each of the seven panels was checked with calendar 2024 grouped by Month and with September 2025 through August 2026 grouped by Year. The five overall charts retain their all-reporting-dates results and show only Hospital and State plus collection location. The two latest-month tables retain their latest available month and show only Hospital and State. The therapy trend still changes with the selected dates and grouping.</p>
+<p>Section 4.1 now describes positive urinalysis submissions divided by urine culture submissions. Its saved chart calculations were unchanged.</p>
+<p><a href="panel-results.json">Structured result check (JSON)</a> · <a href="../../beth-review.html">Review checklist</a> · <a href="https://standard.csim.uwdigi.org/superset/dashboard/csim-individual-standard-month-selectors/">Open the dashboard</a></p>
+</section>
+<section class="grid">
+<figure class="card"><img src="panel-95-filters.png" alt="Overall inappropriate UTI diagnosis labelled all reporting dates with Hospital and State and collection-location filters"><figcaption>Overall inappropriate UTI diagnosis: all reporting dates, with Hospital and State and collection location only.</figcaption></figure>
+<figure class="card"><img src="panel-88-filters.png" alt="Average therapy duration latest available month table showing March 2026 for hospital 53"><figcaption>Average therapy duration: hospital 53’s latest available month is March 2026, independent of the selected 2024 period.</figcaption></figure>
+<figure class="card"><img src="panel-97-filters.png" alt="Positive urinalysis proportion chart labelled all reporting dates"><figcaption>Positive urinalysis proportion: all reporting dates, alongside the corrected section 4.1 explanation.</figcaption></figure>
+<figure class="card"><img src="section-4-1-correct-formula.png" alt="Positive urinalysis section showing its numerator and denominator"><figcaption>Section 4.1’s explanation now matches the existing calculation.</figcaption></figure>
+</section>
+</main>

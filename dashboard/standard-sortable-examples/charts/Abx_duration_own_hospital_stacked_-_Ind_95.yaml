@@ -113,7 +113,8 @@ params:
     label: ">7 days"
     optionName: metric_5nxy3olipf7_p0gigzdb35
     sqlExpression:
-  groupby: []
+  groupby:
+  - hosp_code
   adhoc_filters:
   - clause: WHERE
     comparator: No filter

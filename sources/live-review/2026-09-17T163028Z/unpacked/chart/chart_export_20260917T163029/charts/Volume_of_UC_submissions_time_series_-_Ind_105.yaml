@@ -1,0 +1,103 @@
+slice_name: Volume of UC submissions (time series) - Ind
+description: null
+certified_by: null
+certification_details: null
+viz_type: echarts_timeseries_line
+params:
+  datasource: 14__table
+  viz_type: echarts_timeseries_line
+  slice_id: 105
+  x_axis: period_label
+  time_grain_sqla: P1M
+  xAxisForceCategorical: true
+  x_axis_sort_asc: true
+  metrics:
+  - aggregate: SUM
+    column:
+      advanced_data_type: null
+      changed_on: '2026-03-12T17:38:27.533573'
+      column_name: ucsub
+      created_on: '2026-03-12T17:38:27.533569'
+      description: null
+      expression: null
+      extra: null
+      filterable: true
+      groupby: true
+      id: 389
+      is_active: true
+      is_dttm: false
+      python_date_format: null
+      type: LONGINTEGER
+      type_generic: 0
+      uuid: ea1aada2-17bb-4dfa-9ced-1d61f2c42430
+      verbose_name: null
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    label: SUM(ucsub)
+    optionName: metric_crskhv9dihl_rkctbakutu
+    sqlExpression: null
+  groupby:
+  - hosp_code
+  adhoc_filters:
+  - clause: WHERE
+    comparator: No filter
+    expressionType: SIMPLE
+    operator: TEMPORAL_RANGE
+    subject: month_date
+  group_others_when_limit_reached: false
+  order_desc: false
+  row_limit: 1000
+  truncate_metric: true
+  show_empty_columns: true
+  comparison_type: values
+  annotation_layers: []
+  forecastEnabled: false
+  forecastPeriods: 10
+  forecastInterval: 0.8
+  x_axis_title: Time
+  x_axis_title_margin: 60
+  y_axis_title: Number of UC Submissions
+  y_axis_title_margin: 30
+  y_axis_title_position: Left
+  sort_series_type: name
+  sort_series_ascending: true
+  color_scheme: googleCategory20c
+  time_shift_color: true
+  show_value: false
+  only_total: true
+  percentage_threshold: 0
+  area: false
+  opacity: 0.2
+  markerEnabled: true
+  markerSize: 5
+  zoomable: false
+  minorTicks: false
+  show_legend: true
+  legendType: scroll
+  legendOrientation: top
+  x_axis_time_format: smart_date
+  xAxisLabelRotation: 90
+  xAxisLabelInterval: 0
+  rich_tooltip: true
+  showTooltipTotal: false
+  showTooltipPercentage: false
+  tooltipSortByMetric: false
+  y_axis_format: SMART_NUMBER
+  logAxis: false
+  minorSplitLine: false
+  truncateXAxis: false
+  truncateYAxis: false
+  y_axis_bounds:
+  - null
+  - null
+  extra_form_data: {}
+  dashboards:
+  - 5
+  granularity_sqla: month_date
+  x_axis_sort: name
+query_context: null
+cache_timeout: null
+uuid: dc5f7e14-478d-52f0-81c4-e3fdae99bbf7
+version: 1.0.0
+dataset_uuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f

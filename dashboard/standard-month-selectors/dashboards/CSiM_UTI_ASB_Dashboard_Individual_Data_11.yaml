@@ -1,7 +1,8 @@
 ---
-dashboard_title: CSiM Individual Data — September / native month selectors
-description: Official Superset with native From/Through month dropdowns. The saved
-  window is explicit, not a rolling default. Clearing an endpoint removes that bound.
+dashboard_title: CSiM Individual Data — September / Superset 6.1.0
+description: Full September dashboard on official Superset 6.1.0. Left-hand filters;
+  Time Period opens in Custom with specific start/end dates. End is exclusive. The
+  saved opening range is fixed.
 css: "/* Comparison table - cell text */\r\n.table td, .table th {\r\n  font-size:
   14px !important;\r\n}\r\n\r\n/* Filter panel labels */\r\n.ant-select-selection-item,\r\n.filter-title,\r\n[data-test=\"filter-title\"]
   {\r\n  font-size: 14px !important;\r\n}\r\n\r\n/* Text boxes / markdown components
@@ -11,8 +12,7 @@ css: "/* Comparison table - cell text */\r\n.table td, .table th {\r\n  font-siz
   */\r\n.header-title {\r\n  font-size: 16px !important;\r\n}\r\n\r\n/* Table cell
   text stays at 14px */\r\n.table td, .table th {\r\n  font-size: 14px !important;\r\n}\n/*
   The anchor follows the title text; allow room for two title lines below the fixed
-  toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 140px; }\n\n[id^=\"HEADER-\"]
-  { scroll-margin-top: 160px; }\n"
+  toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 140px; }\n\n"
 slug: csim-individual-standard-month-selectors
 certified_by: ''
 certification_details: ''
@@ -25,7 +25,7 @@ position:
     meta:
       chartId: 107
       height: 14
-      sliceName: Latest reporting month
+      sliceName: Latest reporting month in selected period
       uuid: a84edca7-724f-530c-8ecf-b09456519b70
       width: 6
     parents:
@@ -428,6 +428,7 @@ position:
     type: DIVIDER
   GRID_ID:
     children:
+    - ROW-csim-native-period
     - ROW-5RI0Rt1SvKbXRf-OhEmkV
     - ROW-6p6C4N9oaGpvR7_YhLdkS
     - ROW-7Ofrh4DMN-RBbmcQ4V1f4
@@ -581,9 +582,8 @@ position:
     children: []
     id: MARKDOWN-4LE_6MIsEUYEjgMUcvAyM
     meta:
-      code: "**Choose Your hospital in the filter bar to display the hospital comparison
-        panels.** Open More filters if the selector is hidden. Then choose Cohort/State
-        for the comparison."
+      code: "**Choose Your hospital in the left filter panel to display the hospital
+        comparison panels.** Then choose Cohort/State for the comparison."
       height: 12
       width: 12
     parents:
@@ -613,7 +613,7 @@ position:
         *Manual upload note from the source dashboard:* March 30, 2026. This is separate from the latest reporting month shown beside it.
 
         **Choose an individual hospital in Hospital and state to populate the latest-month comparison tables.** Cohort remains available for the main charts.
-      height: 14
+      height: 22
       width: 6
     parents:
     - ROOT_ID
@@ -679,9 +679,8 @@ position:
     children: []
     id: MARKDOWN-WIofdf7GkSmIbs0pSuT-6
     meta:
-      code: "**Choose Your hospital in the filter bar to display the hospital comparison
-        panels.** Open More filters if the selector is hidden. Then choose Cohort/State
-        for the comparison."
+      code: "**The trend and latest-month table use Hospital and state.** The two
+        duration-category charts below use Your hospital and Cohort/State."
       height: 12
       width: 12
     parents:
@@ -716,10 +715,10 @@ position:
         - [2. Inappropriate diagnosis of UTI (by urinalysis data)](#HEADER-hAJImIfKTuh5AjqubMMQx)
         - [3. Prevalence and treatment of asymptomatic bacteriuria](#HEADER-vvlp4XUy79yAsrEv5y3Z9)
         - [4. Additional urine testing and antibiotic insights](#HEADER-w3h--tvRPIJ4paGsvAvtq)
-        - [4.1. Positive urinalysis within 24hours of urine culture](#HEADER-VSO77JOVErZuIv0jiVKxm)
-        - [4.2. Average Duration of Antibiotic Therapy (days)](#HEADER-eVOJ7CLoDLTv7Uc8Ct2eU)
-        - [4.3. Top antibiotic prescriptions](#HEADER-uzYe_XPHyTLsyEBmvrbL6)
-        - [4.4. Location of service](#HEADER-jcjz34JVi0EGsAKJEFcAL)
+          - [4.1. Positive urinalysis within 24hours of urine culture](#HEADER-VSO77JOVErZuIv0jiVKxm)
+          - [4.2. Average Duration of Antibiotic Therapy (days)](#HEADER-eVOJ7CLoDLTv7Uc8Ct2eU)
+          - [4.3. Top antibiotic prescriptions](#HEADER-uzYe_XPHyTLsyEBmvrbL6)
+          - [4.4. Location of service](#HEADER-jcjz34JVi0EGsAKJEFcAL)
         - [5. Total number of data submitted](#HEADER-PMMsB3kEnSteAcLMsgZz-)
       height: 51
       width: 12
@@ -1061,6 +1060,30 @@ position:
     - ROOT_ID
     - GRID_ID
     type: ROW
+  ROW-csim-native-period:
+    id: ROW-csim-native-period
+    type: ROW
+    children:
+    - CHART-csim-native-period
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  CHART-csim-native-period:
+    id: CHART-csim-native-period
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-csim-native-period
+    meta:
+      chartId: 108
+      sliceName: Reporting period
+      uuid: 3d5f5431-f71d-5006-87f5-96bedbd8ed5b
+      width: 12
+      height: 16
 metadata:
   label_colors:
     '10': "#006E2D"
@@ -1172,6 +1195,1570 @@ metadata:
     Rehab or long-term care: "#00A800"
     Urgent or quick care: "#548AFC"
     All locations: "#A29066"
+    "<=3 days, 10": "#1E8449"
+    ">3 to 5 days, 10": "#1F5F8B"
+    ">5 to 7 days, 10": "#B47E00"
+    ">7 days, 10": "#990000"
+    10, Ceftriaxone: "#1A5276"
+    10, Cephalexin: "#FC0000"
+    10, Fluoroquinolone: "#0000FC"
+    10, Nitrofurantoin: "#00A824"
+    10, TMP/SMX: "#FC00AE"
+    10, Oral beta-lactam: "#6C3C00"
+    10, Other: "#8A78FC"
+    10, Ambulatory care clinic: "#00001E"
+    10, Emergency Department: "#BA0000"
+    10, Inpatient: "#FC24FC"
+    10, Rehab or long-term care: "#00A800"
+    10, Urgent or quick care: "#548AFC"
+    10, All locations: "#A29066"
+    "<=3 days, 11": "#1E8449"
+    ">3 to 5 days, 11": "#1F5F8B"
+    ">5 to 7 days, 11": "#B47E00"
+    ">7 days, 11": "#990000"
+    11, Ceftriaxone: "#1A5276"
+    11, Cephalexin: "#FC0000"
+    11, Fluoroquinolone: "#0000FC"
+    11, Nitrofurantoin: "#00A824"
+    11, TMP/SMX: "#FC00AE"
+    11, Oral beta-lactam: "#6C3C00"
+    11, Other: "#8A78FC"
+    11, Ambulatory care clinic: "#00001E"
+    11, Emergency Department: "#BA0000"
+    11, Inpatient: "#FC24FC"
+    11, Rehab or long-term care: "#00A800"
+    11, Urgent or quick care: "#548AFC"
+    11, All locations: "#A29066"
+    "<=3 days, 12": "#1E8449"
+    ">3 to 5 days, 12": "#1F5F8B"
+    ">5 to 7 days, 12": "#B47E00"
+    ">7 days, 12": "#990000"
+    12, Ceftriaxone: "#1A5276"
+    12, Cephalexin: "#FC0000"
+    12, Fluoroquinolone: "#0000FC"
+    12, Nitrofurantoin: "#00A824"
+    12, TMP/SMX: "#FC00AE"
+    12, Oral beta-lactam: "#6C3C00"
+    12, Other: "#8A78FC"
+    12, Ambulatory care clinic: "#00001E"
+    12, Emergency Department: "#BA0000"
+    12, Inpatient: "#FC24FC"
+    12, Rehab or long-term care: "#00A800"
+    12, Urgent or quick care: "#548AFC"
+    12, All locations: "#A29066"
+    "<=3 days, 13": "#1E8449"
+    ">3 to 5 days, 13": "#1F5F8B"
+    ">5 to 7 days, 13": "#B47E00"
+    ">7 days, 13": "#990000"
+    13, Ceftriaxone: "#1A5276"
+    13, Cephalexin: "#FC0000"
+    13, Fluoroquinolone: "#0000FC"
+    13, Nitrofurantoin: "#00A824"
+    13, TMP/SMX: "#FC00AE"
+    13, Oral beta-lactam: "#6C3C00"
+    13, Other: "#8A78FC"
+    13, Ambulatory care clinic: "#00001E"
+    13, Emergency Department: "#BA0000"
+    13, Inpatient: "#FC24FC"
+    13, Rehab or long-term care: "#00A800"
+    13, Urgent or quick care: "#548AFC"
+    13, All locations: "#A29066"
+    "<=3 days, 14": "#1E8449"
+    ">3 to 5 days, 14": "#1F5F8B"
+    ">5 to 7 days, 14": "#B47E00"
+    ">7 days, 14": "#990000"
+    14, Ceftriaxone: "#1A5276"
+    14, Cephalexin: "#FC0000"
+    14, Fluoroquinolone: "#0000FC"
+    14, Nitrofurantoin: "#00A824"
+    14, TMP/SMX: "#FC00AE"
+    14, Oral beta-lactam: "#6C3C00"
+    14, Other: "#8A78FC"
+    14, Ambulatory care clinic: "#00001E"
+    14, Emergency Department: "#BA0000"
+    14, Inpatient: "#FC24FC"
+    14, Rehab or long-term care: "#00A800"
+    14, Urgent or quick care: "#548AFC"
+    14, All locations: "#A29066"
+    "<=3 days, 15": "#1E8449"
+    ">3 to 5 days, 15": "#1F5F8B"
+    ">5 to 7 days, 15": "#B47E00"
+    ">7 days, 15": "#990000"
+    15, Ceftriaxone: "#1A5276"
+    15, Cephalexin: "#FC0000"
+    15, Fluoroquinolone: "#0000FC"
+    15, Nitrofurantoin: "#00A824"
+    15, TMP/SMX: "#FC00AE"
+    15, Oral beta-lactam: "#6C3C00"
+    15, Other: "#8A78FC"
+    15, Ambulatory care clinic: "#00001E"
+    15, Emergency Department: "#BA0000"
+    15, Inpatient: "#FC24FC"
+    15, Rehab or long-term care: "#00A800"
+    15, Urgent or quick care: "#548AFC"
+    15, All locations: "#A29066"
+    "<=3 days, 16": "#1E8449"
+    ">3 to 5 days, 16": "#1F5F8B"
+    ">5 to 7 days, 16": "#B47E00"
+    ">7 days, 16": "#990000"
+    16, Ceftriaxone: "#1A5276"
+    16, Cephalexin: "#FC0000"
+    16, Fluoroquinolone: "#0000FC"
+    16, Nitrofurantoin: "#00A824"
+    16, TMP/SMX: "#FC00AE"
+    16, Oral beta-lactam: "#6C3C00"
+    16, Other: "#8A78FC"
+    16, Ambulatory care clinic: "#00001E"
+    16, Emergency Department: "#BA0000"
+    16, Inpatient: "#FC24FC"
+    16, Rehab or long-term care: "#00A800"
+    16, Urgent or quick care: "#548AFC"
+    16, All locations: "#A29066"
+    "<=3 days, 17": "#1E8449"
+    ">3 to 5 days, 17": "#1F5F8B"
+    ">5 to 7 days, 17": "#B47E00"
+    ">7 days, 17": "#990000"
+    17, Ceftriaxone: "#1A5276"
+    17, Cephalexin: "#FC0000"
+    17, Fluoroquinolone: "#0000FC"
+    17, Nitrofurantoin: "#00A824"
+    17, TMP/SMX: "#FC00AE"
+    17, Oral beta-lactam: "#6C3C00"
+    17, Other: "#8A78FC"
+    17, Ambulatory care clinic: "#00001E"
+    17, Emergency Department: "#BA0000"
+    17, Inpatient: "#FC24FC"
+    17, Rehab or long-term care: "#00A800"
+    17, Urgent or quick care: "#548AFC"
+    17, All locations: "#A29066"
+    "<=3 days, 18": "#1E8449"
+    ">3 to 5 days, 18": "#1F5F8B"
+    ">5 to 7 days, 18": "#B47E00"
+    ">7 days, 18": "#990000"
+    18, Ceftriaxone: "#1A5276"
+    18, Cephalexin: "#FC0000"
+    18, Fluoroquinolone: "#0000FC"
+    18, Nitrofurantoin: "#00A824"
+    18, TMP/SMX: "#FC00AE"
+    18, Oral beta-lactam: "#6C3C00"
+    18, Other: "#8A78FC"
+    18, Ambulatory care clinic: "#00001E"
+    18, Emergency Department: "#BA0000"
+    18, Inpatient: "#FC24FC"
+    18, Rehab or long-term care: "#00A800"
+    18, Urgent or quick care: "#548AFC"
+    18, All locations: "#A29066"
+    "<=3 days, 19": "#1E8449"
+    ">3 to 5 days, 19": "#1F5F8B"
+    ">5 to 7 days, 19": "#B47E00"
+    ">7 days, 19": "#990000"
+    19, Ceftriaxone: "#1A5276"
+    19, Cephalexin: "#FC0000"
+    19, Fluoroquinolone: "#0000FC"
+    19, Nitrofurantoin: "#00A824"
+    19, TMP/SMX: "#FC00AE"
+    19, Oral beta-lactam: "#6C3C00"
+    19, Other: "#8A78FC"
+    19, Ambulatory care clinic: "#00001E"
+    19, Emergency Department: "#BA0000"
+    19, Inpatient: "#FC24FC"
+    19, Rehab or long-term care: "#00A800"
+    19, Urgent or quick care: "#548AFC"
+    19, All locations: "#A29066"
+    "<=3 days, 20": "#1E8449"
+    ">3 to 5 days, 20": "#1F5F8B"
+    ">5 to 7 days, 20": "#B47E00"
+    ">7 days, 20": "#990000"
+    20, Ceftriaxone: "#1A5276"
+    20, Cephalexin: "#FC0000"
+    20, Fluoroquinolone: "#0000FC"
+    20, Nitrofurantoin: "#00A824"
+    20, TMP/SMX: "#FC00AE"
+    20, Oral beta-lactam: "#6C3C00"
+    20, Other: "#8A78FC"
+    20, Ambulatory care clinic: "#00001E"
+    20, Emergency Department: "#BA0000"
+    20, Inpatient: "#FC24FC"
+    20, Rehab or long-term care: "#00A800"
+    20, Urgent or quick care: "#548AFC"
+    20, All locations: "#A29066"
+    "<=3 days, 21": "#1E8449"
+    ">3 to 5 days, 21": "#1F5F8B"
+    ">5 to 7 days, 21": "#B47E00"
+    ">7 days, 21": "#990000"
+    21, Ceftriaxone: "#1A5276"
+    21, Cephalexin: "#FC0000"
+    21, Fluoroquinolone: "#0000FC"
+    21, Nitrofurantoin: "#00A824"
+    21, TMP/SMX: "#FC00AE"
+    21, Oral beta-lactam: "#6C3C00"
+    21, Other: "#8A78FC"
+    21, Ambulatory care clinic: "#00001E"
+    21, Emergency Department: "#BA0000"
+    21, Inpatient: "#FC24FC"
+    21, Rehab or long-term care: "#00A800"
+    21, Urgent or quick care: "#548AFC"
+    21, All locations: "#A29066"
+    "<=3 days, 22": "#1E8449"
+    ">3 to 5 days, 22": "#1F5F8B"
+    ">5 to 7 days, 22": "#B47E00"
+    ">7 days, 22": "#990000"
+    22, Ceftriaxone: "#1A5276"
+    22, Cephalexin: "#FC0000"
+    22, Fluoroquinolone: "#0000FC"
+    22, Nitrofurantoin: "#00A824"
+    22, TMP/SMX: "#FC00AE"
+    22, Oral beta-lactam: "#6C3C00"
+    22, Other: "#8A78FC"
+    22, Ambulatory care clinic: "#00001E"
+    22, Emergency Department: "#BA0000"
+    22, Inpatient: "#FC24FC"
+    22, Rehab or long-term care: "#00A800"
+    22, Urgent or quick care: "#548AFC"
+    22, All locations: "#A29066"
+    "<=3 days, 23": "#1E8449"
+    ">3 to 5 days, 23": "#1F5F8B"
+    ">5 to 7 days, 23": "#B47E00"
+    ">7 days, 23": "#990000"
+    23, Ceftriaxone: "#1A5276"
+    23, Cephalexin: "#FC0000"
+    23, Fluoroquinolone: "#0000FC"
+    23, Nitrofurantoin: "#00A824"
+    23, TMP/SMX: "#FC00AE"
+    23, Oral beta-lactam: "#6C3C00"
+    23, Other: "#8A78FC"
+    23, Ambulatory care clinic: "#00001E"
+    23, Emergency Department: "#BA0000"
+    23, Inpatient: "#FC24FC"
+    23, Rehab or long-term care: "#00A800"
+    23, Urgent or quick care: "#548AFC"
+    23, All locations: "#A29066"
+    "<=3 days, 24": "#1E8449"
+    ">3 to 5 days, 24": "#1F5F8B"
+    ">5 to 7 days, 24": "#B47E00"
+    ">7 days, 24": "#990000"
+    24, Ceftriaxone: "#1A5276"
+    24, Cephalexin: "#FC0000"
+    24, Fluoroquinolone: "#0000FC"
+    24, Nitrofurantoin: "#00A824"
+    24, TMP/SMX: "#FC00AE"
+    24, Oral beta-lactam: "#6C3C00"
+    24, Other: "#8A78FC"
+    24, Ambulatory care clinic: "#00001E"
+    24, Emergency Department: "#BA0000"
+    24, Inpatient: "#FC24FC"
+    24, Rehab or long-term care: "#00A800"
+    24, Urgent or quick care: "#548AFC"
+    24, All locations: "#A29066"
+    "<=3 days, 25": "#1E8449"
+    ">3 to 5 days, 25": "#1F5F8B"
+    ">5 to 7 days, 25": "#B47E00"
+    ">7 days, 25": "#990000"
+    25, Ceftriaxone: "#1A5276"
+    25, Cephalexin: "#FC0000"
+    25, Fluoroquinolone: "#0000FC"
+    25, Nitrofurantoin: "#00A824"
+    25, TMP/SMX: "#FC00AE"
+    25, Oral beta-lactam: "#6C3C00"
+    25, Other: "#8A78FC"
+    25, Ambulatory care clinic: "#00001E"
+    25, Emergency Department: "#BA0000"
+    25, Inpatient: "#FC24FC"
+    25, Rehab or long-term care: "#00A800"
+    25, Urgent or quick care: "#548AFC"
+    25, All locations: "#A29066"
+    "<=3 days, 26": "#1E8449"
+    ">3 to 5 days, 26": "#1F5F8B"
+    ">5 to 7 days, 26": "#B47E00"
+    ">7 days, 26": "#990000"
+    26, Ceftriaxone: "#1A5276"
+    26, Cephalexin: "#FC0000"
+    26, Fluoroquinolone: "#0000FC"
+    26, Nitrofurantoin: "#00A824"
+    26, TMP/SMX: "#FC00AE"
+    26, Oral beta-lactam: "#6C3C00"
+    26, Other: "#8A78FC"
+    26, Ambulatory care clinic: "#00001E"
+    26, Emergency Department: "#BA0000"
+    26, Inpatient: "#FC24FC"
+    26, Rehab or long-term care: "#00A800"
+    26, Urgent or quick care: "#548AFC"
+    26, All locations: "#A29066"
+    "<=3 days, 27": "#1E8449"
+    ">3 to 5 days, 27": "#1F5F8B"
+    ">5 to 7 days, 27": "#B47E00"
+    ">7 days, 27": "#990000"
+    27, Ceftriaxone: "#1A5276"
+    27, Cephalexin: "#FC0000"
+    27, Fluoroquinolone: "#0000FC"
+    27, Nitrofurantoin: "#00A824"
+    27, TMP/SMX: "#FC00AE"
+    27, Oral beta-lactam: "#6C3C00"
+    27, Other: "#8A78FC"
+    27, Ambulatory care clinic: "#00001E"
+    27, Emergency Department: "#BA0000"
+    27, Inpatient: "#FC24FC"
+    27, Rehab or long-term care: "#00A800"
+    27, Urgent or quick care: "#548AFC"
+    27, All locations: "#A29066"
+    "<=3 days, 28": "#1E8449"
+    ">3 to 5 days, 28": "#1F5F8B"
+    ">5 to 7 days, 28": "#B47E00"
+    ">7 days, 28": "#990000"
+    28, Ceftriaxone: "#1A5276"
+    28, Cephalexin: "#FC0000"
+    28, Fluoroquinolone: "#0000FC"
+    28, Nitrofurantoin: "#00A824"
+    28, TMP/SMX: "#FC00AE"
+    28, Oral beta-lactam: "#6C3C00"
+    28, Other: "#8A78FC"
+    28, Ambulatory care clinic: "#00001E"
+    28, Emergency Department: "#BA0000"
+    28, Inpatient: "#FC24FC"
+    28, Rehab or long-term care: "#00A800"
+    28, Urgent or quick care: "#548AFC"
+    28, All locations: "#A29066"
+    "<=3 days, 29": "#1E8449"
+    ">3 to 5 days, 29": "#1F5F8B"
+    ">5 to 7 days, 29": "#B47E00"
+    ">7 days, 29": "#990000"
+    29, Ceftriaxone: "#1A5276"
+    29, Cephalexin: "#FC0000"
+    29, Fluoroquinolone: "#0000FC"
+    29, Nitrofurantoin: "#00A824"
+    29, TMP/SMX: "#FC00AE"
+    29, Oral beta-lactam: "#6C3C00"
+    29, Other: "#8A78FC"
+    29, Ambulatory care clinic: "#00001E"
+    29, Emergency Department: "#BA0000"
+    29, Inpatient: "#FC24FC"
+    29, Rehab or long-term care: "#00A800"
+    29, Urgent or quick care: "#548AFC"
+    29, All locations: "#A29066"
+    "<=3 days, 30": "#1E8449"
+    ">3 to 5 days, 30": "#1F5F8B"
+    ">5 to 7 days, 30": "#B47E00"
+    ">7 days, 30": "#990000"
+    30, Ceftriaxone: "#1A5276"
+    30, Cephalexin: "#FC0000"
+    30, Fluoroquinolone: "#0000FC"
+    30, Nitrofurantoin: "#00A824"
+    30, TMP/SMX: "#FC00AE"
+    30, Oral beta-lactam: "#6C3C00"
+    30, Other: "#8A78FC"
+    30, Ambulatory care clinic: "#00001E"
+    30, Emergency Department: "#BA0000"
+    30, Inpatient: "#FC24FC"
+    30, Rehab or long-term care: "#00A800"
+    30, Urgent or quick care: "#548AFC"
+    30, All locations: "#A29066"
+    "<=3 days, 31": "#1E8449"
+    ">3 to 5 days, 31": "#1F5F8B"
+    ">5 to 7 days, 31": "#B47E00"
+    ">7 days, 31": "#990000"
+    31, Ceftriaxone: "#1A5276"
+    31, Cephalexin: "#FC0000"
+    31, Fluoroquinolone: "#0000FC"
+    31, Nitrofurantoin: "#00A824"
+    31, TMP/SMX: "#FC00AE"
+    31, Oral beta-lactam: "#6C3C00"
+    31, Other: "#8A78FC"
+    31, Ambulatory care clinic: "#00001E"
+    31, Emergency Department: "#BA0000"
+    31, Inpatient: "#FC24FC"
+    31, Rehab or long-term care: "#00A800"
+    31, Urgent or quick care: "#548AFC"
+    31, All locations: "#A29066"
+    "<=3 days, 32": "#1E8449"
+    ">3 to 5 days, 32": "#1F5F8B"
+    ">5 to 7 days, 32": "#B47E00"
+    ">7 days, 32": "#990000"
+    32, Ceftriaxone: "#1A5276"
+    32, Cephalexin: "#FC0000"
+    32, Fluoroquinolone: "#0000FC"
+    32, Nitrofurantoin: "#00A824"
+    32, TMP/SMX: "#FC00AE"
+    32, Oral beta-lactam: "#6C3C00"
+    32, Other: "#8A78FC"
+    32, Ambulatory care clinic: "#00001E"
+    32, Emergency Department: "#BA0000"
+    32, Inpatient: "#FC24FC"
+    32, Rehab or long-term care: "#00A800"
+    32, Urgent or quick care: "#548AFC"
+    32, All locations: "#A29066"
+    "<=3 days, 33": "#1E8449"
+    ">3 to 5 days, 33": "#1F5F8B"
+    ">5 to 7 days, 33": "#B47E00"
+    ">7 days, 33": "#990000"
+    33, Ceftriaxone: "#1A5276"
+    33, Cephalexin: "#FC0000"
+    33, Fluoroquinolone: "#0000FC"
+    33, Nitrofurantoin: "#00A824"
+    33, TMP/SMX: "#FC00AE"
+    33, Oral beta-lactam: "#6C3C00"
+    33, Other: "#8A78FC"
+    33, Ambulatory care clinic: "#00001E"
+    33, Emergency Department: "#BA0000"
+    33, Inpatient: "#FC24FC"
+    33, Rehab or long-term care: "#00A800"
+    33, Urgent or quick care: "#548AFC"
+    33, All locations: "#A29066"
+    "<=3 days, 34": "#1E8449"
+    ">3 to 5 days, 34": "#1F5F8B"
+    ">5 to 7 days, 34": "#B47E00"
+    ">7 days, 34": "#990000"
+    34, Ceftriaxone: "#1A5276"
+    34, Cephalexin: "#FC0000"
+    34, Fluoroquinolone: "#0000FC"
+    34, Nitrofurantoin: "#00A824"
+    34, TMP/SMX: "#FC00AE"
+    34, Oral beta-lactam: "#6C3C00"
+    34, Other: "#8A78FC"
+    34, Ambulatory care clinic: "#00001E"
+    34, Emergency Department: "#BA0000"
+    34, Inpatient: "#FC24FC"
+    34, Rehab or long-term care: "#00A800"
+    34, Urgent or quick care: "#548AFC"
+    34, All locations: "#A29066"
+    "<=3 days, 35": "#1E8449"
+    ">3 to 5 days, 35": "#1F5F8B"
+    ">5 to 7 days, 35": "#B47E00"
+    ">7 days, 35": "#990000"
+    35, Ceftriaxone: "#1A5276"
+    35, Cephalexin: "#FC0000"
+    35, Fluoroquinolone: "#0000FC"
+    35, Nitrofurantoin: "#00A824"
+    35, TMP/SMX: "#FC00AE"
+    35, Oral beta-lactam: "#6C3C00"
+    35, Other: "#8A78FC"
+    35, Ambulatory care clinic: "#00001E"
+    35, Emergency Department: "#BA0000"
+    35, Inpatient: "#FC24FC"
+    35, Rehab or long-term care: "#00A800"
+    35, Urgent or quick care: "#548AFC"
+    35, All locations: "#A29066"
+    "<=3 days, 36": "#1E8449"
+    ">3 to 5 days, 36": "#1F5F8B"
+    ">5 to 7 days, 36": "#B47E00"
+    ">7 days, 36": "#990000"
+    36, Ceftriaxone: "#1A5276"
+    36, Cephalexin: "#FC0000"
+    36, Fluoroquinolone: "#0000FC"
+    36, Nitrofurantoin: "#00A824"
+    36, TMP/SMX: "#FC00AE"
+    36, Oral beta-lactam: "#6C3C00"
+    36, Other: "#8A78FC"
+    36, Ambulatory care clinic: "#00001E"
+    36, Emergency Department: "#BA0000"
+    36, Inpatient: "#FC24FC"
+    36, Rehab or long-term care: "#00A800"
+    36, Urgent or quick care: "#548AFC"
+    36, All locations: "#A29066"
+    "<=3 days, 37": "#1E8449"
+    ">3 to 5 days, 37": "#1F5F8B"
+    ">5 to 7 days, 37": "#B47E00"
+    ">7 days, 37": "#990000"
+    37, Ceftriaxone: "#1A5276"
+    37, Cephalexin: "#FC0000"
+    37, Fluoroquinolone: "#0000FC"
+    37, Nitrofurantoin: "#00A824"
+    37, TMP/SMX: "#FC00AE"
+    37, Oral beta-lactam: "#6C3C00"
+    37, Other: "#8A78FC"
+    37, Ambulatory care clinic: "#00001E"
+    37, Emergency Department: "#BA0000"
+    37, Inpatient: "#FC24FC"
+    37, Rehab or long-term care: "#00A800"
+    37, Urgent or quick care: "#548AFC"
+    37, All locations: "#A29066"
+    "<=3 days, 38": "#1E8449"
+    ">3 to 5 days, 38": "#1F5F8B"
+    ">5 to 7 days, 38": "#B47E00"
+    ">7 days, 38": "#990000"
+    38, Ceftriaxone: "#1A5276"
+    38, Cephalexin: "#FC0000"
+    38, Fluoroquinolone: "#0000FC"
+    38, Nitrofurantoin: "#00A824"
+    38, TMP/SMX: "#FC00AE"
+    38, Oral beta-lactam: "#6C3C00"
+    38, Other: "#8A78FC"
+    38, Ambulatory care clinic: "#00001E"
+    38, Emergency Department: "#BA0000"
+    38, Inpatient: "#FC24FC"
+    38, Rehab or long-term care: "#00A800"
+    38, Urgent or quick care: "#548AFC"
+    38, All locations: "#A29066"
+    "<=3 days, 39": "#1E8449"
+    ">3 to 5 days, 39": "#1F5F8B"
+    ">5 to 7 days, 39": "#B47E00"
+    ">7 days, 39": "#990000"
+    39, Ceftriaxone: "#1A5276"
+    39, Cephalexin: "#FC0000"
+    39, Fluoroquinolone: "#0000FC"
+    39, Nitrofurantoin: "#00A824"
+    39, TMP/SMX: "#FC00AE"
+    39, Oral beta-lactam: "#6C3C00"
+    39, Other: "#8A78FC"
+    39, Ambulatory care clinic: "#00001E"
+    39, Emergency Department: "#BA0000"
+    39, Inpatient: "#FC24FC"
+    39, Rehab or long-term care: "#00A800"
+    39, Urgent or quick care: "#548AFC"
+    39, All locations: "#A29066"
+    "<=3 days, 40": "#1E8449"
+    ">3 to 5 days, 40": "#1F5F8B"
+    ">5 to 7 days, 40": "#B47E00"
+    ">7 days, 40": "#990000"
+    40, Ceftriaxone: "#1A5276"
+    40, Cephalexin: "#FC0000"
+    40, Fluoroquinolone: "#0000FC"
+    40, Nitrofurantoin: "#00A824"
+    40, TMP/SMX: "#FC00AE"
+    40, Oral beta-lactam: "#6C3C00"
+    40, Other: "#8A78FC"
+    40, Ambulatory care clinic: "#00001E"
+    40, Emergency Department: "#BA0000"
+    40, Inpatient: "#FC24FC"
+    40, Rehab or long-term care: "#00A800"
+    40, Urgent or quick care: "#548AFC"
+    40, All locations: "#A29066"
+    "<=3 days, 41": "#1E8449"
+    ">3 to 5 days, 41": "#1F5F8B"
+    ">5 to 7 days, 41": "#B47E00"
+    ">7 days, 41": "#990000"
+    41, Ceftriaxone: "#1A5276"
+    41, Cephalexin: "#FC0000"
+    41, Fluoroquinolone: "#0000FC"
+    41, Nitrofurantoin: "#00A824"
+    41, TMP/SMX: "#FC00AE"
+    41, Oral beta-lactam: "#6C3C00"
+    41, Other: "#8A78FC"
+    41, Ambulatory care clinic: "#00001E"
+    41, Emergency Department: "#BA0000"
+    41, Inpatient: "#FC24FC"
+    41, Rehab or long-term care: "#00A800"
+    41, Urgent or quick care: "#548AFC"
+    41, All locations: "#A29066"
+    "<=3 days, 42": "#1E8449"
+    ">3 to 5 days, 42": "#1F5F8B"
+    ">5 to 7 days, 42": "#B47E00"
+    ">7 days, 42": "#990000"
+    42, Ceftriaxone: "#1A5276"
+    42, Cephalexin: "#FC0000"
+    42, Fluoroquinolone: "#0000FC"
+    42, Nitrofurantoin: "#00A824"
+    42, TMP/SMX: "#FC00AE"
+    42, Oral beta-lactam: "#6C3C00"
+    42, Other: "#8A78FC"
+    42, Ambulatory care clinic: "#00001E"
+    42, Emergency Department: "#BA0000"
+    42, Inpatient: "#FC24FC"
+    42, Rehab or long-term care: "#00A800"
+    42, Urgent or quick care: "#548AFC"
+    42, All locations: "#A29066"
+    "<=3 days, 43": "#1E8449"
+    ">3 to 5 days, 43": "#1F5F8B"
+    ">5 to 7 days, 43": "#B47E00"
+    ">7 days, 43": "#990000"
+    43, Ceftriaxone: "#1A5276"
+    43, Cephalexin: "#FC0000"
+    43, Fluoroquinolone: "#0000FC"
+    43, Nitrofurantoin: "#00A824"
+    43, TMP/SMX: "#FC00AE"
+    43, Oral beta-lactam: "#6C3C00"
+    43, Other: "#8A78FC"
+    43, Ambulatory care clinic: "#00001E"
+    43, Emergency Department: "#BA0000"
+    43, Inpatient: "#FC24FC"
+    43, Rehab or long-term care: "#00A800"
+    43, Urgent or quick care: "#548AFC"
+    43, All locations: "#A29066"
+    "<=3 days, 44": "#1E8449"
+    ">3 to 5 days, 44": "#1F5F8B"
+    ">5 to 7 days, 44": "#B47E00"
+    ">7 days, 44": "#990000"
+    44, Ceftriaxone: "#1A5276"
+    44, Cephalexin: "#FC0000"
+    44, Fluoroquinolone: "#0000FC"
+    44, Nitrofurantoin: "#00A824"
+    44, TMP/SMX: "#FC00AE"
+    44, Oral beta-lactam: "#6C3C00"
+    44, Other: "#8A78FC"
+    44, Ambulatory care clinic: "#00001E"
+    44, Emergency Department: "#BA0000"
+    44, Inpatient: "#FC24FC"
+    44, Rehab or long-term care: "#00A800"
+    44, Urgent or quick care: "#548AFC"
+    44, All locations: "#A29066"
+    "<=3 days, 45": "#1E8449"
+    ">3 to 5 days, 45": "#1F5F8B"
+    ">5 to 7 days, 45": "#B47E00"
+    ">7 days, 45": "#990000"
+    45, Ceftriaxone: "#1A5276"
+    45, Cephalexin: "#FC0000"
+    45, Fluoroquinolone: "#0000FC"
+    45, Nitrofurantoin: "#00A824"
+    45, TMP/SMX: "#FC00AE"
+    45, Oral beta-lactam: "#6C3C00"
+    45, Other: "#8A78FC"
+    45, Ambulatory care clinic: "#00001E"
+    45, Emergency Department: "#BA0000"
+    45, Inpatient: "#FC24FC"
+    45, Rehab or long-term care: "#00A800"
+    45, Urgent or quick care: "#548AFC"
+    45, All locations: "#A29066"
+    "<=3 days, 46": "#1E8449"
+    ">3 to 5 days, 46": "#1F5F8B"
+    ">5 to 7 days, 46": "#B47E00"
+    ">7 days, 46": "#990000"
+    46, Ceftriaxone: "#1A5276"
+    46, Cephalexin: "#FC0000"
+    46, Fluoroquinolone: "#0000FC"
+    46, Nitrofurantoin: "#00A824"
+    46, TMP/SMX: "#FC00AE"
+    46, Oral beta-lactam: "#6C3C00"
+    46, Other: "#8A78FC"
+    46, Ambulatory care clinic: "#00001E"
+    46, Emergency Department: "#BA0000"
+    46, Inpatient: "#FC24FC"
+    46, Rehab or long-term care: "#00A800"
+    46, Urgent or quick care: "#548AFC"
+    46, All locations: "#A29066"
+    "<=3 days, 47": "#1E8449"
+    ">3 to 5 days, 47": "#1F5F8B"
+    ">5 to 7 days, 47": "#B47E00"
+    ">7 days, 47": "#990000"
+    47, Ceftriaxone: "#1A5276"
+    47, Cephalexin: "#FC0000"
+    47, Fluoroquinolone: "#0000FC"
+    47, Nitrofurantoin: "#00A824"
+    47, TMP/SMX: "#FC00AE"
+    47, Oral beta-lactam: "#6C3C00"
+    47, Other: "#8A78FC"
+    47, Ambulatory care clinic: "#00001E"
+    47, Emergency Department: "#BA0000"
+    47, Inpatient: "#FC24FC"
+    47, Rehab or long-term care: "#00A800"
+    47, Urgent or quick care: "#548AFC"
+    47, All locations: "#A29066"
+    "<=3 days, 48": "#1E8449"
+    ">3 to 5 days, 48": "#1F5F8B"
+    ">5 to 7 days, 48": "#B47E00"
+    ">7 days, 48": "#990000"
+    48, Ceftriaxone: "#1A5276"
+    48, Cephalexin: "#FC0000"
+    48, Fluoroquinolone: "#0000FC"
+    48, Nitrofurantoin: "#00A824"
+    48, TMP/SMX: "#FC00AE"
+    48, Oral beta-lactam: "#6C3C00"
+    48, Other: "#8A78FC"
+    48, Ambulatory care clinic: "#00001E"
+    48, Emergency Department: "#BA0000"
+    48, Inpatient: "#FC24FC"
+    48, Rehab or long-term care: "#00A800"
+    48, Urgent or quick care: "#548AFC"
+    48, All locations: "#A29066"
+    "<=3 days, 49": "#1E8449"
+    ">3 to 5 days, 49": "#1F5F8B"
+    ">5 to 7 days, 49": "#B47E00"
+    ">7 days, 49": "#990000"
+    49, Ceftriaxone: "#1A5276"
+    49, Cephalexin: "#FC0000"
+    49, Fluoroquinolone: "#0000FC"
+    49, Nitrofurantoin: "#00A824"
+    49, TMP/SMX: "#FC00AE"
+    49, Oral beta-lactam: "#6C3C00"
+    49, Other: "#8A78FC"
+    49, Ambulatory care clinic: "#00001E"
+    49, Emergency Department: "#BA0000"
+    49, Inpatient: "#FC24FC"
+    49, Rehab or long-term care: "#00A800"
+    49, Urgent or quick care: "#548AFC"
+    49, All locations: "#A29066"
+    "<=3 days, 50": "#1E8449"
+    ">3 to 5 days, 50": "#1F5F8B"
+    ">5 to 7 days, 50": "#B47E00"
+    ">7 days, 50": "#990000"
+    50, Ceftriaxone: "#1A5276"
+    50, Cephalexin: "#FC0000"
+    50, Fluoroquinolone: "#0000FC"
+    50, Nitrofurantoin: "#00A824"
+    50, TMP/SMX: "#FC00AE"
+    50, Oral beta-lactam: "#6C3C00"
+    50, Other: "#8A78FC"
+    50, Ambulatory care clinic: "#00001E"
+    50, Emergency Department: "#BA0000"
+    50, Inpatient: "#FC24FC"
+    50, Rehab or long-term care: "#00A800"
+    50, Urgent or quick care: "#548AFC"
+    50, All locations: "#A29066"
+    "<=3 days, 51": "#1E8449"
+    ">3 to 5 days, 51": "#1F5F8B"
+    ">5 to 7 days, 51": "#B47E00"
+    ">7 days, 51": "#990000"
+    51, Ceftriaxone: "#1A5276"
+    51, Cephalexin: "#FC0000"
+    51, Fluoroquinolone: "#0000FC"
+    51, Nitrofurantoin: "#00A824"
+    51, TMP/SMX: "#FC00AE"
+    51, Oral beta-lactam: "#6C3C00"
+    51, Other: "#8A78FC"
+    51, Ambulatory care clinic: "#00001E"
+    51, Emergency Department: "#BA0000"
+    51, Inpatient: "#FC24FC"
+    51, Rehab or long-term care: "#00A800"
+    51, Urgent or quick care: "#548AFC"
+    51, All locations: "#A29066"
+    "<=3 days, 52": "#1E8449"
+    ">3 to 5 days, 52": "#1F5F8B"
+    ">5 to 7 days, 52": "#B47E00"
+    ">7 days, 52": "#990000"
+    52, Ceftriaxone: "#1A5276"
+    52, Cephalexin: "#FC0000"
+    52, Fluoroquinolone: "#0000FC"
+    52, Nitrofurantoin: "#00A824"
+    52, TMP/SMX: "#FC00AE"
+    52, Oral beta-lactam: "#6C3C00"
+    52, Other: "#8A78FC"
+    52, Ambulatory care clinic: "#00001E"
+    52, Emergency Department: "#BA0000"
+    52, Inpatient: "#FC24FC"
+    52, Rehab or long-term care: "#00A800"
+    52, Urgent or quick care: "#548AFC"
+    52, All locations: "#A29066"
+    "<=3 days, 53": "#1E8449"
+    ">3 to 5 days, 53": "#1F5F8B"
+    ">5 to 7 days, 53": "#B47E00"
+    ">7 days, 53": "#990000"
+    53, Ceftriaxone: "#1A5276"
+    53, Cephalexin: "#FC0000"
+    53, Fluoroquinolone: "#0000FC"
+    53, Nitrofurantoin: "#00A824"
+    53, TMP/SMX: "#FC00AE"
+    53, Oral beta-lactam: "#6C3C00"
+    53, Other: "#8A78FC"
+    53, Ambulatory care clinic: "#00001E"
+    53, Emergency Department: "#BA0000"
+    53, Inpatient: "#FC24FC"
+    53, Rehab or long-term care: "#00A800"
+    53, Urgent or quick care: "#548AFC"
+    53, All locations: "#A29066"
+    "<=3 days, 54": "#1E8449"
+    ">3 to 5 days, 54": "#1F5F8B"
+    ">5 to 7 days, 54": "#B47E00"
+    ">7 days, 54": "#990000"
+    54, Ceftriaxone: "#1A5276"
+    54, Cephalexin: "#FC0000"
+    54, Fluoroquinolone: "#0000FC"
+    54, Nitrofurantoin: "#00A824"
+    54, TMP/SMX: "#FC00AE"
+    54, Oral beta-lactam: "#6C3C00"
+    54, Other: "#8A78FC"
+    54, Ambulatory care clinic: "#00001E"
+    54, Emergency Department: "#BA0000"
+    54, Inpatient: "#FC24FC"
+    54, Rehab or long-term care: "#00A800"
+    54, Urgent or quick care: "#548AFC"
+    54, All locations: "#A29066"
+    "<=3 days, 55": "#1E8449"
+    ">3 to 5 days, 55": "#1F5F8B"
+    ">5 to 7 days, 55": "#B47E00"
+    ">7 days, 55": "#990000"
+    55, Ceftriaxone: "#1A5276"
+    55, Cephalexin: "#FC0000"
+    55, Fluoroquinolone: "#0000FC"
+    55, Nitrofurantoin: "#00A824"
+    55, TMP/SMX: "#FC00AE"
+    55, Oral beta-lactam: "#6C3C00"
+    55, Other: "#8A78FC"
+    55, Ambulatory care clinic: "#00001E"
+    55, Emergency Department: "#BA0000"
+    55, Inpatient: "#FC24FC"
+    55, Rehab or long-term care: "#00A800"
+    55, Urgent or quick care: "#548AFC"
+    55, All locations: "#A29066"
+    "<=3 days, 56": "#1E8449"
+    ">3 to 5 days, 56": "#1F5F8B"
+    ">5 to 7 days, 56": "#B47E00"
+    ">7 days, 56": "#990000"
+    56, Ceftriaxone: "#1A5276"
+    56, Cephalexin: "#FC0000"
+    56, Fluoroquinolone: "#0000FC"
+    56, Nitrofurantoin: "#00A824"
+    56, TMP/SMX: "#FC00AE"
+    56, Oral beta-lactam: "#6C3C00"
+    56, Other: "#8A78FC"
+    56, Ambulatory care clinic: "#00001E"
+    56, Emergency Department: "#BA0000"
+    56, Inpatient: "#FC24FC"
+    56, Rehab or long-term care: "#00A800"
+    56, Urgent or quick care: "#548AFC"
+    56, All locations: "#A29066"
+    "<=3 days, 57": "#1E8449"
+    ">3 to 5 days, 57": "#1F5F8B"
+    ">5 to 7 days, 57": "#B47E00"
+    ">7 days, 57": "#990000"
+    57, Ceftriaxone: "#1A5276"
+    57, Cephalexin: "#FC0000"
+    57, Fluoroquinolone: "#0000FC"
+    57, Nitrofurantoin: "#00A824"
+    57, TMP/SMX: "#FC00AE"
+    57, Oral beta-lactam: "#6C3C00"
+    57, Other: "#8A78FC"
+    57, Ambulatory care clinic: "#00001E"
+    57, Emergency Department: "#BA0000"
+    57, Inpatient: "#FC24FC"
+    57, Rehab or long-term care: "#00A800"
+    57, Urgent or quick care: "#548AFC"
+    57, All locations: "#A29066"
+    "<=3 days, 58": "#1E8449"
+    ">3 to 5 days, 58": "#1F5F8B"
+    ">5 to 7 days, 58": "#B47E00"
+    ">7 days, 58": "#990000"
+    58, Ceftriaxone: "#1A5276"
+    58, Cephalexin: "#FC0000"
+    58, Fluoroquinolone: "#0000FC"
+    58, Nitrofurantoin: "#00A824"
+    58, TMP/SMX: "#FC00AE"
+    58, Oral beta-lactam: "#6C3C00"
+    58, Other: "#8A78FC"
+    58, Ambulatory care clinic: "#00001E"
+    58, Emergency Department: "#BA0000"
+    58, Inpatient: "#FC24FC"
+    58, Rehab or long-term care: "#00A800"
+    58, Urgent or quick care: "#548AFC"
+    58, All locations: "#A29066"
+    "<=3 days, 59": "#1E8449"
+    ">3 to 5 days, 59": "#1F5F8B"
+    ">5 to 7 days, 59": "#B47E00"
+    ">7 days, 59": "#990000"
+    59, Ceftriaxone: "#1A5276"
+    59, Cephalexin: "#FC0000"
+    59, Fluoroquinolone: "#0000FC"
+    59, Nitrofurantoin: "#00A824"
+    59, TMP/SMX: "#FC00AE"
+    59, Oral beta-lactam: "#6C3C00"
+    59, Other: "#8A78FC"
+    59, Ambulatory care clinic: "#00001E"
+    59, Emergency Department: "#BA0000"
+    59, Inpatient: "#FC24FC"
+    59, Rehab or long-term care: "#00A800"
+    59, Urgent or quick care: "#548AFC"
+    59, All locations: "#A29066"
+    "<=3 days, 60": "#1E8449"
+    ">3 to 5 days, 60": "#1F5F8B"
+    ">5 to 7 days, 60": "#B47E00"
+    ">7 days, 60": "#990000"
+    60, Ceftriaxone: "#1A5276"
+    60, Cephalexin: "#FC0000"
+    60, Fluoroquinolone: "#0000FC"
+    60, Nitrofurantoin: "#00A824"
+    60, TMP/SMX: "#FC00AE"
+    60, Oral beta-lactam: "#6C3C00"
+    60, Other: "#8A78FC"
+    60, Ambulatory care clinic: "#00001E"
+    60, Emergency Department: "#BA0000"
+    60, Inpatient: "#FC24FC"
+    60, Rehab or long-term care: "#00A800"
+    60, Urgent or quick care: "#548AFC"
+    60, All locations: "#A29066"
+    "<=3 days, 61": "#1E8449"
+    ">3 to 5 days, 61": "#1F5F8B"
+    ">5 to 7 days, 61": "#B47E00"
+    ">7 days, 61": "#990000"
+    61, Ceftriaxone: "#1A5276"
+    61, Cephalexin: "#FC0000"
+    61, Fluoroquinolone: "#0000FC"
+    61, Nitrofurantoin: "#00A824"
+    61, TMP/SMX: "#FC00AE"
+    61, Oral beta-lactam: "#6C3C00"
+    61, Other: "#8A78FC"
+    61, Ambulatory care clinic: "#00001E"
+    61, Emergency Department: "#BA0000"
+    61, Inpatient: "#FC24FC"
+    61, Rehab or long-term care: "#00A800"
+    61, Urgent or quick care: "#548AFC"
+    61, All locations: "#A29066"
+    "<=3 days, 62": "#1E8449"
+    ">3 to 5 days, 62": "#1F5F8B"
+    ">5 to 7 days, 62": "#B47E00"
+    ">7 days, 62": "#990000"
+    62, Ceftriaxone: "#1A5276"
+    62, Cephalexin: "#FC0000"
+    62, Fluoroquinolone: "#0000FC"
+    62, Nitrofurantoin: "#00A824"
+    62, TMP/SMX: "#FC00AE"
+    62, Oral beta-lactam: "#6C3C00"
+    62, Other: "#8A78FC"
+    62, Ambulatory care clinic: "#00001E"
+    62, Emergency Department: "#BA0000"
+    62, Inpatient: "#FC24FC"
+    62, Rehab or long-term care: "#00A800"
+    62, Urgent or quick care: "#548AFC"
+    62, All locations: "#A29066"
+    "<=3 days, 63": "#1E8449"
+    ">3 to 5 days, 63": "#1F5F8B"
+    ">5 to 7 days, 63": "#B47E00"
+    ">7 days, 63": "#990000"
+    63, Ceftriaxone: "#1A5276"
+    63, Cephalexin: "#FC0000"
+    63, Fluoroquinolone: "#0000FC"
+    63, Nitrofurantoin: "#00A824"
+    63, TMP/SMX: "#FC00AE"
+    63, Oral beta-lactam: "#6C3C00"
+    63, Other: "#8A78FC"
+    63, Ambulatory care clinic: "#00001E"
+    63, Emergency Department: "#BA0000"
+    63, Inpatient: "#FC24FC"
+    63, Rehab or long-term care: "#00A800"
+    63, Urgent or quick care: "#548AFC"
+    63, All locations: "#A29066"
+    "<=3 days, 64": "#1E8449"
+    ">3 to 5 days, 64": "#1F5F8B"
+    ">5 to 7 days, 64": "#B47E00"
+    ">7 days, 64": "#990000"
+    64, Ceftriaxone: "#1A5276"
+    64, Cephalexin: "#FC0000"
+    64, Fluoroquinolone: "#0000FC"
+    64, Nitrofurantoin: "#00A824"
+    64, TMP/SMX: "#FC00AE"
+    64, Oral beta-lactam: "#6C3C00"
+    64, Other: "#8A78FC"
+    64, Ambulatory care clinic: "#00001E"
+    64, Emergency Department: "#BA0000"
+    64, Inpatient: "#FC24FC"
+    64, Rehab or long-term care: "#00A800"
+    64, Urgent or quick care: "#548AFC"
+    64, All locations: "#A29066"
+    "<=3 days, 65": "#1E8449"
+    ">3 to 5 days, 65": "#1F5F8B"
+    ">5 to 7 days, 65": "#B47E00"
+    ">7 days, 65": "#990000"
+    65, Ceftriaxone: "#1A5276"
+    65, Cephalexin: "#FC0000"
+    65, Fluoroquinolone: "#0000FC"
+    65, Nitrofurantoin: "#00A824"
+    65, TMP/SMX: "#FC00AE"
+    65, Oral beta-lactam: "#6C3C00"
+    65, Other: "#8A78FC"
+    65, Ambulatory care clinic: "#00001E"
+    65, Emergency Department: "#BA0000"
+    65, Inpatient: "#FC24FC"
+    65, Rehab or long-term care: "#00A800"
+    65, Urgent or quick care: "#548AFC"
+    65, All locations: "#A29066"
+    "<=3 days, 66": "#1E8449"
+    ">3 to 5 days, 66": "#1F5F8B"
+    ">5 to 7 days, 66": "#B47E00"
+    ">7 days, 66": "#990000"
+    66, Ceftriaxone: "#1A5276"
+    66, Cephalexin: "#FC0000"
+    66, Fluoroquinolone: "#0000FC"
+    66, Nitrofurantoin: "#00A824"
+    66, TMP/SMX: "#FC00AE"
+    66, Oral beta-lactam: "#6C3C00"
+    66, Other: "#8A78FC"
+    66, Ambulatory care clinic: "#00001E"
+    66, Emergency Department: "#BA0000"
+    66, Inpatient: "#FC24FC"
+    66, Rehab or long-term care: "#00A800"
+    66, Urgent or quick care: "#548AFC"
+    66, All locations: "#A29066"
+    "<=3 days, 67": "#1E8449"
+    ">3 to 5 days, 67": "#1F5F8B"
+    ">5 to 7 days, 67": "#B47E00"
+    ">7 days, 67": "#990000"
+    67, Ceftriaxone: "#1A5276"
+    67, Cephalexin: "#FC0000"
+    67, Fluoroquinolone: "#0000FC"
+    67, Nitrofurantoin: "#00A824"
+    67, TMP/SMX: "#FC00AE"
+    67, Oral beta-lactam: "#6C3C00"
+    67, Other: "#8A78FC"
+    67, Ambulatory care clinic: "#00001E"
+    67, Emergency Department: "#BA0000"
+    67, Inpatient: "#FC24FC"
+    67, Rehab or long-term care: "#00A800"
+    67, Urgent or quick care: "#548AFC"
+    67, All locations: "#A29066"
+    "<=3 days, 68": "#1E8449"
+    ">3 to 5 days, 68": "#1F5F8B"
+    ">5 to 7 days, 68": "#B47E00"
+    ">7 days, 68": "#990000"
+    68, Ceftriaxone: "#1A5276"
+    68, Cephalexin: "#FC0000"
+    68, Fluoroquinolone: "#0000FC"
+    68, Nitrofurantoin: "#00A824"
+    68, TMP/SMX: "#FC00AE"
+    68, Oral beta-lactam: "#6C3C00"
+    68, Other: "#8A78FC"
+    68, Ambulatory care clinic: "#00001E"
+    68, Emergency Department: "#BA0000"
+    68, Inpatient: "#FC24FC"
+    68, Rehab or long-term care: "#00A800"
+    68, Urgent or quick care: "#548AFC"
+    68, All locations: "#A29066"
+    "<=3 days, 69": "#1E8449"
+    ">3 to 5 days, 69": "#1F5F8B"
+    ">5 to 7 days, 69": "#B47E00"
+    ">7 days, 69": "#990000"
+    69, Ceftriaxone: "#1A5276"
+    69, Cephalexin: "#FC0000"
+    69, Fluoroquinolone: "#0000FC"
+    69, Nitrofurantoin: "#00A824"
+    69, TMP/SMX: "#FC00AE"
+    69, Oral beta-lactam: "#6C3C00"
+    69, Other: "#8A78FC"
+    69, Ambulatory care clinic: "#00001E"
+    69, Emergency Department: "#BA0000"
+    69, Inpatient: "#FC24FC"
+    69, Rehab or long-term care: "#00A800"
+    69, Urgent or quick care: "#548AFC"
+    69, All locations: "#A29066"
+    "<=3 days, 70": "#1E8449"
+    ">3 to 5 days, 70": "#1F5F8B"
+    ">5 to 7 days, 70": "#B47E00"
+    ">7 days, 70": "#990000"
+    70, Ceftriaxone: "#1A5276"
+    70, Cephalexin: "#FC0000"
+    70, Fluoroquinolone: "#0000FC"
+    70, Nitrofurantoin: "#00A824"
+    70, TMP/SMX: "#FC00AE"
+    70, Oral beta-lactam: "#6C3C00"
+    70, Other: "#8A78FC"
+    70, Ambulatory care clinic: "#00001E"
+    70, Emergency Department: "#BA0000"
+    70, Inpatient: "#FC24FC"
+    70, Rehab or long-term care: "#00A800"
+    70, Urgent or quick care: "#548AFC"
+    70, All locations: "#A29066"
+    "<=3 days, 71": "#1E8449"
+    ">3 to 5 days, 71": "#1F5F8B"
+    ">5 to 7 days, 71": "#B47E00"
+    ">7 days, 71": "#990000"
+    71, Ceftriaxone: "#1A5276"
+    71, Cephalexin: "#FC0000"
+    71, Fluoroquinolone: "#0000FC"
+    71, Nitrofurantoin: "#00A824"
+    71, TMP/SMX: "#FC00AE"
+    71, Oral beta-lactam: "#6C3C00"
+    71, Other: "#8A78FC"
+    71, Ambulatory care clinic: "#00001E"
+    71, Emergency Department: "#BA0000"
+    71, Inpatient: "#FC24FC"
+    71, Rehab or long-term care: "#00A800"
+    71, Urgent or quick care: "#548AFC"
+    71, All locations: "#A29066"
+    "<=3 days, 72": "#1E8449"
+    ">3 to 5 days, 72": "#1F5F8B"
+    ">5 to 7 days, 72": "#B47E00"
+    ">7 days, 72": "#990000"
+    72, Ceftriaxone: "#1A5276"
+    72, Cephalexin: "#FC0000"
+    72, Fluoroquinolone: "#0000FC"
+    72, Nitrofurantoin: "#00A824"
+    72, TMP/SMX: "#FC00AE"
+    72, Oral beta-lactam: "#6C3C00"
+    72, Other: "#8A78FC"
+    72, Ambulatory care clinic: "#00001E"
+    72, Emergency Department: "#BA0000"
+    72, Inpatient: "#FC24FC"
+    72, Rehab or long-term care: "#00A800"
+    72, Urgent or quick care: "#548AFC"
+    72, All locations: "#A29066"
+    "<=3 days, 73": "#1E8449"
+    ">3 to 5 days, 73": "#1F5F8B"
+    ">5 to 7 days, 73": "#B47E00"
+    ">7 days, 73": "#990000"
+    73, Ceftriaxone: "#1A5276"
+    73, Cephalexin: "#FC0000"
+    73, Fluoroquinolone: "#0000FC"
+    73, Nitrofurantoin: "#00A824"
+    73, TMP/SMX: "#FC00AE"
+    73, Oral beta-lactam: "#6C3C00"
+    73, Other: "#8A78FC"
+    73, Ambulatory care clinic: "#00001E"
+    73, Emergency Department: "#BA0000"
+    73, Inpatient: "#FC24FC"
+    73, Rehab or long-term care: "#00A800"
+    73, Urgent or quick care: "#548AFC"
+    73, All locations: "#A29066"
+    "<=3 days, 74": "#1E8449"
+    ">3 to 5 days, 74": "#1F5F8B"
+    ">5 to 7 days, 74": "#B47E00"
+    ">7 days, 74": "#990000"
+    74, Ceftriaxone: "#1A5276"
+    74, Cephalexin: "#FC0000"
+    74, Fluoroquinolone: "#0000FC"
+    74, Nitrofurantoin: "#00A824"
+    74, TMP/SMX: "#FC00AE"
+    74, Oral beta-lactam: "#6C3C00"
+    74, Other: "#8A78FC"
+    74, Ambulatory care clinic: "#00001E"
+    74, Emergency Department: "#BA0000"
+    74, Inpatient: "#FC24FC"
+    74, Rehab or long-term care: "#00A800"
+    74, Urgent or quick care: "#548AFC"
+    74, All locations: "#A29066"
+    "<=3 days, 75": "#1E8449"
+    ">3 to 5 days, 75": "#1F5F8B"
+    ">5 to 7 days, 75": "#B47E00"
+    ">7 days, 75": "#990000"
+    75, Ceftriaxone: "#1A5276"
+    75, Cephalexin: "#FC0000"
+    75, Fluoroquinolone: "#0000FC"
+    75, Nitrofurantoin: "#00A824"
+    75, TMP/SMX: "#FC00AE"
+    75, Oral beta-lactam: "#6C3C00"
+    75, Other: "#8A78FC"
+    75, Ambulatory care clinic: "#00001E"
+    75, Emergency Department: "#BA0000"
+    75, Inpatient: "#FC24FC"
+    75, Rehab or long-term care: "#00A800"
+    75, Urgent or quick care: "#548AFC"
+    75, All locations: "#A29066"
+    "<=3 days, 76": "#1E8449"
+    ">3 to 5 days, 76": "#1F5F8B"
+    ">5 to 7 days, 76": "#B47E00"
+    ">7 days, 76": "#990000"
+    76, Ceftriaxone: "#1A5276"
+    76, Cephalexin: "#FC0000"
+    76, Fluoroquinolone: "#0000FC"
+    76, Nitrofurantoin: "#00A824"
+    76, TMP/SMX: "#FC00AE"
+    76, Oral beta-lactam: "#6C3C00"
+    76, Other: "#8A78FC"
+    76, Ambulatory care clinic: "#00001E"
+    76, Emergency Department: "#BA0000"
+    76, Inpatient: "#FC24FC"
+    76, Rehab or long-term care: "#00A800"
+    76, Urgent or quick care: "#548AFC"
+    76, All locations: "#A29066"
+    "<=3 days, 77": "#1E8449"
+    ">3 to 5 days, 77": "#1F5F8B"
+    ">5 to 7 days, 77": "#B47E00"
+    ">7 days, 77": "#990000"
+    77, Ceftriaxone: "#1A5276"
+    77, Cephalexin: "#FC0000"
+    77, Fluoroquinolone: "#0000FC"
+    77, Nitrofurantoin: "#00A824"
+    77, TMP/SMX: "#FC00AE"
+    77, Oral beta-lactam: "#6C3C00"
+    77, Other: "#8A78FC"
+    77, Ambulatory care clinic: "#00001E"
+    77, Emergency Department: "#BA0000"
+    77, Inpatient: "#FC24FC"
+    77, Rehab or long-term care: "#00A800"
+    77, Urgent or quick care: "#548AFC"
+    77, All locations: "#A29066"
+    "<=3 days, 78": "#1E8449"
+    ">3 to 5 days, 78": "#1F5F8B"
+    ">5 to 7 days, 78": "#B47E00"
+    ">7 days, 78": "#990000"
+    78, Ceftriaxone: "#1A5276"
+    78, Cephalexin: "#FC0000"
+    78, Fluoroquinolone: "#0000FC"
+    78, Nitrofurantoin: "#00A824"
+    78, TMP/SMX: "#FC00AE"
+    78, Oral beta-lactam: "#6C3C00"
+    78, Other: "#8A78FC"
+    78, Ambulatory care clinic: "#00001E"
+    78, Emergency Department: "#BA0000"
+    78, Inpatient: "#FC24FC"
+    78, Rehab or long-term care: "#00A800"
+    78, Urgent or quick care: "#548AFC"
+    78, All locations: "#A29066"
+    "<=3 days, 79": "#1E8449"
+    ">3 to 5 days, 79": "#1F5F8B"
+    ">5 to 7 days, 79": "#B47E00"
+    ">7 days, 79": "#990000"
+    79, Ceftriaxone: "#1A5276"
+    79, Cephalexin: "#FC0000"
+    79, Fluoroquinolone: "#0000FC"
+    79, Nitrofurantoin: "#00A824"
+    79, TMP/SMX: "#FC00AE"
+    79, Oral beta-lactam: "#6C3C00"
+    79, Other: "#8A78FC"
+    79, Ambulatory care clinic: "#00001E"
+    79, Emergency Department: "#BA0000"
+    79, Inpatient: "#FC24FC"
+    79, Rehab or long-term care: "#00A800"
+    79, Urgent or quick care: "#548AFC"
+    79, All locations: "#A29066"
+    "<=3 days, 80": "#1E8449"
+    ">3 to 5 days, 80": "#1F5F8B"
+    ">5 to 7 days, 80": "#B47E00"
+    ">7 days, 80": "#990000"
+    80, Ceftriaxone: "#1A5276"
+    80, Cephalexin: "#FC0000"
+    80, Fluoroquinolone: "#0000FC"
+    80, Nitrofurantoin: "#00A824"
+    80, TMP/SMX: "#FC00AE"
+    80, Oral beta-lactam: "#6C3C00"
+    80, Other: "#8A78FC"
+    80, Ambulatory care clinic: "#00001E"
+    80, Emergency Department: "#BA0000"
+    80, Inpatient: "#FC24FC"
+    80, Rehab or long-term care: "#00A800"
+    80, Urgent or quick care: "#548AFC"
+    80, All locations: "#A29066"
+    "<=3 days, 81": "#1E8449"
+    ">3 to 5 days, 81": "#1F5F8B"
+    ">5 to 7 days, 81": "#B47E00"
+    ">7 days, 81": "#990000"
+    81, Ceftriaxone: "#1A5276"
+    81, Cephalexin: "#FC0000"
+    81, Fluoroquinolone: "#0000FC"
+    81, Nitrofurantoin: "#00A824"
+    81, TMP/SMX: "#FC00AE"
+    81, Oral beta-lactam: "#6C3C00"
+    81, Other: "#8A78FC"
+    81, Ambulatory care clinic: "#00001E"
+    81, Emergency Department: "#BA0000"
+    81, Inpatient: "#FC24FC"
+    81, Rehab or long-term care: "#00A800"
+    81, Urgent or quick care: "#548AFC"
+    81, All locations: "#A29066"
+    "<=3 days, Cohort": "#1E8449"
+    ">3 to 5 days, Cohort": "#1F5F8B"
+    ">5 to 7 days, Cohort": "#B47E00"
+    ">7 days, Cohort": "#990000"
+    Cohort, Ceftriaxone: "#1A5276"
+    Cohort, Cephalexin: "#FC0000"
+    Cohort, Fluoroquinolone: "#0000FC"
+    Cohort, Nitrofurantoin: "#00A824"
+    Cohort, TMP/SMX: "#FC00AE"
+    Cohort, Oral beta-lactam: "#6C3C00"
+    Cohort, Other: "#8A78FC"
+    Cohort, Ambulatory care clinic: "#00001E"
+    Cohort, Emergency Department: "#BA0000"
+    Cohort, Inpatient: "#FC24FC"
+    Cohort, Rehab or long-term care: "#00A800"
+    Cohort, Urgent or quick care: "#548AFC"
+    Cohort, All locations: "#A29066"
+    "<=3 days, ALL": "#1E8449"
+    ">3 to 5 days, ALL": "#1F5F8B"
+    ">5 to 7 days, ALL": "#B47E00"
+    ">7 days, ALL": "#990000"
+    ALL, Ceftriaxone: "#1A5276"
+    ALL, Cephalexin: "#FC0000"
+    ALL, Fluoroquinolone: "#0000FC"
+    ALL, Nitrofurantoin: "#00A824"
+    ALL, TMP/SMX: "#FC00AE"
+    ALL, Oral beta-lactam: "#6C3C00"
+    ALL, Other: "#8A78FC"
+    ALL, Ambulatory care clinic: "#00001E"
+    ALL, Emergency Department: "#BA0000"
+    ALL, Inpatient: "#FC24FC"
+    ALL, Rehab or long-term care: "#00A800"
+    ALL, Urgent or quick care: "#548AFC"
+    ALL, All locations: "#A29066"
+    "<=3 days, 01": "#1E8449"
+    ">3 to 5 days, 01": "#1F5F8B"
+    ">5 to 7 days, 01": "#B47E00"
+    ">7 days, 01": "#990000"
+    01, Ceftriaxone: "#1A5276"
+    01, Cephalexin: "#FC0000"
+    01, Fluoroquinolone: "#0000FC"
+    01, Nitrofurantoin: "#00A824"
+    01, TMP/SMX: "#FC00AE"
+    01, Oral beta-lactam: "#6C3C00"
+    01, Other: "#8A78FC"
+    01, Ambulatory care clinic: "#00001E"
+    01, Emergency Department: "#BA0000"
+    01, Inpatient: "#FC24FC"
+    01, Rehab or long-term care: "#00A800"
+    01, Urgent or quick care: "#548AFC"
+    01, All locations: "#A29066"
+    "<=3 days, 02": "#1E8449"
+    ">3 to 5 days, 02": "#1F5F8B"
+    ">5 to 7 days, 02": "#B47E00"
+    ">7 days, 02": "#990000"
+    02, Ceftriaxone: "#1A5276"
+    02, Cephalexin: "#FC0000"
+    02, Fluoroquinolone: "#0000FC"
+    02, Nitrofurantoin: "#00A824"
+    02, TMP/SMX: "#FC00AE"
+    02, Oral beta-lactam: "#6C3C00"
+    02, Other: "#8A78FC"
+    02, Ambulatory care clinic: "#00001E"
+    02, Emergency Department: "#BA0000"
+    02, Inpatient: "#FC24FC"
+    02, Rehab or long-term care: "#00A800"
+    02, Urgent or quick care: "#548AFC"
+    02, All locations: "#A29066"
+    "<=3 days, 03": "#1E8449"
+    ">3 to 5 days, 03": "#1F5F8B"
+    ">5 to 7 days, 03": "#B47E00"
+    ">7 days, 03": "#990000"
+    03, Ceftriaxone: "#1A5276"
+    03, Cephalexin: "#FC0000"
+    03, Fluoroquinolone: "#0000FC"
+    03, Nitrofurantoin: "#00A824"
+    03, TMP/SMX: "#FC00AE"
+    03, Oral beta-lactam: "#6C3C00"
+    03, Other: "#8A78FC"
+    03, Ambulatory care clinic: "#00001E"
+    03, Emergency Department: "#BA0000"
+    03, Inpatient: "#FC24FC"
+    03, Rehab or long-term care: "#00A800"
+    03, Urgent or quick care: "#548AFC"
+    03, All locations: "#A29066"
+    "<=3 days, 04": "#1E8449"
+    ">3 to 5 days, 04": "#1F5F8B"
+    ">5 to 7 days, 04": "#B47E00"
+    ">7 days, 04": "#990000"
+    04, Ceftriaxone: "#1A5276"
+    04, Cephalexin: "#FC0000"
+    04, Fluoroquinolone: "#0000FC"
+    04, Nitrofurantoin: "#00A824"
+    04, TMP/SMX: "#FC00AE"
+    04, Oral beta-lactam: "#6C3C00"
+    04, Other: "#8A78FC"
+    04, Ambulatory care clinic: "#00001E"
+    04, Emergency Department: "#BA0000"
+    04, Inpatient: "#FC24FC"
+    04, Rehab or long-term care: "#00A800"
+    04, Urgent or quick care: "#548AFC"
+    04, All locations: "#A29066"
+    "<=3 days, 05": "#1E8449"
+    ">3 to 5 days, 05": "#1F5F8B"
+    ">5 to 7 days, 05": "#B47E00"
+    ">7 days, 05": "#990000"
+    05, Ceftriaxone: "#1A5276"
+    05, Cephalexin: "#FC0000"
+    05, Fluoroquinolone: "#0000FC"
+    05, Nitrofurantoin: "#00A824"
+    05, TMP/SMX: "#FC00AE"
+    05, Oral beta-lactam: "#6C3C00"
+    05, Other: "#8A78FC"
+    05, Ambulatory care clinic: "#00001E"
+    05, Emergency Department: "#BA0000"
+    05, Inpatient: "#FC24FC"
+    05, Rehab or long-term care: "#00A800"
+    05, Urgent or quick care: "#548AFC"
+    05, All locations: "#A29066"
+    "<=3 days, 06": "#1E8449"
+    ">3 to 5 days, 06": "#1F5F8B"
+    ">5 to 7 days, 06": "#B47E00"
+    ">7 days, 06": "#990000"
+    06, Ceftriaxone: "#1A5276"
+    06, Cephalexin: "#FC0000"
+    06, Fluoroquinolone: "#0000FC"
+    06, Nitrofurantoin: "#00A824"
+    06, TMP/SMX: "#FC00AE"
+    06, Oral beta-lactam: "#6C3C00"
+    06, Other: "#8A78FC"
+    06, Ambulatory care clinic: "#00001E"
+    06, Emergency Department: "#BA0000"
+    06, Inpatient: "#FC24FC"
+    06, Rehab or long-term care: "#00A800"
+    06, Urgent or quick care: "#548AFC"
+    06, All locations: "#A29066"
+    "<=3 days, 07": "#1E8449"
+    ">3 to 5 days, 07": "#1F5F8B"
+    ">5 to 7 days, 07": "#B47E00"
+    ">7 days, 07": "#990000"
+    07, Ceftriaxone: "#1A5276"
+    07, Cephalexin: "#FC0000"
+    07, Fluoroquinolone: "#0000FC"
+    07, Nitrofurantoin: "#00A824"
+    07, TMP/SMX: "#FC00AE"
+    07, Oral beta-lactam: "#6C3C00"
+    07, Other: "#8A78FC"
+    07, Ambulatory care clinic: "#00001E"
+    07, Emergency Department: "#BA0000"
+    07, Inpatient: "#FC24FC"
+    07, Rehab or long-term care: "#00A800"
+    07, Urgent or quick care: "#548AFC"
+    07, All locations: "#A29066"
+    "<=3 days, 08": "#1E8449"
+    ">3 to 5 days, 08": "#1F5F8B"
+    ">5 to 7 days, 08": "#B47E00"
+    ">7 days, 08": "#990000"
+    '08, Ceftriaxone': "#1A5276"
+    '08, Cephalexin': "#FC0000"
+    '08, Fluoroquinolone': "#0000FC"
+    '08, Nitrofurantoin': "#00A824"
+    '08, TMP/SMX': "#FC00AE"
+    '08, Oral beta-lactam': "#6C3C00"
+    '08, Other': "#8A78FC"
+    '08, Ambulatory care clinic': "#00001E"
+    '08, Emergency Department': "#BA0000"
+    '08, Inpatient': "#FC24FC"
+    '08, Rehab or long-term care': "#00A800"
+    '08, Urgent or quick care': "#548AFC"
+    '08, All locations': "#A29066"
+    "<=3 days, 09": "#1E8449"
+    ">3 to 5 days, 09": "#1F5F8B"
+    ">5 to 7 days, 09": "#B47E00"
+    ">7 days, 09": "#990000"
+    '09, Ceftriaxone': "#1A5276"
+    '09, Cephalexin': "#FC0000"
+    '09, Fluoroquinolone': "#0000FC"
+    '09, Nitrofurantoin': "#00A824"
+    '09, TMP/SMX': "#FC00AE"
+    '09, Oral beta-lactam': "#6C3C00"
+    '09, Other': "#8A78FC"
+    '09, Ambulatory care clinic': "#00001E"
+    '09, Emergency Department': "#BA0000"
+    '09, Inpatient': "#FC24FC"
+    '09, Rehab or long-term care': "#00A800"
+    '09, Urgent or quick care': "#548AFC"
+    '09, All locations': "#A29066"
+    "<=3 days, WA": "#1E8449"
+    ">3 to 5 days, WA": "#1F5F8B"
+    ">5 to 7 days, WA": "#B47E00"
+    ">7 days, WA": "#990000"
+    WA, Ceftriaxone: "#1A5276"
+    WA, Cephalexin: "#FC0000"
+    WA, Fluoroquinolone: "#0000FC"
+    WA, Nitrofurantoin: "#00A824"
+    WA, TMP/SMX: "#FC00AE"
+    WA, Oral beta-lactam: "#6C3C00"
+    WA, Other: "#8A78FC"
+    WA, Ambulatory care clinic: "#00001E"
+    WA, Emergency Department: "#BA0000"
+    WA, Inpatient: "#FC24FC"
+    WA, Rehab or long-term care: "#00A800"
+    WA, Urgent or quick care: "#548AFC"
+    WA, All locations: "#A29066"
+    "<=3 days, OR": "#1E8449"
+    ">3 to 5 days, OR": "#1F5F8B"
+    ">5 to 7 days, OR": "#B47E00"
+    ">7 days, OR": "#990000"
+    OR, Ceftriaxone: "#1A5276"
+    OR, Cephalexin: "#FC0000"
+    OR, Fluoroquinolone: "#0000FC"
+    OR, Nitrofurantoin: "#00A824"
+    OR, TMP/SMX: "#FC00AE"
+    OR, Oral beta-lactam: "#6C3C00"
+    OR, Other: "#8A78FC"
+    OR, Ambulatory care clinic: "#00001E"
+    OR, Emergency Department: "#BA0000"
+    OR, Inpatient: "#FC24FC"
+    OR, Rehab or long-term care: "#00A800"
+    OR, Urgent or quick care: "#548AFC"
+    OR, All locations: "#A29066"
+    "<=3 days, ID": "#1E8449"
+    ">3 to 5 days, ID": "#1F5F8B"
+    ">5 to 7 days, ID": "#B47E00"
+    ">7 days, ID": "#990000"
+    ID, Ceftriaxone: "#1A5276"
+    ID, Cephalexin: "#FC0000"
+    ID, Fluoroquinolone: "#0000FC"
+    ID, Nitrofurantoin: "#00A824"
+    ID, TMP/SMX: "#FC00AE"
+    ID, Oral beta-lactam: "#6C3C00"
+    ID, Other: "#8A78FC"
+    ID, Ambulatory care clinic: "#00001E"
+    ID, Emergency Department: "#BA0000"
+    ID, Inpatient: "#FC24FC"
+    ID, Rehab or long-term care: "#00A800"
+    ID, Urgent or quick care: "#548AFC"
+    ID, All locations: "#A29066"
+    "<=3 days, LA": "#1E8449"
+    ">3 to 5 days, LA": "#1F5F8B"
+    ">5 to 7 days, LA": "#B47E00"
+    ">7 days, LA": "#990000"
+    LA, Ceftriaxone: "#1A5276"
+    LA, Cephalexin: "#FC0000"
+    LA, Fluoroquinolone: "#0000FC"
+    LA, Nitrofurantoin: "#00A824"
+    LA, TMP/SMX: "#FC00AE"
+    LA, Oral beta-lactam: "#6C3C00"
+    LA, Other: "#8A78FC"
+    LA, Ambulatory care clinic: "#00001E"
+    LA, Emergency Department: "#BA0000"
+    LA, Inpatient: "#FC24FC"
+    LA, Rehab or long-term care: "#00A800"
+    LA, Urgent or quick care: "#548AFC"
+    LA, All locations: "#A29066"
+    "<=3 days, MT": "#1E8449"
+    ">3 to 5 days, MT": "#1F5F8B"
+    ">5 to 7 days, MT": "#B47E00"
+    ">7 days, MT": "#990000"
+    MT, Ceftriaxone: "#1A5276"
+    MT, Cephalexin: "#FC0000"
+    MT, Fluoroquinolone: "#0000FC"
+    MT, Nitrofurantoin: "#00A824"
+    MT, TMP/SMX: "#FC00AE"
+    MT, Oral beta-lactam: "#6C3C00"
+    MT, Other: "#8A78FC"
+    MT, Ambulatory care clinic: "#00001E"
+    MT, Emergency Department: "#BA0000"
+    MT, Inpatient: "#FC24FC"
+    MT, Rehab or long-term care: "#00A800"
+    MT, Urgent or quick care: "#548AFC"
+    MT, All locations: "#A29066"
+    "<=3 days, AZ": "#1E8449"
+    ">3 to 5 days, AZ": "#1F5F8B"
+    ">5 to 7 days, AZ": "#B47E00"
+    ">7 days, AZ": "#990000"
+    AZ, Ceftriaxone: "#1A5276"
+    AZ, Cephalexin: "#FC0000"
+    AZ, Fluoroquinolone: "#0000FC"
+    AZ, Nitrofurantoin: "#00A824"
+    AZ, TMP/SMX: "#FC00AE"
+    AZ, Oral beta-lactam: "#6C3C00"
+    AZ, Other: "#8A78FC"
+    AZ, Ambulatory care clinic: "#00001E"
+    AZ, Emergency Department: "#BA0000"
+    AZ, Inpatient: "#FC24FC"
+    AZ, Rehab or long-term care: "#00A800"
+    AZ, Urgent or quick care: "#548AFC"
+    AZ, All locations: "#A29066"
+    "<=3 days, CO": "#1E8449"
+    ">3 to 5 days, CO": "#1F5F8B"
+    ">5 to 7 days, CO": "#B47E00"
+    ">7 days, CO": "#990000"
+    CO, Ceftriaxone: "#1A5276"
+    CO, Cephalexin: "#FC0000"
+    CO, Fluoroquinolone: "#0000FC"
+    CO, Nitrofurantoin: "#00A824"
+    CO, TMP/SMX: "#FC00AE"
+    CO, Oral beta-lactam: "#6C3C00"
+    CO, Other: "#8A78FC"
+    CO, Ambulatory care clinic: "#00001E"
+    CO, Emergency Department: "#BA0000"
+    CO, Inpatient: "#FC24FC"
+    CO, Rehab or long-term care: "#00A800"
+    CO, Urgent or quick care: "#548AFC"
+    CO, All locations: "#A29066"
+    "<=3 days, NM": "#1E8449"
+    ">3 to 5 days, NM": "#1F5F8B"
+    ">5 to 7 days, NM": "#B47E00"
+    ">7 days, NM": "#990000"
+    NM, Ceftriaxone: "#1A5276"
+    NM, Cephalexin: "#FC0000"
+    NM, Fluoroquinolone: "#0000FC"
+    NM, Nitrofurantoin: "#00A824"
+    NM, TMP/SMX: "#FC00AE"
+    NM, Oral beta-lactam: "#6C3C00"
+    NM, Other: "#8A78FC"
+    NM, Ambulatory care clinic: "#00001E"
+    NM, Emergency Department: "#BA0000"
+    NM, Inpatient: "#FC24FC"
+    NM, Rehab or long-term care: "#00A800"
+    NM, Urgent or quick care: "#548AFC"
+    NM, All locations: "#A29066"
+    "<=3 days, TX": "#1E8449"
+    ">3 to 5 days, TX": "#1F5F8B"
+    ">5 to 7 days, TX": "#B47E00"
+    ">7 days, TX": "#990000"
+    TX, Ceftriaxone: "#1A5276"
+    TX, Cephalexin: "#FC0000"
+    TX, Fluoroquinolone: "#0000FC"
+    TX, Nitrofurantoin: "#00A824"
+    TX, TMP/SMX: "#FC00AE"
+    TX, Oral beta-lactam: "#6C3C00"
+    TX, Other: "#8A78FC"
+    TX, Ambulatory care clinic: "#00001E"
+    TX, Emergency Department: "#BA0000"
+    TX, Inpatient: "#FC24FC"
+    TX, Rehab or long-term care: "#00A800"
+    TX, Urgent or quick care: "#548AFC"
+    TX, All locations: "#A29066"
   chart_configuration:
     '73':
       id: 73
@@ -1650,6 +3237,7 @@ metadata:
     - 104
     - 106
     - 107
+    - 108
   color_scheme: ''
   refresh_frequency: 0
   expanded_slices: {}
@@ -1657,163 +3245,11 @@ metadata:
   cross_filters_enabled: false
   default_filters: "{}"
   native_filter_configuration:
-  - id: NATIVE_FILTER-csim-from_month
-    controlValues:
-      sortAscending: true
-      enableEmptyFilter: false
-      defaultToFirstItem: false
-      creatable: false
-      multiSelect: false
-      searchAllOptions: false
-      inverseSelection: false
-    name: From month
-    filterType: filter_select
-    targets:
-    - datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
-      column:
-        name: from_month
-    defaultDataMask:
-      extraFormData:
-        filters:
-        - col: from_month
-          op: IN
-          val:
-          - 2025-09
-      filterState:
-        label: 2025-09
-        value:
-        - 2025-09
-    cascadeParentIds: []
-    scope:
-      excluded:
-      - 100
-      - 106
-      - 107
-      rootPath:
-      - ROOT_ID
-    type: NATIVE_FILTER
-    description: Includes the whole selected month. Clear to remove this date boundary.
-    chartsInScope:
-    - 73
-    - 74
-    - 75
-    - 77
-    - 79
-    - 80
-    - 81
-    - 82
-    - 85
-    - 93
-    - 94
-    - 95
-    - 97
-    - 99
-    - 101
-    - 102
-    - 103
-    - 104
-    tabsInScope: []
-  - id: NATIVE_FILTER-csim-through_month
-    controlValues:
-      sortAscending: true
-      enableEmptyFilter: false
-      defaultToFirstItem: false
-      creatable: false
-      multiSelect: false
-      searchAllOptions: false
-      inverseSelection: false
-    name: Through month
-    filterType: filter_select
-    targets:
-    - datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
-      column:
-        name: through_month
-    defaultDataMask:
-      extraFormData:
-        filters:
-        - col: through_month
-          op: IN
-          val:
-          - 2026-08
-      filterState:
-        label: 2026-08
-        value:
-        - 2026-08
-    cascadeParentIds: []
-    scope:
-      excluded:
-      - 100
-      - 106
-      - 107
-      rootPath:
-      - ROOT_ID
-    type: NATIVE_FILTER
-    description: Includes the whole selected month. Clear to remove this date boundary.
-    chartsInScope:
-    - 73
-    - 74
-    - 75
-    - 77
-    - 79
-    - 80
-    - 81
-    - 82
-    - 85
-    - 93
-    - 94
-    - 95
-    - 97
-    - 99
-    - 101
-    - 102
-    - 103
-    - 104
-    tabsInScope: []
-  - id: NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_
-    controlValues:
-      sortAscending: false
-      enableEmptyFilter: false
-    name: Time Unit
-    filterType: filter_timegrain
-    targets:
-    - datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
-    defaultDataMask:
-      extraFormData:
-        time_grain_sqla: P1M
-      filterState:
-        label: Month
-        value:
-        - P1M
-    cascadeParentIds: []
-    scope:
-      excluded:
-      - 100
-      - 106
-      - 107
-      rootPath:
-      - ROOT_ID
-    type: NATIVE_FILTER
-    description: Group the selected observations by Month, Quarter, or Year.
-    chartsInScope:
-    - 73
-    - 74
-    - 75
-    - 77
-    - 79
-    - 80
-    - 81
-    - 82
-    - 85
-    - 93
-    - 94
-    - 95
-    - 97
-    - 99
-    - 101
-    - 102
-    - 103
-    - 104
-    tabsInScope: []
+  - id: NATIVE_FILTER_DIVIDER-csim-main
+    type: DIVIDER
+    title: SELECT YOUR HOSPITAL FIRST
+    description: Use Hospital and state for the main charts. Choose one hospital to
+      fill the latest-month comparison tables.
   - id: NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE
     controlValues:
       sortAscending: true
@@ -1854,6 +3290,7 @@ metadata:
       - 95
       - 97
       - 106
+      - 108
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
@@ -1912,6 +3349,7 @@ metadata:
       - 81
       - 85
       - 94
+      - 108
     type: NATIVE_FILTER
     description: If you want to view the whole dashboard through a single location
       of UC submission, choose a specific location. Otherwise choose "All locations"
@@ -1934,6 +3372,102 @@ metadata:
     - 106
     - 107
     tabsInScope: []
+  - id: NATIVE_FILTER-_ZDg__D4KUKCpsVyVa992
+    controlValues:
+      enableEmptyFilter: false
+    name: Time Period
+    filterType: filter_time
+    targets:
+    - {}
+    defaultDataMask:
+      extraFormData:
+        time_range: '2025-09-01T00:00:00 : 2026-09-01T00:00:00'
+      filterState:
+        value: '2025-09-01T00:00:00 : 2026-09-01T00:00:00'
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 106
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Choose a specific start and end in Custom. The start is included;
+      the end is excluded. For February through March, use February 1 to April 1.
+      Reporting records are monthly.
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 82
+    - 85
+    - 93
+    - 94
+    - 95
+    - 97
+    - 99
+    - 101
+    - 102
+    - 103
+    - 104
+    - 107
+    - 108
+    tabsInScope: []
+  - id: NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_
+    controlValues:
+      sortAscending: false
+      enableEmptyFilter: false
+    name: Time Unit
+    filterType: filter_timegrain
+    targets:
+    - datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
+    defaultDataMask:
+      extraFormData:
+        time_grain_sqla: P1M
+      filterState:
+        label: Month
+        value:
+        - P1M
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 106
+      - 107
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Group the selected observations by Month, Quarter, or Year.
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 82
+    - 85
+    - 93
+    - 94
+    - 95
+    - 97
+    - 99
+    - 101
+    - 102
+    - 103
+    - 104
+    - 108
+    tabsInScope: []
+  - id: NATIVE_FILTER_DIVIDER-csim-comparisons
+    type: DIVIDER
+    title: HOSPITAL COMPARISONS
+    description: Use these selectors for the paired charts in 4.2–4.4 and your hospital
+      total in 5. The therapy trend above uses Hospital and state.
   - id: NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI
     controlValues:
       sortAscending: true
@@ -1977,6 +3511,7 @@ metadata:
       - 97
       - 99
       - 107
+      - 108
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
@@ -2058,6 +3593,7 @@ metadata:
       - 99
       - 106
       - 107
+      - 108
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
@@ -2079,7 +3615,7 @@ metadata:
       datasourceWarning: false
       filterOptionName: filter_rekrwkno8wf_ylwqvzay7u
     time_range: No filter
-  filter_bar_orientation: HORIZONTAL
+  filter_bar_orientation: VERTICAL
   color_scheme_domain: []
   shared_label_colors:
   - '12'

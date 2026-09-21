@@ -24,7 +24,7 @@ position:
     meta:
       chartId: 107
       height: 14
-      sliceName: Latest reporting month
+      sliceName: Latest reporting month in selected period
       uuid: 11a69917-cd37-564d-8a72-c9a6b1b9b875
       width: 6
     parents:
@@ -1805,7 +1805,6 @@ metadata:
       excluded:
       - 100
       - 106
-      - 107
       rootPath:
       - ROOT_ID
     type: NATIVE_FILTER
@@ -1830,6 +1829,7 @@ metadata:
     - 102
     - 103
     - 104
+    - 107
     tabsInScope: []
   - id: NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_
     controlValues:

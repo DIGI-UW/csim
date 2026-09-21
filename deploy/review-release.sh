@@ -20,6 +20,15 @@ ssh -o BatchMode=yes "$host" bash -s -- "$release" "$profile" "$action" <<'REMOT
 set -euo pipefail
 cd "$1"; profile="$2"; action="$3"; revision="${1##*/}"
 shared="/home/ubuntu/csim/shared/.env.$profile"
+# Saved dashboard edits are authoritative during an active editor review.
+# Staging an image is safe; activation or asset imports must wait for export
+# and reconciliation. Remove this server hold only after that handoff.
+review_hold="/home/ubuntu/csim/shared/$profile-editor-review.txt"
+if [[ "$action" != stage && -f "$review_hold" ]]; then
+  cat "$review_hold" >&2
+  echo 'Deployment stopped before changing the running dashboard.' >&2
+  exit 1
+fi
 if [[ "$action" == assets ]]; then
   # Replace only saved definitions in the already running application. This
   # path never starts containers, rebuilds an image or writes reporting data.
@@ -44,6 +53,9 @@ if [[ "$action" == assets ]]; then
     docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/dashboard_import.py" import --profile "$package" </dev/null
     docker exec -e CSIM_PROJECT_ROOT="$target" "$container" python "$target/scripts/verify_import.py" --profile "$package" </dev/null
   done
+  if [[ "$profile" == standard ]]; then
+    docker exec "$container" python "$target/scripts/register_client_sources.py" --apply </dev/null
+  fi
   docker cp "$1/demo_access.py" "$container:$target/demo_access.py"
   docker exec "$container" python "$target/demo_access.py" </dev/null
   python3 - "$profile" "$revision" "$backup" "${packages[@]}" <<'PYRECEIPT'

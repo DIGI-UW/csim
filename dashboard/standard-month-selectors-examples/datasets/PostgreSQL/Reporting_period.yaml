@@ -1,0 +1,60 @@
+---
+table_name: Reporting period — standard-month-selectors-examples
+main_dttm_col: month_date
+description: Applied date boundaries and grouping; no reporting records or measures.
+default_endpoint:
+offset: 0
+cache_timeout:
+catalog: csim_fixture
+schema: v1
+sql: |
+  {% set period = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S', remove_filter=True) %}
+  WITH bounds AS (
+    SELECT {% if period.from_expr %}TIMESTAMP '{{ period.from_expr }}'{% else %}NULL::timestamp{% endif %} AS start_date,
+           {% if period.to_expr %}TIMESTAMP '{{ period.to_expr }}'{% else %}NULL::timestamp{% endif %} AS end_date
+  )
+  SELECT COALESCE(to_char(start_date, 'YYYY-MM-DD HH24:MI'), 'No start limit') AS "Start",
+         COALESCE(to_char(end_date, 'YYYY-MM-DD HH24:MI'), 'No end limit') AS "End (exclusive)",
+         '{{ {'P1M':'Month', 'P3M':'Quarter', 'P1Y':'Year'}.get(time_grain, 'Month') }}'::text AS "Group by",
+         CASE WHEN start_date >= end_date THEN 'Choose an end after the start.'
+         ELSE 'Start included; end excluded. Monthly records use the first day of each month. Grouping does not expand the selected dates.' END AS "Status",
+         CURRENT_DATE AS month_date
+  FROM bounds
+params:
+template_params:
+filter_select_enabled: true
+fetch_values_predicate:
+extra:
+normalize_columns: false
+always_filter_main_dttm: false
+folders:
+uuid: 677451e8-25e7-5e28-8ea1-0b7e3062735e
+metrics: []
+columns:
+- column_name: Start
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: End (exclusive)
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: Group by
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: Status
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+- column_name: month_date
+  is_dttm: true
+  type: DATE
+  groupby: true
+  filterable: true
+version: 1.0.0
+database_uuid: 0f6083ba-0edf-5f47-82ca-e1ce89bd58f4

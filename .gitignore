@@ -2,7 +2,9 @@
 output/
 node_modules/
 __pycache__/
-design/evidence
+design/evidence/*
+!design/evidence/beth-review/
+!design/evidence/beth-review/*.png
 design/access.json
 design/preview-access.json
 

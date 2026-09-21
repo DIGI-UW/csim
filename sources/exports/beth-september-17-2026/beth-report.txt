@@ -1,0 +1,35 @@
+﻿Dashboard Updates for CSiM Team | 17 Sept 2026
+Next step is for Piotr, Winter, and Herbert to update CSiM dashboard with Pitor’s latest dashboard: “CSiM Individual Data — September / Superset 6.1.0” 
+
+
+
+
+Update
+	Screenshot
+	Dashboard updated: Dashboard will now show the latest urine culture submission date for the filters selected. It is intended to be a way for sites/you to see the last data Individual data was manually uploaded
+	  
+
+	Table of Contents: the URLs should automatically update now in the CSiM dashboard
+	Please double check.
+	Dashboard updated: The Comparison Charts in 4.2-4.4  now show the filters applied in the Key
+	  
+
+	For discussion: Request to add record_ID and redcap_repeat_instance to UTI Aggregate dataset to support CSiM review is not possible.
+
+
+The UTI Aggregate Dataset collapses each UC submission into one row per site per reporting date, so these IDs cannot be easily condensed per row. Piotr has some ideas for how to approach. 
+
+
+
+
+
+
+	To be discussed with Piotr
+	Update: Adding a new hospital
+	Make sure that when you add a new hospital that you also update the CSiM Hospitals and States dataset to include this hospital. This is key so the hospital appears. Please re-test
+	Update: Historic to Individual dataset “transition”
+	This should not be an issue. Since Hospital 12 transitioned from old to new redcap forms at one point in time, there is no need to hard code anything to support the transition from one form to another.
+	Update: Issue with inaccuracy of “All time UC Submissions by Your Hospital” reviewed and we could not replicate. Note that this is “all time” submissions so it’s important that the time filter shows “all time.”
+	  
+
+Recommend that Maria run some data quality checks, making sure that time period is set to look back to beginning of dataset. Aggregating by year makes it easy to check the sums. Note that the All time UC Submissions by your hospital still relies on the COMPARISON Filter.

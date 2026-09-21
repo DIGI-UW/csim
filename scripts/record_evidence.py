@@ -18,7 +18,7 @@ targets={
     'september': ('corrected', ['08'], 'csim-reconciled-examples', True),
     'september-months': ('corrected', ['02','07','09'], 'csim-individual-reconciled-months', False),
     'september-months-examples': ('corrected', ['03','06','07'], 'csim-reconciled-months-examples', True),
-    'official-months': ('standard', ['11'], 'csim-standard-month-selectors-examples', True),
+    'official-months': ('standard', ['11','12'], 'csim-standard-month-selectors-examples', True),
     'official': ('standard', ['04','10'], 'csim-individual-standard-sortable', False),
     'official-examples': ('standard', ['03','04','10'], 'csim-standard-sortable-examples', True),
 }
