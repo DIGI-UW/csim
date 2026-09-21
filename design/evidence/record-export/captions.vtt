@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:06.833
+Download individual records. Current and Historical records in one CSV, including record identifiers. Official Superset 6.1.0 demonstration with demo data.
+
+00:00:06.833 --> 00:00:14.708
+Current rows keep record_ID and redcap_repeat_instance. Each row is an individual submission.
+
+00:00:14.708 --> 00:00:23.792
+Historical rows keep record_ID. Their repeat-instance value is blank because that field is not in the source.
+
+00:00:23.792 --> 00:00:27.792
+Refresh and download
+
+00:00:27.792 --> 00:00:37.917
+Click Update chart to query the current source tables before downloading. No dashboard date or hospital filters are applied.
+
+00:00:37.917 --> 00:00:46.208
+Open ⋯ → Data Export Options → Export All Data → Export to .CSV.
+
+00:00:46.208 --> 00:00:55.125
+3,453 rows and 20 columns downloaded. All values and duplicate submissions match the checked source records.
+
+00:00:55.125 --> 00:01:06.750
+The downloaded CSV contains 3,453 individual records and 20 columns. Current and Historical identifiers are preserved. Repeat after the next upload: open this chart, Update chart, Export All Data.

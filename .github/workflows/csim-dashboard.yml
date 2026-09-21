@@ -72,6 +72,8 @@ jobs:
           CSIM_NATIVE_DATES=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
             CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-toc" \
             npx playwright test -c toc.config.mjs navigation/toc.spec.mjs
+          CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-iframe" \
+            npx playwright test -c iframe.config.mjs
           CSIM_NATIVE_DATES=1 CSIM_DATA_PROFILE=edge-cases \
             CSIM_DASHBOARD_SLUG=csim-standard-month-selectors-examples \
             CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-known" \

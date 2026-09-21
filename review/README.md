@@ -19,6 +19,35 @@ See the [verification record](../reports/data-review-verification.json).
 These checks are separate from Beth accepting the workflow and the final
 client import rehearsal. CI has not been verified for this revision.
 
+## Download the data as CSV
+
+**Datasets → Export** downloads the dataset definition as YAML, not its rows.
+For rows, bookmark **Individual records — Review and download** above. After
+an upload, click **Update chart**, then **⋯ → Data Export Options → Export All
+Data → Export to .CSV**. The table and its dataset disable the result cache;
+refreshing runs the query against the current uploaded tables. The chart is
+standalone and has no hospital, location, or date restrictions.
+
+**Export All Data** means the chart query result, still subject to its 100,000-row
+limit. It is not an unlimited database export. The current 3,453-row demo CSV
+matches every field of the independently checked review query, including repeats.
+
+This view combines Current and Historical at individual-record level. It exposes
+20 review fields and keeps excluded submissions with an explanation. It is not
+an export of every source column, nor the monthly totals from **UTI Aggregate ALL
+DATA**. Maria's September 18 call asks for SQL-processed data plus identifiers;
+the exact desired output columns and record-versus-summary distinction still
+need to be confirmed against an example file. Beth previously agreed to a
+separate review table.
+
+The table exists on our demonstration instance. It is **not included in the main
+client dashboard ZIP or three manual update ZIPs**; client delivery remains a
+separate addition. Do not direct a client to a demo chart ID as though it is
+installed on their server.
+
+Sources: [Superset 6.1.0 dataset export implementation](https://github.com/apache/superset/blob/6.1.0/superset/datasets/api.py#L513),
+[Table chart query modes](https://docs.preset.io/docs/table-chart).
+
 ## Contents
 
 - **UTI Individual — Record review**: one virtual dataset reading Current,
