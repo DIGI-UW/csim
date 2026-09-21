@@ -15,7 +15,8 @@ release_root="/home/ubuntu/catalyst-demo/targets/catalyst/runtime/media/csim-rel
 
 ssh -o BatchMode=yes "$host" "mkdir -p '$source'"
 git archive "$revision" \
-  design/index.html design/review.html design/filter-guide.html design/data-guide.html design/install.html \
+  design/index.html design/review.html design/filter-guide.html design/data-guide.html design/install.html design/record-export.html \
+  release/record-review/csim-record-review.sql release/record-review/README.md release/record-review/SHA256SUMS \
   release/client-update/csim-client-update-dashboard.zip release/client-update/SHA256SUMS \
   release/client-update/manual/01-csim-reporting-datasets.zip \
   release/client-update/manual/02-csim-dashboard-charts.zip \
@@ -31,10 +32,13 @@ current="$(readlink -f "$site")"
 release="$release_root/$revision"
 [[ -d "$current" && ! -e "$release" ]]
 cp -a "$current" "$release"
-for file in index.html review.html filter-guide.html data-guide.html install.html; do
+for file in index.html review.html filter-guide.html data-guide.html install.html record-export.html; do
   cp "$source/design/$file" "$release/$file"
 done
 mkdir -p "$release/downloads"
+cp "$source/release/record-review/csim-record-review.sql" "$release/downloads/"
+cp "$source/release/record-review/README.md" "$release/downloads/record-review-setup.txt"
+cp "$source/release/record-review/SHA256SUMS" "$release/downloads/record-review-SHA256SUMS"
 cp "$source/release/client-update/csim-client-update-dashboard.zip" "$release/downloads/"
 cp "$source/release/client-update/SHA256SUMS" "$release/downloads/client-update-SHA256SUMS"
 cp "$source/release/client-update/manual/01-csim-reporting-datasets.zip" "$release/downloads/"
@@ -48,7 +52,8 @@ python3 - "$release" "$revision" "$current" <<'PY'
 import datetime, hashlib, json, sys
 from pathlib import Path
 release, revision, previous = map(Path, sys.argv[1:])
-files = ['index.html','review.html','filter-guide.html','data-guide.html','install.html',
+files = ['index.html','review.html','filter-guide.html','data-guide.html','install.html','record-export.html',
+         'downloads/csim-record-review.sql','downloads/record-review-setup.txt','downloads/record-review-SHA256SUMS',
          'downloads/csim-client-update-dashboard.zip','downloads/client-update-SHA256SUMS',
          'downloads/01-csim-reporting-datasets.zip','downloads/02-csim-dashboard-charts.zip',
          'downloads/03-csim-dashboard.zip','downloads/manual-installation.txt','downloads/manual-SHA256SUMS',

@@ -15,18 +15,18 @@
 <div class="status" aria-label="Release status">
 <div class="done"><strong>Manual bundle ready</strong><span>Three ordered UI imports cover one dashboard, 21 charts and six reporting datasets; they contain no reporting rows or password.</span></div>
 <div class="done"><strong>Automated rehearsal passed</strong><span>The repository installer ran twice without duplicates and the destination-specific connection still returned the same source rows. The three-file manual rehearsal is in progress.</span></div>
-<div class="pending"><strong>Client installation pending</strong><span>The package has not yet been installed or accepted on the client's instance.</span></div>
+<div class="pending"><strong>Record review is a separate setup</strong><span>The team reports the Individual Data dashboard is installed. Add the optional record-review table below to make CSV downloads available there.</span></div>
 </div>
 
 <div class="actions"><a class="button" href="#manual-install">Use the manual installation</a><a class="secondary" href="#automated-install">Open the automated option</a><a href="https://github.com/DIGI-UW/csim/tree/codex/csim-native-usability/release/client-update/manual">Open the versioned bundle</a><a href="review.html">Open the dashboard review guide</a></div>
-<nav aria-label="Installation sections"><a href="#contents">What changes</a><a href="#artifacts">Release files</a><a href="#before">Prepare Superset</a><a href="#manual-install">Manual installation</a><a href="#automated-install">Automated option</a><a href="#verify">Confirm</a><a href="#rollback">Rollback</a><a href="#limits">Limits</a></nav>
+<nav aria-label="Installation sections"><a href="#contents">What changes</a><a href="#artifacts">Release files</a><a href="#before">Prepare Superset</a><a href="#manual-install">Manual installation</a><a href="#record-review">Record-review table</a><a href="#automated-install">Automated option</a><a href="#verify">Confirm</a><a href="#rollback">Rollback</a><a href="#limits">Limits</a></nav>
 
 <section id="contents"><h2>What this update changes</h2>
 <table><tbody>
 <tr><th scope="row">Updates</th><td>The existing Individual Data dashboard, 21 chart definitions, six saved reporting-query definitions, layout, colors, filters and Table of Contents links.</td></tr>
 <tr><th scope="row">Preserves</th><td>The client's dashboard identity, six reporting-dataset identities, PostgreSQL connection address, database name, credentials, source-table names and uploaded Current, Historical and hospital-lookup records.</td></tr>
 <tr><th scope="row">Does not include</th><td>A new database connection, database credentials, reporting records, example dashboards, retired experiments, archived client datasets or a Superset application patch.</td></tr>
-<tr><th scope="row">Separate supporting view</th><td>The Data &amp; records dashboard and individual-record review table remain a separate package. Installing the main update cannot silently add them to the familiar dashboard.</td></tr>
+<tr><th scope="row">Separate supporting view</th><td>The <a href="#record-review">individual-record review table</a> has its own setup below. The demo's Data &amp; records dashboard is not included in the main update.</td></tr>
 </tbody></table>
 <p class="note"><strong>Dashboard definitions and reporting records are separate.</strong> This bundle describes what Superset should display and how it calculates results. It does not carry the rows stored in PostgreSQL or a database password. It was built from the CSiM destination export and reuses its existing PostgreSQL connection.</p>
 </section>
@@ -81,6 +81,20 @@
 <p class="warning note"><strong>Keep the order: datasets, charts, dashboard.</strong> In Superset 6.1.0, importing only the dashboard does not overwrite the existing dependent datasets and charts. The three files make each update explicit.</p>
 </section>
 
+<section id="record-review"><h2>Add the record-review table for CSV downloads</h2>
+<p>This is a separate, one-time setup for a Superset editor. It adds one virtual dataset and one saved Table chart. The existing dashboard and aggregate calculations stay in place. No database connection is imported or edited.</p>
+<div class="actions"><a class="button" href="downloads/csim-record-review.sql" download>Download the review SQL</a><a href="downloads/record-review-setup.txt">Printable setup steps</a><a href="record-export.html">Watch the CSV demonstration</a></div>
+<ol class="steps">
+<li><h3>Confirm the reporting sources</h3><p>Open <strong>Datasets → UTI Aggregate ALL DATA → Edit → SQL</strong>. Its <code>FROM</code> clauses identify the source tables. The download uses <code>v1."UTI Individual Current"</code> and <code>v1."UTI Individual Historical 2024-2025"</code>, matching the supplied production export. If the live query uses different names, confirm the columns and adjust only the new review query to match. Leave the aggregate query unchanged.</p></li>
+<li><h3>Save the review query as a dataset</h3><p>Open <strong>SQL → SQL Lab</strong>, select the existing <strong>PostgreSQL</strong> connection and <strong>v1</strong> schema, paste the downloaded SQL, and run it. Use the results panel's <strong>Explore / Save dataset</strong> action to save a new virtual dataset named <strong>UTI Individual — Record review</strong>. Keep the complete query without a <code>LIMIT</code> clause. If a required column is missing, resolve that source difference before saving.</p></li>
+<li><h3>Create the download table</h3><p>Choose <strong>Table</strong>, <strong>Raw records</strong>, all <strong>20 columns</strong>, <strong>Time range: No filter</strong>, and no additional filters. Set <strong>Row limit: 100000</strong>, turn off <strong>Server pagination</strong>, and use a display page length of 20. Save as <strong>Individual records — Review and download</strong>, without adding it to the main dashboard.</p></li>
+<li><h3>Make refresh and access work</h3><p>In the new dataset's <strong>Advanced</strong> settings, set <strong>Cache timeout</strong> to <strong>-1</strong> to disable caching. An administrator gives the intended reviewers access to this dataset through their existing role. Share or bookmark the saved chart's URL on the client instance.</p></li>
+<li><h3>Confirm the first download is complete</h3><p>Run <code>SELECT COUNT(*) FROM (&lt;the supplied query&gt;) AS records</code> in SQL Lab and compare with the CSV's data-row count, excluding its header. Check both source values and the identifiers. If the result exceeds 100,000 rows or a lower server limit, have the administrator adjust the limit or provide separate exports before relying on the file.</p></li>
+</ol>
+<p class="note"><strong>After each upload:</strong> open the saved chart → <strong>Update chart → ⋯ → Data Export Options → Export All Data → Export to .CSV</strong>. The Datasets list's Export action downloads YAML definitions, not data. Uploads must replace or append to the same source tables; a new table name is not picked up automatically.</p>
+<p>The CSV includes <strong>record_ID</strong> from Current and Historical and <strong>redcap_repeat_instance</strong> from Current, blank for Historical. It contains individual review records, not monthly totals. <a href="downloads/record-review-SHA256SUMS">SQL checksum</a> · <a href="https://superset.apache.org/user-docs/using-superset/exploring-data/">Superset's dataset and chart workflow</a></p>
+</section>
+
 <section id="automated-install"><h2>Automated installation — technical administrator option</h2><p>This repeatable route is useful when an administrator will install the same release in more than one environment. It is not required for the manual installation above.</p><pre><code>git clone https://github.com/DIGI-UW/csim.git
 cd csim
 git checkout codex/csim-native-usability
@@ -110,7 +124,7 @@ python scripts/verify_import.py --profile client-update</code></pre>
 <li><strong>Filter scopes:</strong> the Superset 6.1.0 importer maps dashboard filter targets and excluded charts to the destination identifiers. Open <strong>Edit dashboard</strong>, then the filter bar’s settings menu and <strong>Add or edit filters</strong> only when reviewing or intentionally changing a filter.</li>
 <li><strong>Connection safety:</strong> this release preserves the client's <code>data</code> catalog in all six reporting datasets and does not overwrite the PostgreSQL connection. A package must be rebuilt from a fresh export before use on an instance with a different database connection.</li>
 <li><strong>Time Unit choices:</strong> the short Month/Quarter/Year menu comes from the installation-wide <code>TIME_GRAIN_DENYLIST</code> shown above. It is not stored in the dashboard ZIP.</li>
-<li><strong>Supporting records view:</strong> the separate Data &amp; records package still needs destination installation and role checks if the client accepts that workflow.</li>
+<li><strong>Supporting records view:</strong> use the <a href="#record-review">separate record-review setup</a> for the client's CSV workflow. Its working demo does not establish installation or access on the client instance.</li>
 </ul>
 <details><summary>Evidence and official references</summary><ul><li><a href="downloads/client-update-rehearsal.json">Repeat-import and connection-preservation result</a></li><li><a href="downloads/client-update-baseline-comparison.json">September baseline comparison</a></li><li><a href="downloads/client-update-SHA256SUMS">Package checksum</a></li><li><a href="https://github.com/DIGI-UW/csim/commit/d6351d954d5f265e0c0c3c5f66dbb96d612b5352">Exact tested source commit</a></li><li><a href="https://superset.apache.org/admin-docs/6.1.0/configuration/sql-templating/">Official Superset 6.1.0 SQL templating documentation</a></li><li><a href="https://superset.apache.org/admin-docs/6.1.0/configuration/importing-exporting-datasources/">Official Superset 6.1.0 import and export documentation</a></li></ul></details>
 </section>

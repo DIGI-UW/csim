@@ -1,0 +1,14 @@
+{
+  "verifiedOn": "2026-09-21",
+  "environment": "Isolated csim-client rehearsal with supplied demo records",
+  "productionDataRead": false,
+  "queryExecutedReadOnly": true,
+  "rows": 3453,
+  "columns": 20,
+  "sources": {"Current": 39, "Historical": 3414},
+  "identifiersAndMultiplicityMatchSourceUnion": true,
+  "historicalRepeatInstanceIsNull": true,
+  "sourceTables": ["v1.UTI Individual Current", "v1.UTI Individual Historical 2024-2025", "v1.CSiM Hospitals and States"],
+  "installationPageBrowserCheck": "Passed at widths 1280 and 390; screenshots inspected",
+  "clientInstallation": "Not performed by this check"
+}

@@ -7,7 +7,7 @@ test('Client installation guide links the tested package and explains safe insta
   await expect(page.getByRole('heading',{level:1})).toHaveText('Update the CSiM dashboard on Superset 6.1.0');
   await expect(page.getByText('Manual bundle ready',{exact:true})).toBeVisible();
   await expect(page.getByText('Automated rehearsal passed',{exact:true})).toBeVisible();
-  await expect(page.getByText('Client installation pending',{exact:true})).toBeVisible();
+  await expect(page.getByText('Record review is a separate setup',{exact:true})).toBeVisible();
   await expect(page.getByRole('link',{name:'Use the manual installation',exact:true})).toHaveAttribute('href','#manual-install');
   await expect(page.getByRole('link',{name:'Open the automated option',exact:true})).toHaveAttribute('href','#automated-install');
   await expect(page.getByRole('link',{name:'1. Reporting datasets',exact:true})).toHaveAttribute('href','downloads/01-csim-reporting-datasets.zip');
@@ -24,6 +24,11 @@ test('Client installation guide links the tested package and explains safe insta
   await expect(page.locator('#manual-install')).toContainText('database named data');
   await expect(page.locator('#manual-install')).not.toContainText('Open and save each filter');
   await expect(page.locator('#automated-install')).toContainText('python scripts/dashboard_import.py import --profile client-update');
+  await expect(page.locator('#record-review')).toContainText('No database connection is imported or edited');
+  await expect(page.locator('#record-review')).toContainText('UTI Individual Historical 2024-2025');
+  await expect(page.getByRole('link',{name:'Download the review SQL',exact:true})).toHaveAttribute('href','downloads/csim-record-review.sql');
+  await expect(page.locator('#record-review')).toContainText('redcap_repeat_instance');
+  await expect(page.locator('#record-review')).toContainText('100,000 rows or a lower server limit');
   for(const width of [1280,390]){
     await page.setViewportSize({width,height:900});
     await page.goto('/install.html#verify');
@@ -31,5 +36,10 @@ test('Client installation guide links the tested package and explains safe insta
     await expect(page.locator('#verify h2')).toBeInViewport();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     await page.screenshot({path:info.outputPath(`installation-${width}.png`),fullPage:true});
+    await page.goto('/install.html#record-review');
+    await page.locator('#record-review h2').scrollIntoViewIfNeeded();
+    await expect(page.locator('#record-review h2')).toBeInViewport();
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    await page.screenshot({path:info.outputPath(`record-review-setup-${width}.png`)});
   }
 });
