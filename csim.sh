@@ -5,11 +5,12 @@ cd "$(dirname "$0")"
 main() {
 profile="${1:-corrected}"
 action="${2:-status}"
-case "$profile" in baseline|corrected|fixture|preview|preview-fixture|standard|development) ;; *) echo 'Unknown CSiM profile.' >&2; exit 2 ;; esac
-case "$profile" in corrected) port=18189 ;; baseline) port=18190 ;; fixture) port=18191 ;; preview) port=18192 ;; preview-fixture) port=18193 ;; standard) port=18194 ;; development) port=18195 ;; esac
+case "$profile" in baseline|corrected|fixture|preview|preview-fixture|standard|development|client) ;; *) echo 'Unknown CSiM profile.' >&2; exit 2 ;; esac
+case "$profile" in corrected) port=18189 ;; baseline) port=18190 ;; fixture) port=18191 ;; preview) port=18192 ;; preview-fixture) port=18193 ;; standard) port=18194 ;; development) port=18195 ;; client) port=18196 ;; esac
 package_profile="$profile"
 [[ "$profile" != fixture ]] || package_profile=corrected
 [[ "$profile" != preview-fixture ]] || package_profile=preview
+[[ "$profile" != client ]] || package_profile=client-update
 env_file=".env.${profile}"
 
 if [[ ! -f "$env_file" ]]; then
@@ -30,7 +31,9 @@ with open(path, 'x', encoding='utf-8') as output:
         output.write('CSIM_SUPERSET_IMAGE=apache/superset:e22ce197866ded732e4990063ae74697d89d383a-dev@sha256:4abe143d471d0e2b3985b6903a3c2595e0ac94bb9f0c68f5e09934a9ec2a3adb\n')
         output.write('CSIM_SUPERSET_REF=e22ce197866ded732e4990063ae74697d89d383a\nCSIM_PATCH=superset-snapshot-csim-period.patch\nCSIM_NODE_IMAGE=node:24.16.0-bookworm-slim\n')
     if profile == 'standard':
-        output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=6.1.0-standard\n')
+        output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=6.1.0-standard\nCSIM_WEB_WORKERS=4\n')
+    if profile == 'client':
+        output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=6.1.0-standard\nCSIM_WEB_WORKERS=1\n')
     if profile == 'development':
         output.write('CSIM_DOCKERFILE=Dockerfile\nCSIM_BUILD_TAG=e22ce197-standard\nCSIM_SNAPSHOT=1\n')
         output.write('CSIM_SUPERSET_IMAGE=apache/superset:e22ce197866ded732e4990063ae74697d89d383a-dev@sha256:4abe143d471d0e2b3985b6903a3c2595e0ac94bb9f0c68f5e09934a9ec2a3adb\n')
@@ -85,6 +88,20 @@ import_dashboard() {
 }
 
 case "$action" in
+  workers)
+    workers="${3:?Supply the number of web workers (1-8)}"
+    [[ "$workers" =~ ^[1-8]$ ]] || { echo 'Use 1-8 web workers.' >&2; exit 2; }
+    # Recreate only this application's process, retaining its image and volumes.
+    # Normal initialization, bootstrap and dashboard imports are not involved.
+    python3 - "$env_file" "$workers" <<'PYWORKERS'
+from pathlib import Path
+import sys
+path=Path(sys.argv[1])
+lines=[line for line in path.read_text().splitlines() if not line.startswith('CSIM_WEB_WORKERS=')]
+path.write_text('\n'.join(lines+['CSIM_WEB_WORKERS='+sys.argv[2]])+'\n')
+PYWORKERS
+    compose up -d --no-build --no-deps superset
+    ;;
   init) restore; import_dashboard ;;
   demo-restore) restore ;;
   update) start; import_dashboard ;;
@@ -112,12 +129,21 @@ case "$action" in
       compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"
     done
     ;;
-  native-months)
-    [[ "$profile" == standard ]] || { echo 'Native month selectors currently target official stable Superset.' >&2; exit 2; }
+  data-review)
+    [[ "$profile" == standard ]] || { echo "Data review targets the official demo." >&2; exit 2; }
+    compose exec -T superset python /repro/scripts/install_data_review.py --apply
+    ;;
+  source-datasets)
+    [[ "$profile" == standard ]] || { echo 'Client source registrations use the official demo.' >&2; exit 2; }
+    compose exec -T superset python /repro/scripts/register_client_sources.py --apply
+    ;;
+  native-months|native-dates)
+    [[ "$profile" == standard ]] || { echo 'Native date controls target official stable Superset.' >&2; exit 2; }
     for candidate in standard-month-selectors standard-month-selectors-examples; do
       compose exec -T superset python /repro/scripts/dashboard_import.py import --profile "$candidate"
       compose exec -T superset python /repro/scripts/verify_import.py --profile "$candidate"
     done
+    compose exec -T superset python /repro/scripts/register_client_sources.py --apply
     ;;
   reconciled)
     [[ "$profile" == corrected ]] || { echo 'The September version uses the main instance.' >&2; exit 2; }
@@ -147,6 +173,13 @@ case "$action" in
   test-update)
     compose exec -T superset python /repro/scripts/test_update.py --profile "$package_profile"
     ;;
+  client-rehearsal)
+    [[ "$profile" == client ]] || { echo 'The client rehearsal uses its own isolated client profile.' >&2; exit 2; }
+    restore
+    compose exec -T superset python /repro/scripts/rehearse_client_update.py
+    mkdir -p output
+    compose cp superset:/tmp/csim-client-update-rehearsal.json output/client-update-rehearsal.json
+    ;;
   verify-import)
     compose exec -T superset python /repro/scripts/verify_import.py --profile "$package_profile"
     mkdir -p output
@@ -165,7 +198,7 @@ case "$action" in
     compose down --volumes
     ;;
   *)
-    echo 'Usage: csim.sh {baseline|corrected|fixture|preview} {init|demo-restore|update|verify-import|pack|status|down|reset}' >&2
+    echo 'Usage: csim.sh {baseline|corrected|fixture|preview|standard|development|client} {init|demo-restore|update|verify-import|pack|client-rehearsal|status|down|reset}' >&2
     exit 2
     ;;
 esac

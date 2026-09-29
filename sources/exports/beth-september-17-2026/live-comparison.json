@@ -1,0 +1,233 @@
+{
+  "dashboards": {
+    "before_count": 1,
+    "after_count": 1,
+    "shared_uuid_count": 1,
+    "objects": {
+      "e44b3196-5105-57c7-8fc9-252c29aa8d42": {
+        "name": "CSiM Individual Data — September / Superset 6.1.0",
+        "status": "retained",
+        "changes": [
+
+        ]
+      }
+    }
+  },
+  "charts": {
+    "before_count": 21,
+    "after_count": 21,
+    "shared_uuid_count": 21,
+    "objects": {
+      "02134c7c-4bc1-5f53-822f-0e1812aabd35": {
+        "name": "Abx duration (own hospital stacked) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "0c91fddd-eb8e-5d00-830f-be8725a87426": {
+        "name": "UC location (cohort/state stacked) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "2d3cca36-b3f1-516f-85ef-f26f8051ec00": {
+        "name": "Positive UA (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "36617aea-cd9e-5ae9-840c-b483d983a0c8": {
+        "name": "Volume of UC submissions (own hospital)",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "43867e5a-dbd6-5aff-8fe1-1f3fe46f3d05": {
+        "name": "Inappropriate UTI diagnosis (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "57a9d31c-ac59-586d-8d59-2fddb7695d6a": {
+        "name": "ASB treatment rate (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "68a633b2-8a21-5a24-8040-626c77c3ece4": {
+        "name": "Inappropriate UTI+ASPN diagnosis (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "7e348110-f723-51e8-8431-b5c5e1e38cf1": {
+        "name": "Positive UA (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "a84edca7-724f-530c-8ecf-b09456519b70": {
+        "name": "Latest Urine Culture Submission",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "ab8821f3-672c-5311-8cc3-f65654fc0c4f": {
+        "name": "Abx duration (cohort/state stacked) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "ad4f4401-1091-517f-8f70-9a7ce3fdf3dd": {
+        "name": "ASB prevalence (overall) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "b6a02175-22de-5077-841b-f676feb49b23": {
+        "name": "Abx duration (latest comparison) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "befda14b-f0e5-5d7b-8c43-5a43900ea7ff": {
+        "name": "Inappropriate UTI diagnosis (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "da9dde72-7eb7-5a69-85af-59287009d774": {
+        "name": "Inappropriate UTI diagnosis (latest month comparison) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "dc5f7e14-478d-52f0-81c4-e3fdae99bbf7": {
+        "name": "Volume of UC submissions (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "dedb1e5e-2572-545c-8653-8e362c3c7a89": {
+        "name": "UC location (own hospital stacked) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "dfe7d37a-5f11-55e4-806e-9931ea22d182": {
+        "name": "Top abx (cohort/state stacked) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "e94b0ba9-50a1-5fee-8cca-fa3652f40f2c": {
+        "name": "Inappropriate UTI+ASPN diagnosis (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "ec108725-dcda-5aa8-857b-4cd321cf4dc6": {
+        "name": "Top abx (own hospital stacked) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "fcae29cc-acff-58cf-8a48-c9395d6e9b68": {
+        "name": "Abx duration (time series) - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "ffb7068f-e6ca-58fe-839c-5162b2b24031": {
+        "name": "Volume of UC submissions (entire cohort)",
+        "status": "retained",
+        "changes": [
+
+        ]
+      }
+    }
+  },
+  "datasets": {
+    "before_count": 6,
+    "after_count": 6,
+    "shared_uuid_count": 6,
+    "objects": {
+      "12cf6aed-4a67-5829-88b4-2636ee62a97f": {
+        "name": "UTI Aggregate ALL DATA",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "1a21eb78-1059-55e1-8170-e55081099b26": {
+        "name": "UTI Location - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "23b2efc0-8296-551f-8429-3a9cebe1d85d": {
+        "name": "UTI Aggregate Overall Performance Bar Charts",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "45f4cfaa-70df-50e5-839a-606a0ca36734": {
+        "name": "UTI Abx duration comparison - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "9cfd3630-96fa-59fc-8d84-6e265791cef9": {
+        "name": "UTI Top Abx - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      },
+      "9e2b28d9-6146-505e-8d6b-7945ee54878e": {
+        "name": "UTI Inappropriate UTI Dx Comparison Table - Ind",
+        "status": "retained",
+        "changes": [
+
+        ]
+      }
+    }
+  },
+  "databases": {
+    "before_count": 1,
+    "after_count": 1,
+    "shared_uuid_count": 1,
+    "objects": {
+      "21edc228-aaaf-4fbf-8c28-b47844ae09e2": {
+        "name": "CSiM demo PostgreSQL",
+        "status": "retained",
+        "changes": [
+
+        ]
+      }
+    }
+  }
+}

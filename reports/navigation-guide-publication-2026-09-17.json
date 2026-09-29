@@ -1,0 +1,50 @@
+{
+  "sourceRevision": "9661a7f1223e526a4c8b28effaa51e2cdf62e1c0",
+  "publishedAt": "2026-09-17T04:47:46.353961+00:00",
+  "scope": "Guide pages, sidebar headings, hospital guidance and nested Table of Contents",
+  "dashboardSlug": "csim-individual-standard-month-selectors",
+  "chartCount": 22,
+  "actualFiltersUnchanged": true,
+  "reportingDefinitionsUnchanged": true,
+  "files": [
+    {
+      "path": "evidence/beth-review/therapy-filter-mismatch.png",
+      "sha256": "46318c6d50644a056f5f4b951b0ef3e62ec09cb85e606f4e18de1398cc2d118f"
+    },
+    {
+      "path": "filter-guide.html",
+      "sha256": "99b71ad2fe47de797af55c93cd9a8e22af7efd567ccdced10f2abcb1c57b43ab"
+    },
+    {
+      "path": "beth-review.html",
+      "sha256": "14bd41c1f90bd7fc047c4f47a95d848951c25d22f08b5cdf264627897d19d0b9"
+    },
+    {
+      "path": "index.html",
+      "sha256": "30cfa1fe5be6dc8cc6e6ccfa57ec616a1d1bf93614cdedcdc55eda183744f004"
+    }
+  ],
+  "validation": {
+    "publicFilesMatchPublishedHashes": true,
+    "publicWebsiteTests": {
+      "passed": 8,
+      "video": "off"
+    },
+    "localDefinitionTests": {
+      "tests": 3,
+      "assertions": 297,
+      "failures": 0
+    },
+    "localDashboardNavigationTest": {
+      "passed": 1
+    },
+    "publicBrowserReview": [
+      "Sidebar hospital headings visible",
+      "Four nested contents entries and nine same-page targets",
+      "Hospital 53 and selected date range retained after section navigation",
+      "Section 4.2 guidance visible"
+    ],
+    "fullNumericalSuiteRerun": false,
+    "bethAcceptance": "not recorded"
+  }
+}

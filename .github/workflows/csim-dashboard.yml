@@ -57,19 +57,27 @@ jobs:
           CSIM_DASHBOARD_SLUG: csim-${{ matrix.build }}-sortable-examples
           CSIM_OUTPUT: ${{ github.workspace }}/output/native-known
         run: npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|10 Official'
-      - name: Test native From and Through month selectors without video
+      - name: Test native specific dates and left sidebar without video
         if: ${{ !cancelled() && matrix.build == 'standard' && steps.prepare.conclusion == 'success' }}
         run: |
-          ruby scripts/test_native_months.rb
-          bash csim.sh standard native-months
+          ruby scripts/test_native_dates.rb
+          bash csim.sh standard native-dates
+          bash csim.sh standard data-review
+          bash csim.sh standard data-review
+          docker exec csim-standard-superset-1 python /repro/scripts/test_record_review.py
           cd e2e
-          CSIM_NATIVE_MONTHS=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
-            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-months-supplied" \
-            npx playwright test -c acceptance.config.mjs --grep 'Native|01 All|04 Time Period|Opening afresh|Antibiotic axis'
-          CSIM_NATIVE_MONTHS=1 CSIM_DATA_PROFILE=edge-cases \
+          CSIM_NATIVE_DATES=1 CSIM_BETH_REVIEW=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
+            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-supplied" \
+            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs aggregate-download.spec.mjs beth-review.spec.mjs sidebar-gap.spec.mjs native-comparison.spec.mjs palette.spec.mjs submission-totals.spec.mjs client-sources.spec.mjs record-review.spec.mjs
+          CSIM_NATIVE_DATES=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
+            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-toc" \
+            npx playwright test -c toc.config.mjs navigation/toc.spec.mjs
+          CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-iframe" \
+            npx playwright test -c iframe.config.mjs
+          CSIM_NATIVE_DATES=1 CSIM_DATA_PROFILE=edge-cases \
             CSIM_DASHBOARD_SLUG=csim-standard-month-selectors-examples \
-            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-months-known" \
-            npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|Opening afresh'
+            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-dates-known" \
+            npx playwright test -c acceptance.config.mjs native-dates.spec.mjs aggregate-download.spec.mjs
       - name: Preserve evidence and explicit native gaps
         if: always()
         uses: actions/upload-artifact@v4

@@ -1,6 +1,7 @@
 ---
 slice_name: Abx duration (cohort/state stacked) - Ind
-description:
+description: The legend begins with the selected Cohort/State value so the comparison
+  population remains visible with the chart.
 certified_by:
 certification_details:
 viz_type: echarts_timeseries_bar
@@ -112,7 +113,8 @@ params:
     label: ">7 days"
     optionName: metric_0duxilczpm2g_5n2if7v5pi4
     sqlExpression:
-  groupby: []
+  groupby:
+  - hosp_code
   adhoc_filters:
   - clause: WHERE
     comparator: No filter

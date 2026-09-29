@@ -1,7 +1,7 @@
 {
   "profile": "standard-month-selectors",
-  "charts": 21,
-  "datasets": 6,
+  "charts": 22,
+  "datasets": 7,
   "dateAxes": 11,
   "source": "test-current-20260911",
   "sourceSha256": "4121a72a9ec7976b4d0990258089fbb4b73a0f7dfb6cc9180108e9d69b3837fb",
@@ -10,7 +10,18 @@
   "sourceProfile": "standard-sortable",
   "application": "unmodified",
   "nativeAxis": "sortable-period-label",
-  "filterOrientation": "HORIZONTAL",
-  "filters": 7,
-  "controls": "native-month-selectors"
+  "filterOrientation": "VERTICAL",
+  "filters": 6,
+  "reportingCharts": 21,
+  "reportingDatasets": 6,
+  "controlSummaryCharts": 1,
+  "controls": "native-specific-dates",
+  "defaultTimeRange": "2025-09-01T00:00:00 : 2026-09-01T00:00:00",
+  "standaloneCharts": [
+    {
+      "uuid": "b4c270b1-1b84-5ae5-8a26-b3c3176e7ae9",
+      "sourceId": 109,
+      "name": "Aggregate ALL DATA — Download"
+    }
+  ]
 }

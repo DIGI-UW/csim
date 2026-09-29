@@ -1,0 +1,258 @@
+[
+  {
+    "case": "2024-month",
+    "id": 85,
+    "title": "ASB prevalence — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "ASB prevalence": 0.35714285714285715
+      }
+    ]
+  },
+  {
+    "case": "2024-month",
+    "id": 86,
+    "title": "ASB treatment rate — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "ASB treatment rate": 0.6346938775510204
+      }
+    ]
+  },
+  {
+    "case": "2024-month",
+    "id": 88,
+    "title": "Average therapy duration — latest available month",
+    "appliedFilters": "Applied filters (1)\nHospital and State: 53",
+    "data": [
+      {
+        "hosp_code": "53",
+        "State": "AZ",
+        "Month": "Mar 2026",
+        "Your Hospital (Days)": 7.7,
+        "Cohort (Days)": 8.1,
+        "Your State (Days)": 7.7
+      }
+    ]
+  },
+  {
+    "case": "2024-month",
+    "id": 92,
+    "title": "Overall inappropriate UTI + ASPN diagnosis — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "% inappropriate UTI+ASPN diagnosis": 0.46441947565543074
+      }
+    ]
+  },
+  {
+    "case": "2024-month",
+    "id": 94,
+    "title": "Inappropriate UTI diagnosis — latest available month",
+    "appliedFilters": "Applied filters (1)\nHospital and State: 53",
+    "data": [
+      {
+        "hosp_code": "53",
+        "Month": "Mar 2026",
+        "Your Hospital": 0.4,
+        "Comparison": "Better than cohort ✓",
+        "Cohort": 0.5066666666666666,
+        "Your State": 0.4,
+        "State": "AZ"
+      }
+    ]
+  },
+  {
+    "case": "2024-month",
+    "id": 95,
+    "title": "Overall inappropriate UTI diagnosis — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "% inappropriate UTI diagnosis": 0.40041928721174
+      }
+    ]
+  },
+  {
+    "case": "2024-month",
+    "id": 97,
+    "title": "Positive UA proportion — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "% positive UA": 0.9163265306122449
+      }
+    ]
+  },
+  {
+    "case": "2024-month",
+    "id": 90,
+    "data": [
+      {
+        "53": 7.555555555555555,
+        "period_label": "2024-01"
+      },
+      {
+        "53": 6.4,
+        "period_label": "2024-02"
+      },
+      {
+        "53": 6.909090909090909,
+        "period_label": "2024-03"
+      },
+      {
+        "53": 8,
+        "period_label": "2024-04"
+      },
+      {
+        "53": 8.8,
+        "period_label": "2024-05"
+      },
+      {
+        "53": 5.5,
+        "period_label": "2024-06"
+      },
+      {
+        "53": 3.25,
+        "period_label": "2024-07"
+      },
+      {
+        "53": null,
+        "period_label": "2024-08"
+      },
+      {
+        "53": null,
+        "period_label": "2024-09"
+      },
+      {
+        "53": 6,
+        "period_label": "2024-10"
+      },
+      {
+        "53": 6.7272727272727275,
+        "period_label": "2024-11"
+      },
+      {
+        "53": 7.033333333333333,
+        "period_label": "2024-12"
+      }
+    ],
+    "timeRange": "2024-01-01 : 2025-01-01"
+  },
+  {
+    "case": "2025-2026-year",
+    "id": 85,
+    "title": "ASB prevalence — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "ASB prevalence": 0.35714285714285715
+      }
+    ]
+  },
+  {
+    "case": "2025-2026-year",
+    "id": 86,
+    "title": "ASB treatment rate — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "ASB treatment rate": 0.6346938775510204
+      }
+    ]
+  },
+  {
+    "case": "2025-2026-year",
+    "id": 88,
+    "title": "Average therapy duration — latest available month",
+    "appliedFilters": "Applied filters (1)\nHospital and State: 53",
+    "data": [
+      {
+        "hosp_code": "53",
+        "State": "AZ",
+        "Month": "Mar 2026",
+        "Your Hospital (Days)": 7.7,
+        "Cohort (Days)": 8.1,
+        "Your State (Days)": 7.7
+      }
+    ]
+  },
+  {
+    "case": "2025-2026-year",
+    "id": 92,
+    "title": "Overall inappropriate UTI + ASPN diagnosis — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "% inappropriate UTI+ASPN diagnosis": 0.46441947565543074
+      }
+    ]
+  },
+  {
+    "case": "2025-2026-year",
+    "id": 94,
+    "title": "Inappropriate UTI diagnosis — latest available month",
+    "appliedFilters": "Applied filters (1)\nHospital and State: 53",
+    "data": [
+      {
+        "hosp_code": "53",
+        "Month": "Mar 2026",
+        "Your Hospital": 0.4,
+        "Comparison": "Better than cohort ✓",
+        "Cohort": 0.5066666666666666,
+        "Your State": 0.4,
+        "State": "AZ"
+      }
+    ]
+  },
+  {
+    "case": "2025-2026-year",
+    "id": 95,
+    "title": "Overall inappropriate UTI diagnosis — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "% inappropriate UTI diagnosis": 0.40041928721174
+      }
+    ]
+  },
+  {
+    "case": "2025-2026-year",
+    "id": 97,
+    "title": "Positive UA proportion — all reporting dates",
+    "appliedFilters": "Applied filters (2)\nHospital and State: 53\nLocation of Urine Culture Collection: All locations",
+    "data": [
+      {
+        "hosp_code": "53",
+        "% positive UA": 0.9163265306122449
+      }
+    ]
+  },
+  {
+    "case": "2025-2026-year",
+    "id": 90,
+    "data": [
+      {
+        "53": 6.813084112149533,
+        "period_label": "2025"
+      },
+      {
+        "53": 6.4603174603174605,
+        "period_label": "2026"
+      }
+    ],
+    "timeRange": "2025-09-01 : 2026-09-01"
+  }
+]

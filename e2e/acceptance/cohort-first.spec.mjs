@@ -49,7 +49,7 @@ test('09 Cohort opening, hospital totals, and clear/reselect',async({page},info)
     }
     // Independently counted from the supplied current and historical demo rows.
     expect(values(watch.replies.get(total.id).result)).toEqual([980]);
-    await scene(page,info,`${phase}-hospital-total`,'Hospital 53: 980 all-time submissions','The total is for this hospital. Time Period changes the trends; this card keeps its labelled all-time scope.');
+    await scene(page,info,`${phase}-hospital-total`,'Current supplied-data result: 980','This verifies the current saved query against the supplied demonstration records. The requested value of 500 remains a source-data decision, so this rendering check does not accept 980 as the final reporting rule.');
     if(phase==='reselected')break;
     await select(lowerHospital).hover();
     await select(lowerHospital).locator('.ant-select-clear').click();

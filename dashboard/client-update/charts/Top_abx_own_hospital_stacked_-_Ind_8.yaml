@@ -1,0 +1,154 @@
+---
+slice_name: Top abx (own hospital stacked) - Ind
+description: Choose one numeric hospital in Your hospital. Until then this panel has
+  no hospital result.
+certified_by:
+certification_details:
+viz_type: echarts_timeseries_bar
+params:
+  datasource: 18__table
+  viz_type: echarts_timeseries_bar
+  slice_id: 100
+  matrixify_enable: false
+  matrixify_mode_columns: disabled
+  matrixify_dimension_selection_mode_columns: members
+  matrixify_dimension_columns:
+    dimension: ''
+    values: []
+  matrixify_topn_value_columns: 10
+  matrixify_all_sort_by_columns: a_to_z
+  matrixify_topn_order_columns: true
+  matrixify_show_column_headers: true
+  matrixify_fit_columns_dynamically: true
+  matrixify_mode_rows: disabled
+  matrixify_dimension_selection_mode_rows: members
+  matrixify_dimension_rows:
+    dimension: ''
+    values: []
+  matrixify_topn_value_rows: 10
+  matrixify_all_sort_by_rows: a_to_z
+  matrixify_topn_order_rows: true
+  matrixify_show_row_labels: true
+  matrixify_row_height: 300
+  matrixify_charts_per_row: 4
+  matrixify_cell_title_template: ''
+  x_axis: period_label
+  x_axis_sort: name
+  x_axis_sort_asc: true
+  metrics:
+  - aggregate: SUM
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-17T21:38:24.742162'
+      column_name: prescription_count
+      created_on: '2026-03-17T21:38:24.742158'
+      description:
+      expression:
+      extra:
+      filterable: true
+      groupby: true
+      id: 443
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: DECIMAL
+      type_generic: 0
+      uuid: d5a8e533-c248-450c-8a86-f3ececa132ac
+      verbose_name:
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    label: SUM(prescription_count)
+    optionName: metric_yc5paz6gegq_0co8t3qr2wa
+    sqlExpression:
+  groupby:
+  - hosp_code
+  - antibiotic_name
+  adhoc_filters:
+  - clause: WHERE
+    comparator:
+    datasourceWarning: false
+    expressionType: SQL
+    filterOptionName: filter_uzy7dlp54pb_ivn01kvt4d
+    isExtra: false
+    isNew: false
+    operator:
+    operatorId:
+    sqlExpression: hosp_code ~ '^[0-9]+([.][0-9]+)?$'
+    subject:
+  - clause: WHERE
+    expressionType: SQL
+    filterOptionName: filter_csim_selected_hospital
+    isExtra: false
+    sqlExpression: "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~
+      '^[0-9]+([.][0-9]+)?$'"
+  - clause: WHERE
+    comparator: No filter
+    datasourceWarning: false
+    expressionType: SIMPLE
+    filterOptionName: filter_hqam1ijiw1u_0tcxdxx3z0jd
+    isExtra: false
+    isNew: false
+    operator: TEMPORAL_RANGE
+    sqlExpression:
+    subject: month_date
+  group_others_when_limit_reached: false
+  row_limit: 1000
+  truncate_metric: true
+  show_empty_columns: true
+  comparison_type: values
+  annotation_layers: []
+  forecastEnabled: false
+  forecastPeriods: 10
+  forecastInterval: 0.8
+  orientation: vertical
+  x_axis_title: Time
+  x_axis_title_margin: 60
+  y_axis_title: Number of antibiotic prescriptions
+  y_axis_title_margin: 30
+  y_axis_title_position: Left
+  sort_series_type: sum
+  sort_series_ascending: false
+  color_scheme: googleCategory20c
+  show_value: false
+  stack: Stack
+  color_by_primary_axis: false
+  minorTicks: false
+  zoomable: false
+  show_legend: true
+  legendType: scroll
+  legendOrientation: left
+  legendMargin: ''
+  x_axis_time_format: smart_date
+  x_axis_number_format: "~g"
+  xAxisLabelRotation: 90
+  xAxisLabelInterval: 0
+  y_axis_format: SMART_NUMBER
+  logAxis: false
+  minorSplitLine: false
+  truncateYAxis: false
+  y_axis_bounds:
+  -
+  -
+  truncateXAxis: false
+  force_max_interval: false
+  rich_tooltip: true
+  showTooltipTotal: true
+  showTooltipPercentage: true
+  tooltipSortByMetric: false
+  tooltipTimeFormat: smart_date
+  echart_options: "{}"
+  extra_form_data: {}
+  dashboards:
+  - 5
+query_context: '{"datasource":{"id":18,"type":"table"},"force":false,"queries":[{"filters":[{"col":"month_date","op":"TEMPORAL_RANGE","val":"No
+  filter"}],"extras":{"having":"","where":"(hosp_code ~ ''^[0-9]+([.][0-9]+)?$'')
+  AND ({{ filter_values(''hosp_code'') | length }} = 1 AND hosp_code ~ ''^[0-9]+([.][0-9]+)?$'')"},"applied_time_extras":{},"columns":[{"columnType":"BASE_AXIS","sqlExpression":"period_label","label":"period_label","expressionType":"SQL","isColumnReference":true},"hosp_code","antibiotic_name"],"metrics":[{"aggregate":"SUM","column":{"advanced_data_type":null,"changed_on":"2026-03-17T21:38:24.742162","column_name":"prescription_count","created_on":"2026-03-17T21:38:24.742158","description":null,"expression":null,"extra":null,"filterable":true,"groupby":true,"id":443,"is_active":true,"is_dttm":false,"python_date_format":null,"type":"DECIMAL","type_generic":0,"uuid":"d5a8e533-c248-450c-8a86-f3ececa132ac","verbose_name":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"SUM(prescription_count)","optionName":"metric_yc5paz6gegq_0co8t3qr2wa","sqlExpression":null}],"orderby":[[{"aggregate":"SUM","column":{"advanced_data_type":null,"changed_on":"2026-03-17T21:38:24.742162","column_name":"prescription_count","created_on":"2026-03-17T21:38:24.742158","description":null,"expression":null,"extra":null,"filterable":true,"groupby":true,"id":443,"is_active":true,"is_dttm":false,"python_date_format":null,"type":"DECIMAL","type_generic":0,"uuid":"d5a8e533-c248-450c-8a86-f3ececa132ac","verbose_name":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"SUM(prescription_count)","optionName":"metric_yc5paz6gegq_0co8t3qr2wa","sqlExpression":null},false]],"annotation_layers":[],"row_limit":1000,"series_columns":["hosp_code","antibiotic_name"],"series_limit":0,"group_others_when_limit_reached":false,"order_desc":true,"url_params":{},"custom_params":{},"custom_form_data":{},"time_offsets":[],"post_processing":[{"operation":"pivot","options":{"index":["period_label"],"columns":["hosp_code","antibiotic_name"],"aggregates":{"SUM(prescription_count)":{"operator":"mean"}},"drop_missing_columns":false}},{"operation":"rename","options":{"columns":{"SUM(prescription_count)":null},"level":0,"inplace":true}},{"operation":"flatten"}]}],"form_data":{"datasource":"18__table","viz_type":"echarts_timeseries_bar","slice_id":100,"matrixify_enable":false,"matrixify_mode_columns":"disabled","matrixify_dimension_selection_mode_columns":"members","matrixify_dimension_columns":{"dimension":"","values":[]},"matrixify_topn_value_columns":10,"matrixify_all_sort_by_columns":"a_to_z","matrixify_topn_order_columns":true,"matrixify_show_column_headers":true,"matrixify_fit_columns_dynamically":true,"matrixify_mode_rows":"disabled","matrixify_dimension_selection_mode_rows":"members","matrixify_dimension_rows":{"dimension":"","values":[]},"matrixify_topn_value_rows":10,"matrixify_all_sort_by_rows":"a_to_z","matrixify_topn_order_rows":true,"matrixify_show_row_labels":true,"matrixify_row_height":300,"matrixify_charts_per_row":4,"matrixify_cell_title_template":"","x_axis":"period_label","x_axis_sort":"name","x_axis_sort_asc":true,"metrics":[{"aggregate":"SUM","column":{"advanced_data_type":null,"changed_on":"2026-03-17T21:38:24.742162","column_name":"prescription_count","created_on":"2026-03-17T21:38:24.742158","description":null,"expression":null,"extra":null,"filterable":true,"groupby":true,"id":443,"is_active":true,"is_dttm":false,"python_date_format":null,"type":"DECIMAL","type_generic":0,"uuid":"d5a8e533-c248-450c-8a86-f3ececa132ac","verbose_name":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"SUM(prescription_count)","optionName":"metric_yc5paz6gegq_0co8t3qr2wa","sqlExpression":null}],"groupby":["hosp_code","antibiotic_name"],"adhoc_filters":[{"clause":"WHERE","comparator":null,"datasourceWarning":false,"expressionType":"SQL","filterOptionName":"filter_uzy7dlp54pb_ivn01kvt4d","isExtra":false,"isNew":false,"operator":null,"operatorId":null,"sqlExpression":"hosp_code
+  ~ ''^[0-9]+([.][0-9]+)?$''","subject":null},{"clause":"WHERE","expressionType":"SQL","filterOptionName":"filter_csim_selected_hospital","isExtra":false,"sqlExpression":"{{
+  filter_values(''hosp_code'') | length }} = 1 AND hosp_code ~ ''^[0-9]+([.][0-9]+)?$''"},{"clause":"WHERE","comparator":"No
+  filter","datasourceWarning":false,"expressionType":"SIMPLE","filterOptionName":"filter_hqam1ijiw1u_0tcxdxx3z0jd","isExtra":false,"isNew":false,"operator":"TEMPORAL_RANGE","sqlExpression":null,"subject":"month_date"}],"group_others_when_limit_reached":false,"row_limit":1000,"truncate_metric":true,"show_empty_columns":true,"comparison_type":"values","annotation_layers":[],"forecastEnabled":false,"forecastPeriods":10,"forecastInterval":0.8,"orientation":"vertical","x_axis_title":"Time","x_axis_title_margin":60,"y_axis_title":"Number
+  of antibiotic prescriptions","y_axis_title_margin":30,"y_axis_title_position":"Left","sort_series_type":"sum","sort_series_ascending":false,"color_scheme":"googleCategory20c","show_value":false,"stack":"Stack","color_by_primary_axis":false,"minorTicks":false,"zoomable":false,"show_legend":true,"legendType":"scroll","legendOrientation":"left","legendMargin":"","x_axis_time_format":"smart_date","x_axis_number_format":"~g","xAxisLabelRotation":90,"xAxisLabelInterval":0,"y_axis_format":"SMART_NUMBER","logAxis":false,"minorSplitLine":false,"truncateYAxis":false,"y_axis_bounds":[null,null],"truncateXAxis":false,"force_max_interval":false,"rich_tooltip":true,"showTooltipTotal":true,"showTooltipPercentage":true,"tooltipSortByMetric":false,"tooltipTimeFormat":"smart_date","echart_options":"{}","extra_form_data":{},"dashboards":[5],"force":false,"result_format":"json","result_type":"full"},"result_format":"json","result_type":"full"}'
+cache_timeout:
+uuid: 202d48c2-f277-4c61-8713-33a570f36882
+version: 1.0.0
+dataset_uuid: c32703e0-f62f-46ee-b920-58363d6f95ba

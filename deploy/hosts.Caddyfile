@@ -24,6 +24,10 @@ design.csim.uwdigi.org {
 }
 
 standard.csim.uwdigi.org {
-    redir / /superset/dashboard/csim-individual-standard-sortable/ 302
+    redir / /superset/dashboard/csim-individual-standard-month-selectors/ 302
+    @retired_main path /superset/dashboard/csim-individual-standard /superset/dashboard/csim-individual-standard/ /superset/dashboard/csim-individual-standard-sortable /superset/dashboard/csim-individual-standard-sortable/
+    redir @retired_main /superset/dashboard/csim-individual-standard-month-selectors/ 302
+    @retired_examples path /superset/dashboard/csim-standard-examples /superset/dashboard/csim-standard-examples/ /superset/dashboard/csim-standard-sortable-examples /superset/dashboard/csim-standard-sortable-examples/
+    redir @retired_examples /superset/dashboard/csim-standard-month-selectors-examples/ 302
     reverse_proxy csim-standard:8088
 }

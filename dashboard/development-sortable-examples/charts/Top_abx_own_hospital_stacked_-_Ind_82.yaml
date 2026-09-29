@@ -39,6 +39,7 @@ params:
     optionName: metric_yc5paz6gegq_0co8t3qr2wa
     sqlExpression:
   groupby:
+  - hosp_code
   - antibiotic_name
   adhoc_filters:
   - clause: WHERE

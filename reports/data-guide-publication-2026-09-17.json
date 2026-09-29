@@ -1,0 +1,51 @@
+{
+  "sourceRevision": "71864034d23e35bad0e883345326decbdc9f3cd0",
+  "initialOverviewRevision": "04f367f25295f168dce1a344d0d760372d371530",
+  "url": "https://design.csim.uwdigi.org/data-guide.html",
+  "publishedAt": "2026-09-17T17:14:49.175670+00:00",
+  "previousRelease": "csim-releases/11c4cc9c36a279fd93a7d1991eee37aa0bcefc89",
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "9d80bbd42631e22656d45b098de6a5a96bfba1051b3c2877c9f2486f775c2f68"
+    },
+    {
+      "path": "data-guide.html",
+      "sha256": "7d58c825223a3a72951cb7160a4af11a1cb50eea94797d0a1d95c2dc853540f3"
+    },
+    {
+      "path": "filter-guide.html",
+      "sha256": "0e7d3e434460366fdc86274e290c1780cb6c4f54c9db3751bf11b69d1793e2fc"
+    },
+    {
+      "path": "beth-review.html",
+      "sha256": "1c28e1bd2c0a9d9a52625321013f09676b4a85b11e9db2872d7972ad5dace0dc"
+    }
+  ],
+  "verification": {
+    "base": "https://design.csim.uwdigi.org",
+    "checkedAt": "2026-09-17T17:15:25.629Z",
+    "widths": [
+      1366,
+      390
+    ],
+    "sourceTables": 3,
+    "reportingDatasets": 6,
+    "localLinks": 11,
+    "pageErrors": [],
+    "video": false,
+    "publicFilesMatchCommittedBytes": true,
+    "localWebsiteTestsPassed": 8,
+    "publicWebsiteTestsPassed": 8,
+    "desktopAndMobileScreenshotsVisuallyReviewed": true,
+    "ciRunForThisChange": false
+  },
+  "dashboardChanged": false,
+  "reportingDataChanged": false,
+  "omittedImages": "Two SQL-editor screenshots were not published; the guide includes written query-navigation instructions and no unavailable image links.",
+  "coordination": {
+    "documentationTask": "01a0913d-a67e-75e2-90ef-7f1726adef7d",
+    "dashboardTask": "01a0b04e-328b-70f0-bfc3-93751db54324",
+    "handoff": "Dashboard task owns seven-panel scope and wording, section 4.1, runtime publication and dashboard evidence. Documentation task completed this data guide. Further overview publication handed to dashboard task after this verification."
+  }
+}

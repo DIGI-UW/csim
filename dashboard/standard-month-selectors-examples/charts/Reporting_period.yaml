@@ -1,0 +1,40 @@
+---
+slice_name: Reporting period
+description: Applied start and exclusive end, with the selected grouping.
+viz_type: table
+uuid: febdc8ba-e895-524f-84cb-3634fd108c3e
+version: 1.0.0
+dataset_uuid: 677451e8-25e7-5e28-8ea1-0b7e3062735e
+query_context:
+params:
+  datasource: 108__table
+  slice_id: 108
+  viz_type: table
+  query_mode: raw
+  all_columns:
+  - Start
+  - End (exclusive)
+  - Group by
+  - Status
+  groupby: []
+  metrics: []
+  adhoc_filters: []
+  order_by_cols: []
+  row_limit: 2
+  server_pagination: false
+  include_search: false
+  show_totals: false
+  show_cell_bars: false
+  time_grain_sqla: P1M
+  column_config:
+    Start:
+      columnWidth: 150
+    End (exclusive):
+      columnWidth: 150
+    Group by:
+      columnWidth: 90
+    Status:
+      columnWidth: 420
+      truncateLongCells: false
+  extra_form_data: {}
+  dashboards: []

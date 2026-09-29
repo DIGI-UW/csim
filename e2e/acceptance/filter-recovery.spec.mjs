@@ -72,7 +72,7 @@ test('Opening afresh applies the saved hospital, date window and Month defaults'
     expect(selected).toBe(label);
   }
   if(process.env.CSIM_NATIVE_MONTHS==='1'){
-    for(const [id,value] of [['from_month',fixture?'2025-11':'2025-09'],['through_month',fixture?'2026-04':'2026-08']]){
+    for(const [id,value] of [['from_month',fixture?'2025-11':'12 months ago'],['through_month',fixture?'2026-04':'Last complete month']]){
       const control=page.getByRole('combobox',{name:`NATIVE_FILTER-csim-${id}`,exact:true});
       await expect(control.locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," ant-select ")][1]')).toContainText(value);
     }

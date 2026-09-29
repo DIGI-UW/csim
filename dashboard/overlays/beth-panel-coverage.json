@@ -1,0 +1,48 @@
+{
+  "slug": "csim-individual-standard-month-selectors",
+  "dashboardUuid": "e44b3196-5105-57c7-8fc9-252c29aa8d42",
+  "source": "sources/exports/beth-september-17-2026/dashboard_export_20260917T160253.zip",
+  "filters": [
+    "NATIVE_FILTER-_ZDg__D4KUKCpsVyVa992",
+    "NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_"
+  ],
+  "panels": [
+    {
+      "uuid": "ad4f4401-1091-517f-8f70-9a7ce3fdf3dd",
+      "title": "ASB prevalence — all reporting dates",
+      "description": "All reporting dates — unaffected by Time Period and Time Unit. Uses Hospital and State and Location of Urine Culture Collection."
+    },
+    {
+      "uuid": "57a9d31c-ac59-586d-8d59-2fddb7695d6a",
+      "title": "ASB treatment rate — all reporting dates",
+      "description": "All reporting dates — unaffected by Time Period and Time Unit. Uses Hospital and State and Location of Urine Culture Collection."
+    },
+    {
+      "uuid": "b6a02175-22de-5077-841b-f676feb49b23",
+      "title": "Average therapy duration — latest available month",
+      "description": "Latest available month — independent of Time Period and Time Unit. Choose one numeric hospital in Hospital and State. The table shows that hospital’s latest available reporting month and compares it with its state and cohort, across all collection locations."
+    },
+    {
+      "uuid": "68a633b2-8a21-5a24-8040-626c77c3ece4",
+      "title": "Overall inappropriate UTI + ASPN diagnosis — all reporting dates",
+      "description": "All reporting dates — unaffected by Time Period and Time Unit. Uses Hospital and State and Location of Urine Culture Collection."
+    },
+    {
+      "uuid": "da9dde72-7eb7-5a69-85af-59287009d774",
+      "title": "Inappropriate UTI diagnosis — latest available month",
+      "description": "Latest available month — independent of Time Period and Time Unit. Choose one numeric hospital in Hospital and State. The table shows that hospital’s latest available reporting month and compares it with its state and cohort, across all collection locations."
+    },
+    {
+      "uuid": "43867e5a-dbd6-5aff-8fe1-1f3fe46f3d05",
+      "title": "Overall inappropriate UTI diagnosis — all reporting dates",
+      "description": "All reporting dates — unaffected by Time Period and Time Unit. Uses Hospital and State and Location of Urine Culture Collection."
+    },
+    {
+      "uuid": "2d3cca36-b3f1-516f-85ef-f26f8051ec00",
+      "title": "Positive UA proportion — all reporting dates",
+      "description": "All reporting dates — unaffected by Time Period and Time Unit. Uses Hospital and State and Location of Urine Culture Collection."
+    }
+  ],
+  "formulaNode": "MARKDOWN-p6QkzNWJ4ubEsqJvrGV6b",
+  "formula": "|   |\n|:---:|\n| Number of submissions with a positive urinalysis |\n| _________________________ |\n| Number of urine culture submissions |\n\n- The cohort and state averages are weighted by the number of urine cultures submitted by the hospitals."
+}

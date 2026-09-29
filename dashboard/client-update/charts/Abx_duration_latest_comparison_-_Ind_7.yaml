@@ -1,0 +1,56 @@
+---
+slice_name: Abx duration (latest comparison) - Ind
+description: Latest available month — independent of Time Period and Time Unit. Choose
+  one numeric hospital in Hospital and State. The table shows that hospital’s latest
+  available reporting month and compares it with its state and cohort, across all
+  collection locations.
+certified_by:
+certification_details:
+viz_type: table
+params:
+  datasource: 13__table
+  viz_type: table
+  slice_id: 88
+  query_mode: aggregate
+  groupby:
+  - hosp_code
+  - State
+  - Month
+  - Your Hospital (Days)
+  - Cohort (Days)
+  - Your State (Days)
+  temporal_columns_lookup: {}
+  all_columns: []
+  percent_metrics: []
+  adhoc_filters:
+  - expressionType: SQL
+    sqlExpression: "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~
+      '^[0-9]+([.][0-9]+)?$'"
+    clause: WHERE
+    isExtra: false
+    filterOptionName: filter_csim_selected_hospital
+  order_by_cols: []
+  server_pagination: false
+  row_limit: 1000
+  percent_metric_calculation: row_limit
+  show_totals: false
+  table_timestamp_format: smart_date
+  include_search: false
+  allow_rearrange_columns: false
+  allow_render_html: true
+  show_cell_bars: false
+  align_pn: true
+  color_pn: false
+  comparison_color_enabled: false
+  comparison_color_scheme: Green
+  conditional_formatting: []
+  comparison_type: values
+  extra_form_data: {}
+  dashboards:
+  - 5
+  annotation_layers: []
+query_context:
+cache_timeout:
+uuid: 02b20c35-3ed0-4f8c-9908-3d399d8bd2f0
+version: 1.0.0
+dataset_uuid: a4f0955a-d042-474b-a29b-811b98c90950

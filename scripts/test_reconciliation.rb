@@ -56,9 +56,9 @@ class ReconciliationTest < Minitest::Test
     filters = fresh[:dashboard]['metadata']['native_filter_configuration'].select { |f| f['type']=='NATIVE_FILTER' }
     filters.each do |filter|
       scoped = filter['chartsInScope'].include?(107)
-      assert_equal ['Hospital and state','Location of Urine Culture Collection'].include?(filter['name']),scoped
+      assert_equal ['Hospital and state','Location of Urine Culture Collection','Time Period'].include?(filter['name']),scoped
     end
-    card = fresh[:charts].find { |c| c['slice_name']=='Latest reporting month' }
+    card = fresh[:charts].find { |c| c['slice_name']=='Latest reporting month in selected period' }
     assert_equal 'MAX(CASE WHEN ucsub > 0 THEN month_date END)',card['params']['metric']['sqlExpression']
     toc = fresh[:dashboard]['position']['MARKDOWN-kbpKudPZL01ntlPcgzEYI']['meta']['code']
     refute_match %r{/dashboard/p/},toc

@@ -1,0 +1,59 @@
+slice_name: "Aggregate ALL DATA \u2014 Download"
+description: All rows calculated by UTI Aggregate ALL DATA, without an additional
+  aggregation or dashboard filters. After uploading Current, refresh this chart and
+  download CSV. The row limit is 100,000; verify the export count when the source
+  grows.
+certified_by: null
+certification_details: null
+viz_type: table
+params:
+  datasource: 14__table
+  slice_id: 129
+  viz_type: table
+  query_mode: raw
+  all_columns:
+  - hosp_code
+  - hosp_num
+  - state
+  - location_name
+  - location_code
+  - month_date
+  - dur_cat_1
+  - dur_cat_2
+  - dur_cat_3
+  - dur_cat_4
+  - aspn_treated
+  - pos_ua
+  - dur_count
+  - asbcase
+  - asbtreated
+  - ucsub
+  - txpos
+  - pos_ua_rate
+  - inappdx_aspn
+  - dur_sum
+  - medabxdur
+  - inappdx
+  - txrate
+  - prev
+  - period_label
+  groupby: []
+  metrics: []
+  adhoc_filters: []
+  time_range: No filter
+  time_grain_sqla: P1M
+  order_by_cols: []
+  row_limit: 100000
+  server_pagination: false
+  page_length: 50
+  include_search: true
+  show_totals: false
+  show_cell_bars: false
+  extra_form_data: {}
+  dashboards: []
+  annotation_layers: []
+query_context: null
+cache_timeout: null
+uuid: b4c270b1-1b84-5ae5-8a26-b3c3176e7ae9
+version: 1.0.0
+dataset_uuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f

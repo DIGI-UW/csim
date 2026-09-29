@@ -1,6 +1,7 @@
 ---
 slice_name: UC location (cohort/state stacked) - Ind
-description:
+description: The legend begins with the selected Cohort/State value so the comparison
+  population remains visible with the chart.
 certified_by:
 certification_details:
 viz_type: echarts_timeseries_bar
@@ -38,6 +39,7 @@ params:
     optionName: metric_h0ka8txduwe_2y0km9y716a
     sqlExpression:
   groupby:
+  - hosp_code
   - location_name
   adhoc_filters:
   - expressionType: SIMPLE

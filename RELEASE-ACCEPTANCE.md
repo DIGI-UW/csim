@@ -1,3 +1,26 @@
+## Official native month controls — September 14 update
+
+The recommended path is official Superset 6.1.0. This update adds rolling saved
+month choices and a native reporting-period summary; it preserves the 21 report
+charts and six report datasets. The complete package has 22 charts/seven datasets.
+The custom application and snapshot remain separate alternatives.
+
+Local validation: 216 preservation/scope assertions, nine date-boundary query
+cases, 17 supplied-dashboard browser checks, seven known-record checks, three
+contents-link width checks and six overview checks passed. The 99 date-axis
+captures reported zero edge/overlap problems and retained the explicit
+month/quarter wording difference. Tests skip profiles they do not apply to.
+The warning was visually checked at 1024, 1280 and 1600 pixels; the test checks
+text bounds against the chart rather than relying on visibility alone.
+
+Range guidance appears after Apply. It does not disable applying a reversed
+range. Correcting Through recovers the range on the same page. The native
+horizontal layout remains required for the tested clear/reselect workflow.
+
+Public deployment, exact-revision CI and Beth's acceptance are separate. The
+publication receipt and public evidence identify the deployed revision; the
+local results above do not by themselves establish those later gates.
+
 # September dashboard release acceptance
 
 ## Public validation release — current increment

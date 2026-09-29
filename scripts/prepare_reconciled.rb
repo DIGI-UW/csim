@@ -15,6 +15,12 @@ module ReconciledDashboard
     'UC location (own hospital stacked) - Ind',
     'Abx duration (own hospital stacked) - Ind'
   ].freeze
+  COMPARISON_STACKED = [
+    *OWN_HOSPITAL_STACKED,
+    'Top abx (cohort/state stacked) - Ind',
+    'UC location (cohort/state stacked) - Ind',
+    'Abx duration (cohort/state stacked) - Ind'
+  ].freeze
   HOSPITAL_PROMPT = '**Choose Your hospital in Filters and controls to display the hospital charts below.** ' \
                     'Then choose Cohort/State for the comparison charts.'
   def self.read(path)
@@ -124,8 +130,16 @@ module ReconciledDashboard
                         'operator'=>nil, 'operatorId'=>nil, 'comparator'=>nil)
         end
       end
+      if COMPARISON_STACKED.include?(chart['slice_name'])
+        chart['params']['groupby'] = ['hosp_code', *chart['params'].fetch('groupby', [])].uniq
+        chart['description'] = if chart['slice_name'].include?('cohort/state')
+          'The legend begins with the selected Cohort/State value so the comparison population remains visible with the chart.'
+        else
+          'The legend begins with the selected hospital so the hospital represented by this chart remains visible.'
+        end
+      end
       if OWN_HOSPITAL_STACKED.include?(chart['slice_name'])
-        chart['description'] = 'Choose Your hospital in Filters and controls. No hospital data is combined while the selection is empty.'
+        chart['description'] = 'Choose Your hospital in Filters and controls. The legend identifies that hospital. No hospital data is combined while the selection is empty.'
         chart['params']['csim_hospital_selector'] = 'Your hospital'
       end
       if chart['slice_name'] == 'Volume of UC submissions (own hospital)'
@@ -163,7 +177,7 @@ module ReconciledDashboard
     end
     latest_path, latest = test_charts.fetch(LATEST)
     latest['query_context'] = nil
-    latest['slice_name'] = 'Latest reporting month'
+    latest['slice_name'] = 'Latest reporting month in selected period'
     dashboard['position'].each_value do |node|
       next unless node['type']=='CHART'
       meta = node['meta']
@@ -171,11 +185,11 @@ module ReconciledDashboard
       meta['sliceNameOverride'] = 'All-time UC submissions by your hospital' if meta['chartId']==106
       meta['sliceNameOverride'] = 'All-time UC submissions by the cohort' if meta['chartId']==100
     end
-    latest['description'] = 'Latest reporting month with urine culture submissions for the selected hospital/state and collection location. Independent of Time Period, Time Unit and the lower comparison selectors.'
+    latest['description'] = 'Latest reporting month with urine culture submissions inside the selected Time Period for the selected hospital/state and collection location. This is an observation month, not an upload timestamp.'
     latest['params'].merge!(
-      'metric' => {'expressionType'=>'SQL', 'sqlExpression'=>'MAX(CASE WHEN ucsub > 0 THEN month_date END)', 'label'=>'Latest reporting month', 'hasCustomLabel'=>true},
+      'metric' => {'expressionType'=>'SQL', 'sqlExpression'=>'MAX(CASE WHEN ucsub > 0 THEN month_date END)', 'label'=>'Latest reporting month in selected period', 'hasCustomLabel'=>true},
       'time_grain_sqla'=>'P1M', 'time_format'=>'%b %Y', 'force_timestamp_formatting'=>true,
-      'subtitle'=>'Latest reporting month with submissions', 'header_font_size'=>0.7
+      'subtitle'=>'Observation month within selected period', 'header_font_size'=>0.7
     )
     write(File.join(target, 'charts', File.basename(latest_path)), latest)
 
@@ -210,7 +224,9 @@ module ReconciledDashboard
       if filter['name']=='Location of Urine Culture Collection'
         filter['controlValues']['enableEmptyFilter'] = upstream['controlValues']['enableEmptyFilter']
       end
-      if ['Time Period','Time Unit','Your hospital','Cohort/State'].include?(filter['name'])
+      if filter['name']=='Time Period'
+        filter['scope']['excluded'].delete(107)
+      elsif ['Time Unit','Your hospital','Cohort/State'].include?(filter['name'])
         filter['scope']['excluded'] = (filter['scope']['excluded'] + [107]).uniq
       end
       filter['chartsInScope'] = (chart_ids - filter['scope']['excluded']).sort

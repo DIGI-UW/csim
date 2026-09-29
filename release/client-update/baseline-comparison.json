@@ -1,0 +1,20 @@
+{
+  "attachedExport": {
+    "file": "dashboard_export_20260910T185547 (2).zip",
+    "sha256": "0c78e925c5f2ccf0eafafcde99dd017e9a49a2f5da4c26714af97c142bc2f266"
+  },
+  "repositoryBaseline": {
+    "file": "sources/exports/production-september-2026/dashboard.zip",
+    "sha256": "2fc2f69283ff72fe955952f939a712529b093262ad1a713c82c86f996327deec"
+  },
+  "archiveHashesMatch": false,
+  "definitionsMatch": true,
+  "comparisonKey": "persistent UUID",
+  "objects": {
+    "dashboards": { "before": 1, "after": 1, "shared": 1, "changed": 0 },
+    "charts": { "before": 20, "after": 20, "shared": 20, "changed": 0 },
+    "datasets": { "before": 6, "after": 6, "shared": 6, "changed": 0 },
+    "databases": { "before": 1, "after": 1, "shared": 1, "changed": 0 }
+  },
+  "comparisonCommand": "ruby scripts/compare_dashboard_bundles.rb BEFORE_ROOT AFTER_ROOT"
+}

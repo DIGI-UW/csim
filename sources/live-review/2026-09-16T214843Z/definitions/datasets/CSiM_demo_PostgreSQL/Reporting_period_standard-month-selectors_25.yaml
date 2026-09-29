@@ -1,0 +1,99 @@
+table_name: "Reporting period \u2014 standard-month-selectors"
+main_dttm_col: month_date
+currency_code_column: null
+description: Applied date boundaries and grouping; no reporting records or measures.
+default_endpoint: null
+offset: 0
+cache_timeout: null
+catalog: csim_demo
+schema: v1
+sql: "{% set period = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S',\
+  \ remove_filter=True) %}\nWITH bounds AS (\n  SELECT {% if period.from_expr %}TIMESTAMP\
+  \ '{{ period.from_expr }}'{% else %}NULL::timestamp{% endif %} AS start_date,\n\
+  \         {% if period.to_expr %}TIMESTAMP '{{ period.to_expr }}'{% else %}NULL::timestamp{%\
+  \ endif %} AS end_date\n)\nSELECT COALESCE(to_char(start_date, 'YYYY-MM-DD HH24:MI'),\
+  \ 'No start limit') AS \"Start\",\n       COALESCE(to_char(end_date, 'YYYY-MM-DD\
+  \ HH24:MI'), 'No end limit') AS \"End (exclusive)\",\n       '{{ {'P1M':'Month',\
+  \ 'P3M':'Quarter', 'P1Y':'Year'}.get(time_grain, 'Month') }}'::text AS \"Group by\"\
+  ,\n       CASE WHEN start_date >= end_date THEN 'Choose an end after the start.'\n\
+  \       ELSE 'Start included; end excluded. Monthly records use the first day of\
+  \ each month. Grouping does not expand the selected dates.' END AS \"Status\",\n\
+  \       CURRENT_DATE AS month_date\nFROM bounds\n"
+params: null
+template_params: null
+filter_select_enabled: true
+fetch_values_predicate: null
+extra: null
+normalize_columns: false
+always_filter_main_dttm: false
+folders: null
+uuid: c851c8be-f300-50b8-8bf7-1c51e1ab27c2
+metrics: []
+columns:
+- column_name: End (exclusive)
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: VARCHAR
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  datetime_format: null
+  extra: null
+- column_name: Group by
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: VARCHAR
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  datetime_format: null
+  extra: null
+- column_name: Start
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: VARCHAR
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  datetime_format: null
+  extra: null
+- column_name: Status
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: VARCHAR
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  datetime_format: null
+  extra: null
+- column_name: month_date
+  verbose_name: null
+  is_dttm: true
+  is_active: true
+  type: DATE
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  datetime_format: null
+  extra: null
+version: 1.0.0
+database_uuid: 21edc228-aaaf-4fbf-8c28-b47844ae09e2

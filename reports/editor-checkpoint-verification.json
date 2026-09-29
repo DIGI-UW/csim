@@ -1,0 +1,12 @@
+{
+  "verifiedAt": "2026-09-16T21:59:14.150013+00:00",
+  "checks": {
+    "nestedColumnAndMetricConsistency": true,
+    "nativeDefinitionFilesUnchangedSinceFirstCheckpoint": true,
+    "reviewDeploymentStoppedBeforeImports": true
+  },
+  "secondCaptureDirectory": "/app/superset_home/backups/beth-review-20260916-verified",
+  "firstCaptureDirectory": "/app/superset_home/backups/beth-review-20260916-current",
+  "clientAcceptance": "pending; editor still working",
+  "validationScope": "Saved-definition capture and deployment hold; no new dashboard functionality or final client update acceptance claimed."
+}

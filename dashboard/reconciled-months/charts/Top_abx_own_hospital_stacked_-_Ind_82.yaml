@@ -1,7 +1,7 @@
 ---
 slice_name: Top abx (own hospital stacked) - Ind
-description: Choose Your hospital in Filters and controls. No hospital data is combined
-  while the selection is empty.
+description: Choose Your hospital in Filters and controls. The legend identifies that
+  hospital. No hospital data is combined while the selection is empty.
 certified_by:
 certification_details:
 viz_type: echarts_timeseries_bar
@@ -39,6 +39,7 @@ params:
     optionName: metric_yc5paz6gegq_0co8t3qr2wa
     sqlExpression:
   groupby:
+  - hosp_code
   - antibiotic_name
   adhoc_filters:
   - clause: WHERE
