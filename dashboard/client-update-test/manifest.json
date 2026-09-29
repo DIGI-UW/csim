@@ -1,0 +1,19 @@
+{
+  "profile": "client-update",
+  "clientBaseline": "test-september-2026",
+  "clientBaselineSha256": "e26150df97ed91545916440f186ae882a83d7fff0811049a80797fafe829e619",
+  "reviewedSource": "sources/live-review/2026-09-17T163028Z",
+  "panelCoverageOverlay": "dashboard/overlays/beth-panel-coverage.json",
+  "charts": 21,
+  "datasets": 6,
+  "filters": 6,
+  "databaseUuid": "21edc228-aaaf-4fbf-8c28-b47844ae09e2",
+  "dashboardUuid": "57a603fc-a061-443f-8270-287a975d1bfc",
+  "preservedRelations": {
+    "UTI Individual Current": "UTI Individual Current",
+    "UTI Individual Historical": "UTI Individual Historical",
+    "CSiM Hospitals and States": "CSiM Hospitals and States"
+  },
+  "reportingRowsIncluded": false,
+  "requiresSuperset61ReferenceRepair": true
+}
