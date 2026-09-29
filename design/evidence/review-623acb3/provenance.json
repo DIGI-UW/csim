@@ -1,0 +1,9 @@
+{
+  "definitionRevision": "623acb3c586103809c3b06b1a9013a28758ec402",
+  "capture": "local Chromium; supplied demo; September 2025 through September 2026; Month; hospital 53",
+  "reviewed": true,
+  "files": {
+    "custom-month.png": "60b708847d14ce58c83f2e514a68c78df444ee5f8d669b5618c9f29f3ca41f12",
+    "official-month.png": "3ccb3c9136a82ddbbdfdf942253e8472af00bab3c4f9dd4292d51cc0a256ff2e"
+  }
+}

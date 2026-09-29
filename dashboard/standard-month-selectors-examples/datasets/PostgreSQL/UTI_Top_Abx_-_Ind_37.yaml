@@ -1,0 +1,534 @@
+---
+table_name: Native month selectors — September examples — UTI Top Abx - Ind
+main_dttm_col: month_date
+description:
+default_endpoint:
+offset: 0
+cache_timeout:
+catalog: csim_fixture
+schema: v1
+sql: |
+  {% if columns == ['from_month'] or columns == ['through_month'] %}
+  WITH reporting_extent AS (
+  {% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S') %}
+  {% set start_at = from_dttm if from_dttm is defined else applied_time.from_expr %}
+  {% set end_at = to_dttm if to_dttm is defined else applied_time.to_expr %}
+  WITH csim_source AS (
+  WITH raw_data AS (
+      SELECT
+          hosp_name, location, month, year, tx___1,
+          tx___2, tx___3, tx___4, tx___5, tx___6, tx___7,
+          other_tx___1, other_tx___2, other_tx___3, other_tx___4,
+          other_tx___5, other_tx___6, other_tx___7, other_tx___8,
+          other_tx___9, other_tx___10, other_tx___11, other_tx___12
+      FROM "v1"."UTI Individual Current"
+      WHERE hosp_name IS NOT NULL
+        AND qi_asb_complete = 2
+        AND month IS NOT NULL
+        AND year IS NOT NULL
+
+      UNION ALL
+
+      SELECT
+          hosp_name, location, month, year, tx___1,
+          tx___2, tx___3, tx___4, tx___5, tx___6, tx___7,
+          other_tx___1, other_tx___2, other_tx___3, other_tx___4,
+          other_tx___5, other_tx___6, other_tx___7, other_tx___8,
+          other_tx___9, other_tx___10, other_tx___11, other_tx___12
+      FROM "v1"."UTI Individual Historical"
+      WHERE hosp_name IS NOT NULL
+        AND month IS NOT NULL
+        AND year IS NOT NULL
+  ),
+
+  antibiotic_long AS (
+      SELECT
+          i.hosp_name,
+          TRIM(h.state) AS state,
+          i.location,
+          i.month,
+          i.year,
+          antibiotic_name,
+          1 AS prescription_count
+      FROM raw_data i
+      LEFT JOIN "v1"."CSiM Hospitals and States" h
+          ON i.hosp_name = h.hosp_code
+      CROSS JOIN LATERAL (
+          VALUES
+              (CASE WHEN i.tx___2 = 1 THEN 'Ceftriaxone' END),
+              (CASE WHEN i.tx___3 = 1 THEN 'Cephalexin' END),
+              (CASE WHEN i.tx___4 = 1 THEN 'Fluoroquinolone' END),
+              (CASE WHEN i.tx___5 = 1 THEN 'Nitrofurantoin' END),
+              (CASE WHEN i.tx___6 = 1 THEN 'TMP/SMX' END),
+              (CASE WHEN i.tx___7 = 1 AND (i.other_tx___1 = 1 OR i.other_tx___2 = 1 OR i.other_tx___4 = 1)
+                    THEN 'Oral beta-lactam' END),
+              (CASE WHEN i.tx___7 = 1 AND (i.other_tx___3 = 1 OR i.other_tx___5 = 1 OR i.other_tx___6 = 1
+                         OR i.other_tx___7 = 1 OR i.other_tx___8 = 1 OR i.other_tx___9 = 1
+                         OR i.other_tx___10 = 1 OR i.other_tx___11 = 1 OR i.other_tx___12 = 1)
+                    THEN 'Other' END)
+      ) AS abx(antibiotic_name)
+      WHERE i.tx___1 = 0
+        AND h.hosp_code IS NOT NULL
+        AND antibiotic_name IS NOT NULL
+  ),
+
+  -- Location-specific aggregation
+  hospital_abx AS (
+      SELECT
+          hosp_name AS hosp_num,
+          LPAD(hosp_name::TEXT, 2, '0') AS hosp_code,
+          state,
+          CASE location
+              WHEN 1 THEN 'Ambulatory care clinic'
+              WHEN 2 THEN 'Emergency Department'
+              WHEN 3 THEN 'Inpatient'
+              WHEN 4 THEN 'Rehab or long-term care'
+              WHEN 5 THEN 'Urgent or quick care'
+              WHEN 6 THEN 'Other'
+          END AS location_name,
+          location AS location_code,
+          TO_DATE(year::TEXT || '-' || LPAD(month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,
+          antibiotic_name,
+          SUM(prescription_count) AS prescription_count
+      FROM antibiotic_long
+      GROUP BY hosp_name, state, location, month, year, antibiotic_name
+  ),
+
+  -- All locations combined per hospital
+  hospital_abx_allloc AS (
+      SELECT
+          hosp_name AS hosp_num,
+          LPAD(hosp_name::TEXT, 2, '0') AS hosp_code,
+          state,
+          'All locations' AS location_name,
+          0 AS location_code,
+          TO_DATE(year::TEXT || '-' || LPAD(month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,
+          antibiotic_name,
+          SUM(prescription_count) AS prescription_count
+      FROM antibiotic_long
+      GROUP BY hosp_name, state, month, year, antibiotic_name
+  ),
+
+  combined_hosp AS (
+      SELECT * FROM hospital_abx
+      UNION ALL
+      SELECT * FROM hospital_abx_allloc
+  ),
+
+  state_abx AS (
+      SELECT
+          NULL::BIGINT AS hosp_num,
+          state AS hosp_code,
+          state,
+          location_name, location_code, month_date,
+          antibiotic_name,
+          SUM(prescription_count) AS prescription_count
+      FROM combined_hosp
+      GROUP BY state, location_name, location_code, month_date, antibiotic_name
+  ),
+
+  cohort_abx AS (
+      SELECT
+          NULL::BIGINT AS hosp_num,
+          'Cohort' AS hosp_code,
+          'ALL' AS state,
+          location_name, location_code, month_date,
+          antibiotic_name,
+          SUM(prescription_count) AS prescription_count
+      FROM combined_hosp
+      GROUP BY location_name, location_code, month_date, antibiotic_name
+  ),
+
+  all_levels AS (
+      SELECT * FROM combined_hosp
+      UNION ALL
+      SELECT * FROM state_abx
+      UNION ALL
+      SELECT * FROM cohort_abx
+  ),
+
+  ranked AS (
+      SELECT
+          *,
+          ROW_NUMBER() OVER (
+              PARTITION BY hosp_code, location_code, month_date
+              ORDER BY prescription_count DESC, antibiotic_name
+          ) AS rnk
+      FROM all_levels
+  )
+
+  SELECT
+      hosp_num, hosp_code, state,
+      location_name, location_code, month_date,
+      antibiotic_name, prescription_count, rnk
+  FROM ranked
+  WHERE rnk <= 3
+  ORDER BY month_date, hosp_code, location_code, rnk
+  ), observed AS (
+    SELECT * FROM csim_source WHERE TRUE
+    {% if start_at %} AND month_date >= TIMESTAMP '{{ start_at }}' {% endif %}
+    {% if end_at %} AND month_date < TIMESTAMP '{{ end_at }}' {% endif %}
+  ), bounds AS (
+    SELECT {% if start_at %} TIMESTAMP '{{ start_at }}' {% else %} first_month {% endif %} AS start_at,
+           {% if end_at %} TIMESTAMP '{{ end_at }}' {% else %} last_month + INTERVAL '1 month' {% endif %} AS end_at
+    FROM (SELECT MIN(month_date) AS first_month, MAX(month_date) AS last_month FROM observed) observed_bounds
+  ), calendar AS (
+    SELECT value::date AS month_date FROM bounds,
+      LATERAL generate_series(date_trunc('month', start_at),
+        date_trunc('month', end_at - INTERVAL '1 microsecond'), INTERVAL '1 month') AS value
+  ), dimensions AS (
+    SELECT DISTINCT hosp_num, hosp_code, state, location_name, location_code, antibiotic_name
+    FROM observed
+  )
+  SELECT d.hosp_num, d.hosp_code, d.state, d.location_name, d.location_code,
+         c.month_date, d.antibiotic_name, o.prescription_count, o.rnk
+  FROM dimensions d CROSS JOIN calendar c
+  LEFT JOIN observed o ON o.hosp_code = d.hosp_code
+    AND o.location_code IS NOT DISTINCT FROM d.location_code
+    AND o.month_date = c.month_date AND o.antibiotic_name = d.antibiotic_name
+  ORDER BY c.month_date, d.hosp_code, d.location_code, d.antibiotic_name
+
+  )
+  SELECT generate_series(date_trunc('year', MIN(month_date)),
+    date_trunc('year', MAX(month_date)) + INTERVAL '11 months',
+    INTERVAL '1 month')::date AS month_date
+  FROM reporting_extent
+  {% else %}
+  {% set from_values = filter_values('from_month', remove_filter=True) %}
+  {% set through_values = filter_values('through_month', remove_filter=True) %}
+  {% set from_dttm = (from_values[0] | to_datetime('%Y-%m')).strftime('%Y-%m-%d 00:00:00') if from_values else none %}
+  {% if through_values %}
+    {% set through = through_values[0] | to_datetime('%Y-%m') %}
+    {% set to_dttm = through.replace(year=through.year + (1 if through.month == 12 else 0), month=through.month % 12 + 1).strftime('%Y-%m-%d 00:00:00') %}
+  {% else %}{% set to_dttm = none %}{% endif %}
+  {% set applied_time = get_time_filter('month_date', strftime='%Y-%m-%d %H:%M:%S') %}
+  {% set start_at = from_dttm if from_dttm is defined else applied_time.from_expr %}
+  {% set end_at = to_dttm if to_dttm is defined else applied_time.to_expr %}
+  WITH csim_source AS (
+  WITH raw_data AS (
+      SELECT
+          hosp_name, location, month, year, tx___1,
+          tx___2, tx___3, tx___4, tx___5, tx___6, tx___7,
+          other_tx___1, other_tx___2, other_tx___3, other_tx___4,
+          other_tx___5, other_tx___6, other_tx___7, other_tx___8,
+          other_tx___9, other_tx___10, other_tx___11, other_tx___12
+      FROM "v1"."UTI Individual Current"
+      WHERE hosp_name IS NOT NULL
+        AND qi_asb_complete = 2
+        AND month IS NOT NULL
+        AND year IS NOT NULL
+
+      UNION ALL
+
+      SELECT
+          hosp_name, location, month, year, tx___1,
+          tx___2, tx___3, tx___4, tx___5, tx___6, tx___7,
+          other_tx___1, other_tx___2, other_tx___3, other_tx___4,
+          other_tx___5, other_tx___6, other_tx___7, other_tx___8,
+          other_tx___9, other_tx___10, other_tx___11, other_tx___12
+      FROM "v1"."UTI Individual Historical"
+      WHERE hosp_name IS NOT NULL
+        AND month IS NOT NULL
+        AND year IS NOT NULL
+  ),
+
+  antibiotic_long AS (
+      SELECT
+          i.hosp_name,
+          TRIM(h.state) AS state,
+          i.location,
+          i.month,
+          i.year,
+          antibiotic_name,
+          1 AS prescription_count
+      FROM raw_data i
+      LEFT JOIN "v1"."CSiM Hospitals and States" h
+          ON i.hosp_name = h.hosp_code
+      CROSS JOIN LATERAL (
+          VALUES
+              (CASE WHEN i.tx___2 = 1 THEN 'Ceftriaxone' END),
+              (CASE WHEN i.tx___3 = 1 THEN 'Cephalexin' END),
+              (CASE WHEN i.tx___4 = 1 THEN 'Fluoroquinolone' END),
+              (CASE WHEN i.tx___5 = 1 THEN 'Nitrofurantoin' END),
+              (CASE WHEN i.tx___6 = 1 THEN 'TMP/SMX' END),
+              (CASE WHEN i.tx___7 = 1 AND (i.other_tx___1 = 1 OR i.other_tx___2 = 1 OR i.other_tx___4 = 1)
+                    THEN 'Oral beta-lactam' END),
+              (CASE WHEN i.tx___7 = 1 AND (i.other_tx___3 = 1 OR i.other_tx___5 = 1 OR i.other_tx___6 = 1
+                         OR i.other_tx___7 = 1 OR i.other_tx___8 = 1 OR i.other_tx___9 = 1
+                         OR i.other_tx___10 = 1 OR i.other_tx___11 = 1 OR i.other_tx___12 = 1)
+                    THEN 'Other' END)
+      ) AS abx(antibiotic_name)
+      WHERE i.tx___1 = 0
+        AND h.hosp_code IS NOT NULL
+        AND antibiotic_name IS NOT NULL
+  ),
+
+  -- Location-specific aggregation
+  hospital_abx AS (
+      SELECT
+          hosp_name AS hosp_num,
+          LPAD(hosp_name::TEXT, 2, '0') AS hosp_code,
+          state,
+          CASE location
+              WHEN 1 THEN 'Ambulatory care clinic'
+              WHEN 2 THEN 'Emergency Department'
+              WHEN 3 THEN 'Inpatient'
+              WHEN 4 THEN 'Rehab or long-term care'
+              WHEN 5 THEN 'Urgent or quick care'
+              WHEN 6 THEN 'Other'
+          END AS location_name,
+          location AS location_code,
+          TO_DATE(year::TEXT || '-' || LPAD(month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,
+          antibiotic_name,
+          SUM(prescription_count) AS prescription_count
+      FROM antibiotic_long
+      GROUP BY hosp_name, state, location, month, year, antibiotic_name
+  ),
+
+  -- All locations combined per hospital
+  hospital_abx_allloc AS (
+      SELECT
+          hosp_name AS hosp_num,
+          LPAD(hosp_name::TEXT, 2, '0') AS hosp_code,
+          state,
+          'All locations' AS location_name,
+          0 AS location_code,
+          TO_DATE(year::TEXT || '-' || LPAD(month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') AS month_date,
+          antibiotic_name,
+          SUM(prescription_count) AS prescription_count
+      FROM antibiotic_long
+      GROUP BY hosp_name, state, month, year, antibiotic_name
+  ),
+
+  combined_hosp AS (
+      SELECT * FROM hospital_abx
+      UNION ALL
+      SELECT * FROM hospital_abx_allloc
+  ),
+
+  state_abx AS (
+      SELECT
+          NULL::BIGINT AS hosp_num,
+          state AS hosp_code,
+          state,
+          location_name, location_code, month_date,
+          antibiotic_name,
+          SUM(prescription_count) AS prescription_count
+      FROM combined_hosp
+      GROUP BY state, location_name, location_code, month_date, antibiotic_name
+  ),
+
+  cohort_abx AS (
+      SELECT
+          NULL::BIGINT AS hosp_num,
+          'Cohort' AS hosp_code,
+          'ALL' AS state,
+          location_name, location_code, month_date,
+          antibiotic_name,
+          SUM(prescription_count) AS prescription_count
+      FROM combined_hosp
+      GROUP BY location_name, location_code, month_date, antibiotic_name
+  ),
+
+  all_levels AS (
+      SELECT * FROM combined_hosp
+      UNION ALL
+      SELECT * FROM state_abx
+      UNION ALL
+      SELECT * FROM cohort_abx
+  ),
+
+  ranked AS (
+      SELECT
+          *,
+          ROW_NUMBER() OVER (
+              PARTITION BY hosp_code, location_code, month_date
+              ORDER BY prescription_count DESC, antibiotic_name
+          ) AS rnk
+      FROM all_levels
+  )
+
+  SELECT
+      hosp_num, hosp_code, state,
+      location_name, location_code, month_date,
+      antibiotic_name, prescription_count, rnk
+  FROM ranked
+  WHERE rnk <= 3
+  ORDER BY month_date, hosp_code, location_code, rnk
+  ), observed AS (
+    SELECT * FROM csim_source WHERE TRUE
+    {% if start_at %} AND month_date >= TIMESTAMP '{{ start_at }}' {% endif %}
+    {% if end_at %} AND month_date < TIMESTAMP '{{ end_at }}' {% endif %}
+  ), bounds AS (
+    SELECT {% if start_at %} TIMESTAMP '{{ start_at }}' {% else %} first_month {% endif %} AS start_at,
+           {% if end_at %} TIMESTAMP '{{ end_at }}' {% else %} last_month + INTERVAL '1 month' {% endif %} AS end_at
+    FROM (SELECT MIN(month_date) AS first_month, MAX(month_date) AS last_month FROM observed) observed_bounds
+  ), calendar AS (
+    SELECT value::date AS month_date FROM bounds,
+      LATERAL generate_series(date_trunc('month', start_at),
+        date_trunc('month', end_at - INTERVAL '1 microsecond'), INTERVAL '1 month') AS value
+  ), dimensions AS (
+    SELECT DISTINCT hosp_num, hosp_code, state, location_name, location_code, antibiotic_name
+    FROM observed
+  )
+  SELECT d.hosp_num, d.hosp_code, d.state, d.location_name, d.location_code,
+         c.month_date, d.antibiotic_name, o.prescription_count, o.rnk
+  FROM dimensions d CROSS JOIN calendar c
+  LEFT JOIN observed o ON o.hosp_code = d.hosp_code
+    AND o.location_code IS NOT DISTINCT FROM d.location_code
+    AND o.month_date = c.month_date AND o.antibiotic_name = d.antibiotic_name
+  ORDER BY c.month_date, d.hosp_code, d.location_code, d.antibiotic_name
+
+  {% endif %}
+params:
+template_params:
+filter_select_enabled: true
+fetch_values_predicate:
+extra:
+normalize_columns: false
+always_filter_main_dttm: false
+folders:
+uuid: c77d5995-4462-5d55-86be-544e243c0e67
+metrics:
+- metric_name: count
+  verbose_name: COUNT(*)
+  metric_type: count
+  expression: COUNT(*)
+  description:
+  d3format:
+  currency:
+  extra:
+    warning_markdown: ''
+  warning_text:
+columns:
+- column_name: prescription_count
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: month_date
+  verbose_name:
+  is_dttm: true
+  is_active: true
+  type: DATE
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: location_code
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: hosp_num
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: rnk
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: antibiotic_name
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: location_name
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: hosp_code
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: state
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: period_label
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+  expression: 'to_char(month_date, ''{{ {''P1M'': ''YYYY-MM'', ''P3M'': ''YYYY "Q"Q'',
+    ''P1Y'': ''YYYY''}.get(time_grain, ''YYYY-MM'') }}'')'
+  description: Chronologically sortable reporting label; month_date remains the date
+    filter.
+- column_name: from_month
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+  expression: to_char(month_date, 'YYYY-MM')
+- column_name: through_month
+  is_dttm: false
+  type: VARCHAR
+  groupby: true
+  filterable: true
+  expression: to_char(month_date, 'YYYY-MM')
+version: 1.0.0
+database_uuid: 0f6083ba-0edf-5f47-82ca-e1ce89bd58f4

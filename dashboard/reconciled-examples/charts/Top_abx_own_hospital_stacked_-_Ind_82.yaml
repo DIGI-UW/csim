@@ -1,6 +1,7 @@
 ---
 slice_name: Top abx (own hospital stacked) - Ind
-description:
+description: Choose Your hospital in Filters and controls. No hospital data is combined
+  while the selection is empty.
 certified_by:
 certification_details:
 viz_type: echarts_timeseries_bar
@@ -61,10 +62,16 @@ params:
     operator: TEMPORAL_RANGE
     sqlExpression:
     subject: month_date
+  - expressionType: SQL
+    sqlExpression: "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~
+      '^[0-9]+([.][0-9]+)?$'"
+    clause: WHERE
+    isExtra: false
+    filterOptionName: filter_csim_selected_hospital
   order_desc: false
   row_limit: 1000
   truncate_metric: true
-  show_empty_columns: false
+  show_empty_columns: true
   comparison_type: values
   annotation_layers: []
   forecastEnabled: false
@@ -87,7 +94,7 @@ params:
   minorTicks: false
   zoomable: false
   show_legend: true
-  legendType: plain
+  legendType: scroll
   legendOrientation: top
   legendMargin: ''
   x_axis_time_format: csim_period
@@ -111,6 +118,7 @@ params:
   - 11
   granularity_sqla: month_date
   xAxisForceCategorical: false
+  csim_hospital_selector: Your hospital
 query_context: '{"datasource":{"id":37,"type":"table"},"force":false,"queries":[{"filters":[{"col":"hosp_code","op":"NOT
   IN","val":["Cohort","MT","OR","WA"]},{"col":"month_date","op":"TEMPORAL_RANGE","val":"No
   filter"}],"extras":{"time_grain_sqla":"P1M","having":"","where":""},"applied_time_extras":{},"columns":[{"timeGrain":"P1M","columnType":"BASE_AXIS","sqlExpression":"month_date","label":"month_date","expressionType":"SQL","isColumnReference":true},"antibiotic_name"],"metrics":[{"aggregate":"SUM","column":{"advanced_data_type":null,"changed_on":"2026-03-17T21:38:24.742162","column_name":"prescription_count","created_on":"2026-03-17T21:38:24.742158","description":null,"expression":null,"extra":null,"filterable":true,"groupby":true,"id":443,"is_active":true,"is_dttm":false,"python_date_format":null,"type":"DECIMAL","type_generic":0,"uuid":"d5a8e533-c248-450c-8a86-f3ececa132ac","verbose_name":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"SUM(prescription_count)","optionName":"metric_yc5paz6gegq_0co8t3qr2wa","sqlExpression":null}],"orderby":[[{"aggregate":"SUM","column":{"advanced_data_type":null,"changed_on":"2026-03-17T21:38:24.742162","column_name":"prescription_count","created_on":"2026-03-17T21:38:24.742158","description":null,"expression":null,"extra":null,"filterable":true,"groupby":true,"id":443,"is_active":true,"is_dttm":false,"python_date_format":null,"type":"DECIMAL","type_generic":0,"uuid":"d5a8e533-c248-450c-8a86-f3ececa132ac","verbose_name":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"SUM(prescription_count)","optionName":"metric_yc5paz6gegq_0co8t3qr2wa","sqlExpression":null},false]],"annotation_layers":[],"row_limit":10000,"series_columns":["antibiotic_name"],"series_limit":0,"group_others_when_limit_reached":false,"order_desc":true,"url_params":{},"custom_params":{},"custom_form_data":{},"time_offsets":[],"post_processing":[{"operation":"pivot","options":{"index":["month_date"],"columns":["antibiotic_name"],"aggregates":{"SUM(prescription_count)":{"operator":"mean"}},"drop_missing_columns":true}},{"operation":"rename","options":{"columns":{"SUM(prescription_count)":null},"level":0,"inplace":true}},{"operation":"flatten"}]}],"form_data":{"datasource":"37__table","viz_type":"echarts_timeseries_bar","slice_id":82,"x_axis":"month_date","time_grain_sqla":"P1M","x_axis_sort_asc":true,"metrics":[{"aggregate":"SUM","column":{"advanced_data_type":null,"changed_on":"2026-03-17T21:38:24.742162","column_name":"prescription_count","created_on":"2026-03-17T21:38:24.742158","description":null,"expression":null,"extra":null,"filterable":true,"groupby":true,"id":443,"is_active":true,"is_dttm":false,"python_date_format":null,"type":"DECIMAL","type_generic":0,"uuid":"d5a8e533-c248-450c-8a86-f3ececa132ac","verbose_name":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"SUM(prescription_count)","optionName":"metric_yc5paz6gegq_0co8t3qr2wa","sqlExpression":null}],"groupby":["antibiotic_name"],"adhoc_filters":[{"clause":"WHERE","comparator":["Cohort","MT","OR","WA"],"datasourceWarning":false,"expressionType":"SIMPLE","filterOptionName":"filter_uzy7dlp54pb_ivn01kvt4d","isExtra":false,"isNew":false,"operator":"NOT

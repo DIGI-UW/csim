@@ -1,0 +1,99 @@
+---
+slice_name: Positive UA (time series) - Ind
+description:
+certified_by:
+certification_details:
+viz_type: echarts_timeseries_line
+params:
+  datasource: 40__table
+  viz_type: echarts_timeseries_line
+  slice_id: 103
+  x_axis: period_label
+  time_grain_sqla: P1M
+  metrics:
+  - expressionType: SIMPLE
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-30T22:22:00.978341'
+      column_name: pos_ua_rate
+      created_on: '2026-03-30T22:22:00.795749'
+      description:
+      expression: ''
+      extra:
+      filterable: true
+      groupby: true
+      id: 538
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: column
+      type_generic: 0
+      uuid: 4ccfa83f-d20c-433a-8793-723929c6a94b
+      verbose_name:
+    aggregate: MAX
+    sqlExpression:
+    datasourceWarning: false
+    hasCustomLabel: false
+    label: MAX(pos_ua_rate)
+    optionName: metric_pno8qzfb1rm_uuv2js5zt8
+  groupby:
+  - hosp_code
+  adhoc_filters:
+  - clause: WHERE
+    comparator: No filter
+    expressionType: SIMPLE
+    operator: TEMPORAL_RANGE
+    subject: month_date
+  row_limit: 1000
+  truncate_metric: true
+  show_empty_columns: true
+  comparison_type: values
+  annotation_layers: []
+  forecastEnabled: false
+  forecastPeriods: 10
+  forecastInterval: 0.8
+  x_axis_title: Time
+  x_axis_title_margin: 60
+  y_axis_title: "% Positive UA"
+  y_axis_title_margin: 50
+  y_axis_title_position: Left
+  sort_series_type: name
+  sort_series_ascending: true
+  color_scheme: supersetColors
+  show_value: false
+  area: false
+  markerEnabled: true
+  markerSize: 5
+  zoomable: false
+  minorTicks: false
+  show_legend: true
+  legendType: scroll
+  legendOrientation: top
+  x_axis_time_format: smart_date
+  xAxisLabelRotation: 90
+  xAxisLabelInterval: 0
+  rich_tooltip: true
+  showTooltipTotal: false
+  showTooltipPercentage: false
+  tooltipSortByMetric: false
+  y_axis_format: ",.0%"
+  logAxis: false
+  minorSplitLine: false
+  truncateXAxis: false
+  truncateYAxis: true
+  y_axis_bounds:
+  - 0
+  - 1
+  extra_form_data: {}
+  dashboards:
+  - 11
+  granularity_sqla: month_date
+  xAxisForceCategorical: true
+  order_desc: false
+  x_axis_sort: name
+  x_axis_sort_asc: true
+query_context:
+cache_timeout:
+uuid: f4ca2208-cafd-5806-8bfa-4ed746e3854a
+version: 1.0.0
+dataset_uuid: 11ba753d-f641-5e12-8354-d70ce5423254

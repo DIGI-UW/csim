@@ -1,0 +1,74 @@
+---
+slice_name: Volume of UC submissions (entire cohort)
+description:
+certified_by:
+certification_details:
+viz_type: big_number_total
+params:
+  datasource: 40__table
+  viz_type: big_number_total
+  slice_id: 100
+  metric:
+    aggregate: SUM
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-12T17:38:27.533573'
+      column_name: ucsub
+      created_on: '2026-03-12T17:38:27.533569'
+      description:
+      expression:
+      extra:
+      filterable: true
+      groupby: true
+      id: 389
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: LONGINTEGER
+      type_generic: 0
+      uuid: ea1aada2-17bb-4dfa-9ced-1d61f2c42430
+      verbose_name:
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    label: SUM(ucsub)
+    optionName: metric_hezjwwn9m0j_uk5z5yyy64n
+    sqlExpression:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: No filter
+    datasourceWarning: false
+    expressionType: SIMPLE
+    filterOptionName: filter_qw9ain9xcih_hs6nvx71lqp
+    isExtra: false
+    isNew: false
+    operator: TEMPORAL_RANGE
+    sqlExpression:
+    subject: month_date
+  - clause: WHERE
+    comparator: Cohort
+    datasourceWarning: false
+    expressionType: SIMPLE
+    filterOptionName: filter_4o3d9gkkmlj_l24te8b6o1q
+    isExtra: false
+    isNew: false
+    operator: "=="
+    operatorId: EQUALS
+    sqlExpression:
+    subject: hosp_code
+  header_font_size: 0.5
+  subtitle: ''
+  subtitle_font_size: 0.125
+  show_metric_name: false
+  y_axis_format: ",d"
+  time_format: smart_date
+  force_timestamp_formatting: false
+  conditional_formatting: []
+  extra_form_data: {}
+  dashboards:
+  - 11
+query_context:
+cache_timeout:
+uuid: 331e743e-618a-57f8-8750-072a7b41be09
+version: 1.0.0
+dataset_uuid: d2444cce-1135-5e77-8148-8207952c41a9

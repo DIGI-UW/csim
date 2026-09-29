@@ -1,0 +1,101 @@
+---
+slice_name: Inappropriate UTI+ASPN diagnosis (time series) - Ind
+description:
+certified_by:
+certification_details:
+viz_type: echarts_timeseries_line
+params:
+  datasource: 40__table
+  viz_type: echarts_timeseries_line
+  slice_id: 101
+  x_axis: month_date
+  time_grain_sqla: P1M
+  metrics:
+  - expressionType: SIMPLE
+    column:
+      advanced_data_type:
+      changed_on: '2026-03-31T21:37:26.492364'
+      column_name: inappdx_aspn
+      created_on: '2026-03-31T21:37:26.327852'
+      description:
+      expression: ''
+      extra:
+      filterable: true
+      groupby: true
+      id: 536
+      is_active: true
+      is_dttm: false
+      python_date_format:
+      type: column
+      type_generic: 0
+      uuid: 327ad704-ec13-4dbb-ace9-99db2a134b68
+      verbose_name:
+    aggregate: MAX
+    sqlExpression:
+    datasourceWarning: false
+    hasCustomLabel: false
+    label: MAX(inappdx_aspn)
+    optionName: metric_o1ocqoggb1_1tdw0ofkgpt
+  groupby:
+  - hosp_code
+  adhoc_filters:
+  - clause: WHERE
+    comparator: No filter
+    expressionType: SIMPLE
+    operator: TEMPORAL_RANGE
+    subject: month_date
+  row_limit: 1000
+  truncate_metric: true
+  show_empty_columns: true
+  comparison_type: values
+  annotation_layers: []
+  forecastEnabled: false
+  forecastPeriods: 10
+  forecastInterval: 0.8
+  x_axis_title: Time
+  x_axis_title_margin: 75
+  y_axis_title: "% Inappropriate UTI + ASPN Dx"
+  y_axis_title_margin: 50
+  y_axis_title_position: Left
+  sort_series_type: name
+  sort_series_ascending: true
+  color_scheme: supersetColors
+  time_shift_color: true
+  show_value: false
+  only_total: true
+  percentage_threshold: 0
+  area: false
+  opacity: 0.2
+  markerEnabled: true
+  markerSize: 5
+  zoomable: false
+  minorTicks: false
+  show_legend: true
+  legendType: scroll
+  legendOrientation: top
+  x_axis_time_format: smart_date
+  xAxisLabelRotation: 90
+  xAxisLabelInterval: 0
+  rich_tooltip: true
+  showTooltipTotal: false
+  showTooltipPercentage: false
+  tooltipSortByMetric: false
+  y_axis_format: ",.0%"
+  logAxis: false
+  minorSplitLine: false
+  truncateXAxis: false
+  truncateYAxis: true
+  y_axis_bounds:
+  - 0
+  - 1
+  extra_form_data: {}
+  dashboards:
+  - 11
+  granularity_sqla: month_date
+  xAxisForceCategorical: false
+  order_desc: false
+query_context:
+cache_timeout:
+uuid: 7f91ed99-52be-5299-8259-f6580a57d396
+version: 1.0.0
+dataset_uuid: bf947b58-e7aa-589b-8e51-cd9961426600

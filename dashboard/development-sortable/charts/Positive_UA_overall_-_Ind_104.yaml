@@ -1,0 +1,94 @@
+---
+slice_name: Positive UA (overall) - Ind
+description:
+certified_by:
+certification_details:
+viz_type: echarts_timeseries_bar
+params:
+  datasource: 41__table
+  viz_type: echarts_timeseries_bar
+  slice_id: 104
+  x_axis: hosp_code
+  xAxisForceCategorical: false
+  x_axis_sort_asc: true
+  metrics:
+  - expressionType: SIMPLE
+    column:
+      advanced_data_type:
+      certification_details:
+      certified_by:
+      column_name: pos_ua_rate
+      description:
+      expression: ''
+      filterable: true
+      groupby: true
+      id: 741
+      is_certified: false
+      is_dttm: false
+      python_date_format:
+      type: FLOAT
+      type_generic: 0
+      uuid: e32f77e6-a1a7-4b83-a189-b95a24247857
+      verbose_name:
+      warning_markdown:
+    aggregate: MAX
+    sqlExpression:
+    datasourceWarning: false
+    hasCustomLabel: true
+    label: "% positive UA"
+    optionName: metric_6i0j53zro3c_aitt08328am
+  groupby: []
+  adhoc_filters: []
+  group_others_when_limit_reached: false
+  order_desc: true
+  row_limit: 10000
+  truncate_metric: true
+  show_empty_columns: true
+  comparison_type: values
+  annotation_layers: []
+  forecastEnabled: false
+  forecastPeriods: 10
+  forecastInterval: 0.8
+  orientation: vertical
+  x_axis_title: Hospital / State / Cohort
+  x_axis_title_margin: 30
+  y_axis_title: "% Positive UA"
+  y_axis_title_margin: 50
+  y_axis_title_position: Left
+  sort_series_type: name
+  sort_series_ascending: true
+  color_scheme: supersetColors
+  time_shift_color: true
+  show_value: true
+  only_total: true
+  percentage_threshold: 0
+  minorTicks: false
+  zoomable: false
+  show_legend: false
+  legendType: scroll
+  legendOrientation: top
+  x_axis_time_format: smart_date
+  xAxisLabelRotation: 0
+  xAxisLabelInterval: auto
+  y_axis_format: ",.0%"
+  logAxis: false
+  minorSplitLine: false
+  truncateYAxis: true
+  y_axis_bounds:
+  - 0
+  - 1
+  truncateXAxis: false
+  rich_tooltip: true
+  showTooltipTotal: false
+  showTooltipPercentage: false
+  tooltipSortByMetric: false
+  tooltipTimeFormat: smart_date
+  extra_form_data: {}
+  dashboards:
+  - 11
+  - 12
+query_context:
+cache_timeout:
+uuid: 1a817dcf-8f59-5e3f-86e5-62ed28c2988d
+version: 1.0.0
+dataset_uuid: f4416b16-56b5-58e0-8a6f-3e3725147b5b

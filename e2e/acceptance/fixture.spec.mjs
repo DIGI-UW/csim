@@ -17,7 +17,7 @@ test('03 Known observations distinguish a missing month, valid zero, and a parti
     [6,6,6,null,6,null],
     [4,8,12,null,10,5],
   ];
-  function values(rows){return rows.map(row=>row[Object.keys(row).find(key=>key!=='month_date')]);}
+  function values(rows){return rows.map(row=>row[Object.keys(row).find(key=>!['month_date','period_label'].includes(key))]);}
   for(const [index,trend] of watch.trends.entries()){
     expect(values(monthly[trend.name]),trend.name).toEqual(expected[index]);
     const shot=info.outputPath(`missing-zero-${trend.id}.png`);

@@ -19,14 +19,14 @@ set -euo pipefail
 cd "$1"
 revision="${1##*/}"
 for profile in corrected preview; do
-  dockerfile=Dockerfile.formatter; prefix=6.1.0-csim
-  if [[ "$profile" == preview ]]; then dockerfile=Dockerfile.month-controls; prefix=e22ce197-csim-months; fi
+  dockerfile=Dockerfile.month-controls; prefix=6.1.0-csim-months; month_patch=superset-6.1.0-month-controls.patch
+  if [[ "$profile" == preview ]]; then prefix=e22ce197-csim-months; month_patch=superset-snapshot-month-controls.patch; fi
   env_file="/home/ubuntu/csim/shared/.env.$profile"
   if [[ ! -f "$env_file" ]]; then
     bash csim.sh "$profile" config >/dev/null </dev/null
     env_file=".env.$profile"
   fi
-  CSIM_DOCKERFILE="$dockerfile" CSIM_BUILD_TAG="$prefix-${revision:0:12}" \
+  CSIM_DOCKERFILE="$dockerfile" CSIM_BUILD_TAG="$prefix-${revision:0:12}" CSIM_MONTH_PATCH="$month_patch" \
     docker compose -p "csim-$profile" --env-file "$env_file" -f compose.yaml build superset </dev/null
 done
 REMOTE
@@ -62,15 +62,15 @@ PY
     docker cp "csim-$profile-superset-1:/app/superset_home/before-update.db" "/home/ubuntu/csim/backups/$profile-$stamp.db"
   fi
   revision="${release##*/}"
-  prefix=6.1.0-csim; dockerfile=Dockerfile.formatter
-  if [[ "$profile" == preview ]]; then prefix=e22ce197-csim-months; dockerfile=Dockerfile.month-controls; fi
+  prefix=6.1.0-csim-months; dockerfile=Dockerfile.month-controls; month_patch=superset-6.1.0-month-controls.patch
+  if [[ "$profile" == preview ]]; then prefix=e22ce197-csim-months; month_patch=superset-snapshot-month-controls.patch; fi
   image_tag="$prefix-${revision:0:12}"
   docker image inspect "csim-superset:$image_tag" >/dev/null
-  python3 - "$shared" "$image_tag" "$dockerfile" <<'PY'
+  python3 - "$shared" "$image_tag" "$dockerfile" "$month_patch" <<'PY'
 import sys
 from pathlib import Path
 p=Path(sys.argv[1]); values=dict(line.split('=',1) for line in p.read_text().splitlines())
-values.update(CSIM_BUILD_TAG=sys.argv[2],CSIM_DOCKERFILE=sys.argv[3])
+values.update(CSIM_BUILD_TAG=sys.argv[2],CSIM_DOCKERFILE=sys.argv[3],CSIM_MONTH_PATCH=sys.argv[4])
 p.write_text(''.join(k+'='+v+'\n' for k,v in values.items()))
 PY
   CSIM_SERVER=1 CSIM_SKIP_BUILD=1 bash csim.sh "$profile" "$action" </dev/null
@@ -81,6 +81,7 @@ PY
     CSIM_SERVER=1 bash csim.sh preview simple </dev/null
   fi
   if [[ "$profile" == corrected ]]; then CSIM_SERVER=1 bash csim.sh corrected reconciled </dev/null; fi
+  CSIM_SERVER=1 bash csim.sh "$profile" september-months </dev/null
   CSIM_SERVER=1 bash csim.sh "$profile" viewer </dev/null
   CSIM_SERVER=1 bash csim.sh "$profile" verify-import </dev/null
   CSIM_SERVER=1 bash csim.sh "$profile" pack </dev/null

@@ -19,7 +19,7 @@ cd "$release"
 # rollback and avoids transferring a multi-gigabyte image over the uplink.
 revision="${release##*/}"
 image_tag="e22ce197-csim-months-${revision:0:12}"
-CSIM_DOCKERFILE=Dockerfile.month-controls CSIM_BUILD_TAG="$image_tag" \
+CSIM_DOCKERFILE=Dockerfile.month-controls CSIM_BUILD_TAG="$image_tag" CSIM_MONTH_PATCH=superset-snapshot-month-controls.patch \
   docker compose -p csim-preview --env-file /home/ubuntu/csim/shared/.env.preview -f compose.yaml build superset
 mkdir -p /home/ubuntu/csim/backups
 stamp="$(date -u +%Y%m%dT%H%M%S)"
@@ -31,7 +31,7 @@ import sys
 from pathlib import Path
 p=Path('/home/ubuntu/csim/shared/.env.preview')
 values=dict(line.split('=',1) for line in p.read_text().splitlines())
-values.update(CSIM_DOCKERFILE='Dockerfile.month-controls',CSIM_BUILD_TAG=sys.argv[1])
+values.update(CSIM_DOCKERFILE='Dockerfile.month-controls',CSIM_BUILD_TAG=sys.argv[1],CSIM_MONTH_PATCH='superset-snapshot-month-controls.patch')
 p.write_text(''.join(k+'='+v+'\n' for k,v in values.items()))
 PY
 ln -sfn /home/ubuntu/csim/shared/.env.preview .env.preview

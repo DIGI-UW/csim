@@ -138,7 +138,7 @@ params:
   group_others_when_limit_reached: false
   row_limit: 1000
   truncate_metric: true
-  show_empty_columns: false
+  show_empty_columns: true
   comparison_type: values
   annotation_layers: []
   forecastEnabled: false

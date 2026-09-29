@@ -1,0 +1,12 @@
+{
+  "base": "official Superset 6.1.0",
+  "dashboard": "csim-standard-month-selectors-examples",
+  "capture": "local known-record dashboard",
+  "from": "2026-03",
+  "through": "2026-02",
+  "acceptedReversedRange": true,
+  "outcome": "All five trend queries return no rows; the page provides no date-order warning. All-time cards retain their separate scope.",
+  "screenshotSha256": "6ed8c5f41dd9be072373acf0b8519a72f9b69bb0e36360cbb53320be3b0b2da4",
+  "observationSha256": "fe64ea6f71f759c4ca95613eb7d75a8056fbace4130084bfd65fa0a5dc065fe9",
+  "reviewed": true
+}

@@ -1,0 +1,356 @@
+---
+table_name: Month controls — September — UTI Aggregate Overall Performance Bar Charts
+main_dttm_col:
+description:
+default_endpoint:
+offset: 0
+cache_timeout:
+catalog: csim_demo
+schema: v1
+sql: "WITH raw_data AS (\r\n    SELECT\r\n        hosp_name, location, sign_symp,
+  month, year,\r\n        ucx_positive, urinalysis, tx___1, duration\r\n    FROM \"v1\".\"UTI
+  Individual Current\"\r\n    WHERE hosp_name IS NOT NULL\r\n      AND qi_asb_complete
+  = 2\r\n      AND month IS NOT NULL\r\n      AND year IS NOT NULL\r\n\r\n    UNION
+  ALL\r\n\r\n    SELECT\r\n        hosp_name, location, sign_symp, month, year,\r\n
+  \       ucx_positive, urinalysis, tx___1, duration\r\n    FROM \"v1\".\"UTI Individual
+  Historical\"\r\n    WHERE hosp_name IS NOT NULL\r\n      AND month IS NOT NULL\r\n
+  \     AND year IS NOT NULL\r\n),\r\n\r\nhospital_overall AS (\r\n    SELECT\r\n
+  \       i.hosp_name AS hosp_num,\r\n        LPAD(i.hosp_name::TEXT, 2, '0') AS hosp_code,\r\n
+  \       TRIM(h.state) AS state,\r\n        CASE i.location\r\n            WHEN 1
+  THEN 'Ambulatory care clinic'\r\n            WHEN 2 THEN 'Emergency Department'\r\n
+  \           WHEN 3 THEN 'Inpatient'\r\n            WHEN 4 THEN 'Rehab or long-term
+  care'\r\n            WHEN 5 THEN 'Urgent or quick care'\r\n            WHEN 6 THEN
+  'Other'\r\n        END AS location_name,\r\n        i.location AS location_code,\r\n
+  \       COUNT(*) AS ucsub,\r\n        SUM(CASE WHEN i.ucx_positive = 1 AND i.tx___1
+  = 0 THEN 1 ELSE 0 END) AS txpos,\r\n        SUM(CASE WHEN i.ucx_positive = 1 AND
+  i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END) AS asbtreated,\r\n        SUM(CASE
+  WHEN i.ucx_positive = 0 AND i.urinalysis = 1 AND i.sign_symp = 0 AND i.tx___1 =
+  0 THEN 1 ELSE 0 END) AS aspn_treated,\r\n        SUM(CASE WHEN i.ucx_positive =
+  1 AND i.sign_symp = 0 THEN 1 ELSE 0 END) AS asbcase,\r\n        SUM(CASE WHEN i.urinalysis
+  = 1 THEN 1 ELSE 0 END) AS pos_ua,\r\n        SUM(CASE WHEN i.tx___1 = 0 AND i.duration
+  IS NOT NULL THEN i.duration ELSE 0 END) AS dur_sum,\r\n        SUM(CASE WHEN i.tx___1
+  = 0 AND i.duration IS NOT NULL THEN 1 ELSE 0 END) AS dur_count,\r\n        SUM(CASE
+  WHEN i.ucx_positive = 1 AND i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END)::FLOAT
+  /\r\n            NULLIF(SUM(CASE WHEN i.ucx_positive = 1 AND i.tx___1 = 0 THEN 1
+  ELSE 0 END), 0) AS inappdx,\r\n        (SUM(CASE WHEN i.ucx_positive = 1 AND i.sign_symp
+  = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END) +\r\n         SUM(CASE WHEN i.ucx_positive
+  = 0 AND i.urinalysis = 1 AND i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END))::FLOAT
+  /\r\n            NULLIF(SUM(CASE WHEN i.ucx_positive = 1 AND i.tx___1 = 0 THEN 1
+  ELSE 0 END) +\r\n                   SUM(CASE WHEN i.ucx_positive = 0 AND i.urinalysis
+  = 1 AND i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END), 0) AS inappdx_aspn,\r\n
+  \       SUM(CASE WHEN i.ucx_positive = 1 AND i.sign_symp = 0 THEN 1 ELSE 0 END)::FLOAT
+  /\r\n            NULLIF(COUNT(*), 0) AS prev,\r\n        SUM(CASE WHEN i.tx___1
+  = 0 THEN 1 ELSE 0 END)::FLOAT /\r\n            NULLIF(COUNT(*), 0) AS txrate,\r\n
+  \       SUM(CASE WHEN i.urinalysis = 1 THEN 1 ELSE 0 END)::FLOAT /\r\n            NULLIF(COUNT(*),
+  0) AS pos_ua_rate,\r\n        SUM(CASE WHEN i.tx___1 = 0 AND i.duration IS NOT NULL
+  THEN i.duration ELSE 0 END)::FLOAT /\r\n            NULLIF(SUM(CASE WHEN i.tx___1
+  = 0 AND i.duration IS NOT NULL THEN 1 ELSE 0 END), 0) AS medabxdur\r\n    FROM raw_data
+  i\r\n    LEFT JOIN \"v1\".\"CSiM Hospitals and States\" h\r\n        ON i.hosp_name
+  = h.hosp_code\r\n    WHERE h.hosp_code IS NOT NULL\r\n    GROUP BY i.hosp_name,
+  TRIM(h.state), i.location\r\n),\r\n\r\nhospital_allloc AS (\r\n    SELECT\r\n        i.hosp_name
+  AS hosp_num,\r\n        LPAD(i.hosp_name::TEXT, 2, '0') AS hosp_code,\r\n        TRIM(h.state)
+  AS state,\r\n        'All locations' AS location_name,\r\n        0 AS location_code,\r\n
+  \       COUNT(*) AS ucsub,\r\n        SUM(CASE WHEN i.ucx_positive = 1 AND i.tx___1
+  = 0 THEN 1 ELSE 0 END) AS txpos,\r\n        SUM(CASE WHEN i.ucx_positive = 1 AND
+  i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END) AS asbtreated,\r\n        SUM(CASE
+  WHEN i.ucx_positive = 0 AND i.urinalysis = 1 AND i.sign_symp = 0 AND i.tx___1 =
+  0 THEN 1 ELSE 0 END) AS aspn_treated,\r\n        SUM(CASE WHEN i.ucx_positive =
+  1 AND i.sign_symp = 0 THEN 1 ELSE 0 END) AS asbcase,\r\n        SUM(CASE WHEN i.urinalysis
+  = 1 THEN 1 ELSE 0 END) AS pos_ua,\r\n        SUM(CASE WHEN i.tx___1 = 0 AND i.duration
+  IS NOT NULL THEN i.duration ELSE 0 END) AS dur_sum,\r\n        SUM(CASE WHEN i.tx___1
+  = 0 AND i.duration IS NOT NULL THEN 1 ELSE 0 END) AS dur_count,\r\n        SUM(CASE
+  WHEN i.ucx_positive = 1 AND i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END)::FLOAT
+  /\r\n            NULLIF(SUM(CASE WHEN i.ucx_positive = 1 AND i.tx___1 = 0 THEN 1
+  ELSE 0 END), 0) AS inappdx,\r\n        (SUM(CASE WHEN i.ucx_positive = 1 AND i.sign_symp
+  = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END) +\r\n         SUM(CASE WHEN i.ucx_positive
+  = 0 AND i.urinalysis = 1 AND i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END))::FLOAT
+  /\r\n            NULLIF(SUM(CASE WHEN i.ucx_positive = 1 AND i.tx___1 = 0 THEN 1
+  ELSE 0 END) +\r\n                   SUM(CASE WHEN i.ucx_positive = 0 AND i.urinalysis
+  = 1 AND i.sign_symp = 0 AND i.tx___1 = 0 THEN 1 ELSE 0 END), 0) AS inappdx_aspn,\r\n
+  \       SUM(CASE WHEN i.ucx_positive = 1 AND i.sign_symp = 0 THEN 1 ELSE 0 END)::FLOAT
+  /\r\n            NULLIF(COUNT(*), 0) AS prev,\r\n        SUM(CASE WHEN i.tx___1
+  = 0 THEN 1 ELSE 0 END)::FLOAT /\r\n            NULLIF(COUNT(*), 0) AS txrate,\r\n
+  \       SUM(CASE WHEN i.urinalysis = 1 THEN 1 ELSE 0 END)::FLOAT /\r\n            NULLIF(COUNT(*),
+  0) AS pos_ua_rate,\r\n        SUM(CASE WHEN i.tx___1 = 0 AND i.duration IS NOT NULL
+  THEN i.duration ELSE 0 END)::FLOAT /\r\n            NULLIF(SUM(CASE WHEN i.tx___1
+  = 0 AND i.duration IS NOT NULL THEN 1 ELSE 0 END), 0) AS medabxdur\r\n    FROM raw_data
+  i\r\n    LEFT JOIN \"v1\".\"CSiM Hospitals and States\" h\r\n        ON i.hosp_name
+  = h.hosp_code\r\n    WHERE h.hosp_code IS NOT NULL\r\n    GROUP BY i.hosp_name,
+  TRIM(h.state)\r\n    -- No location in GROUP BY\r\n),\r\n\r\ncombined AS (\r\n    SELECT
+  * FROM hospital_overall\r\n    UNION ALL\r\n    SELECT * FROM hospital_allloc\r\n)\r\n\r\n--
+  Hospital rows\r\nSELECT\r\n    hosp_num, hosp_code, state,\r\n    location_name,
+  location_code,\r\n    ucsub, txpos, asbtreated, aspn_treated, asbcase,\r\n    pos_ua,
+  dur_sum, dur_count,\r\n    inappdx, inappdx_aspn, prev, txrate, pos_ua_rate, medabxdur\r\nFROM
+  combined\r\n\r\nUNION ALL\r\n\r\n-- State rows (ucsub-weighted)\r\nSELECT\r\n    NULL
+  AS hosp_num,\r\n    state AS hosp_code,\r\n    state,\r\n    location_name, location_code,\r\n
+  \   SUM(ucsub), SUM(txpos), SUM(asbtreated), SUM(aspn_treated), SUM(asbcase),\r\n
+  \   SUM(pos_ua), SUM(dur_sum), SUM(dur_count),\r\n    SUM(inappdx * ucsub) / NULLIF(SUM(CASE
+  WHEN inappdx IS NOT NULL THEN ucsub ELSE 0 END), 0),\r\n    SUM(inappdx_aspn * ucsub)
+  / NULLIF(SUM(CASE WHEN inappdx_aspn IS NOT NULL THEN ucsub ELSE 0 END), 0),\r\n
+  \   SUM(prev * ucsub) / NULLIF(SUM(ucsub), 0),\r\n    SUM(txrate * ucsub) / NULLIF(SUM(ucsub),
+  0),\r\n    SUM(pos_ua_rate * ucsub) / NULLIF(SUM(ucsub), 0),\r\n    SUM(CASE WHEN
+  medabxdur IS NOT NULL THEN medabxdur * ucsub ELSE 0 END) /\r\n        NULLIF(SUM(CASE
+  WHEN medabxdur IS NOT NULL THEN ucsub ELSE 0 END), 0)\r\nFROM combined\r\nGROUP
+  BY state, location_name, location_code\r\n\r\nUNION ALL\r\n\r\n-- Cohort rows (ucsub-weighted)\r\nSELECT\r\n
+  \   NULL AS hosp_num,\r\n    'Cohort' AS hosp_code,\r\n    'ALL' AS state,\r\n    location_name,
+  location_code,\r\n    SUM(ucsub), SUM(txpos), SUM(asbtreated), SUM(aspn_treated),
+  SUM(asbcase),\r\n    SUM(pos_ua), SUM(dur_sum), SUM(dur_count),\r\n    SUM(inappdx
+  * ucsub) / NULLIF(SUM(CASE WHEN inappdx IS NOT NULL THEN ucsub ELSE 0 END), 0),\r\n
+  \   SUM(inappdx_aspn * ucsub) / NULLIF(SUM(CASE WHEN inappdx_aspn IS NOT NULL THEN
+  ucsub ELSE 0 END), 0),\r\n    SUM(prev * ucsub) / NULLIF(SUM(ucsub), 0),\r\n    SUM(txrate
+  * ucsub) / NULLIF(SUM(ucsub), 0),\r\n    SUM(pos_ua_rate * ucsub) / NULLIF(SUM(ucsub),
+  0),\r\n    SUM(CASE WHEN medabxdur IS NOT NULL THEN medabxdur * ucsub ELSE 0 END)
+  /\r\n        NULLIF(SUM(CASE WHEN medabxdur IS NOT NULL THEN ucsub ELSE 0 END),
+  0)\r\nFROM combined\r\nGROUP BY location_name, location_code\r\n\r\nORDER BY hosp_code,
+  location_code"
+params:
+template_params:
+filter_select_enabled: true
+fetch_values_predicate:
+extra:
+normalize_columns: false
+always_filter_main_dttm: false
+folders:
+uuid: d3b79939-66a4-594a-8801-171d9200d952
+metrics:
+- metric_name: count
+  verbose_name: COUNT(*)
+  metric_type: count
+  expression: COUNT(*)
+  description:
+  d3format:
+  currency:
+  extra:
+    warning_markdown: ''
+  warning_text:
+columns:
+- column_name: aspn_treated
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: pos_ua
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: dur_count
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: asbcase
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: asbtreated
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: ucsub
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: txpos
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: pos_ua_rate
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: inappdx_aspn
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: dur_sum
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: medabxdur
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: inappdx
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: txrate
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: prev
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: FLOAT
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: location_code
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: hosp_num
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: location_name
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: hosp_code
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+- column_name: state
+  verbose_name:
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type:
+  groupby: true
+  filterable: true
+  expression: ''
+  description:
+  python_date_format:
+  extra:
+version: 1.0.0
+database_uuid: 21edc228-aaaf-4fbf-8c28-b47844ae09e2

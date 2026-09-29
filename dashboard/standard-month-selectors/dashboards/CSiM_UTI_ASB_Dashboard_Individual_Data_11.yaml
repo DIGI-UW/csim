@@ -1,0 +1,2106 @@
+---
+dashboard_title: CSiM Individual Data — September / native month selectors
+description: Official Superset with native From/Through month dropdowns. The saved
+  window is explicit, not a rolling default. Clearing an endpoint removes that bound.
+css: "/* Comparison table - cell text */\r\n.table td, .table th {\r\n  font-size:
+  14px !important;\r\n}\r\n\r\n/* Filter panel labels */\r\n.ant-select-selection-item,\r\n.filter-title,\r\n[data-test=\"filter-title\"]
+  {\r\n  font-size: 14px !important;\r\n}\r\n\r\n/* Text boxes / markdown components
+  */\r\n.dashboard-component-chart-holder p,\r\n.dashboard-component-chart-holder
+  li {\r\n  font-size: 15px !important;\r\n}\r\n\r\n/* Chart titles */\r\n.header-title
+  {\r\n  font-size: 15px !important;\r\n}\r\n\r\n/* Chart/table container header title
+  */\r\n.header-title {\r\n  font-size: 16px !important;\r\n}\r\n\r\n/* Table cell
+  text stays at 14px */\r\n.table td, .table th {\r\n  font-size: 14px !important;\r\n}\n/*
+  The anchor follows the title text; allow room for two title lines below the fixed
+  toolbar. */\n[id^=\"HEADER-\"] { scroll-margin-top: 140px; }\n\n[id^=\"HEADER-\"]
+  { scroll-margin-top: 160px; }\n"
+slug: csim-individual-standard-month-selectors
+certified_by: ''
+certification_details: ''
+published: true
+uuid: e44b3196-5105-57c7-8fc9-252c29aa8d42
+position:
+  CHART-AZwUoq6QiB-Exfxcw9bQs:
+    children: []
+    id: CHART-AZwUoq6QiB-Exfxcw9bQs
+    meta:
+      chartId: 107
+      height: 14
+      sliceName: Latest reporting month
+      uuid: a84edca7-724f-530c-8ecf-b09456519b70
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-6p6C4N9oaGpvR7_YhLdkS
+    type: CHART
+  CHART-explore-100-1:
+    children: []
+    id: CHART-explore-100-1
+    meta:
+      chartId: 100
+      height: 24
+      sliceName: Volume of UC submissions (entire cohort)
+      sliceNameOverride: All-time UC submissions by the cohort
+      uuid: ffb7068f-e6ca-58fe-839c-5162b2b24031
+      width: 4
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-3zwVt4PvzTZDSCWmb_p_k
+    - COLUMN-YpGDVYECzI17H6aOmntVa
+    type: CHART
+  CHART-explore-101-1:
+    children: []
+    id: CHART-explore-101-1
+    meta:
+      chartId: 101
+      height: 51
+      sliceName: Inappropriate UTI+ASPN diagnosis (time series) - Ind
+      sliceNameOverride: Inappropriate UTI+ASPN diagnosis (time series)
+      uuid: e94b0ba9-50a1-5fee-8cca-fa3652f40f2c
+      width: 7
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-MgRB7rPCApS2zfVE-sT0-
+    type: CHART
+  CHART-explore-102-1:
+    children: []
+    id: CHART-explore-102-1
+    meta:
+      chartId: 102
+      height: 51
+      sliceName: Inappropriate UTI+ASPN diagnosis (overall) - Ind
+      sliceNameOverride: Overall inappropriate UTI + ASPN diagnosis (across all UC
+        submissions)
+      uuid: 68a633b2-8a21-5a24-8040-626c77c3ece4
+      width: 5
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-MgRB7rPCApS2zfVE-sT0-
+    type: CHART
+  CHART-explore-103-1:
+    children: []
+    id: CHART-explore-103-1
+    meta:
+      chartId: 103
+      height: 51
+      sliceName: Positive UA (time series) - Ind
+      sliceNameOverride: Positive UA (time series)
+      uuid: 7e348110-f723-51e8-8431-b5c5e1e38cf1
+      width: 7
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-8svotCUjfBILpVHSWeiVj
+    type: CHART
+  CHART-explore-104-1:
+    children: []
+    id: CHART-explore-104-1
+    meta:
+      chartId: 104
+      height: 51
+      sliceName: Positive UA (overall) - Ind
+      sliceNameOverride: Overall positive UA proportion (across all UC submissions)
+      uuid: 2d3cca36-b3f1-516f-85ef-f26f8051ec00
+      width: 5
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-8svotCUjfBILpVHSWeiVj
+    type: CHART
+  CHART-explore-106-1:
+    children: []
+    id: CHART-explore-106-1
+    meta:
+      chartId: 106
+      height: 24
+      sliceName: Volume of UC submissions (own hospital)
+      sliceNameOverride: All-time UC submissions by your hospital
+      uuid: 36617aea-cd9e-5ae9-840c-b483d983a0c8
+      width: 4
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-3zwVt4PvzTZDSCWmb_p_k
+    - COLUMN-YpGDVYECzI17H6aOmntVa
+    type: CHART
+  CHART-explore-73-1:
+    children: []
+    id: CHART-explore-73-1
+    meta:
+      chartId: 73
+      height: 63
+      sliceName: Inappropriate UTI diagnosis (time series) - Ind
+      sliceNameOverride: Inappropriate UTI diagnosis (time series)
+      uuid: befda14b-f0e5-5d7b-8c43-5a43900ea7ff
+      width: 7
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-0OxIIphdm3SL_ypBio0Wv
+    type: CHART
+  CHART-explore-74-1:
+    children: []
+    id: CHART-explore-74-1
+    meta:
+      chartId: 74
+      height: 63
+      sliceName: Inappropriate UTI diagnosis (overall) - Ind
+      sliceNameOverride: Overall inappropriate UTI diagnosis (across all UC submissions)
+      uuid: 43867e5a-dbd6-5aff-8fe1-1f3fe46f3d05
+      width: 5
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-0OxIIphdm3SL_ypBio0Wv
+    type: CHART
+  CHART-explore-75-1:
+    children: []
+    id: CHART-explore-75-1
+    meta:
+      chartId: 75
+      height: 31
+      sliceName: Inappropriate UTI diagnosis (latest month comparison) - Ind
+      sliceNameOverride: 'Based on the most recent data submission, the comparison
+        in inappropriate UTI diagnosis between your hospital, the cohort, and your
+        state (regardless of location of UC submissions):'
+      uuid: da9dde72-7eb7-5a69-85af-59287009d774
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-5NL3vrAxfrhjK_cuVyPul
+    type: CHART
+  CHART-explore-77-1:
+    children: []
+    id: CHART-explore-77-1
+    meta:
+      chartId: 77
+      height: 51
+      sliceName: ASB prevalence (overall) - Ind
+      sliceNameOverride: Overall ASB prevalence (across all UC submissions)
+      uuid: ad4f4401-1091-517f-8f70-9a7ce3fdf3dd
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-nuKa1rG16zklFc8n22r80
+    type: CHART
+  CHART-explore-79-1:
+    children: []
+    id: CHART-explore-79-1
+    meta:
+      chartId: 79
+      height: 51
+      sliceName: ASB treatment rate (overall) - Ind
+      sliceNameOverride: Overall ASB treatment rate (across all UC submissions)
+      uuid: 57a9d31c-ac59-586d-8d59-2fddb7695d6a
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-nuKa1rG16zklFc8n22r80
+    type: CHART
+  CHART-explore-80-1:
+    children: []
+    id: CHART-explore-80-1
+    meta:
+      chartId: 80
+      height: 41
+      sliceName: Abx duration (time series) - Ind
+      sliceNameOverride: Therapy duration (time series)
+      uuid: fcae29cc-acff-58cf-8a48-c9395d6e9b68
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-LjGzHOQrR4OVK0wn00hiQ
+    type: CHART
+  CHART-explore-81-1:
+    children: []
+    id: CHART-explore-81-1
+    meta:
+      chartId: 81
+      height: 34
+      sliceName: Abx duration (latest comparison) - Ind
+      sliceNameOverride: 'Based on your most recent data submission, the comparison
+        in average therapy duration (days) between your hospital, the cohort, and
+        your state (regardless of location of UC submissions):'
+      uuid: b6a02175-22de-5077-841b-f676feb49b23
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-ZsfRVbFF5i_VnnZsR-607
+    type: CHART
+  CHART-explore-82-1:
+    children: []
+    id: CHART-explore-82-1
+    meta:
+      chartId: 82
+      height: 61
+      sliceName: Top abx (own hospital stacked) - Ind
+      sliceNameOverride: Your hospital (abx)
+      uuid: ec108725-dcda-5aa8-857b-4cd321cf4dc6
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-GQqT8Wdpyplj6Y951hXjP
+    type: CHART
+  CHART-explore-85-1:
+    children: []
+    id: CHART-explore-85-1
+    meta:
+      chartId: 85
+      height: 51
+      sliceName: UC location (own hospital stacked) - Ind
+      sliceNameOverride: Your hospital (UC location)
+      uuid: dedb1e5e-2572-545c-8653-8e362c3c7a89
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-huPmA1gS2Ewv7Rkc-8Gu7
+    type: CHART
+  CHART-explore-93-1:
+    children: []
+    id: CHART-explore-93-1
+    meta:
+      chartId: 93
+      height: 61
+      sliceName: Top abx (cohort/state stacked) - Ind
+      sliceNameOverride: Cohort/State (abx)
+      uuid: dfe7d37a-5f11-55e4-806e-9931ea22d182
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-GQqT8Wdpyplj6Y951hXjP
+    type: CHART
+  CHART-explore-94-1:
+    children: []
+    id: CHART-explore-94-1
+    meta:
+      chartId: 94
+      height: 51
+      sliceName: UC location (cohort/state stacked) - Ind
+      sliceNameOverride: Cohort/State (UC location)
+      uuid: 0c91fddd-eb8e-5d00-830f-be8725a87426
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-huPmA1gS2Ewv7Rkc-8Gu7
+    type: CHART
+  CHART-explore-95-1:
+    children: []
+    id: CHART-explore-95-1
+    meta:
+      chartId: 95
+      height: 51
+      sliceName: Abx duration (own hospital stacked) - Ind
+      sliceNameOverride: Your hospital (duration)
+      uuid: 02134c7c-4bc1-5f53-822f-0e1812aabd35
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-M2nkSd3Ud7f0p6HCKF_T5
+    type: CHART
+  CHART-explore-97-1:
+    children: []
+    id: CHART-explore-97-1
+    meta:
+      chartId: 97
+      height: 51
+      sliceName: Abx duration (cohort/state stacked) - Ind
+      sliceNameOverride: Cohort/State (duration)
+      uuid: ab8821f3-672c-5311-8cc3-f65654fc0c4f
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-M2nkSd3Ud7f0p6HCKF_T5
+    type: CHART
+  CHART-explore-99-1:
+    children: []
+    id: CHART-explore-99-1
+    meta:
+      chartId: 99
+      height: 50
+      sliceName: Volume of UC submissions (time series) - Ind
+      sliceNameOverride: UC submissions (time series)
+      uuid: dc5f7e14-478d-52f0-81c4-e3fdae99bbf7
+      width: 8
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-3zwVt4PvzTZDSCWmb_p_k
+    type: CHART
+  COLUMN-YpGDVYECzI17H6aOmntVa:
+    children:
+    - CHART-explore-106-1
+    - CHART-explore-100-1
+    id: COLUMN-YpGDVYECzI17H6aOmntVa
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      width: 4
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-3zwVt4PvzTZDSCWmb_p_k
+    type: COLUMN
+  DASHBOARD_VERSION_KEY: v2
+  DIVIDER-6_0mdMIOhcz9aR3njjVRV:
+    children: []
+    id: DIVIDER-6_0mdMIOhcz9aR3njjVRV
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  DIVIDER-7rB2TGBY_prp0PpUBVbG5:
+    children: []
+    id: DIVIDER-7rB2TGBY_prp0PpUBVbG5
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  DIVIDER-CKyvCTwJLHaCOyNkI0gKg:
+    children: []
+    id: DIVIDER-CKyvCTwJLHaCOyNkI0gKg
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  DIVIDER-RGIlduxsNTS37cGX_dk2I:
+    children: []
+    id: DIVIDER-RGIlduxsNTS37cGX_dk2I
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  DIVIDER-_Zjj3wsr7Qk7Ch-OarxJQ:
+    children: []
+    id: DIVIDER-_Zjj3wsr7Qk7Ch-OarxJQ
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  DIVIDER-aJ9hppVv7nwMpAVlc45Cc:
+    children: []
+    id: DIVIDER-aJ9hppVv7nwMpAVlc45Cc
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  DIVIDER-h6PJUQBH7VWF-IBBc0PKe:
+    children: []
+    id: DIVIDER-h6PJUQBH7VWF-IBBc0PKe
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  DIVIDER-hy2ainy_SELzuKrYrb_Jj:
+    children: []
+    id: DIVIDER-hy2ainy_SELzuKrYrb_Jj
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  DIVIDER-nYA_8yf8Tqu5aRZDl4rXl:
+    children: []
+    id: DIVIDER-nYA_8yf8Tqu5aRZDl4rXl
+    meta: {}
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: DIVIDER
+  GRID_ID:
+    children:
+    - ROW-5RI0Rt1SvKbXRf-OhEmkV
+    - ROW-6p6C4N9oaGpvR7_YhLdkS
+    - ROW-7Ofrh4DMN-RBbmcQ4V1f4
+    - HEADER-r8eXHkDW41n9UmZ9Apmio
+    - ROW-LGxSAWU8pNk5FX_j3s-qz
+    - ROW-0OxIIphdm3SL_ypBio0Wv
+    - ROW-5NL3vrAxfrhjK_cuVyPul
+    - DIVIDER-hy2ainy_SELzuKrYrb_Jj
+    - HEADER-hAJImIfKTuh5AjqubMMQx
+    - ROW-yjoXoawttu8mfHyy83vFE
+    - ROW-MgRB7rPCApS2zfVE-sT0-
+    - DIVIDER-7rB2TGBY_prp0PpUBVbG5
+    - HEADER-vvlp4XUy79yAsrEv5y3Z9
+    - ROW-ucj4EtMSvInrd46NMq3xt
+    - ROW-By5FanjzJpL953-ylo2IJ
+    - ROW-nuKa1rG16zklFc8n22r80
+    - DIVIDER-CKyvCTwJLHaCOyNkI0gKg
+    - DIVIDER-6_0mdMIOhcz9aR3njjVRV
+    - HEADER-w3h--tvRPIJ4paGsvAvtq
+    - HEADER-VSO77JOVErZuIv0jiVKxm
+    - ROW-4eWVJTGwm8bLmVMLI8EQi
+    - ROW-8svotCUjfBILpVHSWeiVj
+    - DIVIDER-RGIlduxsNTS37cGX_dk2I
+    - HEADER-eVOJ7CLoDLTv7Uc8Ct2eU
+    - ROW-KB0zd-HZnpc3ouaucIEDj
+    - ROW-LjGzHOQrR4OVK0wn00hiQ
+    - ROW-ZsfRVbFF5i_VnnZsR-607
+    - ROW-M2nkSd3Ud7f0p6HCKF_T5
+    - DIVIDER-h6PJUQBH7VWF-IBBc0PKe
+    - HEADER-uzYe_XPHyTLsyEBmvrbL6
+    - ROW-bABdf2_UHfC6ThBvdeAfA
+    - ROW-GQqT8Wdpyplj6Y951hXjP
+    - DIVIDER-_Zjj3wsr7Qk7Ch-OarxJQ
+    - HEADER-jcjz34JVi0EGsAKJEFcAL
+    - ROW-Y5Gte0_aCAAGnrQjVbxtZ
+    - ROW-huPmA1gS2Ewv7Rkc-8Gu7
+    - DIVIDER-nYA_8yf8Tqu5aRZDl4rXl
+    - HEADER-PMMsB3kEnSteAcLMsgZz-
+    - ROW-3zwVt4PvzTZDSCWmb_p_k
+    - DIVIDER-aJ9hppVv7nwMpAVlc45Cc
+    - ROW-VV80vb0X_kLgm2kSpxC-J
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER-PMMsB3kEnSteAcLMsgZz-:
+    children: []
+    id: HEADER-PMMsB3kEnSteAcLMsgZz-
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: LARGE_HEADER
+      text: 5. Total number of data submitted
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER-VSO77JOVErZuIv0jiVKxm:
+    children: []
+    id: HEADER-VSO77JOVErZuIv0jiVKxm
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: MEDIUM_HEADER
+      text: 4.1. Positive urinalysis within 24hours of urine culture
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER-eVOJ7CLoDLTv7Uc8Ct2eU:
+    children: []
+    id: HEADER-eVOJ7CLoDLTv7Uc8Ct2eU
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: MEDIUM_HEADER
+      text: 4.2. Average Duration of Antibiotic Therapy (days)
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER-hAJImIfKTuh5AjqubMMQx:
+    children: []
+    id: HEADER-hAJImIfKTuh5AjqubMMQx
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: LARGE_HEADER
+      text: 2. Inappropriate diagnosis of UTI (by urinalysis data)
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER-jcjz34JVi0EGsAKJEFcAL:
+    children: []
+    id: HEADER-jcjz34JVi0EGsAKJEFcAL
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: MEDIUM_HEADER
+      text: 4.4. Location of service
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER-r8eXHkDW41n9UmZ9Apmio:
+    children: []
+    id: HEADER-r8eXHkDW41n9UmZ9Apmio
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: LARGE_HEADER
+      text: 1. Inappropriate Diagnosis of UTI (by urine culture data)
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER-uzYe_XPHyTLsyEBmvrbL6:
+    children: []
+    id: HEADER-uzYe_XPHyTLsyEBmvrbL6
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: MEDIUM_HEADER
+      text: 4.3. Top antibiotic prescriptions
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER-vvlp4XUy79yAsrEv5y3Z9:
+    children: []
+    id: HEADER-vvlp4XUy79yAsrEv5y3Z9
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: LARGE_HEADER
+      text: 3. Prevalence and treatment of asymptomatic bacteriuria
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER-w3h--tvRPIJ4paGsvAvtq:
+    children: []
+    id: HEADER-w3h--tvRPIJ4paGsvAvtq
+    meta:
+      background: BACKGROUND_TRANSPARENT
+      headerSize: LARGE_HEADER
+      text: 4. Additional urine testing and antibiotic insights
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: HEADER
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: CSiM UTI/ASB Dashboard [Individual Data]
+    type: HEADER
+  MARKDOWN-4LE_6MIsEUYEjgMUcvAyM:
+    children: []
+    id: MARKDOWN-4LE_6MIsEUYEjgMUcvAyM
+    meta:
+      code: "**Choose Your hospital in the filter bar to display the hospital comparison
+        panels.** Open More filters if the selector is hidden. Then choose Cohort/State
+        for the comparison."
+      height: 12
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-bABdf2_UHfC6ThBvdeAfA
+    type: MARKDOWN
+  MARKDOWN-7gyWWjV1CJF2ryDRxxwYT:
+    children: []
+    id: MARKDOWN-7gyWWjV1CJF2ryDRxxwYT
+    meta:
+      code: '<img src="https://uwcsim.org/wp-content/themes/csim/assets/img/CSiM_1.png"  width="150">
+
+'
+      height: 35
+      width: 3
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-5RI0Rt1SvKbXRf-OhEmkV
+    type: MARKDOWN
+  MARKDOWN-8qLF0rtVZnycDfi3XPowe:
+    children: []
+    id: MARKDOWN-8qLF0rtVZnycDfi3XPowe
+    meta:
+      code: |-
+        *Manual upload note from the source dashboard:* March 30, 2026. This is separate from the latest reporting month shown beside it.
+
+        **Choose an individual hospital in Hospital and state to populate the latest-month comparison tables.** Cohort remains available for the main charts.
+      height: 14
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-6p6C4N9oaGpvR7_YhLdkS
+    type: MARKDOWN
+  MARKDOWN-B7A7v4jMD46v0QeBjl_jp:
+    children: []
+    id: MARKDOWN-B7A7v4jMD46v0QeBjl_jp
+    meta:
+      code: |-
+        # Asymptomatic Bacteriuria (ASB) Report: Stewardship Opportunities at Your Hospital
+
+        This dashboard is designed for antibiotic stewards to identify trends in the diagnosis and treatment of urinary tract infections (UTI) at their hospitals and compare themselves to other institutions. In addition, this dashboard can track antibiotic selection and treatment duration, two key areas of treatment optimization and patient safety. The ability to track data over time and compare to peer hospitals will help to identify areas of focus and to see the impact of stewardship efforts.
+      height: 35
+      width: 9
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-5RI0Rt1SvKbXRf-OhEmkV
+    type: MARKDOWN
+  MARKDOWN-BZzBmz8FEjDVgFouVszgS:
+    children: []
+    id: MARKDOWN-BZzBmz8FEjDVgFouVszgS
+    meta:
+      code: "- The cohort and state averages are weighted by the number of urine cultures
+        submitted by the hospitals."
+      height: 10
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-ucj4EtMSvInrd46NMq3xt
+    type: MARKDOWN
+  MARKDOWN-IBpOW8Ky_k-mYxMODnaLn:
+    children: []
+    id: MARKDOWN-IBpOW8Ky_k-mYxMODnaLn
+    meta:
+      code: |-
+        ## **✨Goal:** Lower % is better!
+
+        ### The cohort and state averages are weighted by the number of urine cultures submitted by the hospitals.
+      height: 17
+      width: 8
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-LGxSAWU8pNk5FX_j3s-qz
+    type: MARKDOWN
+  MARKDOWN-JXgHlLO9PG7KNKElKdY02:
+    children: []
+    id: MARKDOWN-JXgHlLO9PG7KNKElKdY02
+    meta:
+      code: 'Data source: Internal organization'
+      height: 9
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-VV80vb0X_kLgm2kSpxC-J
+    type: MARKDOWN
+  MARKDOWN-WIofdf7GkSmIbs0pSuT-6:
+    children: []
+    id: MARKDOWN-WIofdf7GkSmIbs0pSuT-6
+    meta:
+      code: "**Choose Your hospital in the filter bar to display the hospital comparison
+        panels.** Open More filters if the selector is hidden. Then choose Cohort/State
+        for the comparison."
+      height: 12
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-KB0zd-HZnpc3ouaucIEDj
+    type: MARKDOWN
+  MARKDOWN-dmqWGw3wWo5dFYGn-enHs:
+    children: []
+    id: MARKDOWN-dmqWGw3wWo5dFYGn-enHs
+    meta:
+      code: "|   |\r\n|:---:|\r\n| Number of treated asymptomatic patients with a
+        positive urine culture or urinalysis (pyuria or nitrituria) |\r\n| ______________________________________________________________________|\r\n|
+        Number of treated patients (symptomatic and asymptomatic) with a positive
+        urine culture or urinalysis (pyuria or nitrituria) |\r\n\r\n\r\n- The cohort
+        and state averages are weighted by the number of urine cultures submitted
+        by the hospitals."
+      height: 30
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-yjoXoawttu8mfHyy83vFE
+    type: MARKDOWN
+  MARKDOWN-kbpKudPZL01ntlPcgzEYI:
+    children: []
+    id: MARKDOWN-kbpKudPZL01ntlPcgzEYI
+    meta:
+      code: |-
+        ### **Table of Contents**
+        - [1. Inappropriate Diagnosis of UTI (by urine culture data)](#HEADER-r8eXHkDW41n9UmZ9Apmio)
+        - [2. Inappropriate diagnosis of UTI (by urinalysis data)](#HEADER-hAJImIfKTuh5AjqubMMQx)
+        - [3. Prevalence and treatment of asymptomatic bacteriuria](#HEADER-vvlp4XUy79yAsrEv5y3Z9)
+        - [4. Additional urine testing and antibiotic insights](#HEADER-w3h--tvRPIJ4paGsvAvtq)
+        - [4.1. Positive urinalysis within 24hours of urine culture](#HEADER-VSO77JOVErZuIv0jiVKxm)
+        - [4.2. Average Duration of Antibiotic Therapy (days)](#HEADER-eVOJ7CLoDLTv7Uc8Ct2eU)
+        - [4.3. Top antibiotic prescriptions](#HEADER-uzYe_XPHyTLsyEBmvrbL6)
+        - [4.4. Location of service](#HEADER-jcjz34JVi0EGsAKJEFcAL)
+        - [5. Total number of data submitted](#HEADER-PMMsB3kEnSteAcLMsgZz-)
+      height: 51
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-7Ofrh4DMN-RBbmcQ4V1f4
+    type: MARKDOWN
+  MARKDOWN-lMg97gCudWooyMZtyjDZC:
+    children: []
+    id: MARKDOWN-lMg97gCudWooyMZtyjDZC
+    meta:
+      code: "**Location** means where the urine culture was drawn in the healthcare
+        system."
+      height: 8
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-Y5Gte0_aCAAGnrQjVbxtZ
+    type: MARKDOWN
+  MARKDOWN-mGg-oVONg4-41Dujtvdc_:
+    children: []
+    id: MARKDOWN-mGg-oVONg4-41Dujtvdc_
+    meta:
+      code: |-
+        ## **✨Goal:** Lower % is better!
+
+        ### This metric accounts for diagnosing UTI with urinalysis rather than urine culture data.
+      height: 30
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-yjoXoawttu8mfHyy83vFE
+    type: MARKDOWN
+  MARKDOWN-p6QkzNWJ4ubEsqJvrGV6b:
+    children: []
+    id: MARKDOWN-p6QkzNWJ4ubEsqJvrGV6b
+    meta:
+      code: "|   |\r\n|:---:|\r\n| Number of Positive UA |\r\n| _________________________
+        |\r\n| Number of UC Submissions |\r\n\r\n- The cohort and state averages are
+        weighted by the number of urine cultures submitted by the hospitals."
+      height: 20
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-4eWVJTGwm8bLmVMLI8EQi
+    type: MARKDOWN
+  MARKDOWN-tAFZj6u6tjY0ZvPK8i9fM:
+    children: []
+    id: MARKDOWN-tAFZj6u6tjY0ZvPK8i9fM
+    meta:
+      code: "**ASB Treatment Rate** = \r\n|   |\r\n|:---:|\r\n| Number of treated
+        ASB cases |\r\n| _____________________________ |\r\n| Number of ASB cases
+        |"
+      height: 19
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-By5FanjzJpL953-ylo2IJ
+    type: MARKDOWN
+  MARKDOWN-v_vjO8CLCk-ybB4jEg4re:
+    children: []
+    id: MARKDOWN-v_vjO8CLCk-ybB4jEg4re
+    meta:
+      code: "**ASB Prevalence Rate** = \r\n|   |\r\n|:---:|\r\n| Number of ASB cases
+        \        |\r\n| ______________________________ |\r\n| Number of positive urine
+        cultures               |"
+      height: 19
+      width: 6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-By5FanjzJpL953-ylo2IJ
+    type: MARKDOWN
+  MARKDOWN-xkq1H2Nb_MpP-CAH0CmeM:
+    children: []
+    id: MARKDOWN-xkq1H2Nb_MpP-CAH0CmeM
+    meta:
+      code: "|   |\r\n|:---:|\r\n| Number of treated asymptomatic patients with a
+        positive urine culture  |\r\n| ______________________________________ |\r\n|
+        Number of treated patients (symptomatic and asymptomatic) with a positive
+        urine culture |"
+      height: 17
+      width: 4
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-LGxSAWU8pNk5FX_j3s-qz
+    type: MARKDOWN
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-0OxIIphdm3SL_ypBio0Wv:
+    children:
+    - CHART-explore-73-1
+    - CHART-explore-74-1
+    id: ROW-0OxIIphdm3SL_ypBio0Wv
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-3zwVt4PvzTZDSCWmb_p_k:
+    children:
+    - CHART-explore-99-1
+    - COLUMN-YpGDVYECzI17H6aOmntVa
+    id: ROW-3zwVt4PvzTZDSCWmb_p_k
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-4eWVJTGwm8bLmVMLI8EQi:
+    children:
+    - MARKDOWN-p6QkzNWJ4ubEsqJvrGV6b
+    id: ROW-4eWVJTGwm8bLmVMLI8EQi
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-5NL3vrAxfrhjK_cuVyPul:
+    children:
+    - CHART-explore-75-1
+    id: ROW-5NL3vrAxfrhjK_cuVyPul
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-5RI0Rt1SvKbXRf-OhEmkV:
+    children:
+    - MARKDOWN-B7A7v4jMD46v0QeBjl_jp
+    - MARKDOWN-7gyWWjV1CJF2ryDRxxwYT
+    id: ROW-5RI0Rt1SvKbXRf-OhEmkV
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-6p6C4N9oaGpvR7_YhLdkS:
+    children:
+    - MARKDOWN-8qLF0rtVZnycDfi3XPowe
+    - CHART-AZwUoq6QiB-Exfxcw9bQs
+    id: ROW-6p6C4N9oaGpvR7_YhLdkS
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-7Ofrh4DMN-RBbmcQ4V1f4:
+    children:
+    - MARKDOWN-kbpKudPZL01ntlPcgzEYI
+    id: ROW-7Ofrh4DMN-RBbmcQ4V1f4
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-8svotCUjfBILpVHSWeiVj:
+    children:
+    - CHART-explore-103-1
+    - CHART-explore-104-1
+    id: ROW-8svotCUjfBILpVHSWeiVj
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-By5FanjzJpL953-ylo2IJ:
+    children:
+    - MARKDOWN-v_vjO8CLCk-ybB4jEg4re
+    - MARKDOWN-tAFZj6u6tjY0ZvPK8i9fM
+    id: ROW-By5FanjzJpL953-ylo2IJ
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-GQqT8Wdpyplj6Y951hXjP:
+    children:
+    - CHART-explore-82-1
+    - CHART-explore-93-1
+    id: ROW-GQqT8Wdpyplj6Y951hXjP
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-KB0zd-HZnpc3ouaucIEDj:
+    children:
+    - MARKDOWN-WIofdf7GkSmIbs0pSuT-6
+    id: ROW-KB0zd-HZnpc3ouaucIEDj
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-LGxSAWU8pNk5FX_j3s-qz:
+    children:
+    - MARKDOWN-xkq1H2Nb_MpP-CAH0CmeM
+    - MARKDOWN-IBpOW8Ky_k-mYxMODnaLn
+    id: ROW-LGxSAWU8pNk5FX_j3s-qz
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-LjGzHOQrR4OVK0wn00hiQ:
+    children:
+    - CHART-explore-80-1
+    id: ROW-LjGzHOQrR4OVK0wn00hiQ
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-M2nkSd3Ud7f0p6HCKF_T5:
+    children:
+    - CHART-explore-95-1
+    - CHART-explore-97-1
+    id: ROW-M2nkSd3Ud7f0p6HCKF_T5
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-MgRB7rPCApS2zfVE-sT0-:
+    children:
+    - CHART-explore-101-1
+    - CHART-explore-102-1
+    id: ROW-MgRB7rPCApS2zfVE-sT0-
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-VV80vb0X_kLgm2kSpxC-J:
+    children:
+    - MARKDOWN-JXgHlLO9PG7KNKElKdY02
+    id: ROW-VV80vb0X_kLgm2kSpxC-J
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-Y5Gte0_aCAAGnrQjVbxtZ:
+    children:
+    - MARKDOWN-lMg97gCudWooyMZtyjDZC
+    id: ROW-Y5Gte0_aCAAGnrQjVbxtZ
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-ZsfRVbFF5i_VnnZsR-607:
+    children:
+    - CHART-explore-81-1
+    id: ROW-ZsfRVbFF5i_VnnZsR-607
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-bABdf2_UHfC6ThBvdeAfA:
+    children:
+    - MARKDOWN-4LE_6MIsEUYEjgMUcvAyM
+    id: ROW-bABdf2_UHfC6ThBvdeAfA
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-huPmA1gS2Ewv7Rkc-8Gu7:
+    children:
+    - CHART-explore-85-1
+    - CHART-explore-94-1
+    id: ROW-huPmA1gS2Ewv7Rkc-8Gu7
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-nuKa1rG16zklFc8n22r80:
+    children:
+    - CHART-explore-77-1
+    - CHART-explore-79-1
+    id: ROW-nuKa1rG16zklFc8n22r80
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-ucj4EtMSvInrd46NMq3xt:
+    children:
+    - MARKDOWN-BZzBmz8FEjDVgFouVszgS
+    id: ROW-ucj4EtMSvInrd46NMq3xt
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-yjoXoawttu8mfHyy83vFE:
+    children:
+    - MARKDOWN-dmqWGw3wWo5dFYGn-enHs
+    - MARKDOWN-mGg-oVONg4-41Dujtvdc_
+    id: ROW-yjoXoawttu8mfHyy83vFE
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  label_colors:
+    '10': "#006E2D"
+    '11': "#00031D"
+    '12': "#A51D7B"
+    '13': "#6B5E54"
+    '14': "#3D5EA5"
+    '15': "#001D00"
+    '16': "#370054"
+    '17': "#141266"
+    '18': "#00441C"
+    '19': "#000212"
+    '20': "#66124C"
+    '21': "#423A34"
+    '22': "#263A66"
+    '23': "#001200"
+    '24': "#220034"
+    '25': "#322DFF"
+    '26': "#00AA46"
+    '27': "#00052D"
+    '28': "#FF2DBE"
+    '29': "#A59182"
+    '30': "#5F91FF"
+    '31': "#002D00"
+    '32': "#550082"
+    '33': "#201DA5"
+    '34': "#006E2D"
+    '35': "#00031D"
+    '36': "#A51D7B"
+    '37': "#6B5E54"
+    '38': "#3D5EA5"
+    '39': "#001D00"
+    '40': "#370054"
+    '41': "#141266"
+    '42': "#00441C"
+    '43': "#000212"
+    '44': "#66124C"
+    '45': "#423A34"
+    '46': "#263A66"
+    '47': "#001200"
+    '48': "#220034"
+    '49': "#322DFF"
+    '50': "#00AA46"
+    '51': "#00052D"
+    '52': "#FF2DBE"
+    '53': "#A59182"
+    '54': "#5F91FF"
+    '55': "#002D00"
+    '56': "#550082"
+    '57': "#201DA5"
+    '58': "#006E2D"
+    '59': "#00031D"
+    '60': "#A51D7B"
+    '61': "#6B5E54"
+    '62': "#3D5EA5"
+    '63': "#001D00"
+    '64': "#370054"
+    '65': "#141266"
+    '66': "#00441C"
+    '67': "#000212"
+    '68': "#66124C"
+    '69': "#423A34"
+    '70': "#263A66"
+    '71': "#001200"
+    '72': "#220034"
+    '73': "#322DFF"
+    '74': "#00AA46"
+    '75': "#00052D"
+    '76': "#FF2DBE"
+    '77': "#A59182"
+    '78': "#5F91FF"
+    '79': "#002D00"
+    '80': "#550082"
+    '81': "#201DA5"
+    Cohort: "#D93025"
+    ALL: "#D93025"
+    '01': "#322DFF"
+    '02': "#00AA46"
+    '03': "#00052D"
+    '04': "#FF2DBE"
+    '05': "#A59182"
+    '06': "#5F91FF"
+    '07': "#002D00"
+    '08': "#550082"
+    '09': "#201DA5"
+    WA: "#1B4F72"
+    OR: "#145A32"
+    ID: "#4A235A"
+    LA: "#6E2F1A"
+    MT: "#0B3D2E"
+    AZ: "#2E4057"
+    CO: "#5B2333"
+    NM: "#3B1F5E"
+    TX: "#1A3A2A"
+    "<=3 days": "#1E8449"
+    ">3 to 5 days": "#1F5F8B"
+    ">5 to 7 days": "#B47E00"
+    ">7 days": "#990000"
+    Ceftriaxone: "#1A5276"
+    Cephalexin: "#FC0000"
+    Fluoroquinolone: "#0000FC"
+    Nitrofurantoin: "#00A824"
+    TMP/SMX: "#FC00AE"
+    Oral beta-lactam: "#6C3C00"
+    Other: "#8A78FC"
+    Ambulatory care clinic: "#00001E"
+    Emergency Department: "#BA0000"
+    Inpatient: "#FC24FC"
+    Rehab or long-term care: "#00A800"
+    Urgent or quick care: "#548AFC"
+    All locations: "#A29066"
+  chart_configuration:
+    '73':
+      id: 73
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '74':
+      id: 74
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '75':
+      id: 75
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '77':
+      id: 77
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '79':
+      id: 79
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '80':
+      id: 80
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '81':
+      id: 81
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '82':
+      id: 82
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '85':
+      id: 85
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '93':
+      id: 93
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '94':
+      id: 94
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '95':
+      id: 95
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '97':
+      id: 97
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '99':
+      id: 99
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '101':
+      id: 101
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 102
+        - 103
+        - 104
+        - 106
+        - 107
+    '102':
+      id: 102
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 103
+        - 104
+        - 106
+        - 107
+    '103':
+      id: 103
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 104
+        - 106
+        - 107
+    '104':
+      id: 104
+      crossFilters:
+        scope: global
+        chartsInScope:
+        - 73
+        - 74
+        - 75
+        - 77
+        - 79
+        - 80
+        - 81
+        - 82
+        - 85
+        - 93
+        - 94
+        - 95
+        - 97
+        - 99
+        - 100
+        - 101
+        - 102
+        - 103
+        - 106
+        - 107
+  global_chart_configuration:
+    scope:
+      rootPath:
+      - ROOT_ID
+      excluded: []
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 82
+    - 85
+    - 93
+    - 94
+    - 95
+    - 97
+    - 99
+    - 100
+    - 101
+    - 102
+    - 103
+    - 104
+    - 106
+    - 107
+  color_scheme: ''
+  refresh_frequency: 0
+  expanded_slices: {}
+  timed_refresh_immune_slices: []
+  cross_filters_enabled: false
+  default_filters: "{}"
+  native_filter_configuration:
+  - id: NATIVE_FILTER-csim-from_month
+    controlValues:
+      sortAscending: true
+      enableEmptyFilter: false
+      defaultToFirstItem: false
+      creatable: false
+      multiSelect: false
+      searchAllOptions: false
+      inverseSelection: false
+    name: From month
+    filterType: filter_select
+    targets:
+    - datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
+      column:
+        name: from_month
+    defaultDataMask:
+      extraFormData:
+        filters:
+        - col: from_month
+          op: IN
+          val:
+          - 2025-09
+      filterState:
+        label: 2025-09
+        value:
+        - 2025-09
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 106
+      - 107
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Includes the whole selected month. Clear to remove this date boundary.
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 82
+    - 85
+    - 93
+    - 94
+    - 95
+    - 97
+    - 99
+    - 101
+    - 102
+    - 103
+    - 104
+    tabsInScope: []
+  - id: NATIVE_FILTER-csim-through_month
+    controlValues:
+      sortAscending: true
+      enableEmptyFilter: false
+      defaultToFirstItem: false
+      creatable: false
+      multiSelect: false
+      searchAllOptions: false
+      inverseSelection: false
+    name: Through month
+    filterType: filter_select
+    targets:
+    - datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
+      column:
+        name: through_month
+    defaultDataMask:
+      extraFormData:
+        filters:
+        - col: through_month
+          op: IN
+          val:
+          - 2026-08
+      filterState:
+        label: 2026-08
+        value:
+        - 2026-08
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 106
+      - 107
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Includes the whole selected month. Clear to remove this date boundary.
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 82
+    - 85
+    - 93
+    - 94
+    - 95
+    - 97
+    - 99
+    - 101
+    - 102
+    - 103
+    - 104
+    tabsInScope: []
+  - id: NATIVE_FILTER-KyTwDhtSKTATUbbB9Yka_
+    controlValues:
+      sortAscending: false
+      enableEmptyFilter: false
+    name: Time Unit
+    filterType: filter_timegrain
+    targets:
+    - datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
+    defaultDataMask:
+      extraFormData:
+        time_grain_sqla: P1M
+      filterState:
+        label: Month
+        value:
+        - P1M
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 106
+      - 107
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Group the selected observations by Month, Quarter, or Year.
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 82
+    - 85
+    - 93
+    - 94
+    - 95
+    - 97
+    - 99
+    - 101
+    - 102
+    - 103
+    - 104
+    tabsInScope: []
+  - id: NATIVE_FILTER-yTQKvlEARkQ8t2O7SfLEE
+    controlValues:
+      sortAscending: true
+      enableEmptyFilter: false
+      defaultToFirstItem: false
+      creatable: false
+      multiSelect: true
+      searchAllOptions: false
+      inverseSelection: false
+    name: Hospital and state
+    filterType: filter_select
+    targets:
+    - column:
+        name: hosp_code
+      datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
+    defaultDataMask:
+      extraFormData:
+        filters:
+        - col: hosp_code
+          op: IN
+          val:
+          - Cohort
+      filterState:
+        validateMessage: false
+        validateStatus: false
+        label: Cohort
+        value:
+        - Cohort
+        excludeFilterValues: true
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 82
+      - 85
+      - 93
+      - 94
+      - 95
+      - 97
+      - 106
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Start with the cohort view, then choose an individual hospital to
+      review its results.
+    chartsInScope:
+    - 73
+    - 74
+    - 75
+    - 77
+    - 79
+    - 80
+    - 81
+    - 99
+    - 101
+    - 102
+    - 103
+    - 104
+    - 107
+    tabsInScope: []
+  - id: NATIVE_FILTER-BPP7wo77GPPbinIYZiwM8
+    controlValues:
+      sortAscending: true
+      enableEmptyFilter: false
+      defaultToFirstItem: false
+      creatable: false
+      multiSelect: false
+      searchAllOptions: false
+      inverseSelection: false
+    name: Location of Urine Culture Collection
+    filterType: filter_select
+    targets:
+    - column:
+        name: location_name
+      datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
+    defaultDataMask:
+      extraFormData:
+        filters:
+        - col: location_name
+          op: IN
+          val:
+          - All locations
+      filterState:
+        excludeFilterValues: true
+        label: All locations
+        validateMessage: false
+        validateStatus: false
+        value:
+        - All locations
+    cascadeParentIds: []
+    scope:
+      rootPath:
+      - ROOT_ID
+      excluded:
+      - 75
+      - 81
+      - 85
+      - 94
+    type: NATIVE_FILTER
+    description: If you want to view the whole dashboard through a single location
+      of UC submission, choose a specific location. Otherwise choose "All locations"
+    chartsInScope:
+    - 73
+    - 74
+    - 77
+    - 79
+    - 80
+    - 82
+    - 93
+    - 95
+    - 97
+    - 99
+    - 100
+    - 101
+    - 102
+    - 103
+    - 104
+    - 106
+    - 107
+    tabsInScope: []
+  - id: NATIVE_FILTER-PsH68K-xwsp1NWi3i2HxI
+    controlValues:
+      sortAscending: true
+      enableEmptyFilter: false
+      defaultToFirstItem: false
+      creatable: false
+      multiSelect: false
+      searchAllOptions: false
+      inverseSelection: false
+    name: Your hospital
+    filterType: filter_select
+    targets:
+    - column:
+        name: hosp_code
+      datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 104
+      - 105
+      - 73
+      - 74
+      - 75
+      - 76
+      - 77
+      - 78
+      - 79
+      - 80
+      - 81
+      - 88
+      - 89
+      - 90
+      - 91
+      - 92
+      - 93
+      - 94
+      - 97
+      - 99
+      - 107
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Choose one hospital to display the hospital-only comparison charts
+      and all-time submission total.
+    chartsInScope:
+    - 82
+    - 85
+    - 95
+    - 106
+    tabsInScope: []
+    adhoc_filters:
+    - expressionType: SQL
+      sqlExpression: hosp_code ~ '^[0-9]+([.][0-9]+)?$'
+      clause: WHERE
+      subject:
+      operator:
+      comparator:
+      isExtra: false
+      isNew: false
+      datasourceWarning: false
+      filterOptionName: filter_xs9r9paqjtp_osl1w4knx8
+    time_range: No filter
+  - id: NATIVE_FILTER-E7fn9Wg9JfYAppl0ZHbXG
+    controlValues:
+      sortAscending: false
+      enableEmptyFilter: false
+      defaultToFirstItem: false
+      creatable: false
+      multiSelect: false
+      searchAllOptions: false
+      inverseSelection: false
+    name: Cohort/State
+    filterType: filter_select
+    targets:
+    - column:
+        name: hosp_code
+      datasetUuid: 12cf6aed-4a67-5829-88b4-2636ee62a97f
+    defaultDataMask:
+      extraFormData:
+        filters:
+        - col: hosp_code
+          op: IN
+          val:
+          - Cohort
+      filterState:
+        excludeFilterValues: true
+        label: Cohort
+        validateMessage: false
+        validateStatus: false
+        value:
+        - Cohort
+    cascadeParentIds: []
+    scope:
+      excluded:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 104
+      - 105
+      - 73
+      - 74
+      - 75
+      - 76
+      - 77
+      - 78
+      - 79
+      - 80
+      - 81
+      - 82
+      - 85
+      - 88
+      - 89
+      - 90
+      - 91
+      - 92
+      - 95
+      - 99
+      - 106
+      - 107
+      rootPath:
+      - ROOT_ID
+    type: NATIVE_FILTER
+    description: Select a state or the entire cohort to compare to your hospital
+    chartsInScope:
+    - 93
+    - 94
+    - 97
+    tabsInScope: []
+    adhoc_filters:
+    - expressionType: SQL
+      sqlExpression: hosp_code !~ '^[0-9]+([.][0-9]+)?$'
+      clause: WHERE
+      subject:
+      operator:
+      comparator:
+      isExtra: false
+      isNew: false
+      datasourceWarning: false
+      filterOptionName: filter_rekrwkno8wf_ylwqvzay7u
+    time_range: No filter
+  filter_bar_orientation: HORIZONTAL
+  color_scheme_domain: []
+  shared_label_colors:
+  - '12'
+  - '16'
+  - '24'
+  - "<=3 days"
+  - ">3 to 5 days"
+  - ">5 to 7 days"
+  - ">7 days"
+  - Ceftriaxone
+  - Cephalexin
+  - Cohort
+  - Emergency Department
+  - Fluoroquinolone
+  - Inpatient
+  - Nitrofurantoin
+  - OR
+  - Other
+  - TMP/SMX
+  map_label_colors:
+    "% inappropriate UTI diagnosis": "#1FA8C9"
+    "% inappropriate UTI+ASPN diagnosis": "#1FA8C9"
+theme_uuid:
+version: 1.0.0

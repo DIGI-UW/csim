@@ -1,0 +1,92 @@
+---
+slice_name: Inappropriate UTI diagnosis (overall) - Ind
+description:
+certified_by:
+certification_details:
+viz_type: echarts_timeseries_bar
+params:
+  datasource: 41__table
+  viz_type: echarts_timeseries_bar
+  slice_id: 74
+  x_axis: hosp_code
+  xAxisForceCategorical: false
+  metrics:
+  - expressionType: SIMPLE
+    column:
+      advanced_data_type:
+      certification_details:
+      certified_by:
+      column_name: inappdx
+      description:
+      expression: ''
+      filterable: true
+      groupby: true
+      id: 737
+      is_certified: false
+      is_dttm: false
+      python_date_format:
+      type: FLOAT
+      type_generic: 0
+      uuid: 929b83a1-c5f7-4b5b-9a98-52bd937202d9
+      verbose_name:
+      warning_markdown:
+    aggregate: MAX
+    sqlExpression:
+    datasourceWarning: false
+    hasCustomLabel: true
+    label: "% inappropriate UTI diagnosis"
+    optionName: metric_wcxauspzt1_hexplwvvw2k
+  groupby: []
+  adhoc_filters: []
+  group_others_when_limit_reached: false
+  row_limit: 10000
+  truncate_metric: true
+  show_empty_columns: true
+  comparison_type: values
+  annotation_layers: []
+  forecastEnabled: false
+  forecastPeriods: 10
+  forecastInterval: 0.8
+  orientation: vertical
+  x_axis_title: Hospital / State / Cohort
+  x_axis_title_margin: 30
+  y_axis_title: "% Inappropriate UTI diagnosis"
+  y_axis_title_margin: 50
+  y_axis_title_position: Left
+  sort_series_type: name
+  sort_series_ascending: true
+  color_scheme: supersetColors
+  time_shift_color: true
+  show_value: true
+  only_total: true
+  percentage_threshold: 0
+  minorTicks: false
+  zoomable: false
+  show_legend: false
+  legendType: scroll
+  legendOrientation: top
+  x_axis_time_format: smart_date
+  xAxisLabelRotation: 0
+  xAxisLabelInterval: auto
+  y_axis_format: ",.0%"
+  logAxis: false
+  minorSplitLine: false
+  truncateYAxis: true
+  y_axis_bounds:
+  - 0
+  - 1
+  truncateXAxis: false
+  rich_tooltip: true
+  showTooltipTotal: true
+  showTooltipPercentage: true
+  tooltipSortByMetric: false
+  tooltipTimeFormat: smart_date
+  extra_form_data: {}
+  dashboards:
+  - 11
+  - 12
+query_context:
+cache_timeout:
+uuid: 12240f92-9e6a-5ee8-8740-8b29711cdd45
+version: 1.0.0
+dataset_uuid: 4b8aa907-e9cc-5c27-857f-e1febad21318

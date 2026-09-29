@@ -1,0 +1,16 @@
+{
+  "profile": "standard-month-selectors-examples",
+  "charts": 21,
+  "datasets": 6,
+  "dateAxes": 11,
+  "source": "test-current-20260911",
+  "sourceSha256": "4121a72a9ec7976b4d0990258089fbb4b73a0f7dfb6cc9180108e9d69b3837fb",
+  "dataProfile": "edge-cases",
+  "slug": "csim-standard-month-selectors-examples",
+  "sourceProfile": "standard-sortable-examples",
+  "application": "unmodified",
+  "nativeAxis": "sortable-period-label",
+  "filterOrientation": "HORIZONTAL",
+  "filters": 7,
+  "controls": "native-month-selectors"
+}

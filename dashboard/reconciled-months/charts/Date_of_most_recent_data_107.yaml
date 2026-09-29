@@ -1,0 +1,64 @@
+---
+slice_name: Latest reporting month
+description: Latest reporting month with urine culture submissions for the selected
+  hospital/state and collection location. Independent of Time Period, Time Unit and
+  the lower comparison selectors.
+certified_by:
+certification_details:
+viz_type: big_number_total
+params:
+  datasource: 40__table
+  viz_type: big_number_total
+  slice_id: 107
+  matrixify_enable: false
+  matrixify_mode_columns: disabled
+  matrixify_dimension_selection_mode_columns: members
+  matrixify_dimension_columns:
+    dimension: ''
+    values: []
+  matrixify_topn_value_columns: 10
+  matrixify_all_sort_by_columns: a_to_z
+  matrixify_topn_order_columns: true
+  matrixify_show_column_headers: true
+  matrixify_fit_columns_dynamically: true
+  matrixify_mode_rows: disabled
+  matrixify_dimension_selection_mode_rows: members
+  matrixify_dimension_rows:
+    dimension: ''
+    values: []
+  matrixify_topn_value_rows: 10
+  matrixify_all_sort_by_rows: a_to_z
+  matrixify_topn_order_rows: true
+  matrixify_show_row_labels: true
+  matrixify_row_height: 300
+  matrixify_charts_per_row: 4
+  matrixify_cell_title_template: ''
+  metric:
+    expressionType: SQL
+    sqlExpression: MAX(CASE WHEN ucsub > 0 THEN month_date END)
+    label: Latest reporting month
+    hasCustomLabel: true
+  adhoc_filters:
+  - clause: WHERE
+    comparator: No filter
+    expressionType: SIMPLE
+    operator: TEMPORAL_RANGE
+    subject: month_date
+  header_font_size: 0.7
+  subtitle: Latest reporting month with submissions
+  subtitle_font_size: 0.2
+  show_metric_name: false
+  metric_name_font_size: 0.15
+  y_axis_format: SMART_NUMBER
+  time_format: "%b %Y"
+  force_timestamp_formatting: true
+  conditional_formatting: []
+  extra_form_data: {}
+  dashboards:
+  - 13
+  time_grain_sqla: P1M
+query_context:
+cache_timeout:
+uuid: 11a69917-cd37-564d-8a72-c9a6b1b9b875
+version: 1.0.0
+dataset_uuid: 1fb4255b-ebc1-5fce-8216-d24acef497c3

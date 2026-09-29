@@ -20,7 +20,13 @@ params:
   temporal_columns_lookup: {}
   all_columns: []
   percent_metrics: []
-  adhoc_filters: []
+  adhoc_filters:
+  - expressionType: SQL
+    sqlExpression: "{{ filter_values('hosp_code') | length }} = 1 AND hosp_code ~
+      '^[0-9]+([.][0-9]+)?$'"
+    clause: WHERE
+    isExtra: false
+    filterOptionName: filter_csim_selected_hospital
   order_by_cols: []
   server_pagination: false
   server_page_length: 10
@@ -33,11 +39,11 @@ params:
   allow_render_html: true
   column_config:
     Cohort:
-      d3NumberFormat: ",.1%"
+      d3NumberFormat: ",.0%"
     Your Hospital:
-      d3NumberFormat: ",.1%"
+      d3NumberFormat: ",.0%"
     Your State:
-      d3NumberFormat: ",.1%"
+      d3NumberFormat: ",.0%"
     hosp_code:
       columnWidth:
       truncateLongCells: false
@@ -51,6 +57,7 @@ params:
   extra_form_data: {}
   dashboards:
   - 11
+  csim_hospital_selector: Hospital and state
 query_context: '{"datasource":{"id":35,"type":"table"},"force":false,"queries":[{"filters":[],"extras":{"having":"","where":""},"applied_time_extras":{},"columns":["hosp_code","Month","Your
   Hospital","Comparison","Cohort","Your State","State"],"metrics":[],"orderby":[],"annotation_layers":[],"row_limit":1000,"series_limit":0,"group_others_when_limit_reached":false,"order_desc":true,"url_params":{},"custom_params":{},"custom_form_data":{},"post_processing":[],"time_offsets":[]}],"form_data":{"datasource":"35__table","viz_type":"table","slice_id":75,"query_mode":"aggregate","groupby":["hosp_code","Month","Your
   Hospital","Comparison","Cohort","Your State","State"],"temporal_columns_lookup":{},"all_columns":[],"percent_metrics":[],"adhoc_filters":[],"order_by_cols":[],"server_pagination":false,"server_page_length":10,"row_limit":1000,"percent_metric_calculation":"row_limit","show_totals":false,"table_timestamp_format":"smart_date","include_search":false,"allow_rearrange_columns":true,"allow_render_html":true,"column_config":{"Cohort":{"d3NumberFormat":",.1%"},"Your

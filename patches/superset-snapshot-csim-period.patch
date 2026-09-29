@@ -1,31 +1,16 @@
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
-index 5fe4dd19..e9f884a0 100644
+index 5fe4dd19..33250976 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/src/utils/formatters.ts
-@@ -38,6 +38,42 @@ import { TIMESERIES_CONSTANTS } from '../constants';
+@@ -38,6 +38,27 @@ import { TIMESERIES_CONSTANTS } from '../constants';
  export const getSmartDateDetailedFormatter = () =>
    getTimeFormatter(SMART_DATE_DETAILED_ID);
  
 +// Opt-in CSiM labels preserve typed dates while following the reporting grain.
 +// Select real reporting buckets before formatting. Layout must not depend on
 +// how often ECharts calls a formatter while measuring and painting labels.
-+export function getCsimTickValues(
-+  values: number[],
-+  formatter: (value: number) => string,
-+  availableWidth: number,
-+): number[] {
-+  const dates = [...new Set(values.filter(Number.isFinite))].sort((a, b) => a - b);
-+  if (dates.length < 3) return dates;
-+  const first = dates[0];
-+  const span = dates[dates.length - 1] - first;
-+  // Twelve-pixel chart text plus a readable gap; browser checks measure the
-+  // actual painted glyphs at several dashboard widths.
-+  const separation = Math.max(...dates.map(date => formatter(date).length * 7)) + 12;
-+  for (let count = Math.min(dates.length, Math.floor(availableWidth / separation) + 1); count > 2; count -= 1) {
-+    const selected = Array.from({ length: count }, (_, i) => dates[Math.round(i * (dates.length - 1) / (count - 1))]);
-+    if (selected.every((date, i) => i === 0 || (date - selected[i - 1]) / span * availableWidth >= separation)) return selected;
-+  }
-+  return [first, dates[dates.length - 1]];
++export function getCsimTickValues(values: number[]): number[] {
++  return [...new Set(values.filter(Number.isFinite))].sort((a, b) => a - b);
 +}
 +
 +export const getCsimPeriodFormatter = (timeGrain?: string) =>
@@ -45,7 +30,7 @@ index 5fe4dd19..e9f884a0 100644
  export const getSmartDateFormatter = (timeGrain?: string) => {
    const baseFormatter = getTimeFormatter(SMART_DATE_ID);
  
-@@ -187,6 +223,7 @@ export function getTooltipTimeFormatter(
+@@ -187,6 +208,7 @@ export function getTooltipTimeFormatter(
    format?: string,
    timeGrain?: TimeGranularity,
  ): TimeFormatter | StringConstructor {
@@ -53,7 +38,7 @@ index 5fe4dd19..e9f884a0 100644
    // When a time grain is active and the user hasn't pinned an explicit format,
    // honor the grain so tooltips read "Jan 2021", "2021 Q1", "2021", weekly
    // ranges, etc. instead of a fixed timestamp. An explicit custom format is
-@@ -207,6 +244,7 @@ export function getXAxisFormatter(
+@@ -207,6 +229,7 @@ export function getXAxisFormatter(
    format?: string,
    timeGrain?: string,
  ): TimeFormatter | StringConstructor | undefined {
@@ -62,27 +47,23 @@ index 5fe4dd19..e9f884a0 100644
      return getSmartDateFormatter(timeGrain);
    }
 diff --git a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
-index cf670f09..c019722d 100644
+index cf670f09..420fc6f9 100644
 --- a/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
 +++ b/superset-frontend/plugins/plugin-chart-echarts/test/utils/formatters.test.ts
-@@ -30,8 +30,34 @@ import {
+@@ -30,8 +30,32 @@ import {
    getPercentFormatter,
    getTooltipTimeFormatter,
    getXAxisFormatter,
 +  getCsimTickValues,
  } from '../../src/utils/formatters';
  
-+test('CSiM ticks keep both ends, all short-range months, and readable long-range spacing', () => {
++test('CSiM ticks include every reporting period', () => {
 +  const months = Array.from({ length: 13 }, (_, i) => Date.UTC(2025, 8 + i, 1));
-+  const format = (value: number) => String(getXAxisFormatter('csim_period', 'P1M')?.(value));
-+  expect(getCsimTickValues(months.slice(0, 6), format, 400)).toEqual(months.slice(0, 6));
-+  const narrow = getCsimTickValues(months, format, 400);
-+  expect(narrow[0]).toBe(Date.UTC(2025, 8, 1));
-+  expect(narrow[narrow.length - 1]).toBe(Date.UTC(2026, 8, 1));
-+  expect(narrow.length).toBeLessThan(months.length);
-+  narrow.slice(1).forEach((date, i) => expect((date - narrow[i]) / (months[12] - months[0]) * 400).toBeGreaterThanOrEqual(68));
-+  expect(getCsimTickValues([months[0], months[0]], format, 400)).toEqual([months[0]]);
-+  expect(getCsimTickValues([], format, 400)).toEqual([]);
++  expect(getCsimTickValues(months)).toEqual(months);
++  expect(getCsimTickValues([months[1], months[0], months[0]])).toEqual(
++    months.slice(0, 2),
++  );
++  expect(getCsimTickValues([])).toEqual([]);
 +});
 +
 +test.each([
@@ -94,9 +75,131 @@ index cf670f09..c019722d 100644
 +])('CSiM axis and hover agree for %s at %s', (value, grain, expected) => {
 +  const date = new Date(value);
 +  expect(getXAxisFormatter('csim_period', grain)?.(date)).toBe(expected);
-+  expect(getTooltipTimeFormatter('csim_period', grain as TimeGranularity)(date)).toBe(expected);
++  expect(
++    getTooltipTimeFormatter('csim_period', grain as TimeGranularity)(date),
++  ).toBe(expected);
 +});
 +
  // The app normally registers these via setupFormatters() at bootstrap.
  // Register them here so tests that check actual formatted output (not just
  // formatter identity) exercise the real smart-date formatting logic instead
+diff --git a/superset-frontend/src/components/Chart/ChartRenderer.test.tsx b/superset-frontend/src/components/Chart/ChartRenderer.test.tsx
+index 32f9da79..adc8226d 100644
+--- a/superset-frontend/src/components/Chart/ChartRenderer.test.tsx
++++ b/superset-frontend/src/components/Chart/ChartRenderer.test.tsx
+@@ -123,6 +123,60 @@ test('should render SuperChart', () => {
+   expect(getByTestId('mock-super-chart')).toBeInTheDocument();
+ });
+ 
++test.each([[[]], [['Cohort']], [['53', '54']]])(
++  'hospital-only charts guide an invalid selection %j',
++  values => {
++    const { getByText, queryByTestId } = render(
++      <ChartRenderer
++        {...(requiredProps as ChartRendererProps)}
++        chartIsStale={false}
++        chartStatus="success"
++        formData={{
++          viz_type: VizType.Table,
++          csim_hospital_selector: 'Your hospital',
++          extra_form_data: {
++            filters: [{ col: 'hosp_code', op: 'IN', val: values }],
++          },
++        }}
++      />,
++    );
++    expect(
++      getByText('Choose a hospital in “Your hospital”'),
++    ).toBeInTheDocument();
++    expect(queryByTestId('mock-super-chart')).not.toBeInTheDocument();
++  },
++);
++
++test('hospital-only charts render a selected hospital and recover after clearing', () => {
++  const props = {
++    ...requiredProps,
++    chartIsStale: false,
++    chartStatus: 'success',
++    queriesResponse: [],
++    formData: {
++      viz_type: VizType.Table,
++      csim_hospital_selector: 'Your hospital',
++      extra_form_data: {
++        filters: [{ col: 'hosp_code', op: 'IN', val: ['53'] }],
++      },
++    },
++  } as ChartRendererProps;
++  const { getByTestId, getByText, rerender } = render(
++    <ChartRenderer {...props} />,
++  );
++  expect(getByTestId('mock-super-chart')).toBeInTheDocument();
++  rerender(
++    <ChartRenderer
++      {...props}
++      triggerRender
++      formData={{ ...props.formData, extra_form_data: {} }}
++    />,
++  );
++  expect(getByText('Choose a hospital in “Your hospital”')).toBeInTheDocument();
++  rerender(<ChartRenderer {...props} triggerRender />);
++  expect(getByTestId('mock-super-chart')).toBeInTheDocument();
++});
++
+ test('should use latestQueryFormData instead of formData when chartIsStale is true', () => {
+   const { getByTestId } = render(
+     <ChartRenderer {...requiredProps} chartIsStale />,
+diff --git a/superset-frontend/src/components/Chart/ChartRenderer.tsx b/superset-frontend/src/components/Chart/ChartRenderer.tsx
+index 854c7592..610ec2a1 100644
+--- a/superset-frontend/src/components/Chart/ChartRenderer.tsx
++++ b/superset-frontend/src/components/Chart/ChartRenderer.tsx
+@@ -64,6 +64,23 @@ import { getTabId } from 'src/hooks/useTabId';
+ // Types for filter values
+ type FilterValue = string | number | boolean | null | undefined;
+ 
++function CsimHospitalPrompt({
++  selector,
++  onRender,
++}: {
++  selector: string;
++  onRender: () => void;
++}) {
++  useEffect(onRender, [onRender]);
++  return (
++    <EmptyState
++      size="small"
++      image="chart.svg"
++      title={t('Choose a hospital in “%s”', selector)}
++    />
++  );
++}
++
+ // LegendState type based on ECharts
+ interface LegendState {
+   [name: string]: boolean;
+@@ -447,6 +464,26 @@ function ChartRendererComponent({
+ 
+   const currentFormData =
+     chartIsStale && latestQueryFormData ? latestQueryFormData : formData;
++  const hospitalSelector = currentFormData.csim_hospital_selector;
++  if (typeof hospitalSelector === 'string') {
++    const selections = (currentFormData.extra_form_data?.filters || [])
++      .filter(
++        (filter: { col: string; op: string }) =>
++          filter.col === 'hosp_code' && filter.op === 'IN',
++      )
++      .flatMap((filter: { val: FilterValue[] }) => filter.val);
++    const hasHospital =
++      selections.length === 1 &&
++      /^[0-9]+([.][0-9]+)?$/.test(String(selections[0]));
++    if (!hasHospital) {
++      return (
++        <CsimHospitalPrompt
++          selector={hospitalSelector}
++          onRender={handleRenderSuccess}
++        />
++      );
++    }
++  }
+   const vizType = currentFormData.viz_type || propVizType;
+ 
+   // It's bad practice to use unprefixed `vizType` as classnames for chart

@@ -10,17 +10,92 @@ concurrency:
   group: csim-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  official-comparison:
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [standard, development]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      CI: 'true'
+      CSIM_PROFILE: ${{ matrix.build }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+      - name: Prepare the official comparison with isolated demo records
+        id: prepare
+        run: |
+          ruby scripts/test_standard.rb
+          bash csim.sh "$CSIM_PROFILE" init
+          bash csim.sh "$CSIM_PROFILE" examples-init
+          bash csim.sh "$CSIM_PROFILE" candidates
+          python3 scripts/verify_standard_assets.py "$CSIM_PROFILE"
+          docker exec "csim-$CSIM_PROFILE-superset-1" python /repro/scripts/test_update.py --profile "$CSIM_PROFILE-sortable"
+      - name: Install browser
+        working-directory: e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Test official presentation and interactions without video
+        working-directory: e2e
+        env:
+          CSIM_DASHBOARD_SLUG: csim-individual-${{ matrix.build }}-sortable
+          CSIM_OUTPUT: ${{ github.workspace }}/output/native-supplied
+        run: npx playwright test -c acceptance.config.mjs --grep 'Native|10 Official|01 All|04 Time Period|Antibiotic axis'
+      - name: Test the same independent numerical examples without video
+        working-directory: e2e
+        env:
+          CSIM_DATA_PROFILE: edge-cases
+          CSIM_DASHBOARD_SLUG: csim-${{ matrix.build }}-sortable-examples
+          CSIM_OUTPUT: ${{ github.workspace }}/output/native-known
+        run: npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|10 Official'
+      - name: Test native From and Through month selectors without video
+        if: ${{ !cancelled() && matrix.build == 'standard' && steps.prepare.conclusion == 'success' }}
+        run: |
+          ruby scripts/test_native_months.rb
+          bash csim.sh standard native-months
+          cd e2e
+          CSIM_NATIVE_MONTHS=1 CSIM_DASHBOARD_SLUG=csim-individual-standard-month-selectors \
+            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-months-supplied" \
+            npx playwright test -c acceptance.config.mjs --grep 'Native|01 All|04 Time Period|Opening afresh|Antibiotic axis'
+          CSIM_NATIVE_MONTHS=1 CSIM_DATA_PROFILE=edge-cases \
+            CSIM_DASHBOARD_SLUG=csim-standard-month-selectors-examples \
+            CSIM_OUTPUT="$GITHUB_WORKSPACE/output/native-months-known" \
+            npx playwright test -c acceptance.config.mjs --grep '03 Known|04 Time Period|06 Two|Opening afresh'
+      - name: Preserve evidence and explicit native gaps
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csim-${{ matrix.build }}-comparison
+          retention-days: 14
+          path: |
+            output/native-*/results.json
+            output/native-*/results/**/*.png
+            output/native-*/results/**/*.json
+            output/*-asset-verification.json
+            output/*-import-verification.json
   regression:
     strategy:
       fail-fast: false
       matrix:
         build: [corrected, preview]
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    # The corrected suite also verifies the preserved September dashboard and
+    # reached the former 90-minute limit while its assertions were still passing.
+    timeout-minutes: 120
     env:
       CI: 'true'
-      CSIM_DOCKERFILE: ${{ matrix.build == 'preview' && 'Dockerfile.month-controls' || 'Dockerfile.formatter' }}
-      CSIM_BUILD_TAG: ${{ matrix.build == 'preview' && 'e22ce197-csim-months-1' || '6.1.0-csim-1' }}
+      CSIM_DOCKERFILE: Dockerfile.month-controls
+      CSIM_BUILD_TAG: ${{ matrix.build == 'preview' && 'e22ce197-csim-september7' || '6.1.0-csim-september5' }}
+      CSIM_MONTH_PATCH: ${{ matrix.build == 'preview' && 'superset-snapshot-month-controls.patch' || 'superset-6.1.0-month-controls.patch' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -37,6 +112,8 @@ jobs:
           ruby scripts/compare_exports.rb
           ruby scripts/prepare_dashboard.rb
           ruby scripts/test_reconciliation.rb
+          ruby scripts/test_month_range.rb
+          ruby scripts/test_standard.rb
           python3 scripts/generate_fixture.py
           git diff --exit-code -- dashboard sources data
       - name: Install browser
@@ -91,15 +168,27 @@ jobs:
           cd e2e
           CSIM_PROFILE=preview CSIM_OUTPUT="$GITHUB_WORKSPACE/output/month-supplied" npx playwright test -c month-controls.config.mjs
           CSIM_PROFILE=preview CSIM_DATA_PROFILE=edge-cases CSIM_DASHBOARD_SLUG=csim-month-examples CSIM_OUTPUT="$GITHUB_WORKSPACE/output/month-examples" npx playwright test -c month-controls.config.mjs
+      - name: Test full September month controls without video
+        env:
+          CSIM_PROFILE: ${{ matrix.build }}
+          CSIM_SIMPLE_CONTROLS: '1'
+        run: |
+          bash csim.sh "$CSIM_PROFILE" september-months
+          docker exec "csim-$CSIM_PROFILE-superset-1" python /repro/scripts/test_update.py --profile reconciled-months
+          cd e2e
+          CSIM_DASHBOARD_SLUG=csim-individual-reconciled-months CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-months-supplied" npm test
+          CSIM_DATA_PROFILE=edge-cases CSIM_DASHBOARD_SLUG=csim-reconciled-months-examples CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-months-known" npm test
       - name: Add and test the separate September versions without video
         if: matrix.build == 'corrected'
         run: |
           bash csim.sh corrected reconciled
           docker exec csim-corrected-superset-1 python /repro/scripts/test_update.py --profile reconciled
           bash csim.sh corrected reconciled
+          docker exec csim-corrected-superset-1 python /repro/scripts/test_dataset_isolation.py
           cd e2e
           CSIM_DASHBOARD_SLUG=csim-individual-reconciled CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-supplied" npm test
           CSIM_DATA_PROFILE=edge-cases CSIM_DASHBOARD_SLUG=csim-reconciled-examples CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-known" npm test
+          CSIM_DASHBOARD_SLUG=csim-individual-reconciled CSIM_OUTPUT="$GITHUB_WORKSPACE/output/september-toc" npx playwright test -c toc.config.mjs
       - name: Save numerical results and screenshots
         if: always()
         uses: actions/upload-artifact@v4
