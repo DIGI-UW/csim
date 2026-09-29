@@ -1,0 +1,9 @@
+{
+  "profile": "client-baseline",
+  "source": "test-september-2026",
+  "sourceSha256": "e26150df97ed91545916440f186ae882a83d7fff0811049a80797fafe829e619",
+  "charts": 21,
+  "datasets": 6,
+  "filters": 6,
+  "reportingRowsIncluded": false
+}

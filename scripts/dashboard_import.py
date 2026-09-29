@@ -18,7 +18,12 @@ ROOT = Path(os.environ.get('CSIM_PROJECT_ROOT', '/repro'))
 STANDARD_PROFILES = ('standard', 'standard-examples', 'development', 'development-examples', 'standard-sortable', 'development-sortable', 'standard-sortable-examples', 'development-sortable-examples')
 STANDARD_PROFILES += ('standard-month-selectors', 'standard-month-selectors-examples')
 MONTH_PROFILES = ('reconciled-months', 'reconciled-months-examples')
-CLIENT_PROFILES = ('client-baseline', 'client-update')
+CLIENT_PROFILES = ('client-baseline', 'client-update', 'client-baseline-test', 'client-update-test')
+
+
+def omits_database(profile: str) -> bool:
+    # Client updates never carry a database definition: the destination keeps its own connection.
+    return profile == 'client-update' or profile.startswith('client-update-')
 
 
 def package(profile: str) -> Path:
@@ -81,7 +86,7 @@ def dashboard_definition(directory: Path):
 def import_dashboard(profile: str):
     directory = package(profile)
     base, session = connection()
-    sparse = profile == 'client-update'
+    sparse = omits_database(profile)
     passwords = {
         file.relative_to(directory).as_posix(): os.environ['CSIM_DB_PASSWORD']
         for file in (directory / 'databases').glob('*.yaml')
@@ -280,7 +285,7 @@ def receipt(profile: str):
             'dashboard_uuid': str(dashboard.uuid),
             'charts': charts,
             'package_sha256': hashlib.sha256(
-                archive(directory, omit_database=profile == 'client-update')
+                archive(directory, omit_database=omits_database(profile))
             ).hexdigest(),
         }
         destination = Path(f'/tmp/csim-{profile}-receipt.json')
@@ -301,6 +306,6 @@ if __name__ == '__main__':
     else:
         output = Path(f'/tmp/csim-{args.profile}-dashboard.zip')
         output.write_bytes(archive(
-            package(args.profile), omit_database=args.profile == 'client-update'
+            package(args.profile), omit_database=omits_database(args.profile)
         ))
         print(output)

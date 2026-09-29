@@ -7,16 +7,34 @@ require 'yaml'
 
 module ClientUpdate
   ROOT = File.expand_path('..', __dir__)
-  CLIENT = Dir[File.join(ROOT, 'sources/exports/production-september-2026/unpacked/*')].fetch(0)
+  # The defaults build the production package. CSIM_CLIENT_BASELINE names another
+  # export under sources/exports and CSIM_UPDATE_PROFILE (client-update-<suffix>)
+  # keeps its output beside, not over, the production package.
+  CLIENT_NAME = ENV.fetch('CSIM_CLIENT_BASELINE', 'production-september-2026')
+  PROFILE = ENV.fetch('CSIM_UPDATE_PROFILE', 'client-update')
+  raise "Unsupported baseline name: #{CLIENT_NAME}" unless CLIENT_NAME.match?(/\A[a-z0-9-]+\z/)
+  raise "Unsupported update profile: #{PROFILE}" unless PROFILE.match?(/\Aclient-update(-[a-z0-9]+)?\z/)
+  CLIENT_EXPORT = File.join(ROOT, 'sources/exports', CLIENT_NAME)
+  CLIENT = Dir[File.join(CLIENT_EXPORT, 'unpacked/*')].fetch(0)
   REVIEWED = File.join(
     ROOT,
     'sources/live-review/2026-09-17T163028Z/unpacked/dashboard/dashboard_export_20260917T163029'
   )
   OVERLAY = File.join(ROOT, 'dashboard/overlays/beth-panel-coverage.json')
-  BASELINE = File.join(ROOT, 'dashboard/client-baseline')
-  UPDATE = File.join(ROOT, 'dashboard/client-update')
+  BASELINE = File.join(ROOT, 'dashboard', PROFILE.sub('update', 'baseline'))
+  UPDATE = File.join(ROOT, 'dashboard', PROFILE)
+  # The review renamed and redefined the latest-data card that the test export
+  # already contains. Map it onto that card so the update replaces it in place.
+  RENAMED_CLIENT_CHARTS = { 'Latest Urine Culture Submission' => 'Date of most recent data' }.freeze
 
   module_function
+
+  def client_chart_name(client_charts, reviewed_name)
+    return reviewed_name if client_charts.key?(reviewed_name)
+
+    former = RENAMED_CLIENT_CHARTS[reviewed_name]
+    former if client_charts.key?(former)
+  end
 
   def read(path)
     YAML.safe_load(File.read(path))
@@ -96,9 +114,9 @@ module ClientUpdate
     FileUtils.cp_r(CLIENT, BASELINE)
     File.write(File.join(BASELINE, 'manifest.json'), JSON.pretty_generate({
       'profile' => 'client-baseline',
-      'source' => 'production-september-2026',
-      'sourceSha256' => Digest::SHA256.file(File.join(ROOT, 'sources/exports/production-september-2026/dashboard.zip')).hexdigest,
-      'charts' => 20,
+      'source' => CLIENT_NAME,
+      'sourceSha256' => Digest::SHA256.file(File.join(CLIENT_EXPORT, 'dashboard.zip')).hexdigest,
+      'charts' => Dir[File.join(CLIENT, 'charts/*.yaml')].length,
       'datasets' => 6,
       'filters' => 6,
       'reportingRowsIncluded' => false
@@ -119,10 +137,11 @@ module ClientUpdate
 
     raise 'Expected six client datasets' unless client_datasets.length == 6
     raise 'Expected six reviewed datasets' unless reviewed_datasets.length == 6
-    raise 'Expected twenty client charts' unless client_charts.length == 20
+    raise 'Expected twenty or twenty-one client charts' unless [20, 21].include?(client_charts.length)
     raise 'Expected twenty-one reviewed charts' unless reviewed_charts.length == 21
     raise 'Dataset names differ' unless client_datasets.keys.sort == reviewed_datasets.keys.sort
-    missing_client_charts = client_charts.keys - reviewed_charts.keys
+    matched_client_charts = reviewed_charts.keys.map { |name| client_chart_name(client_charts, name) }.compact
+    missing_client_charts = client_charts.keys - matched_client_charts
     raise "Reviewed dashboard lost client charts: #{missing_client_charts}" unless missing_client_charts.empty?
 
     apply_panel_overlay(reviewed_dashboard, reviewed_charts)
@@ -133,8 +152,9 @@ module ClientUpdate
       uuid_mapping[reviewed.fetch('uuid')] = client_datasets.fetch(name).last.fetch('uuid')
     end
     reviewed_charts.each do |name, (_, reviewed)|
-      next unless client_charts.key?(name)
-      uuid_mapping[reviewed.fetch('uuid')] = client_charts.fetch(name).last.fetch('uuid')
+      client_name = client_chart_name(client_charts, name)
+      next unless client_name
+      uuid_mapping[reviewed.fetch('uuid')] = client_charts.fetch(client_name).last.fetch('uuid')
     end
 
     FileUtils.rm_rf(UPDATE)
@@ -160,7 +180,8 @@ module ClientUpdate
 
     reviewed_charts.each do |name, (reviewed_path, reviewed)|
       target = rewrite(reviewed, uuid_mapping)
-      output_name = client_charts.key?(name) ? File.basename(client_charts.fetch(name).first) : File.basename(reviewed_path)
+      client_name = client_chart_name(client_charts, name)
+      output_name = client_name ? File.basename(client_charts.fetch(client_name).first) : File.basename(reviewed_path)
       write(File.join(UPDATE, 'charts', output_name), target)
     end
 
@@ -172,8 +193,8 @@ module ClientUpdate
 
     File.write(File.join(UPDATE, 'manifest.json'), JSON.pretty_generate({
       'profile' => 'client-update',
-      'clientBaseline' => 'production-september-2026',
-      'clientBaselineSha256' => Digest::SHA256.file(File.join(ROOT, 'sources/exports/production-september-2026/dashboard.zip')).hexdigest,
+      'clientBaseline' => CLIENT_NAME,
+      'clientBaselineSha256' => Digest::SHA256.file(File.join(CLIENT_EXPORT, 'dashboard.zip')).hexdigest,
       'reviewedSource' => 'sources/live-review/2026-09-17T163028Z',
       'panelCoverageOverlay' => 'dashboard/overlays/beth-panel-coverage.json',
       'charts' => 21,
